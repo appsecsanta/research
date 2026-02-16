@@ -1,0 +1,3199 @@
+{
+  "metadata": {
+    "collected_at": "2026-02-15T07:09:34.075Z",
+    "tool_count": 67,
+    "tools_with_data": 65
+  },
+  "tools": [
+    {
+      "slug": "anchore",
+      "name": "Anchore",
+      "category": "sca",
+      "license": "Commercial (Open-Source tools available)",
+      "status": "draft",
+      "github_url": "https://github.com/anchore",
+      "owner": "anchore",
+      "repo": null,
+      "github": null,
+      "error": "org-level URL"
+    },
+    {
+      "slug": "arachni",
+      "name": "Arachni",
+      "category": "dast",
+      "license": "Free (Open-Source, Apache 2.0)",
+      "owner": "Arachni",
+      "repo": "arachni",
+      "github": {
+        "stars": 3997,
+        "forks": 786,
+        "watchers": 200,
+        "open_issues": 133,
+        "language": "Ruby",
+        "license": "NOASSERTION",
+        "created_at": "2010-08-25T16:06:38Z",
+        "updated_at": "2026-02-14T01:48:50Z",
+        "pushed_at": "2025-05-22T14:33:39Z",
+        "archived": false,
+        "description": "Web Application Security Scanner Framework",
+        "topics": [
+          "analysis",
+          "arachni",
+          "audit",
+          "crawler",
+          "detection",
+          "dom",
+          "hack",
+          "hacking",
+          "javascript",
+          "modular",
+          "penetration-testing",
+          "ruby",
+          "scanner",
+          "scanners",
+          "security-audit",
+          "sql-injection",
+          "vulnerability-detection",
+          "web-application",
+          "xss"
+        ],
+        "default_branch": "master",
+        "size_kb": 35483,
+        "contributor_count": 19,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 12,
+          "latest": {
+            "tag": "v1.6.1.3",
+            "date": "2022-05-29T04:54:28Z"
+          },
+          "releases_last_year": 0
+        },
+        "issue_stats": {
+          "closed_sample": 29,
+          "avg_close_days": 410.1,
+          "median_close_days": 8
+        }
+      }
+    },
+    {
+      "slug": "bandit",
+      "name": "Bandit",
+      "category": "sast",
+      "license": "Free (Open-Source)",
+      "owner": "PyCQA",
+      "repo": "bandit",
+      "github": {
+        "stars": 7777,
+        "forks": 730,
+        "watchers": 70,
+        "open_issues": 218,
+        "language": "Python",
+        "license": "Apache-2.0",
+        "created_at": "2018-04-26T09:08:12Z",
+        "updated_at": "2026-02-14T12:08:55Z",
+        "pushed_at": "2026-02-03T00:36:09Z",
+        "archived": false,
+        "description": "Bandit is a tool designed to find common security issues in Python code.",
+        "topics": [
+          "bandit",
+          "linter",
+          "python",
+          "security",
+          "security-scanner",
+          "security-tools",
+          "static-code-analysis"
+        ],
+        "default_branch": "main",
+        "size_kb": 5986,
+        "contributor_count": 144,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 28,
+          "latest": {
+            "tag": "1.9.3",
+            "date": "2026-01-19T03:52:28Z"
+          },
+          "releases_last_year": 8
+        },
+        "issue_stats": {
+          "closed_sample": 11,
+          "avg_close_days": 350.2,
+          "median_close_days": 27.4
+        }
+      }
+    },
+    {
+      "slug": "bearer",
+      "name": "Bearer",
+      "category": "sast",
+      "license": "Open Source (ELv2) / Part of Cycode",
+      "owner": "Bearer",
+      "repo": "bearer",
+      "github": {
+        "stars": 2560,
+        "forks": 141,
+        "watchers": 23,
+        "open_issues": 27,
+        "language": "Go",
+        "license": "NOASSERTION",
+        "created_at": "2022-09-27T17:02:45Z",
+        "updated_at": "2026-02-14T01:41:11Z",
+        "pushed_at": "2026-02-09T02:33:48Z",
+        "archived": false,
+        "description": "Code security scanning tool (SAST) to discover, filter and prioritize security and privacy risks.",
+        "topics": [
+          "appsec",
+          "code-quality",
+          "compliance",
+          "dataflow",
+          "devsecops",
+          "devsecops-tools",
+          "gdpr",
+          "owasp",
+          "privacy",
+          "sast",
+          "security",
+          "security-audit",
+          "security-automation",
+          "security-scanner",
+          "security-tools",
+          "static-analysis",
+          "static-code-analysis",
+          "vulnerabilities",
+          "vulnerability"
+        ],
+        "default_branch": "main",
+        "size_kb": 24877,
+        "contributor_count": 17,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 30,
+          "latest": {
+            "tag": "v2.0.0",
+            "date": "2026-01-29T09:25:23Z"
+          },
+          "releases_last_year": 7
+        },
+        "issue_stats": {
+          "closed_sample": 2,
+          "avg_close_days": 3.1,
+          "median_close_days": 5.4
+        }
+      }
+    },
+    {
+      "slug": "brakeman",
+      "name": "Brakeman",
+      "category": "sast",
+      "license": "Free (Non-Commercial)",
+      "owner": "presidentbeef",
+      "repo": "brakeman",
+      "github": {
+        "stars": 7192,
+        "forks": 765,
+        "watchers": 159,
+        "open_issues": 115,
+        "language": "Ruby",
+        "license": "NOASSERTION",
+        "created_at": "2010-08-27T00:00:58Z",
+        "updated_at": "2026-02-14T20:57:41Z",
+        "pushed_at": "2026-02-05T00:22:18Z",
+        "archived": false,
+        "description": "A static analysis security vulnerability scanner for Ruby on Rails applications",
+        "topics": [
+          "brakeman",
+          "rails",
+          "ruby",
+          "security",
+          "security-audit",
+          "security-tools",
+          "security-vulnerability",
+          "static-analysis",
+          "vulnerabilities"
+        ],
+        "default_branch": "main",
+        "size_kb": 45547,
+        "contributor_count": 150,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 30,
+          "latest": {
+            "tag": "v8.0.2",
+            "date": "2026-02-03T20:13:16Z"
+          },
+          "releases_last_year": 8
+        },
+        "issue_stats": {
+          "closed_sample": 9,
+          "avg_close_days": 412.4,
+          "median_close_days": 76.4
+        }
+      }
+    },
+    {
+      "slug": "checkov",
+      "name": "Checkov",
+      "category": "iac-security",
+      "license": "Free (Open-Source, Apache 2.0)",
+      "owner": "bridgecrewio",
+      "repo": "checkov",
+      "github": {
+        "stars": 8469,
+        "forks": 1302,
+        "watchers": 54,
+        "open_issues": 147,
+        "language": "Python",
+        "license": "Apache-2.0",
+        "created_at": "2019-11-27T08:55:14Z",
+        "updated_at": "2026-02-14T06:32:46Z",
+        "pushed_at": "2026-02-12T10:32:13Z",
+        "archived": false,
+        "description": "Prevent cloud misconfigurations and find vulnerabilities during build-time in infrastructure as code, container images and open source packages with Checkov by Bridgecrew.",
+        "topics": [
+          "aws",
+          "aws-security",
+          "azure",
+          "cloudformation",
+          "compliance",
+          "devops",
+          "gcp",
+          "hacktoberfest",
+          "infrastructure-as-code",
+          "kubernetes",
+          "scans",
+          "static-analysis",
+          "terraform"
+        ],
+        "default_branch": "main",
+        "size_kb": 95115,
+        "contributor_count": 383,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 30,
+          "latest": {
+            "tag": "3.2.501",
+            "date": "2026-02-11T23:06:50Z"
+          },
+          "releases_last_year": 30
+        },
+        "issue_stats": {
+          "closed_sample": 19,
+          "avg_close_days": 350.4,
+          "median_close_days": 199.5
+        }
+      }
+    },
+    {
+      "slug": "codacy",
+      "name": "Codacy",
+      "category": "sast",
+      "license": "Commercial (Free for open-source, CLI is AGPL-3.0)",
+      "owner": "codacy",
+      "repo": "codacy-analysis-cli",
+      "github": {
+        "stars": 113,
+        "forks": 29,
+        "watchers": 14,
+        "open_issues": 21,
+        "language": "Scala",
+        "license": "AGPL-3.0",
+        "created_at": "2018-05-17T13:08:23Z",
+        "updated_at": "2026-01-28T14:05:50Z",
+        "pushed_at": "2026-02-12T17:18:23Z",
+        "archived": false,
+        "description": "The Codacy Analysis CLI is a command line interface that enables you to execute Codacy code analysis locally.",
+        "topics": [
+          "codacy",
+          "command-line",
+          "command-line-app",
+          "command-line-interface",
+          "command-line-tool",
+          "lint",
+          "linter",
+          "scala",
+          "static-analysis"
+        ],
+        "default_branch": "master",
+        "size_kb": 1633,
+        "contributor_count": 41,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 30,
+          "latest": {
+            "tag": "7.10.0",
+            "date": "2025-09-04T11:30:23Z"
+          },
+          "releases_last_year": 12
+        },
+        "issue_stats": {
+          "closed_sample": 2,
+          "avg_close_days": 222.1,
+          "median_close_days": 262.1
+        }
+      }
+    },
+    {
+      "slug": "conftest",
+      "name": "Conftest",
+      "category": "iac-security",
+      "license": "Free (Open-Source, Apache 2.0)",
+      "owner": "open-policy-agent",
+      "repo": "conftest",
+      "github": {
+        "stars": 3122,
+        "forks": 334,
+        "watchers": 24,
+        "open_issues": 55,
+        "language": "Go",
+        "license": "NOASSERTION",
+        "created_at": "2019-03-28T17:12:29Z",
+        "updated_at": "2026-02-13T10:57:03Z",
+        "pushed_at": "2026-02-09T21:05:22Z",
+        "archived": false,
+        "description": "Write tests against structured configuration data using the Open Policy Agent Rego query language",
+        "topics": [
+          "kubernetes",
+          "open-policy-agent",
+          "openpolicyagent",
+          "rego",
+          "testing"
+        ],
+        "default_branch": "master",
+        "size_kb": 4716,
+        "contributor_count": 106,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 30,
+          "latest": {
+            "tag": "v0.66.0",
+            "date": "2025-12-22T00:38:07Z"
+          },
+          "releases_last_year": 12
+        },
+        "issue_stats": {
+          "closed_sample": 1,
+          "avg_close_days": 15.3,
+          "median_close_days": 15.3
+        }
+      }
+    },
+    {
+      "slug": "dastardly",
+      "name": "Dastardly",
+      "category": "dast",
+      "license": "Free",
+      "owner": "PortSwigger",
+      "repo": "dastardly-github-action",
+      "github": {
+        "stars": 293,
+        "forks": 100,
+        "watchers": 10,
+        "open_issues": 3,
+        "language": "Dockerfile",
+        "license": null,
+        "created_at": "2022-10-17T10:26:32Z",
+        "updated_at": "2026-02-11T22:53:13Z",
+        "pushed_at": "2024-07-22T15:09:01Z",
+        "archived": false,
+        "description": "Runs a scan using Dastardly by Burp Suite against a target site and creates a JUnit XML report for the scan on completion.",
+        "topics": [
+          "automation",
+          "dast",
+          "devsecops",
+          "security-tools"
+        ],
+        "default_branch": "main",
+        "size_kb": 9,
+        "contributor_count": 3,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 1,
+          "latest": {
+            "tag": "v1.0.0",
+            "date": "2023-01-04T13:07:24Z"
+          },
+          "releases_last_year": 0
+        },
+        "issue_stats": {
+          "closed_sample": 0
+        }
+      }
+    },
+    {
+      "slug": "deepteam",
+      "name": "DeepTeam",
+      "category": "ai-security",
+      "license": "Free (Open-Source)",
+      "owner": "confident-ai",
+      "repo": "deepteam",
+      "github": {
+        "stars": 1298,
+        "forks": 188,
+        "watchers": 6,
+        "open_issues": 20,
+        "language": "Python",
+        "license": "Apache-2.0",
+        "created_at": "2025-03-05T06:34:21Z",
+        "updated_at": "2026-02-15T05:29:25Z",
+        "pushed_at": "2026-01-30T14:07:45Z",
+        "archived": false,
+        "description": "DeepTeam is a framework to red team LLMs and LLM systems.",
+        "topics": [
+          "hacktoberfest",
+          "llm-guardrails",
+          "llm-red-teaming",
+          "llm-safety",
+          "python"
+        ],
+        "default_branch": "main",
+        "size_kb": 44514,
+        "contributor_count": 22,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 3,
+          "latest": {
+            "tag": "v1.0.4",
+            "date": "2025-11-12T14:18:25Z"
+          },
+          "releases_last_year": 3
+        },
+        "issue_stats": {
+          "closed_sample": 6,
+          "avg_close_days": 15.7,
+          "median_close_days": 6.1
+        }
+      }
+    },
+    {
+      "slug": "defectdojo",
+      "name": "DefectDojo",
+      "category": "aspm",
+      "license": "Free (Open-Source)",
+      "owner": "DefectDojo",
+      "repo": "django-DefectDojo",
+      "github": {
+        "stars": 4516,
+        "forks": 1816,
+        "watchers": 201,
+        "open_issues": 230,
+        "language": "HTML",
+        "license": "BSD-3-Clause",
+        "created_at": "2015-02-19T17:53:47Z",
+        "updated_at": "2026-02-14T20:24:54Z",
+        "pushed_at": "2026-02-15T05:29:31Z",
+        "archived": false,
+        "description": "Open-Source Unified Vulnerability Management, DevSecOps & ASPM",
+        "topics": [
+          "analytics",
+          "appsec",
+          "automation",
+          "devsecops",
+          "django",
+          "hacktoberfest",
+          "kubernetes",
+          "owasp",
+          "python",
+          "security",
+          "security-automation",
+          "security-orchestration",
+          "vulnerability-correlation",
+          "vulnerability-databases",
+          "vulnerability-management"
+        ],
+        "default_branch": "master",
+        "size_kb": 305359,
+        "contributor_count": 356,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 30,
+          "latest": {
+            "tag": "nightly-dev",
+            "date": "2025-05-24T14:42:08Z"
+          },
+          "releases_last_year": 30
+        },
+        "issue_stats": {
+          "closed_sample": 0
+        }
+      }
+    },
+    {
+      "slug": "dependency-track",
+      "name": "OWASP Dependency-Track",
+      "category": "sca",
+      "license": "Free (Open-Source, Apache 2.0)",
+      "owner": "DependencyTrack",
+      "repo": "dependency-track",
+      "github": {
+        "stars": 3600,
+        "forks": 711,
+        "watchers": 73,
+        "open_issues": 1025,
+        "language": "Java",
+        "license": "Apache-2.0",
+        "created_at": "2013-07-16T19:16:43Z",
+        "updated_at": "2026-02-14T16:47:54Z",
+        "pushed_at": "2026-02-12T10:51:10Z",
+        "archived": false,
+        "description": "Dependency-Track is an intelligent Component Analysis platform that allows organizations to identify and reduce risk in the software supply chain.",
+        "topics": [
+          "appsec",
+          "bill-of-materials",
+          "bom",
+          "component-analysis",
+          "cyclonedx",
+          "devsecops",
+          "hacktoberfest",
+          "nvd",
+          "ossindex",
+          "owasp",
+          "package-url",
+          "purl",
+          "sbom",
+          "sca",
+          "security",
+          "security-automation",
+          "software-composition-analysis",
+          "software-security",
+          "vulnerabilities",
+          "vulnerability-detection"
+        ],
+        "default_branch": "master",
+        "size_kb": 111795,
+        "contributor_count": 165,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 30,
+          "latest": {
+            "tag": "4.13.6",
+            "date": "2025-11-17T08:43:39Z"
+          },
+          "releases_last_year": 10
+        },
+        "issue_stats": {
+          "closed_sample": 8,
+          "avg_close_days": 104.6,
+          "median_close_days": 56
+        }
+      }
+    },
+    {
+      "slug": "detect-secrets",
+      "name": "detect-secrets",
+      "category": "sast",
+      "license": "Free (Open-Source, Apache-2.0)",
+      "owner": "Yelp",
+      "repo": "detect-secrets",
+      "github": {
+        "stars": 4424,
+        "forks": 536,
+        "watchers": 46,
+        "open_issues": 137,
+        "language": "Python",
+        "license": "Apache-2.0",
+        "created_at": "2017-12-05T00:38:38Z",
+        "updated_at": "2026-02-14T21:40:02Z",
+        "pushed_at": "2025-03-13T15:39:41Z",
+        "archived": false,
+        "description": "An enterprise friendly way of detecting and preventing secrets in code.",
+        "topics": [],
+        "default_branch": "master",
+        "size_kb": 2183,
+        "contributor_count": 68,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 9,
+          "latest": {
+            "tag": "v1.5.0",
+            "date": "2024-05-06T18:05:06Z"
+          },
+          "releases_last_year": 0
+        },
+        "issue_stats": {
+          "closed_sample": 4,
+          "avg_close_days": 395.4,
+          "median_close_days": 322.9
+        }
+      }
+    },
+    {
+      "slug": "falco",
+      "name": "Falco",
+      "category": "iac-security",
+      "license": "Free (Open-Source, Apache 2.0)",
+      "owner": "falcosecurity",
+      "repo": "falco",
+      "github": {
+        "stars": 8658,
+        "forks": 983,
+        "watchers": 122,
+        "open_issues": 68,
+        "language": "C++",
+        "license": "Apache-2.0",
+        "created_at": "2016-01-19T21:58:12Z",
+        "updated_at": "2026-02-14T16:50:57Z",
+        "pushed_at": "2026-02-13T16:03:23Z",
+        "archived": false,
+        "description": "Cloud Native Runtime Security",
+        "topics": [
+          "cloud-native",
+          "cncf",
+          "cncf-project",
+          "containers",
+          "ebpf",
+          "falco",
+          "hacktoberfest",
+          "kubernetes",
+          "runtime-security",
+          "security"
+        ],
+        "default_branch": "master",
+        "size_kb": 21504,
+        "contributor_count": 192,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 30,
+          "latest": {
+            "tag": "0.43.0",
+            "date": "2026-01-28T13:49:28Z"
+          },
+          "releases_last_year": 17
+        },
+        "issue_stats": {
+          "closed_sample": 8,
+          "avg_close_days": 182.6,
+          "median_close_days": 99.1
+        }
+      }
+    },
+    {
+      "slug": "faraday",
+      "name": "Faraday",
+      "category": "aspm",
+      "license": "Freemium (Free Community Edition, paid plans available)",
+      "owner": "infobyte",
+      "repo": "faraday",
+      "github": {
+        "stars": 6258,
+        "forks": 1043,
+        "watchers": 245,
+        "open_issues": 43,
+        "language": "Python",
+        "license": "GPL-3.0",
+        "created_at": "2013-11-06T02:07:23Z",
+        "updated_at": "2026-02-15T03:41:38Z",
+        "pushed_at": "2026-02-13T18:17:34Z",
+        "archived": false,
+        "description": "Open Source Vulnerability Management Platform",
+        "topics": [
+          "appsec",
+          "burpsuite",
+          "collaboration",
+          "continuous-scanning",
+          "cve",
+          "cybersecurity",
+          "devops",
+          "devsecops",
+          "infosec",
+          "nessus",
+          "nmap",
+          "orchestration",
+          "penetration-testing",
+          "pentesting",
+          "security",
+          "security-audit",
+          "security-automation",
+          "vulnerability",
+          "vulnerability-management",
+          "vulnerability-scanners"
+        ],
+        "default_branch": "master",
+        "size_kb": 227434,
+        "contributor_count": 42,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 30,
+          "latest": {
+            "tag": "v5.19.0",
+            "date": "2026-01-26T21:13:29Z"
+          },
+          "releases_last_year": 12
+        },
+        "issue_stats": {
+          "closed_sample": 27,
+          "avg_close_days": 387.1,
+          "median_close_days": 185.5
+        }
+      }
+    },
+    {
+      "slug": "fossa",
+      "name": "FOSSA",
+      "category": "sca",
+      "license": "Freemium",
+      "owner": "fossas",
+      "repo": "fossa-cli",
+      "github": {
+        "stars": 1467,
+        "forks": 191,
+        "watchers": 44,
+        "open_issues": 73,
+        "language": "Haskell",
+        "license": "NOASSERTION",
+        "created_at": "2018-01-10T18:30:32Z",
+        "updated_at": "2026-02-11T23:46:33Z",
+        "pushed_at": "2026-02-13T15:04:18Z",
+        "archived": false,
+        "description": "Fast, portable and reliable dependency analysis for any codebase.  Supports license & vulnerability scanning for large monoliths.  Language-agnostic; integrates with 20+ build systems.",
+        "topics": [
+          "open-source-licensing",
+          "open-source-vulnerabilities"
+        ],
+        "default_branch": "master",
+        "size_kb": 123579,
+        "contributor_count": 24,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 30,
+          "latest": {
+            "tag": "v3.15.7",
+            "date": "2026-02-12T20:31:15Z"
+          },
+          "releases_last_year": 30
+        },
+        "issue_stats": {
+          "closed_sample": 0
+        }
+      }
+    },
+    {
+      "slug": "frida",
+      "name": "Frida",
+      "category": "mobile",
+      "license": "wxWindows Library Licence (open source)",
+      "owner": "frida",
+      "repo": "frida",
+      "github": {
+        "stars": 19737,
+        "forks": 2010,
+        "watchers": 323,
+        "open_issues": 1926,
+        "language": "Meson",
+        "license": "NOASSERTION",
+        "created_at": "2013-04-12T22:35:05Z",
+        "updated_at": "2026-02-15T06:53:18Z",
+        "pushed_at": "2026-02-14T09:52:22Z",
+        "archived": false,
+        "description": "Clone this repo to build Frida",
+        "topics": [
+          "frida",
+          "instrumentation",
+          "vala"
+        ],
+        "default_branch": "main",
+        "size_kb": 21020,
+        "contributor_count": 38,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 30,
+          "latest": {
+            "tag": "17.7.2",
+            "date": "2026-02-14T10:39:32Z"
+          },
+          "releases_last_year": 30
+        },
+        "issue_stats": {
+          "closed_sample": 28,
+          "avg_close_days": 212.6,
+          "median_close_days": 11.9
+        }
+      }
+    },
+    {
+      "slug": "garak",
+      "name": "Garak",
+      "category": "ai-security",
+      "license": "Free (Open-Source)",
+      "owner": "NVIDIA",
+      "repo": "garak",
+      "github": {
+        "stars": 6986,
+        "forks": 783,
+        "watchers": 47,
+        "open_issues": 305,
+        "language": "HTML",
+        "license": "Apache-2.0",
+        "created_at": "2023-05-10T18:52:16Z",
+        "updated_at": "2026-02-15T05:15:35Z",
+        "pushed_at": "2026-02-13T16:52:19Z",
+        "archived": false,
+        "description": "the LLM vulnerability scanner",
+        "topics": [
+          "ai",
+          "llm-evaluation",
+          "llm-security",
+          "security-scanners",
+          "vulnerability-assessment"
+        ],
+        "default_branch": "main",
+        "size_kb": 11129,
+        "contributor_count": 70,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 28,
+          "latest": {
+            "tag": "v0.14.0",
+            "date": "2026-02-04T17:31:04Z"
+          },
+          "releases_last_year": 9
+        },
+        "issue_stats": {
+          "closed_sample": 2,
+          "avg_close_days": 179.4,
+          "median_close_days": 266.5
+        }
+      }
+    },
+    {
+      "slug": "ghidra",
+      "name": "Ghidra",
+      "category": "mobile",
+      "license": "Apache License 2.0 (open source)",
+      "owner": "NationalSecurityAgency",
+      "repo": "ghidra",
+      "github": {
+        "stars": 64368,
+        "forks": 7138,
+        "watchers": 1095,
+        "open_issues": 1851,
+        "language": "Java",
+        "license": "Apache-2.0",
+        "created_at": "2019-03-01T03:27:48Z",
+        "updated_at": "2026-02-15T06:48:42Z",
+        "pushed_at": "2026-02-12T17:58:27Z",
+        "archived": false,
+        "description": "Ghidra is a software reverse engineering (SRE) framework",
+        "topics": [
+          "disassembler",
+          "reverse-engineering",
+          "software-analysis"
+        ],
+        "default_branch": "master",
+        "size_kb": 399858,
+        "contributor_count": 347,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 30,
+          "latest": {
+            "tag": "Ghidra_12.0.3_build",
+            "date": "2026-02-11T10:30:37Z"
+          },
+          "releases_last_year": 10
+        },
+        "issue_stats": {
+          "closed_sample": 15,
+          "avg_close_days": 164.9,
+          "median_close_days": 4.7
+        }
+      }
+    },
+    {
+      "slug": "gitleaks",
+      "name": "Gitleaks",
+      "category": "sast",
+      "license": "Free (Open-Source, MIT)",
+      "owner": "gitleaks",
+      "repo": "gitleaks",
+      "github": {
+        "stars": 24912,
+        "forks": 1912,
+        "watchers": 171,
+        "open_issues": 343,
+        "language": "Go",
+        "license": "MIT",
+        "created_at": "2018-01-27T18:19:31Z",
+        "updated_at": "2026-02-15T06:11:34Z",
+        "pushed_at": "2026-01-08T20:48:49Z",
+        "archived": false,
+        "description": "Find secrets with Gitleaks 🔑",
+        "topics": [
+          "ai-powered",
+          "ci-cd",
+          "cicd",
+          "cli",
+          "data-loss-prevention",
+          "devsecops",
+          "dlp",
+          "git",
+          "gitleaks",
+          "go",
+          "golang",
+          "hacktoberfest",
+          "llm",
+          "llm-inference",
+          "llm-training",
+          "nhi",
+          "open-source",
+          "secret",
+          "security",
+          "security-tools"
+        ],
+        "default_branch": "master",
+        "size_kb": 6356,
+        "contributor_count": 207,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 30,
+          "latest": {
+            "tag": "v8.30.0",
+            "date": "2025-11-26T16:31:23Z"
+          },
+          "releases_last_year": 13
+        },
+        "issue_stats": {
+          "closed_sample": 11,
+          "avg_close_days": 197.2,
+          "median_close_days": 23.3
+        }
+      }
+    },
+    {
+      "slug": "gosec",
+      "name": "gosec",
+      "category": "sast",
+      "license": "Free/OSS",
+      "owner": "securego",
+      "repo": "gosec",
+      "github": {
+        "stars": 8674,
+        "forks": 678,
+        "watchers": 81,
+        "open_issues": 2,
+        "language": "Go",
+        "license": "Apache-2.0",
+        "created_at": "2016-07-18T18:01:08Z",
+        "updated_at": "2026-02-14T22:11:23Z",
+        "pushed_at": "2026-02-14T22:11:18Z",
+        "archived": false,
+        "description": "Go security checker",
+        "topics": [
+          "golang",
+          "security",
+          "security-automation",
+          "security-tools",
+          "static-analysis",
+          "static-code-analysis"
+        ],
+        "default_branch": "master",
+        "size_kb": 5918,
+        "contributor_count": 156,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 30,
+          "latest": {
+            "tag": "v2.23.0",
+            "date": "2026-02-11T12:12:09Z"
+          },
+          "releases_last_year": 11
+        },
+        "issue_stats": {
+          "closed_sample": 13,
+          "avg_close_days": 166.6,
+          "median_close_days": 2.7
+        }
+      }
+    },
+    {
+      "slug": "graudit",
+      "name": "Graudit",
+      "category": "sast",
+      "license": "Free (Open-Source, GPL-3.0)",
+      "owner": "wireghoul",
+      "repo": "graudit",
+      "github": {
+        "stars": 1677,
+        "forks": 257,
+        "watchers": 34,
+        "open_issues": 0,
+        "language": "Shell",
+        "license": "GPL-3.0",
+        "created_at": "2009-06-14T05:59:17Z",
+        "updated_at": "2026-02-12T16:28:55Z",
+        "pushed_at": "2025-12-19T02:24:05Z",
+        "archived": false,
+        "description": "grep rough audit - source code auditing tool",
+        "topics": [
+          "security",
+          "security-audit",
+          "security-tools",
+          "shell",
+          "source-code",
+          "vulnerability-detection"
+        ],
+        "default_branch": "master",
+        "size_kb": 531,
+        "contributor_count": 11,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 17,
+          "latest": {
+            "tag": "v4.0",
+            "date": "2025-12-19T02:24:05Z"
+          },
+          "releases_last_year": 3
+        },
+        "issue_stats": {
+          "closed_sample": 8,
+          "avg_close_days": 32.3,
+          "median_close_days": 1.1
+        }
+      }
+    },
+    {
+      "slug": "grype",
+      "name": "Anchore Grype",
+      "category": "sca",
+      "license": "Free (Open-Source, Apache 2.0)",
+      "owner": "anchore",
+      "repo": "grype",
+      "github": {
+        "stars": 11555,
+        "forks": 742,
+        "watchers": 82,
+        "open_issues": 358,
+        "language": "Go",
+        "license": "Apache-2.0",
+        "created_at": "2020-05-26T13:44:38Z",
+        "updated_at": "2026-02-15T07:05:06Z",
+        "pushed_at": "2026-02-13T15:23:30Z",
+        "archived": false,
+        "description": "A vulnerability scanner for container images and filesystems",
+        "topics": [
+          "container-image",
+          "containers",
+          "cyclonedx",
+          "docker",
+          "go",
+          "golang",
+          "hacktoberfest",
+          "oci",
+          "openvex",
+          "security",
+          "static-analysis",
+          "tool",
+          "vex",
+          "vulnerabilities",
+          "vulnerability"
+        ],
+        "default_branch": "main",
+        "size_kb": 8640,
+        "contributor_count": 129,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 30,
+          "latest": {
+            "tag": "v0.108.0",
+            "date": "2026-02-10T18:49:12Z"
+          },
+          "releases_last_year": 30
+        },
+        "issue_stats": {
+          "closed_sample": 9,
+          "avg_close_days": 170.1,
+          "median_close_days": 6.7
+        }
+      }
+    },
+    {
+      "slug": "horusec",
+      "name": "Horusec",
+      "category": "sast",
+      "license": "Free/OSS (Apache 2.0)",
+      "owner": "ZupIT",
+      "repo": "horusec",
+      "github": {
+        "stars": 1299,
+        "forks": 213,
+        "watchers": 47,
+        "open_issues": 112,
+        "language": "Go",
+        "license": "Apache-2.0",
+        "created_at": "2020-09-08T11:41:20Z",
+        "updated_at": "2026-02-12T07:35:17Z",
+        "pushed_at": "2026-02-11T00:32:15Z",
+        "archived": false,
+        "description": "Horusec is an open source tool that improves identification of vulnerabilities in your project with just one command.",
+        "topics": [
+          "analysis",
+          "cd",
+          "ci",
+          "cli",
+          "golang",
+          "hacktoberfest",
+          "java",
+          "kotlin",
+          "netcore",
+          "python",
+          "ruby",
+          "sast",
+          "sast-analysis",
+          "scanner",
+          "security",
+          "security-development",
+          "security-flaws",
+          "static-analysis",
+          "terraform",
+          "vulnerabilities"
+        ],
+        "default_branch": "main",
+        "size_kb": 77567,
+        "contributor_count": 35,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 30,
+          "latest": {
+            "tag": "v2.9.0-beta.3",
+            "date": "2023-08-08T00:37:29Z"
+          },
+          "releases_last_year": 0
+        },
+        "issue_stats": {
+          "closed_sample": 1,
+          "avg_close_days": 4.3,
+          "median_close_days": 4.3
+        }
+      }
+    },
+    {
+      "slug": "invicti-aspm",
+      "name": "Invicti ASPM",
+      "category": "aspm",
+      "license": "Commercial",
+      "owner": "kondukto-io",
+      "repo": "kdt",
+      "github": {
+        "stars": 27,
+        "forks": 9,
+        "watchers": 3,
+        "open_issues": 2,
+        "language": "Go",
+        "license": "GPL-3.0",
+        "created_at": "2019-10-08T09:47:19Z",
+        "updated_at": "2026-01-27T12:53:19Z",
+        "pushed_at": "2026-01-27T12:50:32Z",
+        "archived": false,
+        "description": "CLI to interact with Kondukto",
+        "topics": [
+          "application-security",
+          "cli",
+          "devops",
+          "devsecops",
+          "kondukto",
+          "security-tools"
+        ],
+        "default_branch": "master",
+        "size_kb": 15020,
+        "contributor_count": 14,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 30,
+          "latest": {
+            "tag": "v1.45.0",
+            "date": "2026-01-27T12:54:16Z"
+          },
+          "releases_last_year": 12
+        },
+        "issue_stats": {
+          "closed_sample": 1,
+          "avg_close_days": 1170,
+          "median_close_days": 1170
+        }
+      }
+    },
+    {
+      "slug": "jadx",
+      "name": "Jadx",
+      "category": "mobile",
+      "license": "Apache License 2.0 (open source)",
+      "owner": "skylot",
+      "repo": "jadx",
+      "github": {
+        "stars": 47291,
+        "forks": 5426,
+        "watchers": 813,
+        "open_issues": 416,
+        "language": "Java",
+        "license": "Apache-2.0",
+        "created_at": "2013-03-18T17:08:21Z",
+        "updated_at": "2026-02-15T06:08:00Z",
+        "pushed_at": "2026-02-13T19:02:36Z",
+        "archived": false,
+        "description": "Dex to Java decompiler",
+        "topics": [
+          "android",
+          "decompiler",
+          "dex",
+          "java"
+        ],
+        "default_branch": "master",
+        "size_kb": 25276,
+        "contributor_count": 138,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 30,
+          "latest": {
+            "tag": "v1.5.4",
+            "date": "2026-02-13T18:54:39Z"
+          },
+          "releases_last_year": 3
+        },
+        "issue_stats": {
+          "closed_sample": 22,
+          "avg_close_days": 168.4,
+          "median_close_days": 2.9
+        }
+      }
+    },
+    {
+      "slug": "kics",
+      "name": "KICS",
+      "category": "iac-security",
+      "license": "Free (Open-Source, Apache 2.0)",
+      "owner": "Checkmarx",
+      "repo": "kics",
+      "github": {
+        "stars": 2575,
+        "forks": 359,
+        "watchers": 25,
+        "open_issues": 263,
+        "language": "Open Policy Agent",
+        "license": "Apache-2.0",
+        "created_at": "2020-07-08T21:46:15Z",
+        "updated_at": "2026-02-12T09:28:00Z",
+        "pushed_at": "2026-02-14T12:46:57Z",
+        "archived": false,
+        "description": "Find security vulnerabilities, compliance issues, and infrastructure misconfigurations early in the development cycle of your infrastructure-as-code with KICS by Checkmarx.",
+        "topics": [
+          "appsec",
+          "cloudnative",
+          "devsecops",
+          "golang",
+          "hacktoberfest",
+          "iac",
+          "infrastructure-as-code",
+          "open-policy-agent",
+          "security",
+          "security-tools",
+          "vulnerability-detection",
+          "vulnerability-scanners"
+        ],
+        "default_branch": "master",
+        "size_kb": 1006488,
+        "contributor_count": 138,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 30,
+          "latest": {
+            "tag": "v2.1.19",
+            "date": "2026-01-07T16:25:44Z"
+          },
+          "releases_last_year": 14
+        },
+        "issue_stats": {
+          "closed_sample": 0
+        }
+      }
+    },
+    {
+      "slug": "kube-bench",
+      "name": "kube-bench",
+      "category": "iac-security",
+      "license": "Free (Open-Source, Apache 2.0)",
+      "owner": "aquasecurity",
+      "repo": "kube-bench",
+      "github": {
+        "stars": 7937,
+        "forks": 1311,
+        "watchers": 107,
+        "open_issues": 75,
+        "language": "Go",
+        "license": "Apache-2.0",
+        "created_at": "2017-06-19T13:27:02Z",
+        "updated_at": "2026-02-15T02:02:15Z",
+        "pushed_at": "2026-02-12T05:34:08Z",
+        "archived": false,
+        "description": "Checks whether Kubernetes is deployed according to security best practices as defined in the CIS Kubernetes Benchmark",
+        "topics": [
+          "cis-benchmark",
+          "cis-kubernetes-benchmark",
+          "cis-security",
+          "hacktoberfest",
+          "kube-bench",
+          "kubernetes",
+          "kubernetes-security",
+          "openshift"
+        ],
+        "default_branch": "main",
+        "size_kb": 10417,
+        "contributor_count": 163,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 30,
+          "latest": {
+            "tag": "v0.14.1",
+            "date": "2025-12-22T10:12:37Z"
+          },
+          "releases_last_year": 12
+        },
+        "issue_stats": {
+          "closed_sample": 0
+        }
+      }
+    },
+    {
+      "slug": "kubearmor",
+      "name": "KubeArmor",
+      "category": "iac-security",
+      "license": "Free (Open-Source, Apache 2.0)",
+      "owner": "kubearmor",
+      "repo": "KubeArmor",
+      "github": {
+        "stars": 2054,
+        "forks": 437,
+        "watchers": 16,
+        "open_issues": 324,
+        "language": "Go",
+        "license": "Apache-2.0",
+        "created_at": "2020-11-26T01:59:16Z",
+        "updated_at": "2026-02-13T12:00:32Z",
+        "pushed_at": "2026-02-12T21:51:59Z",
+        "archived": false,
+        "description": "Runtime Security Enforcement System. Workload hardening/sandboxing and implementing least-permissive policies made easy leveraging LSMs (LSM-BPF, AppArmor).",
+        "topics": [
+          "bpf",
+          "containers",
+          "ebpf",
+          "hacktoberfest",
+          "kernel",
+          "kubernetes",
+          "lsm",
+          "policy",
+          "sandbox",
+          "security",
+          "system",
+          "tool"
+        ],
+        "default_branch": "main",
+        "size_kb": 77639,
+        "contributor_count": 119,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 30,
+          "latest": {
+            "tag": "v1.6.8",
+            "date": "2026-02-04T10:42:50Z"
+          },
+          "releases_last_year": 14
+        },
+        "issue_stats": {
+          "closed_sample": 2,
+          "avg_close_days": 163.8,
+          "median_close_days": 326.7
+        }
+      }
+    },
+    {
+      "slug": "kubescape",
+      "name": "Kubescape",
+      "category": "iac-security",
+      "license": "Free (Open-Source, Apache 2.0)",
+      "owner": "kubescape",
+      "repo": "kubescape",
+      "github": {
+        "stars": 11185,
+        "forks": 895,
+        "watchers": 94,
+        "open_issues": 43,
+        "language": "Go",
+        "license": "Apache-2.0",
+        "created_at": "2021-08-12T10:39:29Z",
+        "updated_at": "2026-02-14T08:13:29Z",
+        "pushed_at": "2026-02-12T15:15:29Z",
+        "archived": false,
+        "description": "Kubescape is an open-source Kubernetes security platform for your IDE, CI/CD pipelines, and clusters. It includes risk analysis, security, compliance, and misconfiguration scanning, saving Kubernetes users and administrators precious time, effort, and resources.",
+        "topics": [
+          "best-practice",
+          "devops",
+          "kubernetes",
+          "mitre-attack",
+          "nsa",
+          "security",
+          "vulnerability-detection"
+        ],
+        "default_branch": "master",
+        "size_kb": 117288,
+        "contributor_count": 150,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 30,
+          "latest": {
+            "tag": "v4.0.1",
+            "date": "2026-02-12T15:30:33Z"
+          },
+          "releases_last_year": 22
+        },
+        "issue_stats": {
+          "closed_sample": 9,
+          "avg_close_days": 258.2,
+          "median_close_days": 257.2
+        }
+      }
+    },
+    {
+      "slug": "kyverno",
+      "name": "Kyverno",
+      "category": "iac-security",
+      "license": "Free (Open-Source, Apache 2.0)",
+      "owner": "kyverno",
+      "repo": "kyverno",
+      "github": {
+        "stars": 7396,
+        "forks": 1233,
+        "watchers": 48,
+        "open_issues": 299,
+        "language": "Go",
+        "license": "Apache-2.0",
+        "created_at": "2019-02-04T16:25:48Z",
+        "updated_at": "2026-02-14T18:04:43Z",
+        "pushed_at": "2026-02-13T15:32:34Z",
+        "archived": false,
+        "description": "Cloud Native Policy Management",
+        "topics": [
+          "kubernetes",
+          "policy-management"
+        ],
+        "default_branch": "main",
+        "size_kb": 178324,
+        "contributor_count": 415,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 30,
+          "latest": {
+            "tag": "v1.17.0",
+            "date": "2026-02-02T11:39:39Z"
+          },
+          "releases_last_year": 30
+        },
+        "issue_stats": {
+          "closed_sample": 3,
+          "avg_close_days": 456.2,
+          "median_close_days": 63.7
+        }
+      }
+    },
+    {
+      "slug": "llm-guard",
+      "name": "LLM Guard",
+      "category": "ai-security",
+      "license": "Free (Open-Source)",
+      "owner": "protectai",
+      "repo": "llm-guard",
+      "github": {
+        "stars": 2537,
+        "forks": 341,
+        "watchers": 25,
+        "open_issues": 32,
+        "language": "Python",
+        "license": "MIT",
+        "created_at": "2023-07-27T19:03:13Z",
+        "updated_at": "2026-02-14T23:59:12Z",
+        "pushed_at": "2025-12-15T13:07:25Z",
+        "archived": false,
+        "description": "The Security Toolkit for LLM Interactions",
+        "topics": [
+          "adversarial-machine-learning",
+          "chatgpt",
+          "large-language-models",
+          "llm",
+          "llm-security",
+          "llmops",
+          "prompt-engineering",
+          "prompt-injection",
+          "security-tools",
+          "transformers"
+        ],
+        "default_branch": "main",
+        "size_kb": 4404,
+        "contributor_count": 21,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 0,
+          "latest": null,
+          "releases_last_year": 0
+        },
+        "issue_stats": {
+          "closed_sample": 16,
+          "avg_close_days": 230.6,
+          "median_close_days": 214.1
+        }
+      }
+    },
+    {
+      "slug": "mitmproxy",
+      "name": "mitmproxy",
+      "category": "mobile",
+      "license": "MIT License (open source)",
+      "owner": "mitmproxy",
+      "repo": "mitmproxy",
+      "github": {
+        "stars": 42289,
+        "forks": 4449,
+        "watchers": 620,
+        "open_issues": 408,
+        "language": "Python",
+        "license": "MIT",
+        "created_at": "2010-02-16T04:10:13Z",
+        "updated_at": "2026-02-15T01:24:40Z",
+        "pushed_at": "2026-02-11T06:23:07Z",
+        "archived": false,
+        "description": "An interactive TLS-capable intercepting HTTP proxy for penetration testers and software developers.",
+        "topics": [
+          "debugging",
+          "http",
+          "http2",
+          "man-in-the-middle",
+          "mitmproxy",
+          "proxy",
+          "python",
+          "security",
+          "ssl",
+          "tls",
+          "websocket"
+        ],
+        "default_branch": "main",
+        "size_kb": 68051,
+        "contributor_count": 405,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 30,
+          "latest": {
+            "tag": "v12.2.1",
+            "date": "2025-11-24T18:47:11Z"
+          },
+          "releases_last_year": 8
+        },
+        "issue_stats": {
+          "closed_sample": 11,
+          "avg_close_days": 55,
+          "median_close_days": 4.5
+        }
+      }
+    },
+    {
+      "slug": "mobsf",
+      "name": "MobSF",
+      "category": "mobile",
+      "license": "Free (Open-Source)",
+      "owner": "MobSF",
+      "repo": "Mobile-Security-Framework-MobSF",
+      "github": {
+        "stars": 20396,
+        "forks": 3591,
+        "watchers": 587,
+        "open_issues": 22,
+        "language": "JavaScript",
+        "license": "GPL-3.0",
+        "created_at": "2015-01-31T04:36:01Z",
+        "updated_at": "2026-02-15T00:11:26Z",
+        "pushed_at": "2026-02-03T19:26:52Z",
+        "archived": false,
+        "description": "Mobile Security Framework (MobSF) is an automated, all-in-one mobile application (Android/iOS/Windows) pen-testing, malware analysis and security assessment framework capable of performing static and dynamic analysis.",
+        "topics": [
+          "android-security",
+          "api-testing",
+          "apk",
+          "cwe",
+          "devsecops",
+          "dynamic-analysis",
+          "ios-security",
+          "malware-analysis",
+          "mastg",
+          "masvs",
+          "mobile-security",
+          "mobsf",
+          "mstg",
+          "owasp",
+          "rest",
+          "runtime-security",
+          "static-analysis",
+          "web-security",
+          "windows-mobile-security"
+        ],
+        "default_branch": "master",
+        "size_kb": 1521367,
+        "contributor_count": 90,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 30,
+          "latest": {
+            "tag": "v4.4.5",
+            "date": "2026-01-26T07:01:34Z"
+          },
+          "releases_last_year": 4
+        },
+        "issue_stats": {
+          "closed_sample": 12,
+          "avg_close_days": 51.7,
+          "median_close_days": 20.8
+        }
+      }
+    },
+    {
+      "slug": "modsecurity",
+      "name": "ModSecurity",
+      "category": "rasp",
+      "license": "Apache License 2.0",
+      "owner": "owasp-modsecurity",
+      "repo": "ModSecurity",
+      "github": {
+        "stars": 9496,
+        "forks": 1718,
+        "watchers": 380,
+        "open_issues": 273,
+        "language": "C++",
+        "license": "Apache-2.0",
+        "created_at": "2011-02-02T14:57:01Z",
+        "updated_at": "2026-02-13T12:21:07Z",
+        "pushed_at": "2026-02-12T19:29:51Z",
+        "archived": false,
+        "description": "ModSecurity is an open source, cross platform web application firewall (WAF) engine for Apache, IIS and Nginx. It has a robust event-based programming language which provides protection from a range of attacks against web applications and allows for HTTP traffic monitoring, logging and real-time analysis.",
+        "topics": [
+          "apache",
+          "apache2",
+          "modsecurity",
+          "nginx",
+          "waf"
+        ],
+        "default_branch": "v3/master",
+        "size_kb": 77669,
+        "contributor_count": 95,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 30,
+          "latest": {
+            "tag": "v2.9.12",
+            "date": "2025-08-05T19:21:09Z"
+          },
+          "releases_last_year": 5
+        },
+        "issue_stats": {
+          "closed_sample": 12,
+          "avg_close_days": 97,
+          "median_close_days": 9.8
+        }
+      }
+    },
+    {
+      "slug": "mondoo",
+      "name": "Mondoo",
+      "category": "iac-security",
+      "license": "Open Source (cnspec/cnquery) / Commercial (Platform)",
+      "owner": "mondoohq",
+      "repo": "cnspec",
+      "github": {
+        "stars": 398,
+        "forks": 31,
+        "watchers": 13,
+        "open_issues": 109,
+        "language": "Go",
+        "license": "NOASSERTION",
+        "created_at": "2022-09-21T08:34:41Z",
+        "updated_at": "2026-02-14T21:25:11Z",
+        "pushed_at": "2026-02-15T06:23:19Z",
+        "archived": false,
+        "description": "An open source, cloud-native security to protect everything from build to runtime",
+        "topics": [
+          "cloud-native",
+          "compliance",
+          "declarative",
+          "kubernetes",
+          "opensource",
+          "policy",
+          "policy-as-code",
+          "security",
+          "security-as-code"
+        ],
+        "default_branch": "main",
+        "size_kb": 40468,
+        "contributor_count": 46,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 30,
+          "latest": {
+            "tag": "v12.22.0",
+            "date": "2026-02-10T09:15:57Z"
+          },
+          "releases_last_year": 30
+        },
+        "issue_stats": {
+          "closed_sample": 0
+        }
+      }
+    },
+    {
+      "slug": "nemo-guardrails",
+      "name": "NVIDIA NeMo Guardrails",
+      "category": "ai-security",
+      "license": "Free (Open-Source)",
+      "owner": "NVIDIA",
+      "repo": "NeMo-Guardrails",
+      "github": {
+        "stars": 5653,
+        "forks": 596,
+        "watchers": 39,
+        "open_issues": 137,
+        "language": "Python",
+        "license": "NOASSERTION",
+        "created_at": "2023-04-18T12:32:47Z",
+        "updated_at": "2026-02-15T01:58:30Z",
+        "pushed_at": "2026-02-15T01:09:12Z",
+        "archived": false,
+        "description": "NeMo Guardrails is an open-source toolkit for easily adding programmable guardrails to LLM-based conversational systems.",
+        "topics": [
+          "agents",
+          "generative-ai",
+          "guardrails",
+          "llm-safety",
+          "llm-security",
+          "llms",
+          "nvidia",
+          "python",
+          "safety"
+        ],
+        "default_branch": "develop",
+        "size_kb": 93628,
+        "contributor_count": 103,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 29,
+          "latest": {
+            "tag": "v0.20.0",
+            "date": "2026-01-22T08:44:24Z"
+          },
+          "releases_last_year": 10
+        },
+        "issue_stats": {
+          "closed_sample": 4,
+          "avg_close_days": 15.8,
+          "median_close_days": 22.8
+        }
+      }
+    },
+    {
+      "slug": "nikto",
+      "name": "Nikto",
+      "category": "dast",
+      "license": "Free (Open-Source)",
+      "owner": "sullo",
+      "repo": "nikto",
+      "github": {
+        "stars": 10075,
+        "forks": 1404,
+        "watchers": 281,
+        "open_issues": 0,
+        "language": "Perl",
+        "license": "NOASSERTION",
+        "created_at": "2012-11-24T04:24:29Z",
+        "updated_at": "2026-02-15T04:48:22Z",
+        "pushed_at": "2026-02-13T20:26:11Z",
+        "archived": false,
+        "description": "Nikto web server scanner",
+        "topics": [],
+        "default_branch": "main",
+        "size_kb": 5201,
+        "contributor_count": 58,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 2,
+          "latest": {
+            "tag": "2.6.0",
+            "date": "2026-02-11T22:01:29Z"
+          },
+          "releases_last_year": 1
+        },
+        "issue_stats": {
+          "closed_sample": 16,
+          "avg_close_days": 127.8,
+          "median_close_days": 0.7
+        }
+      }
+    },
+    {
+      "slug": "nodejsscan",
+      "name": "NodeJSScan",
+      "category": "sast",
+      "license": "Free/OSS",
+      "owner": "ajinabraham",
+      "repo": "nodejsscan",
+      "github": {
+        "stars": 2548,
+        "forks": 343,
+        "watchers": 54,
+        "open_issues": 11,
+        "language": "CSS",
+        "license": "GPL-3.0",
+        "created_at": "2015-02-27T12:52:46Z",
+        "updated_at": "2026-02-14T14:59:52Z",
+        "pushed_at": "2025-10-10T12:36:37Z",
+        "archived": false,
+        "description": "nodejsscan is a static security code scanner for Node.js applications.",
+        "topics": [
+          "code-analysis",
+          "code-review",
+          "devsecops",
+          "javascript",
+          "lint",
+          "node",
+          "node-security",
+          "nodejs",
+          "nodejsscan",
+          "sast",
+          "security",
+          "security-scanner",
+          "static-analysis"
+        ],
+        "default_branch": "master",
+        "size_kb": 5540,
+        "contributor_count": 13,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 19,
+          "latest": {
+            "tag": "v4.8",
+            "date": "2023-09-02T04:40:29Z"
+          },
+          "releases_last_year": 0
+        },
+        "issue_stats": {
+          "closed_sample": 1,
+          "avg_close_days": 16.8,
+          "median_close_days": 16.8
+        }
+      }
+    },
+    {
+      "slug": "nuclei",
+      "name": "Nuclei",
+      "category": "dast",
+      "license": "Free (Open-Source)",
+      "owner": "projectdiscovery",
+      "repo": "nuclei",
+      "github": {
+        "stars": 27031,
+        "forks": 3139,
+        "watchers": 251,
+        "open_issues": 241,
+        "language": "Go",
+        "license": "MIT",
+        "created_at": "2020-04-03T18:47:11Z",
+        "updated_at": "2026-02-15T07:03:10Z",
+        "pushed_at": "2026-02-11T00:19:55Z",
+        "archived": false,
+        "description": "Nuclei is a fast, customizable vulnerability scanner powered by the global security community and built on a simple YAML-based DSL, enabling collaboration to tackle trending vulnerabilities on the internet. It helps you find vulnerabilities in your applications, APIs, networks, DNS, and cloud configurations.",
+        "topics": [
+          "attack-surface",
+          "cve-scanner",
+          "dast",
+          "hacktoberfest",
+          "nuclei-engine",
+          "security",
+          "security-scanner",
+          "subdomain-takeover",
+          "vulnerability-assessment",
+          "vulnerability-detection",
+          "vulnerability-scanner"
+        ],
+        "default_branch": "dev",
+        "size_kb": 42322,
+        "contributor_count": 214,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 30,
+          "latest": {
+            "tag": "v3.7.0",
+            "date": "2026-01-28T09:52:51Z"
+          },
+          "releases_last_year": 18
+        },
+        "issue_stats": {
+          "closed_sample": 4,
+          "avg_close_days": 1.4,
+          "median_close_days": 1.1
+        }
+      }
+    },
+    {
+      "slug": "objection",
+      "name": "Objection",
+      "category": "mobile",
+      "license": "GPL-3.0 (open source)",
+      "owner": "sensepost",
+      "repo": "objection",
+      "github": {
+        "stars": 8885,
+        "forks": 954,
+        "watchers": 154,
+        "open_issues": 73,
+        "language": "Python",
+        "license": "GPL-3.0",
+        "created_at": "2017-06-29T11:21:38Z",
+        "updated_at": "2026-02-14T11:10:14Z",
+        "pushed_at": "2026-01-27T13:34:10Z",
+        "archived": false,
+        "description": "📱 objection - runtime mobile exploration",
+        "topics": [
+          "android",
+          "framework",
+          "frida",
+          "instrumentation",
+          "ios",
+          "mobile",
+          "pentest",
+          "security"
+        ],
+        "default_branch": "master",
+        "size_kb": 11024,
+        "contributor_count": 63,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 30,
+          "latest": {
+            "tag": "1.12.3",
+            "date": "2026-01-27T13:34:10Z"
+          },
+          "releases_last_year": 4
+        },
+        "issue_stats": {
+          "closed_sample": 23,
+          "avg_close_days": 676.7,
+          "median_close_days": 613.5
+        }
+      }
+    },
+    {
+      "slug": "opa-gatekeeper",
+      "name": "OPA Gatekeeper",
+      "category": "iac-security",
+      "license": "Free (Open-Source, Apache 2.0)",
+      "owner": "open-policy-agent",
+      "repo": "gatekeeper",
+      "github": {
+        "stars": 4143,
+        "forks": 844,
+        "watchers": 65,
+        "open_issues": 180,
+        "language": "Go",
+        "license": "Apache-2.0",
+        "created_at": "2018-10-26T21:05:57Z",
+        "updated_at": "2026-02-14T01:04:36Z",
+        "pushed_at": "2026-02-14T00:57:01Z",
+        "archived": false,
+        "description": "🐊 Policy Controller for Kubernetes",
+        "topics": [
+          "admission",
+          "cncf",
+          "gatekeeper",
+          "hacktoberfest",
+          "kubernetes",
+          "mutation",
+          "opa",
+          "policy",
+          "policy-engine",
+          "security",
+          "validation"
+        ],
+        "default_branch": "master",
+        "size_kb": 197958,
+        "contributor_count": 241,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 30,
+          "latest": {
+            "tag": "v3.21.1",
+            "date": "2026-02-04T22:52:44Z"
+          },
+          "releases_last_year": 18
+        },
+        "issue_stats": {
+          "closed_sample": 5,
+          "avg_close_days": 202.9,
+          "median_close_days": 174.6
+        }
+      }
+    },
+    {
+      "slug": "openrasp",
+      "name": "OpenRASP",
+      "category": "rasp",
+      "license": "Free (Open-Source)",
+      "owner": "baidu",
+      "repo": "openrasp",
+      "github": {
+        "stars": 2952,
+        "forks": 623,
+        "watchers": 107,
+        "open_issues": 61,
+        "language": "C++",
+        "license": "Apache-2.0",
+        "created_at": "2017-08-10T11:09:30Z",
+        "updated_at": "2026-02-11T01:03:18Z",
+        "pushed_at": "2025-10-02T11:34:31Z",
+        "archived": false,
+        "description": "🔥Open source RASP solution",
+        "topics": [
+          "devsecops",
+          "iast",
+          "rasp",
+          "security",
+          "waf"
+        ],
+        "default_branch": "master",
+        "size_kb": 300842,
+        "contributor_count": 27,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 30,
+          "latest": {
+            "tag": "v1.3.7",
+            "date": "2022-01-28T10:28:47Z"
+          },
+          "releases_last_year": 0
+        },
+        "issue_stats": {
+          "closed_sample": 9,
+          "avg_close_days": 54.5,
+          "median_close_days": 1
+        }
+      }
+    },
+    {
+      "slug": "ostorlab",
+      "name": "Ostorlab",
+      "category": "mobile",
+      "license": "Freemium",
+      "owner": "Ostorlab",
+      "repo": "oxo",
+      "github": {
+        "stars": 561,
+        "forks": 59,
+        "watchers": 5,
+        "open_issues": 2,
+        "language": "Python",
+        "license": "Apache-2.0",
+        "created_at": "2021-11-04T03:14:09Z",
+        "updated_at": "2026-02-09T22:16:13Z",
+        "pushed_at": "2026-02-08T03:49:03Z",
+        "archived": false,
+        "description": "OXO is a security scanning orchestrator for the modern age.",
+        "topics": [
+          "scanner",
+          "security",
+          "security-scanner",
+          "security-tools"
+        ],
+        "default_branch": "main",
+        "size_kb": 234755,
+        "contributor_count": 32,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 30,
+          "latest": {
+            "tag": "v1.11.0",
+            "date": "2026-02-08T03:49:03Z"
+          },
+          "releases_last_year": 30
+        },
+        "issue_stats": {
+          "closed_sample": 0
+        }
+      }
+    },
+    {
+      "slug": "osv-scanner",
+      "name": "OSV-Scanner",
+      "category": "sca",
+      "license": "Free (Open-Source, Apache 2.0)",
+      "owner": "google",
+      "repo": "osv-scanner",
+      "github": {
+        "stars": 8456,
+        "forks": 525,
+        "watchers": 64,
+        "open_issues": 94,
+        "language": "Go",
+        "license": "Apache-2.0",
+        "created_at": "2022-11-14T01:05:20Z",
+        "updated_at": "2026-02-15T03:09:02Z",
+        "pushed_at": "2026-02-14T21:00:13Z",
+        "archived": false,
+        "description": "Vulnerability scanner written in Go which uses the data provided by https://osv.dev",
+        "topics": [
+          "scanner",
+          "security-audit",
+          "security-tools",
+          "vulnerability-scanner"
+        ],
+        "default_branch": "main",
+        "size_kb": 28173,
+        "contributor_count": 94,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 30,
+          "latest": {
+            "tag": "v2.3.3",
+            "date": "2026-02-12T00:12:48Z"
+          },
+          "releases_last_year": 15
+        },
+        "issue_stats": {
+          "closed_sample": 1,
+          "avg_close_days": 96.7,
+          "median_close_days": 96.7
+        }
+      }
+    },
+    {
+      "slug": "owasp-dependency-check",
+      "name": "OWASP Dependency-Check",
+      "category": "sca",
+      "license": "Free (Open-Source, Apache 2.0)",
+      "owner": "dependency-check",
+      "repo": "DependencyCheck",
+      "github": {
+        "stars": 7432,
+        "forks": 1394,
+        "watchers": 177,
+        "open_issues": 250,
+        "language": "Java",
+        "license": "Apache-2.0",
+        "created_at": "2012-09-03T20:43:30Z",
+        "updated_at": "2026-02-15T07:02:19Z",
+        "pushed_at": "2026-02-12T12:28:15Z",
+        "archived": false,
+        "description": "OWASP dependency-check is a software composition analysis utility that detects publicly disclosed vulnerabilities in application dependencies.",
+        "topics": [
+          "ant-task",
+          "build-tool",
+          "gradle-plugin",
+          "jenkins-plugin",
+          "maven-plugin",
+          "security",
+          "security-audit",
+          "software-composition-analysis",
+          "vulnerability-detection"
+        ],
+        "default_branch": "main",
+        "size_kb": 307073,
+        "contributor_count": 316,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 30,
+          "latest": {
+            "tag": "v12.2.0",
+            "date": "2026-01-09T13:48:40Z"
+          },
+          "releases_last_year": 10
+        },
+        "issue_stats": {
+          "closed_sample": 26,
+          "avg_close_days": 575.5,
+          "median_close_days": 441.9
+        }
+      }
+    },
+    {
+      "slug": "phylum",
+      "name": "Phylum",
+      "category": "sca",
+      "license": "Commercial (Free community edition)",
+      "status": "draft",
+      "github_url": "https://github.com/phylum-dev",
+      "owner": "phylum-dev",
+      "repo": null,
+      "github": null,
+      "error": "org-level URL"
+    },
+    {
+      "slug": "pmd",
+      "name": "PMD",
+      "category": "sast",
+      "license": "Free/OSS",
+      "owner": "pmd",
+      "repo": "pmd",
+      "github": {
+        "stars": 5318,
+        "forks": 1555,
+        "watchers": 137,
+        "open_issues": 624,
+        "language": "Java",
+        "license": "NOASSERTION",
+        "created_at": "2012-07-11T18:03:00Z",
+        "updated_at": "2026-02-15T03:04:56Z",
+        "pushed_at": "2026-02-11T04:12:02Z",
+        "archived": false,
+        "description": "An extensible multilanguage static code analyzer.",
+        "topics": [
+          "apex",
+          "code-analysis",
+          "code-quality",
+          "hacktoberfest",
+          "java",
+          "linter",
+          "plsql",
+          "static-analysis",
+          "static-code-analysis",
+          "swift"
+        ],
+        "default_branch": "main",
+        "size_kb": 555282,
+        "contributor_count": 311,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 30,
+          "latest": {
+            "tag": "pmd_releases/7.22.0-SNAPSHOT",
+            "date": "2026-01-30T10:09:32Z"
+          },
+          "releases_last_year": 12
+        },
+        "issue_stats": {
+          "closed_sample": 6,
+          "avg_close_days": 366.7,
+          "median_close_days": 193.8
+        }
+      }
+    },
+    {
+      "slug": "promptfoo",
+      "name": "Promptfoo",
+      "category": "ai-security",
+      "license": "Free (Open-Source) and Commercial",
+      "owner": "promptfoo",
+      "repo": "promptfoo",
+      "github": {
+        "stars": 10463,
+        "forks": 919,
+        "watchers": 32,
+        "open_issues": 227,
+        "language": "TypeScript",
+        "license": "MIT",
+        "created_at": "2023-04-28T15:48:49Z",
+        "updated_at": "2026-02-15T06:17:32Z",
+        "pushed_at": "2026-02-15T06:38:33Z",
+        "archived": false,
+        "description": "Test your prompts, agents, and RAGs. AI Red teaming, pentesting, and vulnerability scanning for LLMs. Compare performance of GPT, Claude, Gemini, Llama, and more. Simple declarative configs with command line and CI/CD integration.",
+        "topics": [
+          "ci",
+          "ci-cd",
+          "cicd",
+          "evaluation",
+          "evaluation-framework",
+          "llm",
+          "llm-eval",
+          "llm-evaluation",
+          "llm-evaluation-framework",
+          "llmops",
+          "pentesting",
+          "prompt-engineering",
+          "prompt-testing",
+          "prompts",
+          "rag",
+          "red-teaming",
+          "testing",
+          "vulnerability-scanners"
+        ],
+        "default_branch": "main",
+        "size_kb": 470596,
+        "contributor_count": 241,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 30,
+          "latest": {
+            "tag": "0.120.24",
+            "date": "2026-02-10T21:20:00Z"
+          },
+          "releases_last_year": 30
+        },
+        "issue_stats": {
+          "closed_sample": 2,
+          "avg_close_days": 4,
+          "median_close_days": 4.7
+        }
+      }
+    },
+    {
+      "slug": "pyrit",
+      "name": "PyRIT",
+      "category": "ai-security",
+      "license": "Free (Open-Source)",
+      "owner": "Azure",
+      "repo": "PyRIT",
+      "github": {
+        "stars": 3423,
+        "forks": 665,
+        "watchers": 40,
+        "open_issues": 84,
+        "language": "Python",
+        "license": "MIT",
+        "created_at": "2023-12-12T15:46:28Z",
+        "updated_at": "2026-02-15T05:07:05Z",
+        "pushed_at": "2026-02-14T19:58:07Z",
+        "archived": false,
+        "description": "The Python Risk Identification Tool for generative AI (PyRIT) is an open source framework built to empower security professionals and engineers to proactively identify risks in generative AI systems.",
+        "topics": [
+          "ai-red-team",
+          "generative-ai",
+          "red-team-tools",
+          "responsible-ai"
+        ],
+        "default_branch": "main",
+        "size_kb": 225837,
+        "contributor_count": 107,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 17,
+          "latest": {
+            "tag": "v0.11.0",
+            "date": "2026-02-06T06:15:32Z"
+          },
+          "releases_last_year": 8
+        },
+        "issue_stats": {
+          "closed_sample": 4,
+          "avg_close_days": 124.9,
+          "median_close_days": 12.8
+        }
+      }
+    },
+    {
+      "slug": "rebuff",
+      "name": "Rebuff",
+      "category": "ai-security",
+      "license": "Free (Open-Source, Apache-2.0)",
+      "owner": "protectai",
+      "repo": "rebuff",
+      "github": {
+        "stars": 1415,
+        "forks": 126,
+        "watchers": 14,
+        "open_issues": 33,
+        "language": "TypeScript",
+        "license": "Apache-2.0",
+        "created_at": "2023-04-24T05:49:09Z",
+        "updated_at": "2026-02-15T03:33:01Z",
+        "pushed_at": "2024-08-07T23:35:48Z",
+        "archived": true,
+        "description": "LLM Prompt Injection Detector",
+        "topics": [
+          "llm",
+          "llmops",
+          "prompt-engineering",
+          "prompt-injection",
+          "prompts",
+          "security"
+        ],
+        "default_branch": "main",
+        "size_kb": 7329,
+        "contributor_count": 9,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 3,
+          "latest": {
+            "tag": "v0.1.1",
+            "date": "2024-01-20T01:11:48Z"
+          },
+          "releases_last_year": 0
+        },
+        "issue_stats": {
+          "closed_sample": 5,
+          "avg_close_days": 50.7,
+          "median_close_days": 20.5
+        }
+      }
+    },
+    {
+      "slug": "renovate",
+      "name": "Renovate",
+      "category": "sca",
+      "license": "Free (Open-Source, AGPL-3.0)",
+      "owner": "renovatebot",
+      "repo": "renovate",
+      "github": {
+        "stars": 20832,
+        "forks": 2938,
+        "watchers": 102,
+        "open_issues": 983,
+        "language": "TypeScript",
+        "license": "AGPL-3.0",
+        "created_at": "2016-12-17T16:21:21Z",
+        "updated_at": "2026-02-15T07:04:05Z",
+        "pushed_at": "2026-02-15T00:34:48Z",
+        "archived": false,
+        "description": "Home of the Renovate CLI: Cross-platform Dependency Automation by Mend.io",
+        "topics": [
+          "azure-devops",
+          "bitbucket",
+          "dependencies",
+          "dependencies-checking",
+          "dependency-manager",
+          "github",
+          "gitlab",
+          "npm",
+          "package-management"
+        ],
+        "default_branch": "main",
+        "size_kb": 141235,
+        "contributor_count": 432,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 30,
+          "latest": {
+            "tag": "43.15.0",
+            "date": "2026-02-14T19:43:16Z"
+          },
+          "releases_last_year": 30
+        },
+        "issue_stats": {
+          "closed_sample": 2,
+          "avg_close_days": 0.5,
+          "median_close_days": 0.9
+        }
+      }
+    },
+    {
+      "slug": "scanoss",
+      "name": "SCANOSS",
+      "category": "sca",
+      "license": "Freemium",
+      "owner": "scanoss",
+      "repo": "scanoss.py",
+      "github": {
+        "stars": 39,
+        "forks": 24,
+        "watchers": 4,
+        "open_issues": 8,
+        "language": "Python",
+        "license": "MIT",
+        "created_at": "2021-06-15T19:29:33Z",
+        "updated_at": "2026-02-09T15:16:43Z",
+        "pushed_at": "2026-02-14T08:09:22Z",
+        "archived": false,
+        "description": "The SCANOSS python package providing a simple, easy to consume library for interacting with SCANOSS APIs/Engine.",
+        "topics": [
+          "software-composition-analysis"
+        ],
+        "default_branch": "main",
+        "size_kb": 1384,
+        "contributor_count": 16,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 30,
+          "latest": {
+            "tag": "v1.45.0",
+            "date": "2026-02-02T14:36:22Z"
+          },
+          "releases_last_year": 22
+        },
+        "issue_stats": {
+          "closed_sample": 3,
+          "avg_close_days": 89.1,
+          "median_close_days": 73.5
+        }
+      }
+    },
+    {
+      "slug": "semgrep",
+      "name": "Semgrep",
+      "category": "sast",
+      "license": "LGPL-2.1 (OSS CLI) / Commercial (Platform)",
+      "owner": "semgrep",
+      "repo": "semgrep",
+      "github": {
+        "stars": 14137,
+        "forks": 872,
+        "watchers": 106,
+        "open_issues": 832,
+        "language": "OCaml",
+        "license": "LGPL-2.1",
+        "created_at": "2019-12-13T09:29:54Z",
+        "updated_at": "2026-02-15T06:08:29Z",
+        "pushed_at": "2026-02-14T00:25:02Z",
+        "archived": false,
+        "description": "Lightweight static analysis for many languages. Find bug variants with patterns that look like source code.",
+        "topics": [
+          "c",
+          "go",
+          "java",
+          "javascript",
+          "python",
+          "r2c",
+          "ruby",
+          "sast",
+          "semgrep",
+          "static-analysis",
+          "static-code-analysis",
+          "typescript"
+        ],
+        "default_branch": "develop",
+        "size_kb": 95292,
+        "contributor_count": 197,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 30,
+          "latest": {
+            "tag": "v1.151.0",
+            "date": "2026-02-04T18:36:56Z"
+          },
+          "releases_last_year": 30
+        },
+        "issue_stats": {
+          "closed_sample": 4,
+          "avg_close_days": 36.3,
+          "median_close_days": 12.5
+        }
+      }
+    },
+    {
+      "slug": "snyk-open-source",
+      "name": "Snyk Open Source",
+      "category": "sca",
+      "license": "Freemium",
+      "owner": "snyk",
+      "repo": "cli",
+      "github": {
+        "stars": 5422,
+        "forks": 668,
+        "watchers": 160,
+        "open_issues": 129,
+        "language": "TypeScript",
+        "license": "NOASSERTION",
+        "created_at": "2015-10-30T11:36:00Z",
+        "updated_at": "2026-02-14T14:51:37Z",
+        "pushed_at": "2026-02-13T22:28:13Z",
+        "archived": false,
+        "description": "Snyk CLI scans and monitors your projects for security vulnerabilities.",
+        "topics": [
+          "monitor",
+          "security",
+          "snyk",
+          "vulnerabilities"
+        ],
+        "default_branch": "main",
+        "size_kb": 464685,
+        "contributor_count": 251,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 30,
+          "latest": {
+            "tag": "v1.1302.1",
+            "date": "2026-01-22T15:42:16Z"
+          },
+          "releases_last_year": 22
+        },
+        "issue_stats": {
+          "closed_sample": 0
+        }
+      }
+    },
+    {
+      "slug": "sonarlint",
+      "name": "SonarLint",
+      "category": "sast",
+      "license": "Free (LGPL-3.0) + Commercial Features with SonarQube/SonarCloud",
+      "owner": "SonarSource",
+      "repo": "sonarlint-intellij",
+      "github": {
+        "stars": 631,
+        "forks": 157,
+        "watchers": 51,
+        "open_issues": 5,
+        "language": "Kotlin",
+        "license": "LGPL-3.0",
+        "created_at": "2013-10-28T15:27:56Z",
+        "updated_at": "2026-02-13T17:04:44Z",
+        "pushed_at": "2026-02-13T17:04:03Z",
+        "archived": false,
+        "description": "SonarLint for IntelliJ",
+        "topics": [
+          "intellij",
+          "sonarlint"
+        ],
+        "default_branch": "master",
+        "size_kb": 43473,
+        "contributor_count": 43,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 30,
+          "latest": {
+            "tag": "11.12.0.84088",
+            "date": "2026-02-02T13:01:01Z"
+          },
+          "releases_last_year": 30
+        },
+        "issue_stats": {
+          "closed_sample": 0
+        }
+      }
+    },
+    {
+      "slug": "sonarqube",
+      "name": "SonarQube",
+      "category": "sast",
+      "license": "Commercial (with Free Community Edition)",
+      "owner": "SonarSource",
+      "repo": "sonarqube",
+      "github": {
+        "stars": 10233,
+        "forks": 2159,
+        "watchers": 338,
+        "open_issues": 4,
+        "language": "Java",
+        "license": "LGPL-3.0",
+        "created_at": "2011-01-05T11:05:17Z",
+        "updated_at": "2026-02-15T06:32:28Z",
+        "pushed_at": "2026-02-14T20:07:26Z",
+        "archived": false,
+        "description": "Continuous Inspection",
+        "topics": [
+          "code-quality",
+          "sonarqube",
+          "static-analysis"
+        ],
+        "default_branch": "master",
+        "size_kb": 966926,
+        "contributor_count": 296,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 30,
+          "latest": {
+            "tag": "26.2.0.119303",
+            "date": "2026-02-04T10:07:42Z"
+          },
+          "releases_last_year": 12
+        },
+        "issue_stats": {
+          "closed_sample": 0
+        }
+      }
+    },
+    {
+      "slug": "spotbugs",
+      "name": "SpotBugs",
+      "category": "sast",
+      "license": "Free/OSS (LGPL-2.1)",
+      "owner": "spotbugs",
+      "repo": "spotbugs",
+      "github": {
+        "stars": 3823,
+        "forks": 647,
+        "watchers": 73,
+        "open_issues": 457,
+        "language": "Java",
+        "license": "LGPL-2.1",
+        "created_at": "2016-11-04T22:18:08Z",
+        "updated_at": "2026-02-15T02:42:06Z",
+        "pushed_at": "2026-02-15T02:42:59Z",
+        "archived": false,
+        "description": "SpotBugs is FindBugs' successor. A tool for static analysis to look for bugs in Java code.",
+        "topics": [
+          "code-analysis",
+          "findbugs",
+          "hacktoberfest",
+          "linter",
+          "static-analysis",
+          "static-code-analysis"
+        ],
+        "default_branch": "master",
+        "size_kb": 147417,
+        "contributor_count": 196,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 30,
+          "latest": {
+            "tag": "4.9.8",
+            "date": "2025-10-18T16:45:29Z"
+          },
+          "releases_last_year": 7
+        },
+        "issue_stats": {
+          "closed_sample": 4,
+          "avg_close_days": 414,
+          "median_close_days": 103.5
+        }
+      }
+    },
+    {
+      "slug": "syft",
+      "name": "Syft",
+      "category": "sca",
+      "license": "Free (Open-Source, Apache-2.0)",
+      "owner": "anchore",
+      "repo": "syft",
+      "github": {
+        "stars": 8373,
+        "forks": 768,
+        "watchers": 64,
+        "open_issues": 531,
+        "language": "Go",
+        "license": "Apache-2.0",
+        "created_at": "2020-05-07T18:19:29Z",
+        "updated_at": "2026-02-15T07:05:19Z",
+        "pushed_at": "2026-02-14T08:12:19Z",
+        "archived": false,
+        "description": "CLI tool and library for generating a Software Bill of Materials from container images and filesystems",
+        "topics": [
+          "containers",
+          "cyclonedx",
+          "docker",
+          "go",
+          "golang",
+          "hacktoberfest",
+          "oci",
+          "sbom",
+          "spdx",
+          "static-analysis",
+          "tool"
+        ],
+        "default_branch": "main",
+        "size_kb": 24389,
+        "contributor_count": 204,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 30,
+          "latest": {
+            "tag": "v1.42.0",
+            "date": "2026-02-10T17:39:42Z"
+          },
+          "releases_last_year": 30
+        },
+        "issue_stats": {
+          "closed_sample": 8,
+          "avg_close_days": 114.5,
+          "median_close_days": 49.1
+        }
+      }
+    },
+    {
+      "slug": "talsec",
+      "name": "Talsec",
+      "category": "mobile",
+      "license": "Freemium",
+      "owner": "talsec",
+      "repo": "Free-RASP-Community",
+      "github": {
+        "stars": 470,
+        "forks": 20,
+        "watchers": 6,
+        "open_issues": 7,
+        "language": null,
+        "license": "MIT",
+        "created_at": "2021-06-16T04:42:34Z",
+        "updated_at": "2026-02-11T14:18:08Z",
+        "pushed_at": "2025-12-11T15:40:42Z",
+        "archived": false,
+        "description": "SDK providing threat detection & security monitoring for mobile devices. Works with Flutter, React Native, Android and iOS. Shield your app with free RASP. Detect reverse engineering, root (Magisk), jailbreak, Frida, emulators, bots, tampering and integrity issues, obfuscation, VPN usage, malware, and monitor device identification and fingerprint.",
+        "topics": [
+          "app-shielding",
+          "application-security",
+          "appsec",
+          "attack-detection",
+          "cloning",
+          "flutter-rasp",
+          "flutter-security",
+          "fraud-detection",
+          "freerasp",
+          "frida-detection",
+          "hooking",
+          "rasp",
+          "rasp-library",
+          "repackaging-detection",
+          "reverse-engineering",
+          "security-hardening",
+          "security-tools",
+          "shadow-detection",
+          "tampering-detection"
+        ],
+        "default_branch": "master",
+        "size_kb": 9654,
+        "contributor_count": 7,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 0,
+          "latest": null,
+          "releases_last_year": 0
+        },
+        "issue_stats": {
+          "closed_sample": 21,
+          "avg_close_days": 135,
+          "median_close_days": 7.1
+        }
+      }
+    },
+    {
+      "slug": "terrascan",
+      "name": "Terrascan",
+      "category": "iac-security",
+      "license": "Free (Open-Source, Apache 2.0)",
+      "owner": "tenable",
+      "repo": "terrascan",
+      "github": {
+        "stars": 5201,
+        "forks": 543,
+        "watchers": 68,
+        "open_issues": 0,
+        "language": "Go",
+        "license": "Apache-2.0",
+        "created_at": "2017-09-11T03:11:10Z",
+        "updated_at": "2026-02-15T01:37:34Z",
+        "pushed_at": "2025-11-20T19:37:10Z",
+        "archived": true,
+        "description": "Detect compliance and security violations across Infrastructure as Code to mitigate risk before provisioning cloud native infrastructure.",
+        "topics": [
+          "architecture",
+          "aws",
+          "aws-security",
+          "azure-security",
+          "cloud-security",
+          "cloudsecurity",
+          "devops",
+          "devsecops",
+          "gcp-security",
+          "iac",
+          "infrastructure",
+          "infrastructure-as-code",
+          "kubernetes",
+          "sast",
+          "scans",
+          "security",
+          "security-tools",
+          "security-violations",
+          "terraform",
+          "terrascan"
+        ],
+        "default_branch": "master",
+        "size_kb": 16081,
+        "contributor_count": 79,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 30,
+          "latest": {
+            "tag": "v1.19.9",
+            "date": "2024-09-18T08:02:14Z"
+          },
+          "releases_last_year": 0
+        },
+        "issue_stats": {
+          "closed_sample": 19,
+          "avg_close_days": 1646.3,
+          "median_close_days": 1646.2
+        }
+      }
+    },
+    {
+      "slug": "tfsec",
+      "name": "tfsec",
+      "category": "iac-security",
+      "license": "Free (Open-Source, MIT)",
+      "owner": "aquasecurity",
+      "repo": "tfsec",
+      "github": {
+        "stars": 6952,
+        "forks": 556,
+        "watchers": 70,
+        "open_issues": 14,
+        "language": "Go",
+        "license": "MIT",
+        "created_at": "2019-03-04T16:56:59Z",
+        "updated_at": "2026-02-14T19:02:12Z",
+        "pushed_at": "2025-11-10T20:01:42Z",
+        "archived": false,
+        "description": "Tfsec is now part of Trivy",
+        "topics": [
+          "aws",
+          "azure",
+          "ci",
+          "compliance",
+          "devops",
+          "devsecops",
+          "digitalocean",
+          "go",
+          "google-cloud-platform",
+          "hacktoberfest",
+          "infrastructure-as-code",
+          "linter",
+          "misconfiguration",
+          "scanner",
+          "security",
+          "static-analysis",
+          "terraform",
+          "terraform-security",
+          "vulnerability-scanners"
+        ],
+        "default_branch": "master",
+        "size_kb": 121783,
+        "contributor_count": 111,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 30,
+          "latest": {
+            "tag": "v1.28.14",
+            "date": "2025-05-02T04:22:26Z"
+          },
+          "releases_last_year": 1
+        },
+        "issue_stats": {
+          "closed_sample": 0
+        }
+      }
+    },
+    {
+      "slug": "trivy",
+      "name": "Trivy",
+      "category": "iac-security",
+      "license": "Free (Open-Source, Apache 2.0)",
+      "owner": "aquasecurity",
+      "repo": "trivy",
+      "github": {
+        "stars": 31910,
+        "forks": 2946,
+        "watchers": 185,
+        "open_issues": 215,
+        "language": "Go",
+        "license": "Apache-2.0",
+        "created_at": "2019-04-11T01:01:07Z",
+        "updated_at": "2026-02-15T05:30:54Z",
+        "pushed_at": "2026-02-12T14:43:28Z",
+        "archived": false,
+        "description": "Find vulnerabilities, misconfigurations, secrets, SBOM in containers, Kubernetes, code repositories, clouds and more",
+        "topics": [
+          "containers",
+          "devsecops",
+          "docker",
+          "go",
+          "golang",
+          "hacktoberfest",
+          "iac",
+          "infrastructure-as-code",
+          "kubernetes",
+          "misconfiguration",
+          "security",
+          "security-tools",
+          "vulnerability",
+          "vulnerability-detection",
+          "vulnerability-scanners"
+        ],
+        "default_branch": "main",
+        "size_kb": 931797,
+        "contributor_count": 444,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 30,
+          "latest": {
+            "tag": "v0.69.1",
+            "date": "2026-02-05T13:11:55Z"
+          },
+          "releases_last_year": 17
+        },
+        "issue_stats": {
+          "closed_sample": 5,
+          "avg_close_days": 24.7,
+          "median_close_days": 3.3
+        }
+      }
+    },
+    {
+      "slug": "trufflehog",
+      "name": "TruffleHog",
+      "category": "sast",
+      "license": "Free (Open-Source, AGPL-3.0) + Commercial Plans",
+      "owner": "trufflesecurity",
+      "repo": "trufflehog",
+      "github": {
+        "stars": 24563,
+        "forks": 2222,
+        "watchers": 198,
+        "open_issues": 366,
+        "language": "Go",
+        "license": "AGPL-3.0",
+        "created_at": "2016-12-31T05:08:12Z",
+        "updated_at": "2026-02-14T21:02:18Z",
+        "pushed_at": "2026-02-13T17:12:33Z",
+        "archived": false,
+        "description": "Find, verify, and analyze leaked credentials",
+        "topics": [
+          "credentials",
+          "devsecops",
+          "dynamic-analysis",
+          "precommit",
+          "scanning",
+          "secret",
+          "secret-management",
+          "secrets",
+          "security",
+          "security-tools",
+          "trufflehog",
+          "verification"
+        ],
+        "default_branch": "main",
+        "size_kb": 46353,
+        "contributor_count": 176,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 30,
+          "latest": {
+            "tag": "v3.93.3",
+            "date": "2026-02-11T13:50:03Z"
+          },
+          "releases_last_year": 30
+        },
+        "issue_stats": {
+          "closed_sample": 3,
+          "avg_close_days": 7.7,
+          "median_close_days": 6.7
+        }
+      }
+    },
+    {
+      "slug": "w3af",
+      "name": "w3af",
+      "category": "dast",
+      "license": "Free (Open-Source, GPLv2)",
+      "owner": "andresriancho",
+      "repo": "w3af",
+      "github": {
+        "stars": 4849,
+        "forks": 1238,
+        "watchers": 187,
+        "open_issues": 2032,
+        "language": "Python",
+        "license": null,
+        "created_at": "2011-08-31T23:20:34Z",
+        "updated_at": "2026-02-13T12:08:37Z",
+        "pushed_at": "2023-02-22T06:05:59Z",
+        "archived": false,
+        "description": "w3af: web application attack and audit framework, the open source web vulnerability scanner.",
+        "topics": [
+          "appsec",
+          "cross-site-scripting",
+          "scanner",
+          "security",
+          "sql-injection"
+        ],
+        "default_branch": "master",
+        "size_kb": 174042,
+        "contributor_count": 58,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 4,
+          "latest": {
+            "tag": "1.6.49",
+            "date": "2015-04-07T15:08:32Z"
+          },
+          "releases_last_year": 0
+        },
+        "issue_stats": {
+          "closed_sample": 12,
+          "avg_close_days": 383.7,
+          "median_close_days": 315.6
+        }
+      }
+    },
+    {
+      "slug": "wapiti",
+      "name": "Wapiti",
+      "category": "dast",
+      "license": "Free (Open-Source)",
+      "owner": "wapiti-scanner",
+      "repo": "wapiti",
+      "github": {
+        "stars": 1627,
+        "forks": 247,
+        "watchers": 25,
+        "open_issues": 28,
+        "language": "Python",
+        "license": "GPL-2.0",
+        "created_at": "2020-06-06T20:17:55Z",
+        "updated_at": "2026-02-14T00:49:29Z",
+        "pushed_at": "2026-02-12T17:06:04Z",
+        "archived": false,
+        "description": "Web vulnerability scanner written in Python3",
+        "topics": [],
+        "default_branch": "master",
+        "size_kb": 11896,
+        "contributor_count": 31,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 20,
+          "latest": {
+            "tag": "3.2.10",
+            "date": "2025-11-13T20:27:56Z"
+          },
+          "releases_last_year": 8
+        },
+        "issue_stats": {
+          "closed_sample": 0
+        }
+      }
+    },
+    {
+      "slug": "zap",
+      "name": "ZAP (Zed Attack Proxy)",
+      "category": "dast",
+      "license": "Free (Open-Source, Apache 2.0)",
+      "owner": "zaproxy",
+      "repo": "zaproxy",
+      "github": {
+        "stars": 14751,
+        "forks": 2512,
+        "watchers": 399,
+        "open_issues": 850,
+        "language": "Java",
+        "license": "Apache-2.0",
+        "created_at": "2015-06-03T16:55:01Z",
+        "updated_at": "2026-02-14T23:38:22Z",
+        "pushed_at": "2026-02-11T10:21:21Z",
+        "archived": false,
+        "description": "The ZAP by Checkmarx Core project",
+        "topics": [
+          "appsec",
+          "dast",
+          "hacktoberfest",
+          "opensource",
+          "security",
+          "security-scanner",
+          "zap",
+          "zap-development",
+          "zaproxy"
+        ],
+        "default_branch": "main",
+        "size_kb": 201528,
+        "contributor_count": 231,
+        "commit_activity": null,
+        "releases": {
+          "total_recent": 18,
+          "latest": {
+            "tag": "w2026-02-11",
+            "date": "2026-02-11T10:27:44Z"
+          },
+          "releases_last_year": 17
+        },
+        "issue_stats": {
+          "closed_sample": 15,
+          "avg_close_days": 329.7,
+          "median_close_days": 1.5
+        }
+      }
+    }
+  ]
+}

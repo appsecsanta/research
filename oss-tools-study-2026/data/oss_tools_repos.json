@@ -1,0 +1,672 @@
+[
+  {
+    "slug": "anchore",
+    "name": "Anchore",
+    "category": "sca",
+    "license": "Commercial (Open-Source tools available)",
+    "status": "draft",
+    "github_url": "https://github.com/anchore",
+    "owner": "anchore",
+    "repo": null
+  },
+  {
+    "slug": "arachni",
+    "name": "Arachni",
+    "category": "dast",
+    "license": "Free (Open-Source, Apache 2.0)",
+    "status": "deprecated",
+    "github_url": "https://github.com/Arachni/arachni",
+    "owner": "Arachni",
+    "repo": "arachni"
+  },
+  {
+    "slug": "bandit",
+    "name": "Bandit",
+    "category": "sast",
+    "license": "Free (Open-Source)",
+    "status": "active",
+    "github_url": "https://github.com/PyCQA/bandit",
+    "owner": "PyCQA",
+    "repo": "bandit"
+  },
+  {
+    "slug": "bearer",
+    "name": "Bearer",
+    "category": "sast",
+    "license": "Open Source (ELv2) / Part of Cycode",
+    "status": "draft",
+    "github_url": "https://github.com/Bearer/bearer",
+    "owner": "Bearer",
+    "repo": "bearer"
+  },
+  {
+    "slug": "brakeman",
+    "name": "Brakeman",
+    "category": "sast",
+    "license": "Free (Non-Commercial)",
+    "status": "active",
+    "github_url": "https://github.com/presidentbeef/brakeman",
+    "owner": "presidentbeef",
+    "repo": "brakeman"
+  },
+  {
+    "slug": "checkov",
+    "name": "Checkov",
+    "category": "iac-security",
+    "license": "Free (Open-Source, Apache 2.0)",
+    "status": "active",
+    "github_url": "https://github.com/bridgecrewio/checkov",
+    "owner": "bridgecrewio",
+    "repo": "checkov"
+  },
+  {
+    "slug": "codacy",
+    "name": "Codacy",
+    "category": "sast",
+    "license": "Commercial (Free for open-source, CLI is AGPL-3.0)",
+    "status": "active",
+    "github_url": "https://github.com/codacy/codacy-analysis-cli",
+    "owner": "codacy",
+    "repo": "codacy-analysis-cli"
+  },
+  {
+    "slug": "conftest",
+    "name": "Conftest",
+    "category": "iac-security",
+    "license": "Free (Open-Source, Apache 2.0)",
+    "status": "active",
+    "github_url": "https://github.com/open-policy-agent/conftest",
+    "owner": "open-policy-agent",
+    "repo": "conftest"
+  },
+  {
+    "slug": "dastardly",
+    "name": "Dastardly",
+    "category": "dast",
+    "license": "Free",
+    "status": "active",
+    "github_url": "https://github.com/PortSwigger/dastardly-github-action",
+    "owner": "PortSwigger",
+    "repo": "dastardly-github-action"
+  },
+  {
+    "slug": "deepteam",
+    "name": "DeepTeam",
+    "category": "ai-security",
+    "license": "Free (Open-Source)",
+    "status": "active",
+    "github_url": "https://github.com/confident-ai/deepteam",
+    "owner": "confident-ai",
+    "repo": "deepteam"
+  },
+  {
+    "slug": "defectdojo",
+    "name": "DefectDojo",
+    "category": "aspm",
+    "license": "Free (Open-Source)",
+    "status": "active",
+    "github_url": "https://github.com/DefectDojo/django-DefectDojo",
+    "owner": "DefectDojo",
+    "repo": "django-DefectDojo"
+  },
+  {
+    "slug": "dependency-track",
+    "name": "OWASP Dependency-Track",
+    "category": "sca",
+    "license": "Free (Open-Source, Apache 2.0)",
+    "status": "active",
+    "github_url": "https://github.com/DependencyTrack/dependency-track",
+    "owner": "DependencyTrack",
+    "repo": "dependency-track"
+  },
+  {
+    "slug": "detect-secrets",
+    "name": "detect-secrets",
+    "category": "sast",
+    "license": "Free (Open-Source, Apache-2.0)",
+    "status": "active",
+    "github_url": "https://github.com/Yelp/detect-secrets",
+    "owner": "Yelp",
+    "repo": "detect-secrets"
+  },
+  {
+    "slug": "falco",
+    "name": "Falco",
+    "category": "iac-security",
+    "license": "Free (Open-Source, Apache 2.0)",
+    "status": "active",
+    "github_url": "https://github.com/falcosecurity/falco",
+    "owner": "falcosecurity",
+    "repo": "falco"
+  },
+  {
+    "slug": "faraday",
+    "name": "Faraday",
+    "category": "aspm",
+    "license": "Freemium (Free Community Edition, paid plans available)",
+    "status": "active",
+    "github_url": "https://github.com/infobyte/faraday",
+    "owner": "infobyte",
+    "repo": "faraday"
+  },
+  {
+    "slug": "fossa",
+    "name": "FOSSA",
+    "category": "sca",
+    "license": "Freemium",
+    "status": "active",
+    "github_url": "https://github.com/fossas/fossa-cli",
+    "owner": "fossas",
+    "repo": "fossa-cli"
+  },
+  {
+    "slug": "frida",
+    "name": "Frida",
+    "category": "mobile",
+    "license": "wxWindows Library Licence (open source)",
+    "status": "active",
+    "github_url": "https://github.com/frida/frida",
+    "owner": "frida",
+    "repo": "frida"
+  },
+  {
+    "slug": "garak",
+    "name": "Garak",
+    "category": "ai-security",
+    "license": "Free (Open-Source)",
+    "status": "active",
+    "github_url": "https://github.com/NVIDIA/garak",
+    "owner": "NVIDIA",
+    "repo": "garak"
+  },
+  {
+    "slug": "ghidra",
+    "name": "Ghidra",
+    "category": "mobile",
+    "license": "Apache License 2.0 (open source)",
+    "status": "active",
+    "github_url": "https://github.com/NationalSecurityAgency/ghidra",
+    "owner": "NationalSecurityAgency",
+    "repo": "ghidra"
+  },
+  {
+    "slug": "gitleaks",
+    "name": "Gitleaks",
+    "category": "sast",
+    "license": "Free (Open-Source, MIT)",
+    "status": "active",
+    "github_url": "https://github.com/gitleaks/gitleaks",
+    "owner": "gitleaks",
+    "repo": "gitleaks"
+  },
+  {
+    "slug": "gosec",
+    "name": "gosec",
+    "category": "sast",
+    "license": "Free/OSS",
+    "status": "active",
+    "github_url": "https://github.com/securego/gosec",
+    "owner": "securego",
+    "repo": "gosec"
+  },
+  {
+    "slug": "graudit",
+    "name": "Graudit",
+    "category": "sast",
+    "license": "Free (Open-Source, GPL-3.0)",
+    "status": "active",
+    "github_url": "https://github.com/wireghoul/graudit",
+    "owner": "wireghoul",
+    "repo": "graudit"
+  },
+  {
+    "slug": "grype",
+    "name": "Anchore Grype",
+    "category": "sca",
+    "license": "Free (Open-Source, Apache 2.0)",
+    "status": "active",
+    "github_url": "https://github.com/anchore/grype",
+    "owner": "anchore",
+    "repo": "grype"
+  },
+  {
+    "slug": "horusec",
+    "name": "Horusec",
+    "category": "sast",
+    "license": "Free/OSS (Apache 2.0)",
+    "status": "active",
+    "github_url": "https://github.com/ZupIT/horusec",
+    "owner": "ZupIT",
+    "repo": "horusec"
+  },
+  {
+    "slug": "invicti-aspm",
+    "name": "Invicti ASPM",
+    "category": "aspm",
+    "license": "Commercial",
+    "status": "active",
+    "github_url": "https://github.com/kondukto-io/kdt",
+    "owner": "kondukto-io",
+    "repo": "kdt"
+  },
+  {
+    "slug": "jadx",
+    "name": "Jadx",
+    "category": "mobile",
+    "license": "Apache License 2.0 (open source)",
+    "status": "active",
+    "github_url": "https://github.com/skylot/jadx",
+    "owner": "skylot",
+    "repo": "jadx"
+  },
+  {
+    "slug": "kics",
+    "name": "KICS",
+    "category": "iac-security",
+    "license": "Free (Open-Source, Apache 2.0)",
+    "status": "active",
+    "github_url": "https://github.com/Checkmarx/kics",
+    "owner": "Checkmarx",
+    "repo": "kics"
+  },
+  {
+    "slug": "kube-bench",
+    "name": "kube-bench",
+    "category": "iac-security",
+    "license": "Free (Open-Source, Apache 2.0)",
+    "status": "active",
+    "github_url": "https://github.com/aquasecurity/kube-bench",
+    "owner": "aquasecurity",
+    "repo": "kube-bench"
+  },
+  {
+    "slug": "kubearmor",
+    "name": "KubeArmor",
+    "category": "iac-security",
+    "license": "Free (Open-Source, Apache 2.0)",
+    "status": "active",
+    "github_url": "https://github.com/kubearmor/KubeArmor",
+    "owner": "kubearmor",
+    "repo": "KubeArmor"
+  },
+  {
+    "slug": "kubescape",
+    "name": "Kubescape",
+    "category": "iac-security",
+    "license": "Free (Open-Source, Apache 2.0)",
+    "status": "active",
+    "github_url": "https://github.com/kubescape/kubescape",
+    "owner": "kubescape",
+    "repo": "kubescape"
+  },
+  {
+    "slug": "kyverno",
+    "name": "Kyverno",
+    "category": "iac-security",
+    "license": "Free (Open-Source, Apache 2.0)",
+    "status": "active",
+    "github_url": "https://github.com/kyverno/kyverno",
+    "owner": "kyverno",
+    "repo": "kyverno"
+  },
+  {
+    "slug": "llm-guard",
+    "name": "LLM Guard",
+    "category": "ai-security",
+    "license": "Free (Open-Source)",
+    "status": "active",
+    "github_url": "https://github.com/protectai/llm-guard",
+    "owner": "protectai",
+    "repo": "llm-guard"
+  },
+  {
+    "slug": "mitmproxy",
+    "name": "mitmproxy",
+    "category": "mobile",
+    "license": "MIT License (open source)",
+    "status": "active",
+    "github_url": "https://github.com/mitmproxy/mitmproxy",
+    "owner": "mitmproxy",
+    "repo": "mitmproxy"
+  },
+  {
+    "slug": "mobsf",
+    "name": "MobSF",
+    "category": "mobile",
+    "license": "Free (Open-Source)",
+    "status": "active",
+    "github_url": "https://github.com/MobSF/Mobile-Security-Framework-MobSF",
+    "owner": "MobSF",
+    "repo": "Mobile-Security-Framework-MobSF"
+  },
+  {
+    "slug": "modsecurity",
+    "name": "ModSecurity",
+    "category": "rasp",
+    "license": "Apache License 2.0",
+    "status": "active",
+    "github_url": "https://github.com/owasp-modsecurity/ModSecurity",
+    "owner": "owasp-modsecurity",
+    "repo": "ModSecurity"
+  },
+  {
+    "slug": "mondoo",
+    "name": "Mondoo",
+    "category": "iac-security",
+    "license": "Open Source (cnspec/cnquery) / Commercial (Platform)",
+    "status": "draft",
+    "github_url": "https://github.com/mondoohq/cnspec",
+    "owner": "mondoohq",
+    "repo": "cnspec"
+  },
+  {
+    "slug": "nemo-guardrails",
+    "name": "NVIDIA NeMo Guardrails",
+    "category": "ai-security",
+    "license": "Free (Open-Source)",
+    "status": "active",
+    "github_url": "https://github.com/NVIDIA/NeMo-Guardrails",
+    "owner": "NVIDIA",
+    "repo": "NeMo-Guardrails"
+  },
+  {
+    "slug": "nikto",
+    "name": "Nikto",
+    "category": "dast",
+    "license": "Free (Open-Source)",
+    "status": "active",
+    "github_url": "https://github.com/sullo/nikto",
+    "owner": "sullo",
+    "repo": "nikto"
+  },
+  {
+    "slug": "nodejsscan",
+    "name": "NodeJSScan",
+    "category": "sast",
+    "license": "Free/OSS",
+    "status": "active",
+    "github_url": "https://github.com/ajinabraham/nodejsscan",
+    "owner": "ajinabraham",
+    "repo": "nodejsscan"
+  },
+  {
+    "slug": "nuclei",
+    "name": "Nuclei",
+    "category": "dast",
+    "license": "Free (Open-Source)",
+    "status": "active",
+    "github_url": "https://github.com/projectdiscovery/nuclei",
+    "owner": "projectdiscovery",
+    "repo": "nuclei"
+  },
+  {
+    "slug": "objection",
+    "name": "Objection",
+    "category": "mobile",
+    "license": "GPL-3.0 (open source)",
+    "status": "active",
+    "github_url": "https://github.com/sensepost/objection",
+    "owner": "sensepost",
+    "repo": "objection"
+  },
+  {
+    "slug": "opa-gatekeeper",
+    "name": "OPA Gatekeeper",
+    "category": "iac-security",
+    "license": "Free (Open-Source, Apache 2.0)",
+    "status": "active",
+    "github_url": "https://github.com/open-policy-agent/gatekeeper",
+    "owner": "open-policy-agent",
+    "repo": "gatekeeper"
+  },
+  {
+    "slug": "openrasp",
+    "name": "OpenRASP",
+    "category": "rasp",
+    "license": "Free (Open-Source)",
+    "status": "deprecated",
+    "github_url": "https://github.com/baidu/openrasp",
+    "owner": "baidu",
+    "repo": "openrasp"
+  },
+  {
+    "slug": "ostorlab",
+    "name": "Ostorlab",
+    "category": "mobile",
+    "license": "Freemium",
+    "status": "active",
+    "github_url": "https://github.com/Ostorlab/oxo",
+    "owner": "Ostorlab",
+    "repo": "oxo"
+  },
+  {
+    "slug": "osv-scanner",
+    "name": "OSV-Scanner",
+    "category": "sca",
+    "license": "Free (Open-Source, Apache 2.0)",
+    "status": "draft",
+    "github_url": "https://github.com/google/osv-scanner",
+    "owner": "google",
+    "repo": "osv-scanner"
+  },
+  {
+    "slug": "owasp-dependency-check",
+    "name": "OWASP Dependency-Check",
+    "category": "sca",
+    "license": "Free (Open-Source, Apache 2.0)",
+    "status": "active",
+    "github_url": "https://github.com/dependency-check/DependencyCheck",
+    "owner": "dependency-check",
+    "repo": "DependencyCheck"
+  },
+  {
+    "slug": "phylum",
+    "name": "Phylum",
+    "category": "sca",
+    "license": "Commercial (Free community edition)",
+    "status": "draft",
+    "github_url": "https://github.com/phylum-dev",
+    "owner": "phylum-dev",
+    "repo": null
+  },
+  {
+    "slug": "pmd",
+    "name": "PMD",
+    "category": "sast",
+    "license": "Free/OSS",
+    "status": "active",
+    "github_url": "https://github.com/pmd/pmd",
+    "owner": "pmd",
+    "repo": "pmd"
+  },
+  {
+    "slug": "promptfoo",
+    "name": "Promptfoo",
+    "category": "ai-security",
+    "license": "Free (Open-Source) and Commercial",
+    "status": "active",
+    "github_url": "https://github.com/promptfoo/promptfoo",
+    "owner": "promptfoo",
+    "repo": "promptfoo"
+  },
+  {
+    "slug": "pyrit",
+    "name": "PyRIT",
+    "category": "ai-security",
+    "license": "Free (Open-Source)",
+    "status": "active",
+    "github_url": "https://github.com/Azure/PyRIT",
+    "owner": "Azure",
+    "repo": "PyRIT"
+  },
+  {
+    "slug": "rebuff",
+    "name": "Rebuff",
+    "category": "ai-security",
+    "license": "Free (Open-Source, Apache-2.0)",
+    "status": "deprecated",
+    "github_url": "https://github.com/protectai/rebuff",
+    "owner": "protectai",
+    "repo": "rebuff"
+  },
+  {
+    "slug": "renovate",
+    "name": "Renovate",
+    "category": "sca",
+    "license": "Free (Open-Source, AGPL-3.0)",
+    "status": "active",
+    "github_url": "https://github.com/renovatebot/renovate",
+    "owner": "renovatebot",
+    "repo": "renovate"
+  },
+  {
+    "slug": "scanoss",
+    "name": "SCANOSS",
+    "category": "sca",
+    "license": "Freemium",
+    "status": "active",
+    "github_url": "https://github.com/scanoss/scanoss.py",
+    "owner": "scanoss",
+    "repo": "scanoss.py"
+  },
+  {
+    "slug": "semgrep",
+    "name": "Semgrep",
+    "category": "sast",
+    "license": "LGPL-2.1 (OSS CLI) / Commercial (Platform)",
+    "status": "active",
+    "github_url": "https://github.com/semgrep/semgrep",
+    "owner": "semgrep",
+    "repo": "semgrep"
+  },
+  {
+    "slug": "snyk-open-source",
+    "name": "Snyk Open Source",
+    "category": "sca",
+    "license": "Freemium",
+    "status": "active",
+    "github_url": "https://github.com/snyk/cli",
+    "owner": "snyk",
+    "repo": "cli"
+  },
+  {
+    "slug": "sonarlint",
+    "name": "SonarLint",
+    "category": "sast",
+    "license": "Free (LGPL-3.0) + Commercial Features with SonarQube/SonarCloud",
+    "status": "active",
+    "github_url": "https://github.com/SonarSource/sonarlint-intellij",
+    "owner": "SonarSource",
+    "repo": "sonarlint-intellij"
+  },
+  {
+    "slug": "sonarqube",
+    "name": "SonarQube",
+    "category": "sast",
+    "license": "Commercial (with Free Community Edition)",
+    "status": "active",
+    "github_url": "https://github.com/SonarSource/sonarqube",
+    "owner": "SonarSource",
+    "repo": "sonarqube"
+  },
+  {
+    "slug": "spotbugs",
+    "name": "SpotBugs",
+    "category": "sast",
+    "license": "Free/OSS (LGPL-2.1)",
+    "status": "active",
+    "github_url": "https://github.com/spotbugs/spotbugs",
+    "owner": "spotbugs",
+    "repo": "spotbugs"
+  },
+  {
+    "slug": "syft",
+    "name": "Syft",
+    "category": "sca",
+    "license": "Free (Open-Source, Apache-2.0)",
+    "status": "active",
+    "github_url": "https://github.com/anchore/syft",
+    "owner": "anchore",
+    "repo": "syft"
+  },
+  {
+    "slug": "talsec",
+    "name": "Talsec",
+    "category": "mobile",
+    "license": "Freemium",
+    "status": "active",
+    "github_url": "https://github.com/talsec/Free-RASP-Community",
+    "owner": "talsec",
+    "repo": "Free-RASP-Community"
+  },
+  {
+    "slug": "terrascan",
+    "name": "Terrascan",
+    "category": "iac-security",
+    "license": "Free (Open-Source, Apache 2.0)",
+    "status": "active",
+    "github_url": "https://github.com/tenable/terrascan",
+    "owner": "tenable",
+    "repo": "terrascan"
+  },
+  {
+    "slug": "tfsec",
+    "name": "tfsec",
+    "category": "iac-security",
+    "license": "Free (Open-Source, MIT)",
+    "status": "deprecated",
+    "github_url": "https://github.com/aquasecurity/tfsec",
+    "owner": "aquasecurity",
+    "repo": "tfsec"
+  },
+  {
+    "slug": "trivy",
+    "name": "Trivy",
+    "category": "iac-security",
+    "license": "Free (Open-Source, Apache 2.0)",
+    "status": "active",
+    "github_url": "https://github.com/aquasecurity/trivy",
+    "owner": "aquasecurity",
+    "repo": "trivy"
+  },
+  {
+    "slug": "trufflehog",
+    "name": "TruffleHog",
+    "category": "sast",
+    "license": "Free (Open-Source, AGPL-3.0) + Commercial Plans",
+    "status": "active",
+    "github_url": "https://github.com/trufflesecurity/trufflehog",
+    "owner": "trufflesecurity",
+    "repo": "trufflehog"
+  },
+  {
+    "slug": "w3af",
+    "name": "w3af",
+    "category": "dast",
+    "license": "Free (Open-Source, GPLv2)",
+    "status": "deprecated",
+    "github_url": "https://github.com/andresriancho/w3af",
+    "owner": "andresriancho",
+    "repo": "w3af"
+  },
+  {
+    "slug": "wapiti",
+    "name": "Wapiti",
+    "category": "dast",
+    "license": "Free (Open-Source)",
+    "status": "active",
+    "github_url": "https://github.com/wapiti-scanner/wapiti",
+    "owner": "wapiti-scanner",
+    "repo": "wapiti"
+  },
+  {
+    "slug": "zap",
+    "name": "ZAP (Zed Attack Proxy)",
+    "category": "dast",
+    "license": "Free (Open-Source, Apache 2.0)",
+    "status": "active",
+    "github_url": "https://github.com/zaproxy/zaproxy",
+    "owner": "zaproxy",
+    "repo": "zaproxy"
+  }
+]

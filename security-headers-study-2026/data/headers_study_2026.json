@@ -1,0 +1,583 @@
+{
+  "metadata": {
+    "generated_at": "2026-02-15T13:19:55.099616",
+    "scoring_method": "Mozilla Observatory-compatible (base 100, modifier per test)",
+    "scoring_note": "Cookies, SRI, CORS tests assigned neutral (0) as HEAD requests cannot evaluate these. Actual Observatory scores may differ.",
+    "observatory_source": "https://github.com/mozilla/http-observatory/blob/main/httpobs/docs/scoring.md",
+    "total_scanned": 10000,
+    "total_successful": 7510,
+    "total_failed": 2490,
+    "success_rate": 75.1
+  },
+  "score_statistics": {
+    "average": 58.0,
+    "median": 55,
+    "min": 10,
+    "max": 125,
+    "std_dev": 24.2
+  },
+  "key_findings": {
+    "avg_score": 58.0,
+    "median_score": 55,
+    "csp_adoption_pct": 27.3,
+    "hsts_adoption_pct": 51.7,
+    "best_adopted_header": "strict-transport-security",
+    "best_adopted_pct": 51.7,
+    "worst_adopted_header": "cross-origin-embedder-policy",
+    "worst_adopted_pct": 7.4,
+    "grade_a_plus_pct": 9.7,
+    "grade_a_pct": 10.6,
+    "grade_f_pct": 0.3,
+    "zero_score_count": 0,
+    "zero_score_pct": 0.0,
+    "sites_with_zero_headers": 1862
+  },
+  "grade_buckets": {
+    "A": 10.6,
+    "B": 28.7,
+    "C": 30.299999999999997,
+    "D": 30.2,
+    "F": 0.3
+  },
+  "comparison_2023": {
+    "source": "Ruge et al. (2024), arXiv:2410.14924",
+    "scan_year": 2023,
+    "sample_size": 3195,
+    "avg_score": 26.2,
+    "f_grade_pct": 55.6,
+    "zero_score_pct": 32.7,
+    "note": "Used full Observatory including cookies, SRI, CORS. Max score ~135."
+  },
+  "adoption_rates": {
+    "content-security-policy": {
+      "count": 2049,
+      "percentage": 27.3
+    },
+    "strict-transport-security": {
+      "count": 3881,
+      "percentage": 51.7
+    },
+    "x-content-type-options": {
+      "count": 3332,
+      "percentage": 44.4
+    },
+    "x-frame-options": {
+      "count": 3717,
+      "percentage": 49.5
+    },
+    "permissions-policy": {
+      "count": 1055,
+      "percentage": 14.0
+    },
+    "referrer-policy": {
+      "count": 2133,
+      "percentage": 28.4
+    },
+    "x-xss-protection": {
+      "count": 2034,
+      "percentage": 27.1
+    },
+    "cross-origin-opener-policy": {
+      "count": 754,
+      "percentage": 10.0
+    },
+    "cross-origin-embedder-policy": {
+      "count": 552,
+      "percentage": 7.4
+    },
+    "cross-origin-resource-policy": {
+      "count": 648,
+      "percentage": 8.6
+    },
+    "content-security-policy-report-only": {
+      "count": 296,
+      "percentage": 3.9
+    }
+  },
+  "grade_distribution": {
+    "A+": {
+      "count": 726,
+      "percentage": 9.7
+    },
+    "A": {
+      "count": 9,
+      "percentage": 0.1
+    },
+    "A-": {
+      "count": 63,
+      "percentage": 0.8
+    },
+    "B+": {
+      "count": 600,
+      "percentage": 8.0
+    },
+    "B": {
+      "count": 1262,
+      "percentage": 16.8
+    },
+    "B-": {
+      "count": 291,
+      "percentage": 3.9
+    },
+    "C+": {
+      "count": 152,
+      "percentage": 2.0
+    },
+    "C": {
+      "count": 2018,
+      "percentage": 26.9
+    },
+    "C-": {
+      "count": 106,
+      "percentage": 1.4
+    },
+    "D+": {
+      "count": 169,
+      "percentage": 2.3
+    },
+    "D": {
+      "count": 2085,
+      "percentage": 27.8
+    },
+    "D-": {
+      "count": 10,
+      "percentage": 0.1
+    },
+    "F": {
+      "count": 19,
+      "percentage": 0.3
+    }
+  },
+  "csp_analysis": {
+    "total_with_csp": 2345,
+    "percentage": 31.2,
+    "uses_unsafe_inline": 1144,
+    "uses_unsafe_eval": 997,
+    "uses_nonce": 392,
+    "uses_strict_dynamic": 299,
+    "has_default_src": 815,
+    "has_script_src": 1026,
+    "avg_directive_count": 4.7,
+    "pct_unsafe_inline": 48.8,
+    "pct_unsafe_eval": 42.5,
+    "pct_nonce": 16.7,
+    "pct_strict_dynamic": 12.8,
+    "observatory_results": {
+      "csp-not-implemented": 5165,
+      "csp-implemented-with-no-unsafe": 1155,
+      "csp-implemented-with-unsafe-inline": 1144,
+      "csp-implemented-with-no-unsafe-default-src-none": 27,
+      "csp-implemented-with-unsafe-eval": 19
+    }
+  },
+  "hsts_analysis": {
+    "total_with_hsts": 3881,
+    "percentage": 51.7,
+    "with_preload": 1387,
+    "with_includeSubDomains": 2121,
+    "max_age_buckets": {
+      "< 1 day": 238,
+      "1 day - 1 month": 127,
+      "1-6 months": 162,
+      "6-12 months": 568,
+      ">= 1 year": 2786
+    },
+    "pct_preload": 35.7,
+    "pct_includeSubDomains": 54.7,
+    "observatory_results": {
+      "hsts-not-implemented": 3629,
+      "hsts-implemented-max-age-at-least-six-months": 1927,
+      "hsts-preloaded": 1085,
+      "hsts-implemented-max-age-less-than-six-months": 869
+    }
+  },
+  "info_leaks": {
+    "x_powered_by": {
+      "count": 968,
+      "percentage": 12.9
+    },
+    "server": {
+      "count": 6225,
+      "percentage": 82.9
+    },
+    "top_servers": {
+      "Cloudflare": 2584,
+      "Other": 1376,
+      "nginx": 1301,
+      "Apache": 455,
+      "Google": 184,
+      "AmazonS3": 141,
+      "OpenResty": 124,
+      "Microsoft-IIS": 60
+    }
+  },
+  "by_rank_tier": {
+    "Top 100": {
+      "count": 72,
+      "avg_score": 62.5,
+      "median_score": 60,
+      "adoption": {
+        "content-security-policy": 41.7,
+        "strict-transport-security": 68.1,
+        "x-content-type-options": 59.7,
+        "x-frame-options": 48.6,
+        "permissions-policy": 19.4,
+        "referrer-policy": 18.1,
+        "x-xss-protection": 52.8,
+        "cross-origin-opener-policy": 18.1,
+        "cross-origin-embedder-policy": 1.4,
+        "cross-origin-resource-policy": 19.4
+      },
+      "grades": {
+        "A+": 5,
+        "A": 1,
+        "A-": 1,
+        "B+": 11,
+        "B": 17,
+        "C+": 4,
+        "C": 15,
+        "D+": 6,
+        "D": 12
+      }
+    },
+    "101-1000": {
+      "count": 620,
+      "avg_score": 62.1,
+      "median_score": 60,
+      "adoption": {
+        "content-security-policy": 36.8,
+        "strict-transport-security": 61.0,
+        "x-content-type-options": 47.9,
+        "x-frame-options": 52.9,
+        "permissions-policy": 14.5,
+        "referrer-policy": 26.1,
+        "x-xss-protection": 32.4,
+        "cross-origin-opener-policy": 10.0,
+        "cross-origin-embedder-policy": 5.0,
+        "cross-origin-resource-policy": 7.9
+      },
+      "grades": {
+        "A+": 68,
+        "A-": 5,
+        "B+": 72,
+        "B": 130,
+        "B-": 25,
+        "C+": 22,
+        "C": 138,
+        "C-": 12,
+        "D+": 17,
+        "D": 127,
+        "D-": 1,
+        "F": 3
+      }
+    },
+    "1001-5000": {
+      "count": 2932,
+      "avg_score": 59.6,
+      "median_score": 55,
+      "adoption": {
+        "content-security-policy": 29.4,
+        "strict-transport-security": 54.5,
+        "x-content-type-options": 44.8,
+        "x-frame-options": 50.2,
+        "permissions-policy": 13.9,
+        "referrer-policy": 29.3,
+        "x-xss-protection": 28.3,
+        "cross-origin-opener-policy": 10.2,
+        "cross-origin-embedder-policy": 6.8,
+        "cross-origin-resource-policy": 8.0
+      },
+      "grades": {
+        "A+": 333,
+        "A": 6,
+        "A-": 35,
+        "B+": 248,
+        "B": 507,
+        "B-": 110,
+        "C+": 54,
+        "C": 747,
+        "C-": 43,
+        "D+": 62,
+        "D": 775,
+        "D-": 3,
+        "F": 9
+      }
+    },
+    "5001-10000": {
+      "count": 3886,
+      "avg_score": 56.1,
+      "median_score": 55,
+      "adoption": {
+        "content-security-policy": 23.9,
+        "strict-transport-security": 47.7,
+        "x-content-type-options": 43.2,
+        "x-frame-options": 48.4,
+        "permissions-policy": 13.9,
+        "referrer-policy": 28.3,
+        "x-xss-protection": 24.8,
+        "cross-origin-opener-policy": 9.8,
+        "cross-origin-embedder-policy": 8.2,
+        "cross-origin-resource-policy": 9.0
+      },
+      "grades": {
+        "A+": 320,
+        "A": 2,
+        "A-": 22,
+        "B+": 269,
+        "B": 608,
+        "B-": 156,
+        "C+": 72,
+        "C": 1118,
+        "C-": 51,
+        "D+": 84,
+        "D": 1171,
+        "D-": 6,
+        "F": 7
+      }
+    }
+  },
+  "top_20_sites": [
+    {
+      "url": "https://www.gov.uk",
+      "rank": 295,
+      "score": 125,
+      "grade": "A+"
+    },
+    {
+      "url": "https://service.gov.uk",
+      "rank": 663,
+      "score": 125,
+      "grade": "A+"
+    },
+    {
+      "url": "https://federalregister.gov",
+      "rank": 3521,
+      "score": 125,
+      "grade": "A+"
+    },
+    {
+      "url": "https://ecfr.gov",
+      "rank": 6824,
+      "score": 125,
+      "grade": "A+"
+    },
+    {
+      "url": "https://cookiedatabase.org",
+      "rank": 413,
+      "score": 120,
+      "grade": "A+"
+    },
+    {
+      "url": "https://zillow.com",
+      "rank": 755,
+      "score": 120,
+      "grade": "A+"
+    },
+    {
+      "url": "https://whitehouse.gov",
+      "rank": 916,
+      "score": 120,
+      "grade": "A+"
+    },
+    {
+      "url": "https://poki.com",
+      "rank": 927,
+      "score": 120,
+      "grade": "A+"
+    },
+    {
+      "url": "https://plex.tv",
+      "rank": 1051,
+      "score": 120,
+      "grade": "A+"
+    },
+    {
+      "url": "https://aftonbladet.se",
+      "rank": 1114,
+      "score": 120,
+      "grade": "A+"
+    },
+    {
+      "url": "https://argos.co.uk",
+      "rank": 1205,
+      "score": 120,
+      "grade": "A+"
+    },
+    {
+      "url": "https://turbo.az",
+      "rank": 1662,
+      "score": 120,
+      "grade": "A+"
+    },
+    {
+      "url": "https://sexhqxxx.com",
+      "rank": 2009,
+      "score": 120,
+      "grade": "A+"
+    },
+    {
+      "url": "https://web.de",
+      "rank": 2014,
+      "score": 120,
+      "grade": "A+"
+    },
+    {
+      "url": "https://bbb.org",
+      "rank": 2098,
+      "score": 120,
+      "grade": "A+"
+    },
+    {
+      "url": "https://ahrefs.com",
+      "rank": 2192,
+      "score": 120,
+      "grade": "A+"
+    },
+    {
+      "url": "https://sec.gov",
+      "rank": 2223,
+      "score": 120,
+      "grade": "A+"
+    },
+    {
+      "url": "https://gmx.net",
+      "rank": 2596,
+      "score": 120,
+      "grade": "A+"
+    },
+    {
+      "url": "https://traveloka.com",
+      "rank": 2764,
+      "score": 120,
+      "grade": "A+"
+    },
+    {
+      "url": "https://tamu.edu",
+      "rank": 2866,
+      "score": 120,
+      "grade": "A+"
+    }
+  ],
+  "bottom_20_sites": [
+    {
+      "url": "https://business2community.com",
+      "rank": 9626,
+      "score": 25,
+      "grade": "D-"
+    },
+    {
+      "url": "https://google.cn",
+      "rank": 738,
+      "score": 20,
+      "grade": "F"
+    },
+    {
+      "url": "https://kitco.com",
+      "rank": 5880,
+      "score": 15,
+      "grade": "F"
+    },
+    {
+      "url": "https://163.com",
+      "rank": 429,
+      "score": 10,
+      "grade": "F"
+    },
+    {
+      "url": "https://magazineluiza.com.br",
+      "rank": 998,
+      "score": 10,
+      "grade": "F"
+    },
+    {
+      "url": "https://abovedomains.com",
+      "rank": 1033,
+      "score": 10,
+      "grade": "F"
+    },
+    {
+      "url": "https://dmm.co.jp",
+      "rank": 1170,
+      "score": 10,
+      "grade": "F"
+    },
+    {
+      "url": "https://nosv.org",
+      "rank": 1467,
+      "score": 10,
+      "grade": "F"
+    },
+    {
+      "url": "https://site777.jp",
+      "rank": 1638,
+      "score": 10,
+      "grade": "F"
+    },
+    {
+      "url": "https://0123tt.ru",
+      "rank": 1832,
+      "score": 10,
+      "grade": "F"
+    },
+    {
+      "url": "https://distmed.com",
+      "rank": 2566,
+      "score": 10,
+      "grade": "F"
+    },
+    {
+      "url": "https://histats.com",
+      "rank": 3069,
+      "score": 10,
+      "grade": "F"
+    },
+    {
+      "url": "https://faa.gov",
+      "rank": 4108,
+      "score": 10,
+      "grade": "F"
+    },
+    {
+      "url": "https://hardened-php.net",
+      "rank": 4736,
+      "score": 10,
+      "grade": "F"
+    },
+    {
+      "url": "https://saawsedge.com",
+      "rank": 5456,
+      "score": 10,
+      "grade": "F"
+    },
+    {
+      "url": "https://sanook.com",
+      "rank": 6203,
+      "score": 10,
+      "grade": "F"
+    },
+    {
+      "url": "https://yamaha.com",
+      "rank": 6473,
+      "score": 10,
+      "grade": "F"
+    },
+    {
+      "url": "https://bysex.click",
+      "rank": 9302,
+      "score": 10,
+      "grade": "F"
+    },
+    {
+      "url": "https://thisiscm.com",
+      "rank": 9851,
+      "score": 10,
+      "grade": "F"
+    },
+    {
+      "url": "https://ladyxena.com",
+      "rank": 9878,
+      "score": 10,
+      "grade": "F"
+    }
+  ]
+}

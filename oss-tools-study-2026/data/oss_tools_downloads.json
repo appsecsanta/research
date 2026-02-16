@@ -1,0 +1,412 @@
+{
+  "metadata": {
+    "collected_at": "2026-02-15T07:10:46.622Z",
+    "tool_count": 67,
+    "tools_with_downloads": 31
+  },
+  "tools": [
+    {
+      "slug": "anchore",
+      "name": "Anchore",
+      "downloads": null
+    },
+    {
+      "slug": "arachni",
+      "name": "Arachni",
+      "downloads": null
+    },
+    {
+      "slug": "bandit",
+      "name": "Bandit",
+      "downloads": null
+    },
+    {
+      "slug": "bearer",
+      "name": "Bearer",
+      "downloads": {
+        "docker_pulls": 237376
+      }
+    },
+    {
+      "slug": "brakeman",
+      "name": "Brakeman",
+      "downloads": null
+    },
+    {
+      "slug": "checkov",
+      "name": "Checkov",
+      "downloads": {
+        "pypi_monthly": 26482549,
+        "docker_pulls": 20360209
+      }
+    },
+    {
+      "slug": "codacy",
+      "name": "Codacy",
+      "downloads": null
+    },
+    {
+      "slug": "conftest",
+      "name": "Conftest",
+      "downloads": {
+        "docker_pulls": 19286789
+      }
+    },
+    {
+      "slug": "dastardly",
+      "name": "Dastardly",
+      "downloads": null
+    },
+    {
+      "slug": "deepteam",
+      "name": "DeepTeam",
+      "downloads": null
+    },
+    {
+      "slug": "defectdojo",
+      "name": "DefectDojo",
+      "downloads": {
+        "docker_pulls": 47845075
+      }
+    },
+    {
+      "slug": "dependency-track",
+      "name": "OWASP Dependency-Track",
+      "downloads": {
+        "docker_pulls": 25614939
+      }
+    },
+    {
+      "slug": "detect-secrets",
+      "name": "detect-secrets",
+      "downloads": null
+    },
+    {
+      "slug": "falco",
+      "name": "Falco",
+      "downloads": {
+        "docker_pulls": 58524543
+      }
+    },
+    {
+      "slug": "faraday",
+      "name": "Faraday",
+      "downloads": {
+        "pypi_monthly": 2085
+      }
+    },
+    {
+      "slug": "fossa",
+      "name": "FOSSA",
+      "downloads": null
+    },
+    {
+      "slug": "frida",
+      "name": "Frida",
+      "downloads": {
+        "npm_monthly": 15523,
+        "pypi_monthly": 1636367
+      }
+    },
+    {
+      "slug": "garak",
+      "name": "Garak",
+      "downloads": null
+    },
+    {
+      "slug": "ghidra",
+      "name": "Ghidra",
+      "downloads": null
+    },
+    {
+      "slug": "gitleaks",
+      "name": "Gitleaks",
+      "downloads": {
+        "docker_pulls": 23100384
+      }
+    },
+    {
+      "slug": "gosec",
+      "name": "gosec",
+      "downloads": {
+        "docker_pulls": 6935517
+      }
+    },
+    {
+      "slug": "graudit",
+      "name": "Graudit",
+      "downloads": null
+    },
+    {
+      "slug": "grype",
+      "name": "Anchore Grype",
+      "downloads": {
+        "docker_pulls": 6971391
+      }
+    },
+    {
+      "slug": "horusec",
+      "name": "Horusec",
+      "downloads": null
+    },
+    {
+      "slug": "invicti-aspm",
+      "name": "Invicti ASPM",
+      "downloads": null
+    },
+    {
+      "slug": "jadx",
+      "name": "Jadx",
+      "downloads": null
+    },
+    {
+      "slug": "kics",
+      "name": "KICS",
+      "downloads": {
+        "docker_pulls": 8762712
+      }
+    },
+    {
+      "slug": "kube-bench",
+      "name": "kube-bench",
+      "downloads": {
+        "docker_pulls": 136877126
+      }
+    },
+    {
+      "slug": "kubearmor",
+      "name": "KubeArmor",
+      "downloads": {
+        "docker_pulls": 1371598
+      }
+    },
+    {
+      "slug": "kubescape",
+      "name": "Kubescape",
+      "downloads": null
+    },
+    {
+      "slug": "kyverno",
+      "name": "Kyverno",
+      "downloads": null
+    },
+    {
+      "slug": "llm-guard",
+      "name": "LLM Guard",
+      "downloads": {
+        "pypi_monthly": 217081
+      }
+    },
+    {
+      "slug": "mitmproxy",
+      "name": "mitmproxy",
+      "downloads": null
+    },
+    {
+      "slug": "mobsf",
+      "name": "MobSF",
+      "downloads": {
+        "pypi_monthly": 1526,
+        "docker_pulls": 4440906
+      }
+    },
+    {
+      "slug": "modsecurity",
+      "name": "ModSecurity",
+      "downloads": {
+        "docker_pulls": 4083384
+      }
+    },
+    {
+      "slug": "mondoo",
+      "name": "Mondoo",
+      "downloads": null
+    },
+    {
+      "slug": "nemo-guardrails",
+      "name": "NVIDIA NeMo Guardrails",
+      "downloads": {
+        "pypi_monthly": 222377
+      }
+    },
+    {
+      "slug": "nikto",
+      "name": "Nikto",
+      "downloads": null
+    },
+    {
+      "slug": "nodejsscan",
+      "name": "NodeJSScan",
+      "downloads": null
+    },
+    {
+      "slug": "nuclei",
+      "name": "Nuclei",
+      "downloads": {
+        "docker_pulls": 794047
+      }
+    },
+    {
+      "slug": "objection",
+      "name": "Objection",
+      "downloads": null
+    },
+    {
+      "slug": "opa-gatekeeper",
+      "name": "OPA Gatekeeper",
+      "downloads": {
+        "docker_pulls": 3178874592
+      }
+    },
+    {
+      "slug": "openrasp",
+      "name": "OpenRASP",
+      "downloads": null
+    },
+    {
+      "slug": "ostorlab",
+      "name": "Ostorlab",
+      "downloads": null
+    },
+    {
+      "slug": "osv-scanner",
+      "name": "OSV-Scanner",
+      "downloads": null
+    },
+    {
+      "slug": "owasp-dependency-check",
+      "name": "OWASP Dependency-Check",
+      "downloads": {
+        "docker_pulls": 18799979
+      }
+    },
+    {
+      "slug": "phylum",
+      "name": "Phylum",
+      "downloads": null
+    },
+    {
+      "slug": "pmd",
+      "name": "PMD",
+      "downloads": null
+    },
+    {
+      "slug": "promptfoo",
+      "name": "Promptfoo",
+      "downloads": {
+        "npm_monthly": 408858
+      }
+    },
+    {
+      "slug": "pyrit",
+      "name": "PyRIT",
+      "downloads": null
+    },
+    {
+      "slug": "rebuff",
+      "name": "Rebuff",
+      "downloads": null
+    },
+    {
+      "slug": "renovate",
+      "name": "Renovate",
+      "downloads": {
+        "npm_monthly": 1139147,
+        "docker_pulls": 1428862670
+      }
+    },
+    {
+      "slug": "scanoss",
+      "name": "SCANOSS",
+      "downloads": null
+    },
+    {
+      "slug": "semgrep",
+      "name": "Semgrep",
+      "downloads": {
+        "pypi_monthly": 39327930,
+        "docker_pulls": 22410684
+      }
+    },
+    {
+      "slug": "snyk-open-source",
+      "name": "Snyk Open Source",
+      "downloads": null
+    },
+    {
+      "slug": "sonarlint",
+      "name": "SonarLint",
+      "downloads": null
+    },
+    {
+      "slug": "sonarqube",
+      "name": "SonarQube",
+      "downloads": null
+    },
+    {
+      "slug": "spotbugs",
+      "name": "SpotBugs",
+      "downloads": null
+    },
+    {
+      "slug": "syft",
+      "name": "Syft",
+      "downloads": {
+        "docker_pulls": 9136074
+      }
+    },
+    {
+      "slug": "talsec",
+      "name": "Talsec",
+      "downloads": null
+    },
+    {
+      "slug": "terrascan",
+      "name": "Terrascan",
+      "downloads": {
+        "docker_pulls": 1058429
+      }
+    },
+    {
+      "slug": "tfsec",
+      "name": "tfsec",
+      "downloads": {
+        "docker_pulls": 3904340
+      }
+    },
+    {
+      "slug": "trivy",
+      "name": "Trivy",
+      "downloads": {
+        "docker_pulls": 105873433
+      }
+    },
+    {
+      "slug": "trufflehog",
+      "name": "TruffleHog",
+      "downloads": {
+        "pypi_monthly": null,
+        "docker_pulls": 8218644
+      }
+    },
+    {
+      "slug": "w3af",
+      "name": "w3af",
+      "downloads": null
+    },
+    {
+      "slug": "wapiti",
+      "name": "Wapiti",
+      "downloads": {
+        "pypi_monthly": 15866
+      }
+    },
+    {
+      "slug": "zap",
+      "name": "ZAP (Zed Attack Proxy)",
+      "downloads": {
+        "docker_pulls": 914694
+      }
+    }
+  ]
+}
