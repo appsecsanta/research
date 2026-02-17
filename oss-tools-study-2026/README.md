@@ -1,14 +1,16 @@
 # State of Open-Source AppSec Tools 2026
 
-**Published article:** [appsecsanta.com/research/state-of-open-source-appsec-tools-2026](https://appsecsanta.com/research/state-of-open-source-appsec-tools-2026)
+> Health scores, GitHub metrics, and download statistics for **65 open-source AppSec tools**.
 
-## Overview
+[Published Article](https://appsecsanta.com/research/state-of-open-source-appsec-tools-2026) · [Back to Catalog](../)
 
-This study analyzes 65 open-source application security tools across GitHub activity, release cadence, community size, and package manager adoption. Each tool receives a composite health score (0-100) based on five weighted dimensions.
+---
 
-## Health Score Methodology
+## What It Measures
 
-| Dimension | Weight | What it measures |
+Each tool receives a composite health score (0–100) based on five weighted dimensions:
+
+| Dimension | Weight | What It Measures |
 |-----------|--------|------------------|
 | Recency | 25 pts | Days since last push to default branch |
 | Activity | 25 pts | Commits in the last month |
@@ -19,11 +21,11 @@ This study analyzes 65 open-source application security tools across GitHub acti
 ## Data Pipeline
 
 ```
-oss_tools_repos.json ─→ collect-github-data.js ─→ oss_tools_github_raw.json
+oss_tools_repos.json ─► collect-github-data.js ─► oss_tools_github_raw.json
                                                           │
-                        collect-downloads.js ──→ oss_tools_downloads.json
+                        collect-downloads.js ──► oss_tools_downloads.json
                                                           │
-                        aggregate-oss-study.py ─→ oss_study_2026.json
+                        aggregate-oss-study.py ─► oss_study_2026.json
 ```
 
 ## Data Files
@@ -61,7 +63,7 @@ python3 scripts/aggregate-oss-study.py
 
 The tool list (`data/oss_tools_repos.json`) is the starting input and already included.
 
-Output: `data/oss_study_2026.json`
+**Output:** `data/oss_study_2026.json`
 
 ## Known Limitations
 
@@ -70,3 +72,7 @@ Output: `data/oss_study_2026.json`
 - PyPI/npm downloads include CI bot traffic, not just human installs.
 - Stars can be artificially inflated.
 - This is a snapshot from February 2026 and will change over time.
+
+## License
+
+MIT
