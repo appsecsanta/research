@@ -9,6 +9,7 @@
 <p align="center">
   <a href="https://appsecsanta.com">Website</a> &middot;
   <a href="https://appsecsanta.com/research">All Research</a> &middot;
+  <a href="https://github.com/appsecsanta/security-tools">Security Tools</a> &middot;
   <a href="#license">License</a>
 </p>
 
@@ -42,6 +43,10 @@ Each directory has its own README with methodology details, data dictionaries, a
 │
 └── LICENSE
 ```
+
+## Related
+
+Looking for the security scanning tools used in our research? Check out [**appsecsanta/security-tools**](https://github.com/appsecsanta/security-tools) — 4 open-source security scanners (HTTP headers, DNS, SSL/TLS, subdomains) you can self-host on Cloudflare Workers.
 
 ## General Requirements
 
