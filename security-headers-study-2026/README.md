@@ -1,17 +1,17 @@
 # Security Headers Adoption Study 2026
 
-**Published article:** [appsecsanta.com/research/security-headers-study-2026](https://appsecsanta.com/research/security-headers-study-2026)
+> Security header adoption rates across **10,000 websites**, scored with the Mozilla Observatory methodology.
 
-## Overview
+[Published Article](https://appsecsanta.com/research/security-headers-study-2026) · [Back to Catalog](../)
 
-This study scans 10,000 top websites for security response headers and scores each site using the [Mozilla Observatory](https://github.com/mozilla/http-observatory) methodology. It measures adoption rates for CSP, HSTS, X-Frame-Options, and seven other security headers, with breakdowns by rank tier, grade distribution, and year-over-year comparison.
+---
 
 ## Scoring Methodology
 
 Base score of 100 with modifiers per test:
 
-| Test | Range | What it checks |
-|------|-------|----------------|
+| Test | Score Range | What It Checks |
+|------|-------------|----------------|
 | Content-Security-Policy | -25 to +10 | CSP presence, unsafe-inline/eval usage |
 | Strict-Transport-Security | -20 to +5 | HSTS max-age, preload directive |
 | X-Frame-Options | -20 to +5 | Clickjacking protection (or CSP frame-ancestors) |
@@ -27,9 +27,9 @@ Bonuses only apply when the base score (before bonuses) is 90 or above. Grades f
 ## Data Pipeline
 
 ```
-scan_targets.json ─→ scan-headers.js ─→ (headers_scan_raw.json)
+scan_targets.json ─► scan-headers.js ─► headers_scan_raw.json
                                                │
-                     aggregate-headers-study.py ─→ headers_study_2026.json
+                     aggregate-headers-study.py ─► headers_study_2026.json
 ```
 
 ## Data Files
@@ -60,7 +60,7 @@ python3 scripts/aggregate-headers-study.py
 
 Scan targets (`data/scan_targets.json`) are already included. The full scan takes several hours due to rate limiting.
 
-Output: `data/headers_study_2026.json`
+**Output:** `data/headers_study_2026.json`
 
 ## Known Limitations
 
@@ -69,3 +69,7 @@ Output: `data/headers_study_2026.json`
 - Scan targets are based on publicly available top-sites rankings and may not perfectly reflect current traffic.
 - Some sites block automated requests or return different headers based on User-Agent.
 - This is a point-in-time snapshot from February 2026.
+
+## License
+
+MIT
