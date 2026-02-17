@@ -1,59 +1,115 @@
 <p align="center">
   <a href="https://appsecsanta.com">
-    <img src="https://appsecsanta.com/images/appsecsanta-logo.png" alt="AppSec Santa" width="200">
+    <img src="https://appsecsanta.com/images/appsecsanta-logo.png" width="200" alt="AppSec Santa" />
   </a>
 </p>
 
 <h1 align="center">AppSec Santa Research</h1>
 
 <p align="center">
-  <a href="https://appsecsanta.com">Website</a> &middot;
-  <a href="https://appsecsanta.com/research">All Research</a> &middot;
-  <a href="https://github.com/appsecsanta/security-tools">Security Tools</a> &middot;
+  Open datasets, collection scripts, and methodology behind our published research.
+</p>
+
+<p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue?style=for-the-badge" alt="MIT License" /></a>
+  <a href="https://github.com/appsecsanta/research/stargazers"><img src="https://img.shields.io/github/stars/appsecsanta/research?style=for-the-badge&logo=github" alt="GitHub Stars" /></a>
+  <a href="https://appsecsanta.com/research"><img src="https://img.shields.io/badge/Published_at-AppSec_Santa-c41926?style=for-the-badge" alt="AppSec Santa" /></a>
+</p>
+
+<p align="center">
+  <a href="https://appsecsanta.com">Website</a> ·
+  <a href="https://appsecsanta.com/research">All Research</a> ·
+  <a href="https://github.com/appsecsanta/security-tools">Security Tools</a> ·
   <a href="#license">License</a>
 </p>
 
 ---
 
-[AppSec Santa](https://appsecsanta.com) is an independent review and comparison platform covering 129+ application security tools across 10 categories including SAST, SCA, DAST, IaC Security, and more.
+## About
 
-This repository contains the raw datasets, collection scripts, and aggregation code behind our published research. Everything needed to verify, reproduce, or build upon our findings is here.
+[AppSec Santa](https://appsecsanta.com) is an independent review and comparison platform covering **129+ application security tools** across 10 categories including SAST, SCA, DAST, IaC Security, and more.
+
+This repository contains everything needed to **verify, reproduce, or build upon** our published research — raw datasets, collection scripts, and aggregation code.
+
+---
 
 ## Studies
 
-| Study | Description | Sample | Directory |
-|-------|-------------|--------|-----------|
-| [State of Open-Source AppSec Tools 2026](https://appsecsanta.com/research/state-of-open-source-appsec-tools-2026) | Health scores, GitHub metrics, and download statistics for open-source AppSec tools | 65 tools | [`oss-tools-study-2026/`](oss-tools-study-2026/) |
-| [Security Headers Adoption 2026](https://appsecsanta.com/research/security-headers-study-2026) | Security header adoption rates scored with the Mozilla Observatory methodology | 10,000 websites | [`security-headers-study-2026/`](security-headers-study-2026/) |
+<br />
 
-Each directory has its own README with methodology details, data dictionaries, and step-by-step reproduction instructions.
+### State of Open-Source AppSec Tools 2026
 
-## Repository Structure
+> **65 tools** · 5 health dimensions · GitHub + npm + PyPI + Docker Hub data
 
 ```
-├── oss-tools-study-2026/
-│   ├── README.md
-│   ├── scripts/        # Data collection & aggregation
-│   └── data/           # Raw + processed datasets
-│
-├── security-headers-study-2026/
-│   ├── README.md
-│   ├── scripts/        # Header scanner & aggregation
-│   └── data/           # Raw + processed datasets
-│
-└── LICENSE
+Recency · Activity · Releases · Community · Responsiveness
 ```
 
-## Related
+[Documentation](./oss-tools-study-2026) · [Published Article](https://appsecsanta.com/research/state-of-open-source-appsec-tools-2026)
 
-Looking for the security scanning tools used in our research? Check out [**appsecsanta/security-tools**](https://github.com/appsecsanta/security-tools) — 4 open-source security scanners (HTTP headers, DNS, SSL/TLS, subdomains) you can self-host on Cloudflare Workers.
+<br />
 
-## General Requirements
+### Security Headers Adoption 2026
+
+> **10,000 websites** · Mozilla Observatory scoring · A+ to F grading
+
+```
+CSP · HSTS · X-Frame-Options · Referrer-Policy · X-Content-Type-Options · Redirection · X-XSS-Protection
+```
+
+[Documentation](./security-headers-study-2026) · [Published Article](https://appsecsanta.com/research/security-headers-study-2026)
+
+<br />
+
+---
+
+## How It Works
+
+Each study follows a three-stage pipeline — collect raw data from public APIs, aggregate into scored datasets, and publish findings with full reproducibility.
+
+```
+                         ┌─────────────────────────────────────────────┐
+                         │           Data Collection                   │
+                         │                                             │
+  Source APIs ──────────►│  GitHub API · npm · PyPI · Docker Hub       │
+  (or target sites)      │  HTTP HEAD requests · DNS queries           │
+                         │                                             │
+                         └──────────────────┬──────────────────────────┘
+                                            │
+                                            ▼
+                         ┌─────────────────────────────────────────────┐
+                         │           Aggregation & Scoring             │
+                         │                                             │
+                         │  Merge datasets · Compute health scores     │
+                         │  Generate distributions · Rank-tier splits  │
+                         │                                             │
+                         └──────────────────┬──────────────────────────┘
+                                            │
+                                            ▼
+                         ┌─────────────────────────────────────────────┐
+                         │           Output                            │
+                         │                                             │
+                         │  Final JSON dataset · Published article     │
+                         │                                             │
+                         └─────────────────────────────────────────────┘
+```
+
+---
+
+## Requirements
 
 - Python 3.10+
 - Node.js 18+
 
 Study-specific dependencies are listed in each study's README.
+
+---
+
+## Related
+
+Looking for the security scanning tools used in our research? Check out [**appsecsanta/security-tools**](https://github.com/appsecsanta/security-tools) — 4 open-source security scanners (HTTP headers, DNS, SSL/TLS, subdomains) you can self-host on Cloudflare Workers.
+
+---
 
 ## Contributing
 
@@ -61,4 +117,10 @@ Found an issue with our data or methodology? [Open an issue](https://github.com/
 
 ## License
 
-[MIT](LICENSE)
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+<p align="center">
+  Built by <a href="https://appsecsanta.com">AppSec Santa</a> — curated application security tools comparison.
+</p>
