@@ -3,7 +3,7 @@
 SAST Scanning Orchestration Script
 AI-Generated Code Security Study 2026
 
-Runs 6 open-source SAST tools against AI-generated code and normalizes
+Runs 5 open-source SAST tools against AI-generated code and normalizes
 the results into a common JSON format for downstream analysis.
 
 Tools:
@@ -11,8 +11,7 @@ Tools:
     2. OpenGrep      - Multi-language pattern matching (semgrep CLI)
     3. ESLint        - JavaScript linting with security plugin
     4. njsscan       - Node.js security scanner
-    5. Bearer        - Multi-language security scanner
-    6. CodeQL        - GitHub's semantic code analysis
+    5. CodeQL        - GitHub's semantic code analysis
 
 Usage:
     python3 scan.py                    # Run all tools on all models
@@ -50,7 +49,6 @@ TOOL_PATHS = {
     "semgrep": os.environ.get("SEMGREP_PATH", shutil.which("semgrep") or "semgrep"),
     "eslint": os.environ.get("ESLINT_PATH", shutil.which("eslint") or "eslint"),
     "njsscan": os.environ.get("NJSSCAN_PATH", shutil.which("njsscan") or "njsscan"),
-    "bearer": os.environ.get("BEARER_PATH", shutil.which("bearer") or "bearer"),
     "codeql": os.environ.get("CODEQL_PATH", shutil.which("codeql") or "codeql"),
 }
 
@@ -61,16 +59,8 @@ TIMEOUT_CODEQL = 300
 # Severity mapping helpers
 ESLINT_SEVERITY_MAP = {1: "LOW", 2: "MEDIUM"}
 SARIF_LEVEL_MAP = {"error": "HIGH", "warning": "MEDIUM", "note": "LOW", "none": "LOW"}
-BEARER_SEVERITY_MAP = {
-    "critical": "CRITICAL",
-    "high": "HIGH",
-    "medium": "MEDIUM",
-    "low": "LOW",
-    "warning": "LOW",
-}
-
 # All supported tools in execution order
-ALL_TOOLS = ["bandit", "opengrep", "eslint", "njsscan", "bearer", "codeql"]
+ALL_TOOLS = ["bandit", "opengrep", "eslint", "njsscan", "codeql"]
 
 # File extensions to language mapping
 EXT_TO_LANG = {
@@ -586,110 +576,6 @@ def run_njsscan(model_id, model_output_dir, logger):
     return findings
 
 
-def run_bearer(model_id, model_output_dir, logger):
-    """Run Bearer CLI and return normalized findings."""
-    binary = TOOL_PATHS["bearer"]
-
-    cmd = [
-        binary, "scan",
-        str(model_output_dir),
-        "--format", "json",
-        "--quiet",
-    ]
-
-    logger.debug(f"[{model_id}] [bearer] cmd: {' '.join(cmd)}")
-
-    try:
-        result = subprocess.run(
-            cmd,
-            capture_output=True,
-            text=True,
-            timeout=TIMEOUT_DEFAULT,
-        )
-    except subprocess.TimeoutExpired:
-        logger.error(f"[{model_id}] [bearer] timed out after {TIMEOUT_DEFAULT}s")
-        return []
-    except FileNotFoundError:
-        logger.error(f"[{model_id}] [bearer] binary not found: {binary}")
-        return []
-
-    stdout = result.stdout
-    if not stdout.strip():
-        return []
-
-    try:
-        data = json.loads(stdout)
-    except json.JSONDecodeError as e:
-        logger.error(f"[{model_id}] [bearer] failed to parse JSON: {e}")
-        return []
-
-    findings = []
-
-    # Bearer output formats:
-    # 1. Severity-grouped dict: {"high": [...], "medium": [...], "low": [...]}
-    # 2. Wrapper dict: {"findings": [...], "warnings": [...]}
-    # 3. Flat list: [...]
-    if isinstance(data, dict):
-        # Handle Bearer v1.x wrapper format: {"findings": [...], "warnings": [...]}
-        if "findings" in data or "warnings" in data:
-            flat_items = data.get("findings", []) + data.get("warnings", [])
-            data = flat_items  # fall through to list handling below
-
-    if isinstance(data, dict):
-        for severity_key, severity_findings in data.items():
-            if not isinstance(severity_findings, list):
-                continue
-
-            mapped_sev = BEARER_SEVERITY_MAP.get(severity_key.lower(), "MEDIUM")
-
-            for finding in severity_findings:
-                filepath = finding.get("full_filename", finding.get("filename", ""))
-                cwe_ids = finding.get("cwe_ids", [])
-                cwe = ""
-                if cwe_ids:
-                    # CWE IDs in bearer are bare numbers as strings
-                    first_cwe = cwe_ids[0]
-                    cwe = f"CWE-{first_cwe}" if not str(first_cwe).startswith("CWE") else str(first_cwe)
-
-                findings.append({
-                    "file": make_relative(filepath, model_output_dir),
-                    "line": finding.get("line_number", 0),
-                    "rule_id": finding.get("id", finding.get("rule_id", "")),
-                    "severity": mapped_sev,
-                    "confidence": "HIGH",
-                    "cwe": cwe,
-                    "owasp": extract_owasp_from_path(filepath, model_output_dir),
-                    "message": finding.get("title", finding.get("description", "")),
-                    "language": extract_language_from_path(filepath, model_output_dir),
-                })
-    elif isinstance(data, list):
-        # Alternate format: flat array of findings
-        for finding in data:
-            filepath = finding.get("full_filename", finding.get("filename", ""))
-            raw_sev = finding.get("severity", "medium").lower()
-            mapped_sev = BEARER_SEVERITY_MAP.get(raw_sev, "MEDIUM")
-
-            cwe_ids = finding.get("cwe_ids", [])
-            cwe = ""
-            if cwe_ids:
-                first_cwe = cwe_ids[0]
-                cwe = f"CWE-{first_cwe}" if not str(first_cwe).startswith("CWE") else str(first_cwe)
-
-            findings.append({
-                "file": make_relative(filepath, model_output_dir),
-                "line": finding.get("line_number", 0),
-                "rule_id": finding.get("id", finding.get("rule_id", "")),
-                "severity": mapped_sev,
-                "confidence": "HIGH",
-                "cwe": cwe,
-                "owasp": extract_owasp_from_path(filepath, model_output_dir),
-                "message": finding.get("title", finding.get("description", "")),
-                "language": extract_language_from_path(filepath, model_output_dir),
-            })
-
-    return findings
-
-
 def run_codeql(model_id, model_output_dir, logger):
     """
     Run CodeQL analysis and return normalized findings.
@@ -876,7 +762,6 @@ TOOL_RUNNERS = {
     "opengrep": run_opengrep,
     "eslint": run_eslint,
     "njsscan": run_njsscan,
-    "bearer": run_bearer,
     "codeql": run_codeql,
 }
 
@@ -886,7 +771,6 @@ TOOL_BINARY_CHECK = {
     "opengrep": "semgrep",
     "eslint": "eslint",
     "njsscan": "njsscan",
-    "bearer": "bearer",
     "codeql": "codeql",
 }
 
@@ -896,7 +780,6 @@ TOOL_OUTPUT_NAMES = {
     "opengrep": "opengrep.json",
     "eslint": "eslint.json",
     "njsscan": "njsscan.json",
-    "bearer": "bearer.json",
     "codeql": "codeql.json",
 }
 
