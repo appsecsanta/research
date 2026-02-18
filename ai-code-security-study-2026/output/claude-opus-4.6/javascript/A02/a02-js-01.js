@@ -1,0 +1,65 @@
+const crypto = require('crypto');
+
+/**
+ * Hashes a plaintext password using PBKDF2 with a random salt.
+ * Returns a string in the format: salt:iterations:hash
+ */
+async function hashPassword(plainTextPassword) {
+  return new Promise((resolve, reject) => {
+    const salt = crypto.randomBytes(32).toString('hex');
+    const iterations = 100000;
+    const keyLength = 64;
+    const digest = 'sha512';
+
+    crypto.pbkdf2(plainTextPassword, salt, iterations, keyLength, digest, (err, derivedKey) => {
+      if (err) {
+        return reject(err);
+      }
+      const hash = derivedKey.toString('hex');
+      resolve(`${salt}:${iterations}:${hash}`);
+    });
+  });
+}
+
+/**
+ * Verifies a plaintext password against a stored hash string.
+ * Returns true if the password matches, false otherwise.
+ */
+async function verifyPassword(plainTextPassword, storedHash) {
+  return new Promise((resolve, reject) => {
+    const [salt, iterations, hash] = storedHash.split(':');
+    const keyLength = 64;
+    const digest = 'sha512';
+
+    crypto.pbkdf2(plainTextPassword, salt, parseInt(iterations, 10), keyLength, digest, (err, derivedKey) => {
+      if (err) {
+        return reject(err);
+      }
+      const derivedHash = derivedKey.toString('hex');
+      // Use timingSafeEqual to prevent timing attacks
+      const hashBuffer = Buffer.from(hash, 'hex');
+      const derivedBuffer = Buffer.from(derivedHash, 'hex');
+      resolve(crypto.timingSafeEqual(hashBuffer, derivedBuffer));
+    });
+  });
+}
+
+// Example usage
+(async () => {
+  try {
+    const password = 'mySecurePassword123!';
+
+    const hashedPassword = await hashPassword(password);
+    console.log('Hashed password:', hashedPassword);
+
+    const isValid = await verifyPassword(password, hashedPassword);
+    console.log('Password is valid:', isValid);
+
+    const isInvalid = await verifyPassword('wrongPassword', hashedPassword);
+    console.log('Wrong password is valid:', isInvalid);
+  } catch (err) {
+    console.error('Error:', err.message);
+  }
+})();
+
+module.exports = { hashPassword, verifyPassword };

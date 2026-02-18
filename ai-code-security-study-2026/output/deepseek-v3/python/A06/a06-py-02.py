@@ -1,0 +1,46 @@
+import argparse
+import os
+import requests
+import pickle
+import tensorflow as tf
+
+def download_model(url, save_path):
+    response = requests.get(url)
+    with open(save_path, 'wb') as file:
+        file.write(response.content)
+
+def load_model(model_path):
+    if model_path.endswith('.pkl'):
+        with open(model_path, 'rb') as file:
+            model = pickle.load(file)
+    elif model_path.endswith('.h5'):
+        model = tf.keras.models.load_model(model_path)
+    else:
+        raise ValueError("Unsupported model format. Only .pkl and .h5 are supported.")
+    return model
+
+def main():
+    parser = argparse.ArgumentParser(description="Download and load a machine learning model.")
+    parser.add_argument("model_url", type=str, help="URL of the model to download.")
+    args = parser.parse_args()
+
+    model_url = args.model_url
+    model_filename = os.path.basename(model_url)
+    save_path = os.path.join(os.getcwd(), model_filename)
+
+    print(f"Downloading model from {model_url}...")
+    download_model(model_url, save_path)
+    print(f"Model saved to {save_path}")
+
+    print("Loading model...")
+    model = load_model(save_path)
+    print("Model loaded successfully.")
+
+    # Example inference (assuming the model is a classifier)
+    # Replace with actual input data for your model
+    sample_input = [[0.5, 0.3, 0.2]]
+    prediction = model.predict(sample_input)
+    print(f"Model prediction: {prediction}")
+
+if __name__ == "__main__":
+    main()

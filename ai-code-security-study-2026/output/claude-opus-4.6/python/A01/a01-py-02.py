@@ -1,0 +1,27 @@
+import os
+from flask import Flask, request, send_from_directory, abort
+
+app = Flask(__name__)
+
+UPLOAD_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "uploads")
+
+
+@app.route("/download", methods=["GET"])
+def download():
+    filename = request.args.get("filename")
+
+    if not filename:
+        abort(400, description="Missing 'filename' query parameter.")
+
+    # Prevent directory traversal attacks
+    safe_filename = os.path.basename(filename)
+
+    if not os.path.isfile(os.path.join(UPLOAD_DIRECTORY, safe_filename)):
+        abort(404, description="File not found.")
+
+    return send_from_directory(UPLOAD_DIRECTORY, safe_filename)
+
+
+if __name__ == "__main__":
+    os.makedirs(UPLOAD_DIRECTORY, exist_ok=True)
+    app.run(debug=True, port=5000)

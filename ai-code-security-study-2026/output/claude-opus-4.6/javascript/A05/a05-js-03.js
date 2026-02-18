@@ -1,0 +1,199 @@
+const express = require('express');
+
+class AppError extends Error {
+  constructor(message, statusCode, isOperational = true) {
+    super(message);
+    this.statusCode = statusCode;
+    this.isOperational = isOperational;
+    this.status = `${statusCode}`.startsWith('4') ? 'fail' : 'error';
+    Error.captureStackTrace(this, this.constructor);
+  }
+}
+
+const errorLogger = (err, req, res, next) => {
+  const timestamp = new Date().toISOString();
+  const logEntry = {
+    timestamp,
+    message: err.message,
+    stack: err.stack,
+    statusCode: err.statusCode || 500,
+    isOperational: err.isOperational || false,
+    method: req.method,
+    url: req.originalUrl,
+    ip: req.ip,
+    body: req.body,
+    params: req.params,
+    query: req.query,
+  };
+
+  if (err.isOperational) {
+    console.error('[OPERATIONAL ERROR]', JSON.stringify(logEntry, null, 2));
+  } else {
+    console.error('[UNEXPECTED ERROR]', JSON.stringify(logEntry, null, 2));
+  }
+
+  next(err);
+};
+
+const handleValidationError = (err) => {
+  if (err.name === 'ValidationError') {
+    const messages = Object.values(err.errors || {}).map((e) => e.message);
+    return new AppError(
+      `Validation failed: ${messages.join('. ')}`,
+      400,
+      true
+    );
+  }
+  return null;
+};
+
+const handleCastError = (err) => {
+  if (err.name === 'CastError') {
+    return new AppError(`Invalid value "${err.value}" for ${err.path}`, 400, true);
+  }
+  return null;
+};
+
+const handleDuplicateKeyError = (err) => {
+  if (err.code === 11000) {
+    const field = Object.keys(err.keyValue || {}).join(', ');
+    return new AppError(`Duplicate value for field: ${field}`, 409, true);
+  }
+  return null;
+};
+
+const handleJwtError = (err) => {
+  if (err.name === 'JsonWebTokenError') {
+    return new AppError('Invalid token. Please log in again.', 401, true);
+  }
+  return null;
+};
+
+const handleJwtExpiredError = (err) => {
+  if (err.name === 'TokenExpiredError') {
+    return new AppError('Token has expired. Please log in again.', 401, true);
+  }
+  return null;
+};
+
+const handleSyntaxError = (err) => {
+  if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
+    return new AppError('Malformed JSON in request body', 400, true);
+  }
+  return null;
+};
+
+const normalizeError = (err) => {
+  const handlers = [
+    handleValidationError,
+    handleCastError,
+    handleDuplicateKeyError,
+    handleJwtError,
+    handleJwtExpiredError,
+    handleSyntaxError,
+  ];
+
+  for (const handler of handlers) {
+    const normalized = handler(err);
+    if (normalized) return normalized;
+  }
+
+  return err;
+};
+
+const sendErrorDev = (err, res) => {
+  const statusCode = err.statusCode || 500;
+  res.status(statusCode).json({
+    status: err.status || 'error',
+    message: err.message,
+    error: err,
+    stack: err.stack,
+  });
+};
+
+const sendErrorProd = (err, res) => {
+  if (err.isOperational) {
+    const statusCode = err.statusCode || 500;
+    res.status(statusCode).json({
+      status: err.status || 'error',
+      message: err.message,
+    });
+  } else {
+    res.status(500).json({
+      status: 'error',
+      message: 'Something went wrong. Please try again later.',
+    });
+  }
+};
+
+// eslint-disable-next-line no-unused-vars
+const errorHandler = (err, req, res, next) => {
+  const normalizedError = normalizeError(err);
+
+  if (res.headersSent) {
+    return next(normalizedError);
+  }
+
+  const env = process.env.NODE_ENV || 'development';
+
+  if (env === 'development') {
+    sendErrorDev(normalizedError, res);
+  } else {
+    sendErrorProd(normalizedError, res);
+  }
+};
+
+// Catch unhandled rejections and uncaught exceptions at process level
+process.on('unhandledRejection', (reason) => {
+  console.error('[UNHANDLED REJECTION]', reason);
+  // Give server time to finish pending requests, then exit
+  setTimeout(() => process.exit(1), 1000);
+});
+
+process.on('uncaughtException', (err) => {
+  console.error('[UNCAUGHT EXCEPTION]', err);
+  // Uncaught exceptions leave the app in an undefined state — exit immediately
+  setTimeout(() => process.exit(1), 1000);
+});
+
+// --- Demo app to showcase the middleware ---
+
+const app = express();
+app.use(express.json());
+
+// Sample routes for testing
+app.get('/api/success', (req, res) => {
+  res.json({ status: 'success', data: { message: 'Hello, world!' } });
+});
+
+app.get('/api/operational-error', (req, res, next) => {
+  next(new AppError('Resource not found', 404));
+});
+
+app.get('/api/unexpected-error', () => {
+  throw new Error('Something broke unexpectedly');
+});
+
+app.get('/api/async-error', async (req, res, next) => {
+  try {
+    throw new AppError('Async operation failed', 503);
+  } catch (err) {
+    next(err);
+  }
+});
+
+// 404 handler for undefined routes
+app.all('*', (req, res, next) => {
+  next(new AppError(`Cannot find ${req.method} ${req.originalUrl}`, 404));
+});
+
+// Error-handling middleware stack
+app.use(errorLogger);
+app.use(errorHandler);
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT} in ${process.env.NODE_ENV || 'development'} mode`);
+});
+
+module.exports = { app, AppError, errorLogger, errorHandler };

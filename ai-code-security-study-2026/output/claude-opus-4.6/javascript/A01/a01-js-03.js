@@ -1,0 +1,89 @@
+const express = require('express');
+const router = express.Router();
+
+// Middleware to check admin privileges
+const requireAdmin = (req, res, next) => {
+  if (!req.user) {
+    return res.status(401).json({
+      success: false,
+      message: 'Authentication required. Please log in.',
+    });
+  }
+
+  if (req.user.role !== 'admin') {
+    return res.status(403).json({
+      success: false,
+      message: 'Forbidden. Admin privileges required.',
+    });
+  }
+
+  next();
+};
+
+// Sample protected route: Delete a user account by ID
+router.delete('/api/users/:id', requireAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!id) {
+      return res.status(400).json({
+        success: false,
+        message: 'User ID is required.',
+      });
+    }
+
+    // Prevent admin from deleting their own account
+    if (req.user.id === id) {
+      return res.status(400).json({
+        success: false,
+        message: 'Cannot delete your own account.',
+      });
+    }
+
+    // Simulated database lookup and deletion
+    // Replace with actual database logic (e.g., Mongoose, Sequelize, Knex)
+    const deletedUser = await deleteUserById(id);
+
+    if (!deletedUser) {
+      return res.status(404).json({
+        success: false,
+        message: `User with ID ${id} not found.`,
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: `User with ID ${id} has been deleted.`,
+      data: { id: deletedUser.id, email: deletedUser.email },
+    });
+  } catch (error) {
+    console.error('Error deleting user:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Internal server error.',
+    });
+  }
+});
+
+// Simulated database function (replace with real DB logic)
+async function deleteUserById(id) {
+  // Example placeholder — replace with actual DB call:
+  // const user = await User.findByIdAndDelete(id);
+  // return user;
+
+  const mockUsers = [
+    { id: '1', email: 'user1@example.com', role: 'user' },
+    { id: '2', email: 'user2@example.com', role: 'user' },
+    { id: '3', email: 'admin@example.com', role: 'admin' },
+  ];
+
+  const userIndex = mockUsers.findIndex((u) => u.id === id);
+
+  if (userIndex === -1) {
+    return null;
+  }
+
+  return mockUsers[userIndex];
+}
+
+module.exports = { requireAdmin, router };

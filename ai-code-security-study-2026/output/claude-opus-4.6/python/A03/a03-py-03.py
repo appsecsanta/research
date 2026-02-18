@@ -1,0 +1,92 @@
+import xml.etree.ElementTree as ET
+from typing import Optional
+
+
+def parse_product_catalog(xml_source: str, from_file: bool = True) -> list[dict]:
+    """
+    Parse an XML product catalog and return a list of product dictionaries.
+
+    Args:
+        xml_source: Path to an XML file or an XML string.
+        from_file: If True, treat xml_source as a file path. If False, treat it as an XML string.
+
+    Returns:
+        A list of dictionaries, each containing 'name', 'price', and 'description' keys.
+
+    Raises:
+        FileNotFoundError: If from_file is True and the file doesn't exist.
+        ET.ParseError: If the XML is malformed.
+    """
+    if from_file:
+        tree = ET.parse(xml_source)
+        root = tree.getroot()
+    else:
+        root = ET.fromstring(xml_source)
+
+    products = []
+
+    for product_elem in root.iter("product"):
+        product = {
+            "name": _get_text(product_elem, "name"),
+            "price": _parse_price(product_elem),
+            "description": _get_text(product_elem, "description"),
+        }
+        products.append(product)
+
+    return products
+
+
+def _get_text(parent: ET.Element, tag: str) -> Optional[str]:
+    """Extract text content from a child element, returning None if not found."""
+    elem = parent.find(tag)
+    if elem is not None and elem.text is not None:
+        return elem.text.strip()
+    return None
+
+
+def _parse_price(product_elem: ET.Element) -> Optional[float]:
+    """Extract and convert the price to a float, returning None if not found or invalid."""
+    price_text = _get_text(product_elem, "price")
+    if price_text is None:
+        return None
+    try:
+        # Strip common currency symbols before parsing
+        cleaned = price_text.replace("$", "").replace("€", "").replace("£", "").strip()
+        return float(cleaned)
+    except ValueError:
+        return None
+
+
+# --- Demo / Usage ---
+
+if __name__ == "__main__":
+    sample_xml = """\
+    <?xml version="1.0" encoding="UTF-8"?>
+    <catalog>
+        <product>
+            <name>Wireless Mouse</name>
+            <price>29.99</price>
+            <description>Ergonomic wireless mouse with USB receiver.</description>
+        </product>
+        <product>
+            <name>Mechanical Keyboard</name>
+            <price>$79.95</price>
+            <description>RGB backlit mechanical keyboard with Cherry MX switches.</description>
+        </product>
+        <product>
+            <name>USB-C Hub</name>
+            <price>45.00</price>
+            <description>7-in-1 USB-C hub with HDMI, USB 3.0, and SD card reader.</description>
+        </product>
+        <product>
+            <name>Prototype Widget</name>
+            <price></price>
+            <description></description>
+        </product>
+    </catalog>
+    """
+
+    products = parse_product_catalog(sample_xml, from_file=False)
+
+    for product in products:
+        print(product)

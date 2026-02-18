@@ -1,0 +1,357 @@
+import os
+from datetime import datetime, timezone
+from decimal import Decimal, ROUND_HALF_UP
+from typing import Any, Dict, List, Optional, Tuple
+
+from flask import Flask, jsonify, request, session
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import CheckConstraint, UniqueConstraint, func
+from sqlalchemy.exc import IntegrityError
+
+db = SQLAlchemy()
+
+
+def _now_utc() -> datetime:
+    return datetime.now(timezone.utc)
+
+
+def _to_int(value: Any, *, field: str) -> int:
+    try:
+        ivalue = int(value)
+    except (TypeError, ValueError):
+        raise ValueError(f"'{field}' must be an integer")
+    return ivalue
+
+
+def _money_round_cents(amount_cents: int) -> int:
+    return int(Decimal(amount_cents).quantize(Decimal("1"), rounding=ROUND_HALF_UP))
+
+
+class Product(db.Model):
+    __tablename__ = "products"
+
+    id = db.Column(db.Integer, primary_key=True)
+    sku = db.Column(db.String(64), unique=True, nullable=True)
+    name = db.Column(db.String(200), nullable=False)
+    price_cents = db.Column(db.Integer, nullable=False)
+    stock = db.Column(db.Integer, nullable=False, default=0)
+
+    __table_args__ = (
+        CheckConstraint("price_cents >= 0", name="ck_products_price_cents_nonneg"),
+        CheckConstraint("stock >= 0", name="ck_products_stock_nonneg"),
+    )
+
+
+class DiscountCode(db.Model):
+    __tablename__ = "discount_codes"
+
+    id = db.Column(db.Integer, primary_key=True)
+    code = db.Column(db.String(64), nullable=False, unique=True, index=True)
+    percent_off = db.Column(db.Integer, nullable=False)  # 0..100
+    active = db.Column(db.Boolean, nullable=False, default=True)
+    created_at = db.Column(db.DateTime(timezone=True), nullable=False, default=_now_utc)
+
+    __table_args__ = (
+        CheckConstraint("percent_off >= 0 AND percent_off <= 100", name="ck_discount_percent_range"),
+    )
+
+
+class Order(db.Model):
+    __tablename__ = "orders"
+
+    id = db.Column(db.Integer, primary_key=True)
+    created_at = db.Column(db.DateTime(timezone=True), nullable=False, default=_now_utc)
+    currency = db.Column(db.String(8), nullable=False, default="USD")
+
+    subtotal_cents = db.Column(db.Integer, nullable=False)
+    discount_code = db.Column(db.String(64), nullable=True)
+    discount_percent = db.Column(db.Integer, nullable=False, default=0)
+    discount_amount_cents = db.Column(db.Integer, nullable=False, default=0)
+    total_cents = db.Column(db.Integer, nullable=False)
+
+    __table_args__ = (
+        CheckConstraint("subtotal_cents >= 0", name="ck_orders_subtotal_nonneg"),
+        CheckConstraint("discount_amount_cents >= 0", name="ck_orders_discount_amount_nonneg"),
+        CheckConstraint("total_cents >= 0", name="ck_orders_total_nonneg"),
+        CheckConstraint("discount_percent >= 0 AND discount_percent <= 100", name="ck_orders_discount_percent_range"),
+    )
+
+
+class OrderItem(db.Model):
+    __tablename__ = "order_items"
+
+    id = db.Column(db.Integer, primary_key=True)
+    order_id = db.Column(db.Integer, db.ForeignKey("orders.id", ondelete="CASCADE"), nullable=False, index=True)
+    product_id = db.Column(db.Integer, db.ForeignKey("products.id"), nullable=False, index=True)
+
+    name = db.Column(db.String(200), nullable=False)
+    unit_price_cents = db.Column(db.Integer, nullable=False)
+    quantity = db.Column(db.Integer, nullable=False)
+    line_total_cents = db.Column(db.Integer, nullable=False)
+
+    __table_args__ = (
+        CheckConstraint("unit_price_cents >= 0", name="ck_order_items_unit_price_nonneg"),
+        CheckConstraint("quantity > 0", name="ck_order_items_quantity_pos"),
+        CheckConstraint("line_total_cents >= 0", name="ck_order_items_line_total_nonneg"),
+        UniqueConstraint("order_id", "product_id", name="uq_order_items_order_product"),
+    )
+
+
+def _get_cart() -> Dict[str, int]:
+    cart = session.get("cart")
+    if not isinstance(cart, dict):
+        cart = {}
+    normalized: Dict[str, int] = {}
+    for k, v in cart.items():
+        try:
+            pid = str(int(k))
+            qty = int(v)
+        except (TypeError, ValueError):
+            continue
+        if qty > 0:
+            normalized[pid] = qty
+    session["cart"] = normalized
+    session.modified = True
+    return normalized
+
+
+def _set_cart(cart: Dict[str, int]) -> None:
+    session["cart"] = {str(int(k)): int(v) for k, v in cart.items() if int(v) > 0}
+    session.modified = True
+
+
+def _cart_items_details(cart: Dict[str, int]) -> Tuple[List[Dict[str, Any]], int]:
+    if not cart:
+        return [], 0
+
+    product_ids = [int(pid) for pid in cart.keys()]
+    products = Product.query.filter(Product.id.in_(product_ids)).all()
+    products_by_id = {p.id: p for p in products}
+
+    items: List[Dict[str, Any]] = []
+    subtotal_cents = 0
+
+    for pid_str, qty in cart.items():
+        pid = int(pid_str)
+        product = products_by_id.get(pid)
+        if not product:
+            continue
+        line_total = product.price_cents * qty
+        subtotal_cents += line_total
+        items.append(
+            {
+                "product_id": product.id,
+                "name": product.name,
+                "unit_price_cents": product.price_cents,
+                "quantity": qty,
+                "line_total_cents": line_total,
+                "stock": product.stock,
+            }
+        )
+
+    items.sort(key=lambda x: x["product_id"])
+    return items, subtotal_cents
+
+
+def _load_discount(code: Optional[str]) -> Tuple[Optional[str], int]:
+    if not code:
+        return None, 0
+    if not isinstance(code, str):
+        raise ValueError("'discount_code' must be a string")
+    code_norm = code.strip()
+    if not code_norm:
+        return None, 0
+
+    dc = DiscountCode.query.filter(func.lower(DiscountCode.code) == code_norm.lower()).first()
+    if not dc or not dc.active:
+        raise ValueError("Invalid or inactive discount_code")
+    return dc.code, int(dc.percent_off)
+
+
+def _json_error(message: str, status: int = 400):
+    return jsonify({"error": message}), status
+
+
+def _init_db_with_seed(app: Flask) -> None:
+    with app.app_context():
+        db.create_all()
+        if Product.query.count() == 0:
+            db.session.add_all(
+                [
+                    Product(sku="SKU-TSHIRT", name="T-Shirt", price_cents=1999, stock=100),
+                    Product(sku="SKU-MUG", name="Coffee Mug", price_cents=1299, stock=50),
+                    Product(sku="SKU-HAT", name="Hat", price_cents=2499, stock=25),
+                ]
+            )
+        if DiscountCode.query.count() == 0:
+            db.session.add_all(
+                [
+                    DiscountCode(code="SAVE10", percent_off=10, active=True),
+                    DiscountCode(code="SAVE25", percent_off=25, active=True),
+                ]
+            )
+        db.session.commit()
+
+
+def create_app() -> Flask:
+    app = Flask(__name__)
+    app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "dev-secret-change-me")
+    app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL", "sqlite:///shop.db")
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    app.config["SESSION_COOKIE_HTTPONLY"] = True
+    app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
+
+    db.init_app(app)
+    _init_db_with_seed(app)
+
+    @app.get("/cart")
+    def view_cart():
+        cart = _get_cart()
+        items, subtotal_cents = _cart_items_details(cart)
+        return jsonify(
+            {
+                "items": items,
+                "subtotal_cents": subtotal_cents,
+            }
+        )
+
+    @app.post("/cart/add")
+    def add_to_cart():
+        payload = request.get_json(silent=True) or {}
+        try:
+            product_id = _to_int(payload.get("product_id"), field="product_id")
+            quantity = _to_int(payload.get("quantity", 1), field="quantity")
+        except ValueError as e:
+            return _json_error(str(e), 400)
+
+        if quantity <= 0:
+            return _json_error("'quantity' must be > 0", 400)
+
+        product = Product.query.get(product_id)
+        if not product:
+            return _json_error("Product not found", 404)
+
+        cart = _get_cart()
+        current_qty = int(cart.get(str(product_id), 0))
+        new_qty = current_qty + quantity
+
+        # Note: stock is enforced at checkout to avoid holding inventory in carts.
+        cart[str(product_id)] = new_qty
+        _set_cart(cart)
+
+        items, subtotal_cents = _cart_items_details(cart)
+        return jsonify({"items": items, "subtotal_cents": subtotal_cents}), 200
+
+    @app.post("/cart/checkout")
+    def checkout():
+        payload = request.get_json(silent=True) or {}
+        cart = _get_cart()
+        if not cart:
+            return _json_error("Cart is empty", 400)
+
+        try:
+            discount_code, discount_percent = _load_discount(payload.get("discount_code"))
+        except ValueError as e:
+            return _json_error(str(e), 400)
+
+        items, subtotal_cents = _cart_items_details(cart)
+        if not items:
+            _set_cart({})
+            return _json_error("Cart is empty", 400)
+
+        # Validate stock at checkout.
+        insufficient: List[Dict[str, Any]] = []
+        for it in items:
+            if it["quantity"] > it["stock"]:
+                insufficient.append(
+                    {
+                        "product_id": it["product_id"],
+                        "requested": it["quantity"],
+                        "available": it["stock"],
+                    }
+                )
+        if insufficient:
+            return jsonify({"error": "Insufficient stock", "details": insufficient}), 409
+
+        discount_amount_cents = _money_round_cents(subtotal_cents * discount_percent / 100)
+        total_cents = max(0, subtotal_cents - discount_amount_cents)
+
+        try:
+            with db.session.begin():
+                order = Order(
+                    subtotal_cents=subtotal_cents,
+                    discount_code=discount_code,
+                    discount_percent=discount_percent,
+                    discount_amount_cents=discount_amount_cents,
+                    total_cents=total_cents,
+                )
+                db.session.add(order)
+                db.session.flush()
+
+                for it in items:
+                    product = Product.query.get(it["product_id"])
+                    if not product:
+                        raise ValueError("Product not found during checkout")
+                    if product.stock < it["quantity"]:
+                        raise ValueError("Insufficient stock during checkout")
+
+                    product.stock -= it["quantity"]
+
+                    oi = OrderItem(
+                        order_id=order.id,
+                        product_id=product.id,
+                        name=product.name,
+                        unit_price_cents=product.price_cents,
+                        quantity=it["quantity"],
+                        line_total_cents=product.price_cents * it["quantity"],
+                    )
+                    db.session.add(oi)
+
+            _set_cart({})
+        except ValueError as e:
+            db.session.rollback()
+            return _json_error(str(e), 409)
+        except IntegrityError:
+            db.session.rollback()
+            return _json_error("Unable to process order", 500)
+
+        return (
+            jsonify(
+                {
+                    "order_id": order.id,
+                    "created_at": order.created_at.isoformat(),
+                    "currency": order.currency,
+                    "items": [
+                        {
+                            "product_id": it["product_id"],
+                            "name": it["name"],
+                            "unit_price_cents": it["unit_price_cents"],
+                            "quantity": it["quantity"],
+                            "line_total_cents": it["line_total_cents"],
+                        }
+                        for it in items
+                    ],
+                    "subtotal_cents": subtotal_cents,
+                    "discount_code": discount_code,
+                    "discount_percent": discount_percent,
+                    "discount_amount_cents": discount_amount_cents,
+                    "total_cents": total_cents,
+                }
+            ),
+            200,
+        )
+
+    @app.get("/health")
+    def health():
+        return jsonify({"status": "ok"})
+
+    return app
+
+
+app = create_app()
+
+if __name__ == "__main__":
+    host = os.environ.get("FLASK_HOST", "127.0.0.1")
+    port = int(os.environ.get("FLASK_PORT", "5000"))
+    debug = os.environ.get("FLASK_DEBUG", "0") == "1"
+    app.run(host=host, port=port, debug=debug)

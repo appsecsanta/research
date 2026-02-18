@@ -1,0 +1,1174 @@
+finding_id,model,file,line,cwe,owasp,severity,tools,validated,notes
+F001,claude-opus-4.6,javascript/A01/a01-js-01.js,60,CWE-770,A01,MEDIUM,codeql,FP,Resource exhaustion not in expected: CWE-770 (expected: ['CWE-639'])
+F002,claude-opus-4.6,javascript/A01/a01-js-01.js,68,CWE-943,A01,MEDIUM,opengrep,FP,CWE not matched: CWE-943 (expected: ['CWE-639'])
+F003,claude-opus-4.6,javascript/A01/a01-js-01.js,82,CWE-352,A01,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-639'])
+F004,claude-opus-4.6,javascript/A01/a01-js-02.js,5,CWE-352,A01,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-22'])
+F005,claude-opus-4.6,javascript/A01/a01-js-02.js,57,,A01,LOW,eslint,FP,ESLint security/detect-object-injection generic (expected: ['CWE-22'])
+F006,claude-opus-4.6,javascript/A01/a01-js-02.js,60,CWE-770,A01,MEDIUM,codeql,FP,Resource exhaustion not in expected: CWE-770 (expected: ['CWE-22'])
+F007,claude-opus-4.6,javascript/A01/a01-js-02.js,69,CWE-22,A01,MEDIUM,opengrep,TP,CWE match: CWE-22 in expected ['CWE-22']
+F008,claude-opus-4.6,javascript/A01/a01-js-02.js,77,,A01,LOW,eslint,TP,ESLint rule security/detect-non-literal-fs-filename -> CWE-22 matches expected
+F009,claude-opus-4.6,javascript/A01/a01-js-03.js,86,,A01,LOW,eslint,FP,"ESLint security/detect-object-injection generic (expected: ['CWE-285', 'CWE-639'])"
+F010,claude-opus-4.6,javascript/A01/a01-js-04.js,37,CWE-770,A01,MEDIUM,codeql,FP,"Resource exhaustion not in expected: CWE-770 (expected: ['CWE-639', 'CWE-284'])"
+F011,claude-opus-4.6,javascript/A01/a01-js-04.js,80,CWE-089,A01,MEDIUM,codeql,FP,"CWE not matched: CWE-89 (expected: ['CWE-639', 'CWE-284'])"
+F012,claude-opus-4.6,javascript/A01/a01-js-04.js,80,CWE-943,A01,MEDIUM,opengrep,FP,"CWE not matched: CWE-943 (expected: ['CWE-639', 'CWE-284'])"
+F013,claude-opus-4.6,javascript/A01/a01-js-05.js,29,CWE-943,A01,MEDIUM,opengrep,FP,"CWE not matched: CWE-943 (expected: ['CWE-285', 'CWE-269'])"
+F014,claude-opus-4.6,javascript/A01/a01-js-05.js,51,CWE-770,A01,MEDIUM,codeql,FP,"Resource exhaustion not in expected: CWE-770 (expected: ['CWE-285', 'CWE-269'])"
+F015,claude-opus-4.6,javascript/A01/a01-js-05.js,82,CWE-089,A01,MEDIUM,codeql,FP,"CWE not matched: CWE-89 (expected: ['CWE-285', 'CWE-269'])"
+F016,claude-opus-4.6,javascript/A01/a01-js-05.js,107,CWE-352,A01,LOW,opengrep,FP,"CSRF not in expected: CWE-352 (expected: ['CWE-285', 'CWE-269'])"
+F017,claude-opus-4.6,python/A01/a01-py-01.py,64,CWE-94,A01,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-639'])
+F018,claude-opus-4.6,python/A01/a01-py-01.py,64,CWE-215,A01,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-639'])
+F019,claude-opus-4.6,python/A01/a01-py-01.py,64,CWE-489,A01,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-639'])
+F020,claude-opus-4.6,python/A01/a01-py-02.py,19,CWE-022,A01,MEDIUM,codeql,TP,CWE match: CWE-22 in expected ['CWE-22']
+F021,claude-opus-4.6,python/A01/a01-py-02.py,27,CWE-94,A01,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-22'])
+F022,claude-opus-4.6,python/A01/a01-py-02.py,27,CWE-215,A01,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-22'])
+F023,claude-opus-4.6,python/A01/a01-py-02.py,27,CWE-489,A01,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-22'])
+F024,claude-opus-4.6,python/A01/a01-py-03.py,82,CWE-330,A01,LOW,bandit,FP,CWE not matched: CWE-330 (expected: ['CWE-862'])
+F025,claude-opus-4.6,python/A01/a01-py-03.py,361,CWE-96,A01,MEDIUM,opengrep,FP,CWE not matched: CWE-96 (expected: ['CWE-862'])
+F026,claude-opus-4.6,python/A01/a01-py-03.py,503,CWE-94,A01,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-862'])
+F027,claude-opus-4.6,python/A01/a01-py-03.py,503,CWE-215,A01,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-862'])
+F028,claude-opus-4.6,python/A01/a01-py-03.py,503,CWE-489,A01,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-862'])
+F029,claude-opus-4.6,python/A01/a01-py-04.py,72,CWE-89,A01,HIGH,"bandit, opengrep",FP,CWE not matched: CWE-89 (expected: ['CWE-639'])
+F030,claude-opus-4.6,python/A01/a01-py-04.py,95,CWE-209,A01,MEDIUM,codeql,FP,CWE not matched: CWE-209 (expected: ['CWE-639'])
+F031,claude-opus-4.6,python/A01/a01-py-04.py,174,CWE-94,A01,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-639'])
+F032,claude-opus-4.6,python/A01/a01-py-04.py,174,CWE-215,A01,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-639'])
+F033,claude-opus-4.6,python/A01/a01-py-04.py,174,CWE-489,A01,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-639'])
+F034,claude-opus-4.6,python/A01/a01-py-05.py,77,CWE-89,A01,HIGH,opengrep,FP,"CWE not matched: CWE-89 (expected: ['CWE-862', 'CWE-639'])"
+F035,claude-opus-4.6,python/A01/a01-py-05.py,122,CWE-94,A01,HIGH,bandit,FP,"Incidental finding: Flask debug=True (expected: ['CWE-862', 'CWE-639'])"
+F036,claude-opus-4.6,python/A01/a01-py-05.py,122,CWE-215,A01,MEDIUM,codeql,FP,"Incidental finding: Flask debug=True (expected: ['CWE-862', 'CWE-639'])"
+F037,claude-opus-4.6,python/A01/a01-py-05.py,122,CWE-489,A01,MEDIUM,opengrep,FP,"Incidental finding: Flask debug=True (expected: ['CWE-862', 'CWE-639'])"
+F038,claude-opus-4.6,javascript/A02/a02-js-01.js,50,CWE-798,A02,HIGH,njsscan,FP,"CWE not matched: CWE-798 (expected: ['CWE-328', 'CWE-916'])"
+F039,claude-opus-4.6,javascript/A02/a02-js-02.js,74,CWE-352,A02,LOW,opengrep,FP,"CSRF not in expected: CWE-352 (expected: ['CWE-330', 'CWE-340'])"
+F040,claude-opus-4.6,javascript/A02/a02-js-03.js,72,CWE-310,A02,HIGH,opengrep,FP,Deep triage correction: Code uses AES-256-GCM with PBKDF2 - not weak crypto
+F041,claude-opus-4.6,javascript/A02/a02-js-03.js,97,,A02,LOW,eslint,FP,"ESLint security/detect-object-injection generic (expected: ['CWE-321', 'CWE-327', 'CWE-329'])"
+F042,claude-opus-4.6,javascript/A02/a02-js-04.js,108,,A02,LOW,eslint,FP,"ESLint security/detect-object-injection generic (expected: ['CWE-321', 'CWE-328'])"
+F043,claude-opus-4.6,javascript/A02/a02-js-04.js,131,CWE-352,A02,LOW,opengrep,FP,"CSRF not in expected: CWE-352 (expected: ['CWE-321', 'CWE-328'])"
+F044,claude-opus-4.6,javascript/A02/a02-js-04.js,132,CWE-798,A02,HIGH,njsscan,TP,"CWE match: CWE-798 in expected ['CWE-321', 'CWE-328']"
+F045,claude-opus-4.6,javascript/A02/a02-js-05.js,9,CWE-327,A02,MEDIUM,codeql,FP,"CWE not matched: CWE-327 (expected: ['CWE-330', 'CWE-521'])"
+F046,claude-opus-4.6,javascript/A02/a02-js-05.js,9,,A02,LOW,eslint,FP,"ESLint security/detect-object-injection generic (expected: ['CWE-330', 'CWE-521'])"
+F047,claude-opus-4.6,python/A02/a02-py-01.py,52,CWE-312,A02,MEDIUM,codeql,FP,"CWE not matched: CWE-312 (expected: ['CWE-328', 'CWE-916'])"
+F048,claude-opus-4.6,python/A02/a02-py-03.py,208,CWE-312,A02,MEDIUM,codeql,FP,"CWE not matched: CWE-312 (expected: ['CWE-327', 'CWE-329', 'CWE-321'])"
+F049,claude-opus-4.6,python/A02/a02-py-03.py,218,CWE-259,A02,LOW,bandit,TP,"CWE match: CWE-259 in expected ['CWE-327', 'CWE-329', 'CWE-321']"
+F050,claude-opus-4.6,python/A02/a02-py-05.py,38,CWE-327,A02,MEDIUM,codeql,FP,"CWE not matched: CWE-327 (expected: ['CWE-315', 'CWE-614'])"
+F051,claude-opus-4.6,python/A02/a02-py-05.py,179,CWE-94,A02,HIGH,bandit,FP,"Incidental finding: Flask debug=True (expected: ['CWE-315', 'CWE-614'])"
+F052,claude-opus-4.6,python/A02/a02-py-05.py,179,CWE-215,A02,MEDIUM,codeql,FP,"Incidental finding: Flask debug=True (expected: ['CWE-315', 'CWE-614'])"
+F053,claude-opus-4.6,python/A02/a02-py-05.py,179,CWE-489,A02,MEDIUM,opengrep,FP,"Incidental finding: Flask debug=True (expected: ['CWE-315', 'CWE-614'])"
+F054,claude-opus-4.6,javascript/A03/a03-js-01.js,5,CWE-352,A03,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-943'])
+F055,claude-opus-4.6,javascript/A03/a03-js-01.js,21,CWE-770,A03,MEDIUM,codeql,FP,Resource exhaustion not in expected: CWE-770 (expected: ['CWE-943'])
+F056,claude-opus-4.6,javascript/A03/a03-js-01.js,33,CWE-089,A03,MEDIUM,codeql,FP,CWE not matched: CWE-89 (expected: ['CWE-943'])
+F057,claude-opus-4.6,javascript/A03/a03-js-01.js,33,CWE-943,A03,MEDIUM,opengrep,TP,CWE match: CWE-943 in expected ['CWE-943']
+F058,claude-opus-4.6,javascript/A03/a03-js-02.js,4,CWE-352,A03,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-89'])
+F059,claude-opus-4.6,javascript/A03/a03-js-02.js,14,CWE-770,A03,MEDIUM,codeql,FP,Resource exhaustion not in expected: CWE-770 (expected: ['CWE-89'])
+F060,claude-opus-4.6,javascript/A03/a03-js-03.js,4,CWE-352,A03,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-78'])
+F061,claude-opus-4.6,javascript/A03/a03-js-03.js,7,CWE-770,A03,MEDIUM,codeql,FP,Resource exhaustion not in expected: CWE-770 (expected: ['CWE-78'])
+F062,claude-opus-4.6,javascript/A03/a03-js-04.js,6,CWE-352,A03,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-79'])
+F063,claude-opus-4.6,javascript/A03/a03-js-04.js,41,CWE-770,A03,MEDIUM,codeql,FP,Resource exhaustion not in expected: CWE-770 (expected: ['CWE-79'])
+F064,claude-opus-4.6,javascript/A03/a03-js-04.js,102,CWE-23,A03,MEDIUM,njsscan,FP,CWE not matched: CWE-23 (expected: ['CWE-79'])
+F065,claude-opus-4.6,javascript/A03/a03-js-05.js,4,CWE-352,A03,LOW,opengrep,FP,"CSRF not in expected: CWE-352 (expected: ['CWE-1333', 'CWE-943'])"
+F066,claude-opus-4.6,javascript/A03/a03-js-05.js,19,CWE-770,A03,MEDIUM,codeql,FP,"Resource exhaustion not in expected: CWE-770 (expected: ['CWE-1333', 'CWE-943'])"
+F067,claude-opus-4.6,javascript/A03/a03-js-05.js,31,,A03,LOW,eslint,TP,ESLint rule security/detect-non-literal-regexp -> CWE-1333 matches expected
+F068,claude-opus-4.6,javascript/A03/a03-js-05.js,31,CWE-1333,A03,MEDIUM,opengrep,TP,"CWE match: CWE-1333 in expected ['CWE-1333', 'CWE-943']"
+F069,claude-opus-4.6,javascript/A03/a03-js-05.js,35,CWE-943,A03,MEDIUM,opengrep,TP,"CWE match: CWE-943 in expected ['CWE-1333', 'CWE-943']"
+F070,claude-opus-4.6,python/A03/a03-py-01.py,56,CWE-94,A03,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-89'])
+F071,claude-opus-4.6,python/A03/a03-py-01.py,56,CWE-215,A03,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-89'])
+F072,claude-opus-4.6,python/A03/a03-py-01.py,56,CWE-489,A03,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-89'])
+F073,claude-opus-4.6,python/A03/a03-py-02.py,1,CWE-78,A03,LOW,bandit,FP,Deep triage correction: subprocess.run with list form (no shell=True) + input validation - not CWE-78
+F074,claude-opus-4.6,python/A03/a03-py-02.py,83,CWE-078,A03,MEDIUM,codeql,FP,Deep triage correction: subprocess.run with list form (no shell=True) + input validation - not CWE-78
+F075,claude-opus-4.6,python/A03/a03-py-02.py,111,CWE-209,A03,MEDIUM,codeql,FP,CWE not matched: CWE-209 (expected: ['CWE-78'])
+F076,claude-opus-4.6,python/A03/a03-py-02.py,134,CWE-605,A03,MEDIUM,bandit,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-78'])
+F077,claude-opus-4.6,python/A03/a03-py-02.py,134,CWE-668,A03,MEDIUM,opengrep,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-78'])
+F078,claude-opus-4.6,python/A03/a03-py-03.py,1,CWE-20,A03,MEDIUM,bandit,FP,CWE not matched: CWE-20 (expected: ['CWE-611'])
+F079,claude-opus-4.6,python/A03/a03-py-03.py,21,CWE-611,A03,HIGH,opengrep,TP,CWE match: CWE-611 in expected ['CWE-611']
+F080,claude-opus-4.6,python/A03/a03-py-04.py,185,CWE-96,A03,MEDIUM,opengrep,FP,CWE not matched: CWE-96 (expected: ['CWE-79'])
+F081,claude-opus-4.6,python/A03/a03-py-04.py,190,CWE-94,A03,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-79'])
+F082,claude-opus-4.6,python/A03/a03-py-04.py,190,CWE-215,A03,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-79'])
+F083,claude-opus-4.6,python/A03/a03-py-04.py,190,CWE-489,A03,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-79'])
+F084,claude-opus-4.6,python/A03/a03-py-05.py,126,CWE-259,A03,LOW,bandit,FP,CWE not matched: CWE-259 (expected: ['CWE-90'])
+F085,claude-opus-4.6,javascript/A04/a04-js-01.js,39,CWE-770,A04,MEDIUM,codeql,FP,"Resource exhaustion not in expected: CWE-770 (expected: ['CWE-640', 'CWE-330'])"
+F086,claude-opus-4.6,javascript/A04/a04-js-01.js,47,CWE-943,A04,HIGH,"njsscan, opengrep",FP,"CWE not matched: CWE-943 (expected: ['CWE-640', 'CWE-330'])"
+F087,claude-opus-4.6,javascript/A04/a04-js-01.js,106,CWE-598,A04,MEDIUM,codeql,FP,"CWE not matched: CWE-598 (expected: ['CWE-640', 'CWE-330'])"
+F088,claude-opus-4.6,javascript/A04/a04-js-01.js,115,CWE-843,A04,MEDIUM,codeql,FP,"CWE not matched: CWE-843 (expected: ['CWE-640', 'CWE-330'])"
+F089,claude-opus-4.6,javascript/A04/a04-js-01.js,155,CWE-352,A04,LOW,opengrep,FP,"CSRF not in expected: CWE-352 (expected: ['CWE-640', 'CWE-330'])"
+F090,claude-opus-4.6,javascript/A04/a04-js-02.js,53,CWE-352,A04,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-840'])
+F091,claude-opus-4.6,javascript/A04/a04-js-02.js,64,CWE-770,A04,MEDIUM,codeql,FP,Resource exhaustion not in expected: CWE-770 (expected: ['CWE-840'])
+F092,claude-opus-4.6,javascript/A04/a04-js-02.js,84,CWE-943,A04,HIGH,"njsscan, opengrep",FP,CWE not matched: CWE-943 (expected: ['CWE-840'])
+F093,claude-opus-4.6,javascript/A04/a04-js-03.js,9,,A04,LOW,eslint,TP,ESLint security/detect-non-literal-fs-filename -> file upload in context
+F094,claude-opus-4.6,javascript/A04/a04-js-03.js,35,CWE-327,A04,MEDIUM,njsscan,FP,CWE not matched: CWE-327 (expected: ['CWE-434'])
+F095,claude-opus-4.6,javascript/A04/a04-js-03.js,60,CWE-352,A04,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-434'])
+F096,claude-opus-4.6,javascript/A04/a04-js-03.js,67,CWE-770,A04,MEDIUM,codeql,FP,Resource exhaustion not in expected: CWE-770 (expected: ['CWE-434'])
+F097,claude-opus-4.6,javascript/A04/a04-js-03.js,74,CWE-022,A04,MEDIUM,codeql,FP,CWE not matched: CWE-22 (expected: ['CWE-434'])
+F098,claude-opus-4.6,javascript/A04/a04-js-03.js,92,CWE-943,A04,MEDIUM,opengrep,FP,CWE not matched: CWE-943 (expected: ['CWE-434'])
+F099,claude-opus-4.6,javascript/A04/a04-js-03.js,101,CWE-22,A04,MEDIUM,opengrep,FP,CWE not matched: CWE-22 (expected: ['CWE-434'])
+F100,claude-opus-4.6,javascript/A04/a04-js-04.js,82,CWE-327,A04,MEDIUM,codeql,FP,"CWE not matched: CWE-327 (expected: ['CWE-307', 'CWE-798'])"
+F101,claude-opus-4.6,javascript/A04/a04-js-04.js,87,CWE-352,A04,LOW,opengrep,FP,"CSRF not in expected: CWE-352 (expected: ['CWE-307', 'CWE-798'])"
+F102,claude-opus-4.6,javascript/A04/a04-js-04.js,91,CWE-770,A04,MEDIUM,codeql,FP,"Resource exhaustion not in expected: CWE-770 (expected: ['CWE-307', 'CWE-798'])"
+F103,claude-opus-4.6,javascript/A04/a04-js-04.js,109,CWE-943,A04,HIGH,"njsscan, opengrep",FP,"CWE not matched: CWE-943 (expected: ['CWE-307', 'CWE-798'])"
+F104,claude-opus-4.6,javascript/A04/a04-js-05.js,32,CWE-352,A04,LOW,opengrep,FP,"CSRF not in expected: CWE-352 (expected: ['CWE-362', 'CWE-840'])"
+F105,claude-opus-4.6,javascript/A04/a04-js-05.js,36,CWE-770,A04,MEDIUM,codeql,FP,"Resource exhaustion not in expected: CWE-770 (expected: ['CWE-362', 'CWE-840'])"
+F106,claude-opus-4.6,javascript/A04/a04-js-05.js,80,CWE-089,A04,MEDIUM,codeql,FP,"CWE not matched: CWE-89 (expected: ['CWE-362', 'CWE-840'])"
+F107,claude-opus-4.6,javascript/A04/a04-js-05.js,80,CWE-943,A04,MEDIUM,opengrep,FP,"CWE not matched: CWE-943 (expected: ['CWE-362', 'CWE-840'])"
+F108,claude-opus-4.6,python/A04/a04-py-01.py,48,CWE-327,A04,MEDIUM,codeql,FP,"CWE not matched: CWE-327 (expected: ['CWE-640', 'CWE-330'])"
+F109,claude-opus-4.6,python/A04/a04-py-01.py,205,CWE-94,A04,HIGH,bandit,FP,"Incidental finding: Flask debug=True (expected: ['CWE-640', 'CWE-330'])"
+F110,claude-opus-4.6,python/A04/a04-py-01.py,205,CWE-215,A04,MEDIUM,codeql,FP,"Incidental finding: Flask debug=True (expected: ['CWE-640', 'CWE-330'])"
+F111,claude-opus-4.6,python/A04/a04-py-01.py,205,CWE-489,A04,MEDIUM,opengrep,FP,"Incidental finding: Flask debug=True (expected: ['CWE-640', 'CWE-330'])"
+F112,claude-opus-4.6,python/A04/a04-py-02.py,391,CWE-94,A04,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-840'])
+F113,claude-opus-4.6,python/A04/a04-py-02.py,391,CWE-215,A04,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-840'])
+F114,claude-opus-4.6,python/A04/a04-py-02.py,391,CWE-489,A04,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-840'])
+F115,claude-opus-4.6,python/A04/a04-py-03.py,61,CWE-022,A04,MEDIUM,codeql,FP,CWE not matched: CWE-22 (expected: ['CWE-434'])
+F116,claude-opus-4.6,python/A04/a04-py-03.py,76,CWE-22,A04,HIGH,opengrep,FP,CWE not matched: CWE-22 (expected: ['CWE-434'])
+F117,claude-opus-4.6,python/A04/a04-py-03.py,77,CWE-209,A04,MEDIUM,codeql,FP,CWE not matched: CWE-209 (expected: ['CWE-434'])
+F118,claude-opus-4.6,python/A04/a04-py-03.py,81,CWE-673,A04,MEDIUM,opengrep,FP,CWE not matched: CWE-673 (expected: ['CWE-434'])
+F119,claude-opus-4.6,python/A04/a04-py-03.py,133,CWE-94,A04,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-434'])
+F120,claude-opus-4.6,python/A04/a04-py-03.py,133,CWE-215,A04,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-434'])
+F121,claude-opus-4.6,python/A04/a04-py-03.py,133,CWE-489,A04,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-434'])
+F122,claude-opus-4.6,python/A04/a04-py-04.py,81,CWE-673,A04,MEDIUM,opengrep,FP,"CWE not matched: CWE-673 (expected: ['CWE-362', 'CWE-837'])"
+F123,claude-opus-4.6,python/A04/a04-py-04.py,166,CWE-521,A04,MEDIUM,opengrep,FP,"CWE not matched: CWE-521 (expected: ['CWE-362', 'CWE-837'])"
+F124,claude-opus-4.6,python/A04/a04-py-04.py,248,CWE-94,A04,HIGH,bandit,FP,"Incidental finding: Flask debug=True (expected: ['CWE-362', 'CWE-837'])"
+F125,claude-opus-4.6,python/A04/a04-py-04.py,248,CWE-215,A04,MEDIUM,codeql,FP,"Incidental finding: Flask debug=True (expected: ['CWE-362', 'CWE-837'])"
+F126,claude-opus-4.6,python/A04/a04-py-04.py,248,CWE-489,A04,MEDIUM,opengrep,FP,"Incidental finding: Flask debug=True (expected: ['CWE-362', 'CWE-837'])"
+F127,claude-opus-4.6,javascript/A05/a05-js-01.js,4,CWE-352,A05,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-942'])
+F128,claude-opus-4.6,javascript/A05/a05-js-03.js,161,CWE-352,A05,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-209'])
+F129,claude-opus-4.6,javascript/A05/a05-js-04.js,4,CWE-352,A05,LOW,opengrep,FP,"CSRF not in expected: CWE-352 (expected: ['CWE-1188', 'CWE-693'])"
+F130,claude-opus-4.6,javascript/A05/a05-js-04.js,25,CWE-23,A05,MEDIUM,njsscan,FP,"CWE not matched: CWE-23 (expected: ['CWE-1188', 'CWE-693'])"
+F131,claude-opus-4.6,javascript/A05/a05-js-05.js,130,,A05,LOW,eslint,FP,"ESLint security/detect-object-injection generic (expected: ['CWE-798', 'CWE-312'])"
+F132,claude-opus-4.6,javascript/A05/a05-js-05.js,155,,A05,LOW,eslint,FP,"ESLint security/detect-non-literal-fs-filename not relevant (expected: ['CWE-798', 'CWE-312'])"
+F133,claude-opus-4.6,python/A05/a05-py-01.py,185,CWE-605,A05,MEDIUM,bandit,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-489'])
+F134,claude-opus-4.6,python/A05/a05-py-01.py,185,CWE-668,A05,MEDIUM,opengrep,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-489'])
+F135,claude-opus-4.6,python/A05/a05-py-02.py,67,CWE-259,A05,LOW,bandit,FP,FP: placeholder credential (your_password_here) in __main__ block; production uses os.getenv
+F136,claude-opus-4.6,python/A05/a05-py-03.py,62,CWE-94,A05,HIGH,bandit,FP,"FP: CWE-94 misclassification - Flask CORS handler, no eval/exec/compile in code"
+F137,claude-opus-4.6,python/A05/a05-py-03.py,62,CWE-215,A05,MEDIUM,codeql,TP,Relevant to A05 misconfiguration: Flask debug=True
+F138,claude-opus-4.6,python/A05/a05-py-03.py,62,CWE-489,A05,MEDIUM,opengrep,TP,Relevant to A05 misconfiguration: Flask debug=True
+F139,claude-opus-4.6,python/A05/a05-py-04.py,186,CWE-94,A05,HIGH,bandit,TP,Relevant to A05 misconfiguration: Flask debug=True
+F140,claude-opus-4.6,python/A05/a05-py-04.py,186,CWE-215,A05,MEDIUM,codeql,TP,CWE match: CWE-215 in expected ['CWE-209']
+F141,claude-opus-4.6,python/A05/a05-py-04.py,186,CWE-489,A05,MEDIUM,opengrep,TP,Relevant to A05 misconfiguration: Flask debug=True
+F142,claude-opus-4.6,javascript/A06/a06-js-02.js,53,CWE-22,A06,MEDIUM,opengrep,FP,"CWE not matched: CWE-22 (expected: ['CWE-94', 'CWE-829'])"
+F143,claude-opus-4.6,javascript/A06/a06-js-02.js,59,,A06,LOW,eslint,TP,ESLint rule security/detect-non-literal-require -> CWE-829 matches expected
+F144,claude-opus-4.6,javascript/A06/a06-js-02.js,123,CWE-209,A06,MEDIUM,njsscan,FP,"CWE not matched: CWE-209 (expected: ['CWE-94', 'CWE-829'])"
+F145,claude-opus-4.6,javascript/A06/a06-js-03.js,43,,A06,LOW,eslint,FP,"ESLint security/detect-non-literal-regexp not relevant (expected: ['CWE-94', 'CWE-95'])"
+F146,claude-opus-4.6,python/A06/a06-py-02.py,74,CWE-327,A06,HIGH,bandit,FP,"CWE not matched: CWE-327 (expected: ['CWE-494', 'CWE-502'])"
+F147,claude-opus-4.6,python/A06/a06-py-02.py,144,CWE-502,A06,MEDIUM,"bandit, opengrep",TP,"CWE match: CWE-502 in expected ['CWE-494', 'CWE-502']"
+F148,claude-opus-4.6,python/A06/a06-py-02.py,314,CWE-703,A06,LOW,bandit,FP,"Generic error handling: CWE-703 (expected: ['CWE-494', 'CWE-502'])"
+F149,claude-opus-4.6,javascript/A07/a07-js-01.js,6,CWE-352,A07,LOW,opengrep,FP,"CSRF not in expected: CWE-352 (expected: ['CWE-307', 'CWE-521', 'CWE-798'])"
+F150,claude-opus-4.6,javascript/A07/a07-js-01.js,44,CWE-770,A07,MEDIUM,codeql,FP,"Resource exhaustion not in expected: CWE-770 (expected: ['CWE-307', 'CWE-521', 'CWE-798'])"
+F151,claude-opus-4.6,javascript/A07/a07-js-01.js,56,CWE-1333,A07,MEDIUM,codeql,FP,"CWE not matched: CWE-1333 (expected: ['CWE-307', 'CWE-521', 'CWE-798'])"
+F152,claude-opus-4.6,javascript/A07/a07-js-01.js,63,CWE-943,A07,HIGH,"njsscan, opengrep",FP,"CWE not matched: CWE-943 (expected: ['CWE-307', 'CWE-521', 'CWE-798'])"
+F153,claude-opus-4.6,javascript/A07/a07-js-02.js,29,CWE-352,A07,MEDIUM,"codeql, opengrep",FP,"CSRF not in expected: CWE-352 (expected: ['CWE-384', 'CWE-614'])"
+F154,claude-opus-4.6,javascript/A07/a07-js-02.js,29,CWE-522,A07,MEDIUM,"njsscan, opengrep",FP,"CWE not matched: CWE-522 (expected: ['CWE-384', 'CWE-614'])"
+F155,claude-opus-4.6,javascript/A07/a07-js-02.js,29,,A07,MEDIUM,njsscan,FP,No CWE and not ESLint (tools: njsscan)
+F156,claude-opus-4.6,javascript/A07/a07-js-02.js,142,,A07,LOW,eslint,FP,ESLint security/detect-possible-timing-attacks (timing attack rarely expected)
+F157,claude-opus-4.6,javascript/A07/a07-js-02.js,142,CWE-208,A07,MEDIUM,njsscan,FP,"CWE not matched: CWE-208 (expected: ['CWE-384', 'CWE-614'])"
+F158,claude-opus-4.6,javascript/A07/a07-js-03.js,317,CWE-352,A07,MEDIUM,"codeql, opengrep",FP,"CSRF not in expected: CWE-352 (expected: ['CWE-330', 'CWE-614', 'CWE-522'])"
+F159,claude-opus-4.6,javascript/A07/a07-js-03.js,327,CWE-522,A07,MEDIUM,"njsscan, opengrep",FP,Deep triage correction: bcrypt+crypto.randomBytes+timingSafeEqual - credentials well protected
+F160,claude-opus-4.6,javascript/A07/a07-js-03.js,327,,A07,MEDIUM,njsscan,FP,No CWE and not ESLint (tools: njsscan)
+F161,claude-opus-4.6,javascript/A07/a07-js-03.js,394,CWE-770,A07,MEDIUM,codeql,FP,"Resource exhaustion not in expected: CWE-770 (expected: ['CWE-330', 'CWE-614', 'CWE-522'])"
+F162,claude-opus-4.6,javascript/A07/a07-js-04.js,6,CWE-352,A07,LOW,opengrep,FP,"CSRF not in expected: CWE-352 (expected: ['CWE-521', 'CWE-620'])"
+F163,claude-opus-4.6,javascript/A07/a07-js-04.js,42,CWE-770,A07,MEDIUM,codeql,FP,"Resource exhaustion not in expected: CWE-770 (expected: ['CWE-521', 'CWE-620'])"
+F164,claude-opus-4.6,javascript/A07/a07-js-04.js,71,CWE-943,A07,HIGH,njsscan,FP,"CWE not matched: CWE-943 (expected: ['CWE-521', 'CWE-620'])"
+F165,claude-opus-4.6,javascript/A07/a07-js-05.js,49,CWE-770,A07,MEDIUM,codeql,FP,"Resource exhaustion not in expected: CWE-770 (expected: ['CWE-521', 'CWE-209'])"
+F166,claude-opus-4.6,javascript/A07/a07-js-05.js,67,CWE-943,A07,HIGH,"njsscan, opengrep",FP,"CWE not matched: CWE-943 (expected: ['CWE-521', 'CWE-209'])"
+F167,claude-opus-4.6,python/A07/a07-py-01.py,110,CWE-94,A07,HIGH,bandit,FP,"Incidental finding: Flask debug=True (expected: ['CWE-384', 'CWE-613'])"
+F168,claude-opus-4.6,python/A07/a07-py-01.py,110,CWE-215,A07,MEDIUM,codeql,FP,"Incidental finding: Flask debug=True (expected: ['CWE-384', 'CWE-613'])"
+F169,claude-opus-4.6,python/A07/a07-py-01.py,110,CWE-489,A07,MEDIUM,opengrep,FP,"Incidental finding: Flask debug=True (expected: ['CWE-384', 'CWE-613'])"
+F170,claude-opus-4.6,python/A07/a07-py-02.py,7,CWE-259,A07,LOW,bandit,FP,"CWE not matched: CWE-259 (expected: ['CWE-347', 'CWE-345'])"
+F171,claude-opus-4.6,python/A07/a07-py-02.py,49,CWE-522,A07,HIGH,opengrep,FP,"CWE not matched: CWE-522 (expected: ['CWE-347', 'CWE-345'])"
+F172,claude-opus-4.6,python/A07/a07-py-02.py,49,CWE-798,A07,MEDIUM,opengrep,FP,"CWE not matched: CWE-798 (expected: ['CWE-347', 'CWE-345'])"
+F173,claude-opus-4.6,python/A07/a07-py-03.py,186,CWE-96,A07,MEDIUM,opengrep,FP,"CWE not matched: CWE-96 (expected: ['CWE-614', 'CWE-784'])"
+F174,claude-opus-4.6,python/A07/a07-py-03.py,231,CWE-614,A07,LOW,opengrep,TP,"CWE match: CWE-614 in expected ['CWE-614', 'CWE-784']"
+F175,claude-opus-4.6,python/A07/a07-py-03.py,260,CWE-94,A07,HIGH,bandit,FP,"Incidental finding: Flask debug=True (expected: ['CWE-614', 'CWE-784'])"
+F176,claude-opus-4.6,python/A07/a07-py-03.py,260,CWE-215,A07,MEDIUM,codeql,FP,"Incidental finding: Flask debug=True (expected: ['CWE-614', 'CWE-784'])"
+F177,claude-opus-4.6,python/A07/a07-py-03.py,260,CWE-489,A07,MEDIUM,opengrep,FP,"Incidental finding: Flask debug=True (expected: ['CWE-614', 'CWE-784'])"
+F178,claude-opus-4.6,python/A07/a07-py-04.py,325,CWE-96,A07,MEDIUM,opengrep,FP,CWE not matched: CWE-96 (expected: ['CWE-307'])
+F179,claude-opus-4.6,python/A07/a07-py-04.py,498,CWE-94,A07,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-307'])
+F180,claude-opus-4.6,python/A07/a07-py-04.py,498,CWE-605,A07,MEDIUM,bandit,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-307'])
+F181,claude-opus-4.6,python/A07/a07-py-04.py,498,CWE-215,A07,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-307'])
+F182,claude-opus-4.6,python/A07/a07-py-04.py,498,CWE-489,A07,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-307'])
+F183,claude-opus-4.6,python/A07/a07-py-04.py,498,CWE-668,A07,MEDIUM,opengrep,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-307'])
+F184,claude-opus-4.6,python/A07/a07-py-05.py,154,CWE-209,A07,MEDIUM,codeql,FP,CWE not matched: CWE-209 (expected: ['CWE-521'])
+F185,claude-opus-4.6,python/A07/a07-py-05.py,175,CWE-94,A07,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-521'])
+F186,claude-opus-4.6,python/A07/a07-py-05.py,175,CWE-605,A07,MEDIUM,bandit,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-521'])
+F187,claude-opus-4.6,python/A07/a07-py-05.py,175,CWE-215,A07,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-521'])
+F188,claude-opus-4.6,python/A07/a07-py-05.py,175,CWE-489,A07,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-521'])
+F189,claude-opus-4.6,python/A07/a07-py-05.py,175,CWE-668,A07,MEDIUM,opengrep,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-521'])
+F190,claude-opus-4.6,javascript/A08/a08-js-01.js,51,,A08,LOW,eslint,FP,"ESLint security/detect-non-literal-fs-filename not relevant (expected: ['CWE-494', 'CWE-829'])"
+F191,claude-opus-4.6,javascript/A08/a08-js-01.js,118,CWE-78,A08,HIGH,opengrep,FP,"CWE not matched: CWE-78 (expected: ['CWE-494', 'CWE-829'])"
+F192,claude-opus-4.6,javascript/A08/a08-js-01.js,146,CWE-22,A08,MEDIUM,opengrep,FP,"CWE not matched: CWE-22 (expected: ['CWE-494', 'CWE-829'])"
+F193,claude-opus-4.6,javascript/A08/a08-js-01.js,210,,A08,LOW,eslint,FP,"ESLint security/detect-object-injection generic (expected: ['CWE-494', 'CWE-829'])"
+F194,claude-opus-4.6,javascript/A08/a08-js-02.js,89,,A08,LOW,eslint,FP,"ESLint security/detect-object-injection generic (expected: ['CWE-345', 'CWE-352'])"
+F195,claude-opus-4.6,javascript/A08/a08-js-02.js,156,CWE-770,A08,MEDIUM,codeql,FP,"Resource exhaustion not in expected: CWE-770 (expected: ['CWE-345', 'CWE-352'])"
+F196,claude-opus-4.6,javascript/A08/a08-js-02.js,217,CWE-089,A08,MEDIUM,codeql,FP,"CWE not matched: CWE-89 (expected: ['CWE-345', 'CWE-352'])"
+F197,claude-opus-4.6,javascript/A08/a08-js-02.js,217,CWE-943,A08,HIGH,"njsscan, opengrep",FP,"CWE not matched: CWE-943 (expected: ['CWE-345', 'CWE-352'])"
+F198,claude-opus-4.6,javascript/A08/a08-js-02.js,295,CWE-352,A08,LOW,opengrep,TP,"CWE match: CWE-352 in expected ['CWE-345', 'CWE-352']"
+F199,claude-opus-4.6,javascript/A08/a08-js-03.js,159,,A08,LOW,eslint,TP,ESLint security/detect-object-injection -> prototype pollution
+F200,claude-opus-4.6,javascript/A08/a08-js-04.js,18,,A08,LOW,eslint,FP,"ESLint security/detect-object-injection generic (expected: ['CWE-78', 'CWE-494'])"
+F201,claude-opus-4.6,javascript/A08/a08-js-04.js,22,CWE-22,A08,MEDIUM,opengrep,FP,"CWE not matched: CWE-22 (expected: ['CWE-78', 'CWE-494'])"
+F202,claude-opus-4.6,javascript/A08/a08-js-04.js,24,,A08,LOW,eslint,FP,"ESLint security/detect-non-literal-fs-filename not relevant (expected: ['CWE-78', 'CWE-494'])"
+F203,claude-opus-4.6,javascript/A08/a08-js-04.js,84,CWE-78,A08,HIGH,opengrep,TP,"CWE match: CWE-78 in expected ['CWE-78', 'CWE-494']"
+F204,claude-opus-4.6,python/A08/a08-py-01.py,14,CWE-78,A08,HIGH,"bandit, opengrep",FP,CWE not matched: CWE-78 (expected: ['CWE-494'])
+F205,claude-opus-4.6,python/A08/a08-py-01.py,121,CWE-22,A08,HIGH,"bandit, opengrep",FP,CWE not matched: CWE-22 (expected: ['CWE-494'])
+F206,claude-opus-4.6,python/A08/a08-py-01.py,121,CWE-939,A08,MEDIUM,opengrep,FP,CWE not matched: CWE-939 (expected: ['CWE-494'])
+F207,claude-opus-4.6,python/A08/a08-py-01.py,365,CWE-259,A08,LOW,bandit,FP,CWE not matched: CWE-259 (expected: ['CWE-494'])
+F208,claude-opus-4.6,python/A08/a08-py-02.py,120,CWE-209,A08,MEDIUM,codeql,FP,CWE not matched: CWE-209 (expected: ['CWE-502'])
+F209,claude-opus-4.6,python/A08/a08-py-02.py,173,CWE-94,A08,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-502'])
+F210,claude-opus-4.6,python/A08/a08-py-02.py,173,CWE-605,A08,MEDIUM,bandit,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-502'])
+F211,claude-opus-4.6,python/A08/a08-py-02.py,173,CWE-215,A08,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-502'])
+F212,claude-opus-4.6,python/A08/a08-py-02.py,173,CWE-489,A08,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-502'])
+F213,claude-opus-4.6,python/A08/a08-py-02.py,173,CWE-668,A08,MEDIUM,opengrep,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-502'])
+F214,claude-opus-4.6,python/A08/a08-py-03.py,7,CWE-78,A08,LOW,bandit,FP,"CWE not matched: CWE-78 (expected: ['CWE-494', 'CWE-345'])"
+F215,claude-opus-4.6,python/A08/a08-py-03.py,97,CWE-22,A08,MEDIUM,bandit,FP,"CWE not matched: CWE-22 (expected: ['CWE-494', 'CWE-345'])"
+F216,claude-opus-4.6,python/A08/a08-py-03.py,97,CWE-939,A08,MEDIUM,opengrep,FP,"CWE not matched: CWE-939 (expected: ['CWE-494', 'CWE-345'])"
+F217,claude-opus-4.6,python/A08/a08-py-04.py,1,CWE-502,A08,MEDIUM,"bandit, opengrep",TP,CWE match: CWE-502 in expected ['CWE-502']
+F218,claude-opus-4.6,javascript/A09/a09-js-01.js,76,CWE-352,A09,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-532'])
+F219,claude-opus-4.6,javascript/A09/a09-js-03.js,37,CWE-1333,A09,MEDIUM,codeql,FP,"CWE not matched: CWE-1333 (expected: ['CWE-209', 'CWE-532'])"
+F220,claude-opus-4.6,javascript/A09/a09-js-03.js,37,,A09,LOW,eslint,FP,"ESLint security/detect-unsafe-regex not relevant (expected: ['CWE-209', 'CWE-532'])"
+F221,claude-opus-4.6,javascript/A09/a09-js-03.js,121,CWE-352,A09,LOW,opengrep,FP,"CSRF not in expected: CWE-352 (expected: ['CWE-209', 'CWE-532'])"
+F222,claude-opus-4.6,python/A09/a09-py-01.py,31,CWE-327,A09,MEDIUM,codeql,FP,CWE not matched: CWE-327 (expected: ['CWE-532'])
+F223,claude-opus-4.6,python/A09/a09-py-01.py,204,CWE-94,A09,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-532'])
+F224,claude-opus-4.6,python/A09/a09-py-01.py,204,CWE-605,A09,MEDIUM,bandit,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-532'])
+F225,claude-opus-4.6,python/A09/a09-py-01.py,204,CWE-215,A09,MEDIUM,codeql,TP,CWE match: CWE-215 in expected ['CWE-532']
+F226,claude-opus-4.6,python/A09/a09-py-01.py,204,CWE-489,A09,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-532'])
+F227,claude-opus-4.6,python/A09/a09-py-01.py,204,CWE-668,A09,MEDIUM,opengrep,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-532'])
+F228,claude-opus-4.6,python/A09/a09-py-02.py,183,CWE-079,A09,MEDIUM,codeql,FP,"CWE not matched: CWE-79 (expected: ['CWE-532', 'CWE-209'])"
+F229,claude-opus-4.6,python/A09/a09-py-02.py,213,CWE-94,A09,HIGH,bandit,FP,"Incidental finding: Flask debug=True (expected: ['CWE-532', 'CWE-209'])"
+F230,claude-opus-4.6,python/A09/a09-py-02.py,213,CWE-215,A09,MEDIUM,codeql,TP,"CWE match: CWE-215 in expected ['CWE-532', 'CWE-209']"
+F231,claude-opus-4.6,python/A09/a09-py-02.py,213,CWE-489,A09,MEDIUM,opengrep,FP,"Incidental finding: Flask debug=True (expected: ['CWE-532', 'CWE-209'])"
+F232,claude-opus-4.6,python/A09/a09-py-03.py,118,CWE-209,A09,MEDIUM,codeql,TP,"CWE match: CWE-209 in expected ['CWE-209', 'CWE-532']"
+F233,claude-opus-4.6,python/A09/a09-py-04.py,159,CWE-94,A09,HIGH,bandit,FP,"Incidental finding: Flask debug=True (expected: ['CWE-532', 'CWE-312'])"
+F234,claude-opus-4.6,python/A09/a09-py-04.py,159,CWE-605,A09,MEDIUM,bandit,FP,"Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-532', 'CWE-312'])"
+F235,claude-opus-4.6,python/A09/a09-py-04.py,159,CWE-215,A09,MEDIUM,codeql,TP,"CWE match: CWE-215 in expected ['CWE-532', 'CWE-312']"
+F236,claude-opus-4.6,python/A09/a09-py-04.py,159,CWE-489,A09,MEDIUM,opengrep,FP,"Incidental finding: Flask debug=True (expected: ['CWE-532', 'CWE-312'])"
+F237,claude-opus-4.6,python/A09/a09-py-04.py,159,CWE-668,A09,MEDIUM,opengrep,FP,"Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-532', 'CWE-312'])"
+F238,claude-opus-4.6,javascript/A10/a10-js-01.js,5,CWE-352,A10,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-918'])
+F239,claude-opus-4.6,javascript/A10/a10-js-01.js,111,CWE-918,A10,MEDIUM,codeql,TP,CWE match: CWE-918 in expected ['CWE-918']
+F240,claude-opus-4.6,javascript/A10/a10-js-02.js,4,CWE-352,A10,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-918'])
+F241,claude-opus-4.6,javascript/A10/a10-js-02.js,25,CWE-918,A10,MEDIUM,codeql,TP,CWE match: CWE-918 in expected ['CWE-918']
+F242,claude-opus-4.6,javascript/A10/a10-js-03.js,24,CWE-918,A10,HIGH,"codeql, njsscan",FP,"FP: SSRF with comprehensive protections (IP blocklist, protocol check, redirect blocking)"
+F243,claude-opus-4.6,javascript/A10/a10-js-04.js,4,CWE-352,A10,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-918'])
+F244,claude-opus-4.6,javascript/A10/a10-js-04.js,41,CWE-918,A10,HIGH,"codeql, opengrep",TP,CWE match: CWE-918 in expected ['CWE-918']
+F245,claude-opus-4.6,python/A10/a10-py-01.py,51,CWE-703,A10,LOW,bandit,FP,Generic error handling: CWE-703 (expected: ['CWE-918'])
+F246,claude-opus-4.6,python/A10/a10-py-01.py,92,CWE-918,A10,HIGH,"codeql, opengrep",TP,CWE match: CWE-918 in expected ['CWE-918']
+F247,claude-opus-4.6,python/A10/a10-py-01.py,136,CWE-209,A10,MEDIUM,codeql,FP,CWE not matched: CWE-209 (expected: ['CWE-918'])
+F248,claude-opus-4.6,python/A10/a10-py-01.py,140,CWE-94,A10,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-918'])
+F249,claude-opus-4.6,python/A10/a10-py-01.py,140,CWE-215,A10,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-918'])
+F250,claude-opus-4.6,python/A10/a10-py-01.py,140,CWE-489,A10,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-918'])
+F251,claude-opus-4.6,python/A10/a10-py-02.py,347,CWE-94,A10,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-918'])
+F252,claude-opus-4.6,python/A10/a10-py-02.py,347,CWE-215,A10,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-918'])
+F253,claude-opus-4.6,python/A10/a10-py-02.py,347,CWE-489,A10,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-918'])
+F254,claude-opus-4.6,python/A10/a10-py-03.py,39,CWE-605,A10,MEDIUM,bandit,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-918'])
+F255,claude-opus-4.6,python/A10/a10-py-03.py,49,CWE-918,A10,HIGH,"codeql, opengrep",TP,CWE match: CWE-918 in expected ['CWE-918']
+F256,claude-opus-4.6,python/A10/a10-py-03.py,104,CWE-94,A10,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-918'])
+F257,claude-opus-4.6,python/A10/a10-py-03.py,104,CWE-215,A10,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-918'])
+F258,claude-opus-4.6,python/A10/a10-py-03.py,104,CWE-489,A10,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-918'])
+F259,claude-opus-4.6,python/A10/a10-py-03.py,104,CWE-668,A10,MEDIUM,opengrep,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-918'])
+F260,claude-opus-4.6,python/A10/a10-py-04.py,46,CWE-209,A10,MEDIUM,codeql,FP,CWE not matched: CWE-209 (expected: ['CWE-918'])
+F261,claude-opus-4.6,python/A10/a10-py-04.py,71,CWE-94,A10,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-918'])
+F262,claude-opus-4.6,python/A10/a10-py-04.py,71,CWE-605,A10,MEDIUM,bandit,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-918'])
+F263,claude-opus-4.6,python/A10/a10-py-04.py,71,CWE-215,A10,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-918'])
+F264,claude-opus-4.6,python/A10/a10-py-04.py,71,CWE-489,A10,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-918'])
+F265,claude-opus-4.6,python/A10/a10-py-04.py,71,CWE-668,A10,MEDIUM,opengrep,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-918'])
+F266,deepseek-v3,javascript/A01/a01-js-01.js,10,CWE-943,A01,MEDIUM,opengrep,FP,CWE not matched: CWE-943 (expected: ['CWE-639'])
+F267,deepseek-v3,javascript/A01/a01-js-02.js,6,CWE-352,A01,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-22'])
+F268,deepseek-v3,javascript/A01/a01-js-02.js,9,CWE-770,A01,MEDIUM,codeql,FP,Resource exhaustion not in expected: CWE-770 (expected: ['CWE-22'])
+F269,deepseek-v3,javascript/A01/a01-js-02.js,10,CWE-23,A01,HIGH,njsscan,TP,CWE match: CWE-23 in expected ['CWE-22']
+F270,deepseek-v3,javascript/A01/a01-js-02.js,10,CWE-22,A01,MEDIUM,"njsscan, opengrep",TP,CWE match: CWE-22 in expected ['CWE-22']
+F271,deepseek-v3,javascript/A01/a01-js-02.js,16,CWE-022,A01,MEDIUM,codeql,TP,CWE match: CWE-22 in expected ['CWE-22']
+F272,deepseek-v3,javascript/A01/a01-js-02.js,16,,A01,LOW,eslint,TP,ESLint rule security/detect-non-literal-fs-filename -> CWE-22 matches expected
+F273,deepseek-v3,javascript/A01/a01-js-04.js,13,CWE-770,A01,MEDIUM,codeql,FP,"Resource exhaustion not in expected: CWE-770 (expected: ['CWE-639', 'CWE-284'])"
+F274,deepseek-v3,javascript/A01/a01-js-04.js,30,CWE-089,A01,MEDIUM,codeql,FP,"CWE not matched: CWE-89 (expected: ['CWE-639', 'CWE-284'])"
+F275,deepseek-v3,javascript/A01/a01-js-04.js,30,CWE-943,A01,MEDIUM,opengrep,FP,"CWE not matched: CWE-943 (expected: ['CWE-639', 'CWE-284'])"
+F276,deepseek-v3,javascript/A01/a01-js-05.js,9,CWE-770,A01,MEDIUM,codeql,FP,"Resource exhaustion not in expected: CWE-770 (expected: ['CWE-285', 'CWE-269'])"
+F277,deepseek-v3,javascript/A01/a01-js-05.js,18,CWE-089,A01,MEDIUM,codeql,FP,"CWE not matched: CWE-89 (expected: ['CWE-285', 'CWE-269'])"
+F278,deepseek-v3,javascript/A01/a01-js-05.js,18,CWE-943,A01,MEDIUM,opengrep,FP,"CWE not matched: CWE-943 (expected: ['CWE-285', 'CWE-269'])"
+F279,deepseek-v3,python/A01/a01-py-01.py,29,CWE-94,A01,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-639'])
+F280,deepseek-v3,python/A01/a01-py-01.py,29,CWE-215,A01,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-639'])
+F281,deepseek-v3,python/A01/a01-py-01.py,29,CWE-489,A01,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-639'])
+F282,deepseek-v3,python/A01/a01-py-02.py,14,CWE-022,A01,MEDIUM,codeql,TP,CWE match: CWE-22 in expected ['CWE-22']
+F283,deepseek-v3,python/A01/a01-py-02.py,20,CWE-94,A01,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-22'])
+F284,deepseek-v3,python/A01/a01-py-02.py,20,CWE-215,A01,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-22'])
+F285,deepseek-v3,python/A01/a01-py-02.py,20,CWE-489,A01,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-22'])
+F286,deepseek-v3,python/A01/a01-py-03.py,34,CWE-94,A01,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-862'])
+F287,deepseek-v3,python/A01/a01-py-03.py,34,CWE-215,A01,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-862'])
+F288,deepseek-v3,python/A01/a01-py-03.py,34,CWE-489,A01,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-862'])
+F289,deepseek-v3,python/A01/a01-py-04.py,27,CWE-209,A01,MEDIUM,codeql,FP,CWE not matched: CWE-209 (expected: ['CWE-639'])
+F290,deepseek-v3,python/A01/a01-py-04.py,30,CWE-94,A01,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-639'])
+F291,deepseek-v3,python/A01/a01-py-04.py,30,CWE-215,A01,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-639'])
+F292,deepseek-v3,python/A01/a01-py-04.py,30,CWE-489,A01,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-639'])
+F293,deepseek-v3,python/A01/a01-py-05.py,36,CWE-94,A01,HIGH,bandit,FP,"Incidental finding: Flask debug=True (expected: ['CWE-862', 'CWE-639'])"
+F294,deepseek-v3,python/A01/a01-py-05.py,36,CWE-215,A01,MEDIUM,codeql,FP,"Incidental finding: Flask debug=True (expected: ['CWE-862', 'CWE-639'])"
+F295,deepseek-v3,python/A01/a01-py-05.py,36,CWE-489,A01,MEDIUM,opengrep,FP,"Incidental finding: Flask debug=True (expected: ['CWE-862', 'CWE-639'])"
+F296,deepseek-v3,javascript/A02/a02-js-02.js,3,CWE-352,A02,LOW,opengrep,FP,"CSRF not in expected: CWE-352 (expected: ['CWE-330', 'CWE-340'])"
+F297,deepseek-v3,javascript/A02/a02-js-04.js,2,CWE-798,A02,HIGH,"njsscan, opengrep",TP,"CWE match: CWE-798 in expected ['CWE-321', 'CWE-328']"
+F298,deepseek-v3,javascript/A02/a02-js-05.js,5,CWE-327,A02,MEDIUM,njsscan,FP,"CWE not matched: CWE-327 (expected: ['CWE-330', 'CWE-521'])"
+F299,deepseek-v3,python/A02/a02-py-05.py,15,CWE-614,A02,MEDIUM,opengrep,FP,Deep triage correction: Cookie has secure=True and httponly=True - not CWE-614
+F300,deepseek-v3,python/A02/a02-py-05.py,15,CWE-1275,A02,LOW,opengrep,FP,"CWE not matched: CWE-1275 (expected: ['CWE-315', 'CWE-614'])"
+F301,deepseek-v3,python/A02/a02-py-05.py,17,CWE-020,A02,MEDIUM,codeql,FP,"CWE not matched: CWE-20 (expected: ['CWE-315', 'CWE-614'])"
+F302,deepseek-v3,python/A02/a02-py-05.py,26,CWE-94,A02,HIGH,bandit,FP,"Incidental finding: Flask debug=True (expected: ['CWE-315', 'CWE-614'])"
+F303,deepseek-v3,python/A02/a02-py-05.py,26,CWE-215,A02,MEDIUM,codeql,FP,"Incidental finding: Flask debug=True (expected: ['CWE-315', 'CWE-614'])"
+F304,deepseek-v3,python/A02/a02-py-05.py,26,CWE-489,A02,MEDIUM,opengrep,FP,"Incidental finding: Flask debug=True (expected: ['CWE-315', 'CWE-614'])"
+F305,deepseek-v3,javascript/A03/a03-js-01.js,3,CWE-352,A03,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-943'])
+F306,deepseek-v3,javascript/A03/a03-js-01.js,9,CWE-770,A03,MEDIUM,codeql,FP,Resource exhaustion not in expected: CWE-770 (expected: ['CWE-943'])
+F307,deepseek-v3,javascript/A03/a03-js-01.js,21,CWE-089,A03,MEDIUM,codeql,FP,CWE not matched: CWE-89 (expected: ['CWE-943'])
+F308,deepseek-v3,javascript/A03/a03-js-01.js,21,CWE-943,A03,MEDIUM,opengrep,TP,CWE match: CWE-943 in expected ['CWE-943']
+F309,deepseek-v3,javascript/A03/a03-js-02.js,4,CWE-352,A03,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-89'])
+F310,deepseek-v3,javascript/A03/a03-js-02.js,5,CWE-798,A03,MEDIUM,opengrep,FP,CWE not matched: CWE-798 (expected: ['CWE-89'])
+F311,deepseek-v3,javascript/A03/a03-js-02.js,13,CWE-770,A03,MEDIUM,codeql,FP,Resource exhaustion not in expected: CWE-770 (expected: ['CWE-89'])
+F312,deepseek-v3,javascript/A03/a03-js-03.js,3,CWE-352,A03,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-78'])
+F313,deepseek-v3,javascript/A03/a03-js-03.js,7,CWE-770,A03,MEDIUM,codeql,FP,Resource exhaustion not in expected: CWE-770 (expected: ['CWE-78'])
+F314,deepseek-v3,javascript/A03/a03-js-03.js,14,CWE-078,A03,MEDIUM,codeql,TP,CWE match: CWE-78 in expected ['CWE-78']
+F315,deepseek-v3,javascript/A03/a03-js-03.js,14,,A03,LOW,eslint,TP,ESLint rule security/detect-child-process -> CWE-78 matches expected
+F316,deepseek-v3,javascript/A03/a03-js-03.js,14,CWE-78,A03,HIGH,opengrep,TP,CWE match: CWE-78 in expected ['CWE-78']
+F317,deepseek-v3,javascript/A03/a03-js-04.js,6,CWE-352,A03,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-79'])
+F318,deepseek-v3,javascript/A03/a03-js-04.js,33,CWE-23,A03,MEDIUM,njsscan,FP,CWE not matched: CWE-23 (expected: ['CWE-79'])
+F319,deepseek-v3,javascript/A03/a03-js-05.js,6,CWE-770,A03,MEDIUM,codeql,FP,"Resource exhaustion not in expected: CWE-770 (expected: ['CWE-1333', 'CWE-943'])"
+F320,deepseek-v3,javascript/A03/a03-js-05.js,13,CWE-730,A03,MEDIUM,codeql,FP,"CWE not matched: CWE-730 (expected: ['CWE-1333', 'CWE-943'])"
+F321,deepseek-v3,javascript/A03/a03-js-05.js,13,,A03,LOW,eslint,TP,ESLint rule security/detect-non-literal-regexp -> CWE-1333 matches expected
+F322,deepseek-v3,javascript/A03/a03-js-05.js,13,CWE-1333,A03,MEDIUM,opengrep,TP,"CWE match: CWE-1333 in expected ['CWE-1333', 'CWE-943']"
+F323,deepseek-v3,javascript/A03/a03-js-05.js,14,CWE-943,A03,MEDIUM,opengrep,TP,"CWE match: CWE-943 in expected ['CWE-1333', 'CWE-943']"
+F324,deepseek-v3,python/A03/a03-py-01.py,22,CWE-94,A03,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-89'])
+F325,deepseek-v3,python/A03/a03-py-01.py,22,CWE-215,A03,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-89'])
+F326,deepseek-v3,python/A03/a03-py-01.py,22,CWE-489,A03,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-89'])
+F327,deepseek-v3,python/A03/a03-py-02.py,2,CWE-78,A03,LOW,bandit,FP,Deep triage correction: subprocess.run with list form (no shell=True) - not CWE-78
+F328,deepseek-v3,python/A03/a03-py-02.py,21,CWE-209,A03,MEDIUM,codeql,FP,CWE not matched: CWE-209 (expected: ['CWE-78'])
+F329,deepseek-v3,python/A03/a03-py-02.py,24,CWE-94,A03,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-78'])
+F330,deepseek-v3,python/A03/a03-py-02.py,24,CWE-215,A03,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-78'])
+F331,deepseek-v3,python/A03/a03-py-02.py,24,CWE-489,A03,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-78'])
+F332,deepseek-v3,python/A03/a03-py-03.py,1,CWE-20,A03,MEDIUM,bandit,FP,CWE not matched: CWE-20 (expected: ['CWE-611'])
+F333,deepseek-v3,python/A03/a03-py-03.py,4,CWE-611,A03,HIGH,opengrep,TP,CWE match: CWE-611 in expected ['CWE-611']
+F334,deepseek-v3,python/A03/a03-py-04.py,46,CWE-94,A03,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-79'])
+F335,deepseek-v3,python/A03/a03-py-04.py,46,CWE-215,A03,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-79'])
+F336,deepseek-v3,python/A03/a03-py-04.py,46,CWE-489,A03,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-79'])
+F337,deepseek-v3,python/A03/a03-py-05.py,5,CWE-259,A03,LOW,bandit,FP,CWE not matched: CWE-259 (expected: ['CWE-90'])
+F338,deepseek-v3,python/A03/a03-py-05.py,5,CWE-798,A03,MEDIUM,opengrep,FP,CWE not matched: CWE-798 (expected: ['CWE-90'])
+F339,deepseek-v3,javascript/A04/a04-js-01.js,21,CWE-770,A04,MEDIUM,codeql,FP,"Resource exhaustion not in expected: CWE-770 (expected: ['CWE-640', 'CWE-330'])"
+F340,deepseek-v3,javascript/A04/a04-js-01.js,23,CWE-089,A04,MEDIUM,codeql,FP,"CWE not matched: CWE-89 (expected: ['CWE-640', 'CWE-330'])"
+F341,deepseek-v3,javascript/A04/a04-js-01.js,23,CWE-943,A04,HIGH,"njsscan, opengrep",FP,"CWE not matched: CWE-943 (expected: ['CWE-640', 'CWE-330'])"
+F342,deepseek-v3,javascript/A04/a04-js-01.js,50,CWE-598,A04,MEDIUM,codeql,FP,"CWE not matched: CWE-598 (expected: ['CWE-640', 'CWE-330'])"
+F343,deepseek-v3,javascript/A04/a04-js-02.js,12,CWE-770,A04,MEDIUM,codeql,FP,Resource exhaustion not in expected: CWE-770 (expected: ['CWE-840'])
+F344,deepseek-v3,javascript/A04/a04-js-02.js,20,CWE-089,A04,MEDIUM,codeql,FP,CWE not matched: CWE-89 (expected: ['CWE-840'])
+F345,deepseek-v3,javascript/A04/a04-js-02.js,20,CWE-943,A04,MEDIUM,opengrep,FP,CWE not matched: CWE-943 (expected: ['CWE-840'])
+F346,deepseek-v3,javascript/A04/a04-js-03.js,6,CWE-352,A04,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-434'])
+F347,deepseek-v3,javascript/A04/a04-js-03.js,27,CWE-770,A04,MEDIUM,codeql,FP,Resource exhaustion not in expected: CWE-770 (expected: ['CWE-434'])
+F348,deepseek-v3,javascript/A04/a04-js-03.js,32,CWE-089,A04,MEDIUM,codeql,FP,CWE not matched: CWE-89 (expected: ['CWE-434'])
+F349,deepseek-v3,javascript/A04/a04-js-03.js,32,CWE-943,A04,MEDIUM,opengrep,FP,CWE not matched: CWE-943 (expected: ['CWE-434'])
+F350,deepseek-v3,javascript/A04/a04-js-04.js,13,CWE-770,A04,MEDIUM,codeql,FP,"Resource exhaustion not in expected: CWE-770 (expected: ['CWE-307', 'CWE-798'])"
+F351,deepseek-v3,javascript/A04/a04-js-04.js,15,CWE-327,A04,MEDIUM,njsscan,FP,"CWE not matched: CWE-327 (expected: ['CWE-307', 'CWE-798'])"
+F352,deepseek-v3,javascript/A04/a04-js-04.js,19,CWE-089,A04,MEDIUM,codeql,FP,"CWE not matched: CWE-89 (expected: ['CWE-307', 'CWE-798'])"
+F353,deepseek-v3,javascript/A04/a04-js-04.js,19,CWE-943,A04,MEDIUM,opengrep,FP,"CWE not matched: CWE-943 (expected: ['CWE-307', 'CWE-798'])"
+F354,deepseek-v3,javascript/A04/a04-js-05.js,10,CWE-770,A04,MEDIUM,codeql,FP,"Resource exhaustion not in expected: CWE-770 (expected: ['CWE-362', 'CWE-840'])"
+F355,deepseek-v3,javascript/A04/a04-js-05.js,21,CWE-089,A04,MEDIUM,codeql,FP,"CWE not matched: CWE-89 (expected: ['CWE-362', 'CWE-840'])"
+F356,deepseek-v3,javascript/A04/a04-js-05.js,21,CWE-943,A04,MEDIUM,opengrep,FP,"CWE not matched: CWE-943 (expected: ['CWE-362', 'CWE-840'])"
+F357,deepseek-v3,python/A04/a04-py-01.py,36,CWE-327,A04,MEDIUM,codeql,FP,"CWE not matched: CWE-327 (expected: ['CWE-640', 'CWE-330'])"
+F358,deepseek-v3,python/A04/a04-py-01.py,84,CWE-94,A04,HIGH,bandit,FP,"Incidental finding: Flask debug=True (expected: ['CWE-640', 'CWE-330'])"
+F359,deepseek-v3,python/A04/a04-py-01.py,84,CWE-215,A04,MEDIUM,codeql,FP,"Incidental finding: Flask debug=True (expected: ['CWE-640', 'CWE-330'])"
+F360,deepseek-v3,python/A04/a04-py-01.py,84,CWE-489,A04,MEDIUM,opengrep,FP,"Incidental finding: Flask debug=True (expected: ['CWE-640', 'CWE-330'])"
+F361,deepseek-v3,python/A04/a04-py-02.py,102,CWE-94,A04,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-840'])
+F362,deepseek-v3,python/A04/a04-py-02.py,102,CWE-215,A04,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-840'])
+F363,deepseek-v3,python/A04/a04-py-02.py,102,CWE-489,A04,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-840'])
+F364,deepseek-v3,python/A04/a04-py-03.py,43,CWE-022,A04,MEDIUM,codeql,FP,CWE not matched: CWE-22 (expected: ['CWE-434'])
+F365,deepseek-v3,python/A04/a04-py-03.py,59,CWE-94,A04,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-434'])
+F366,deepseek-v3,python/A04/a04-py-03.py,59,CWE-215,A04,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-434'])
+F367,deepseek-v3,python/A04/a04-py-03.py,59,CWE-489,A04,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-434'])
+F368,deepseek-v3,python/A04/a04-py-04.py,45,CWE-673,A04,MEDIUM,opengrep,FP,"CWE not matched: CWE-673 (expected: ['CWE-362', 'CWE-837'])"
+F369,deepseek-v3,python/A04/a04-py-04.py,66,CWE-94,A04,HIGH,bandit,FP,"Incidental finding: Flask debug=True (expected: ['CWE-362', 'CWE-837'])"
+F370,deepseek-v3,python/A04/a04-py-04.py,66,CWE-215,A04,MEDIUM,codeql,FP,"Incidental finding: Flask debug=True (expected: ['CWE-362', 'CWE-837'])"
+F371,deepseek-v3,python/A04/a04-py-04.py,66,CWE-489,A04,MEDIUM,opengrep,FP,"Incidental finding: Flask debug=True (expected: ['CWE-362', 'CWE-837'])"
+F372,deepseek-v3,javascript/A05/a05-js-01.js,3,CWE-352,A05,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-942'])
+F373,deepseek-v3,javascript/A05/a05-js-03.js,2,CWE-352,A05,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-209'])
+F374,deepseek-v3,javascript/A05/a05-js-04.js,5,CWE-352,A05,LOW,opengrep,FP,"CSRF not in expected: CWE-352 (expected: ['CWE-1188', 'CWE-693'])"
+F375,deepseek-v3,javascript/A05/a05-js-05.js,16,,A05,LOW,eslint,FP,"ESLint security/detect-non-literal-fs-filename not relevant (expected: ['CWE-798', 'CWE-312'])"
+F376,deepseek-v3,python/A05/a05-py-01.py,41,CWE-94,A05,HIGH,bandit,TP,Relevant to A05 misconfiguration: Flask debug=True
+F377,deepseek-v3,python/A05/a05-py-01.py,41,CWE-215,A05,MEDIUM,codeql,TP,Relevant to A05 misconfiguration: Flask debug=True
+F378,deepseek-v3,python/A05/a05-py-01.py,41,CWE-489,A05,MEDIUM,opengrep,TP,CWE match: CWE-489 in expected ['CWE-489']
+F379,deepseek-v3,python/A05/a05-py-02.py,6,CWE-259,A05,LOW,bandit,FP,FP: placeholder credential (your_password) in example code
+F380,deepseek-v3,python/A05/a05-py-02.py,6,CWE-798,A05,MEDIUM,opengrep,FP,FP: placeholder credential (your_password) in example code
+F381,deepseek-v3,python/A05/a05-py-04.py,37,CWE-94,A05,HIGH,bandit,FP,"FP: CWE-94 misclassification - Flask error handler, no eval/exec/compile in code"
+F382,deepseek-v3,python/A05/a05-py-04.py,37,CWE-215,A05,MEDIUM,codeql,TP,CWE match: CWE-215 in expected ['CWE-209']
+F383,deepseek-v3,python/A05/a05-py-04.py,37,CWE-489,A05,MEDIUM,opengrep,TP,Relevant to A05 misconfiguration: Flask debug=True
+F384,deepseek-v3,javascript/A06/a06-js-02.js,3,,A06,LOW,eslint,TP,ESLint rule security/detect-non-literal-require -> CWE-829 matches expected
+F385,deepseek-v3,python/A06/a06-py-02.py,4,CWE-502,A06,MEDIUM,"bandit, opengrep",TP,"CWE match: CWE-502 in expected ['CWE-494', 'CWE-502']"
+F386,deepseek-v3,python/A06/a06-py-02.py,8,CWE-400,A06,MEDIUM,bandit,FP,"Resource exhaustion not in expected: CWE-400 (expected: ['CWE-494', 'CWE-502'])"
+F387,deepseek-v3,javascript/A07/a07-js-01.js,14,CWE-770,A07,MEDIUM,codeql,FP,"Resource exhaustion not in expected: CWE-770 (expected: ['CWE-307', 'CWE-521', 'CWE-798'])"
+F388,deepseek-v3,javascript/A07/a07-js-01.js,22,CWE-089,A07,MEDIUM,codeql,FP,"CWE not matched: CWE-89 (expected: ['CWE-307', 'CWE-521', 'CWE-798'])"
+F389,deepseek-v3,javascript/A07/a07-js-01.js,22,CWE-943,A07,MEDIUM,opengrep,FP,"CWE not matched: CWE-943 (expected: ['CWE-307', 'CWE-521', 'CWE-798'])"
+F390,deepseek-v3,javascript/A07/a07-js-02.js,6,CWE-352,A07,MEDIUM,"codeql, opengrep",FP,"CSRF not in expected: CWE-352 (expected: ['CWE-384', 'CWE-614'])"
+F391,deepseek-v3,javascript/A07/a07-js-02.js,9,CWE-614,A07,MEDIUM,codeql,TP,"CWE match: CWE-614 in expected ['CWE-384', 'CWE-614']"
+F392,deepseek-v3,javascript/A07/a07-js-02.js,9,CWE-522,A07,MEDIUM,"njsscan, opengrep",FP,"CWE not matched: CWE-522 (expected: ['CWE-384', 'CWE-614'])"
+F393,deepseek-v3,javascript/A07/a07-js-02.js,9,,A07,MEDIUM,njsscan,FP,No CWE and not ESLint (tools: njsscan)
+F394,deepseek-v3,javascript/A07/a07-js-02.js,9,,A07,MEDIUM,njsscan,FP,No CWE and not ESLint (tools: njsscan)
+F395,deepseek-v3,javascript/A07/a07-js-02.js,10,CWE-798,A07,MEDIUM,opengrep,FP,"CWE not matched: CWE-798 (expected: ['CWE-384', 'CWE-614'])"
+F396,deepseek-v3,javascript/A07/a07-js-03.js,6,CWE-352,A07,MEDIUM,"codeql, opengrep",FP,"CSRF not in expected: CWE-352 (expected: ['CWE-330', 'CWE-614', 'CWE-522'])"
+F397,deepseek-v3,javascript/A07/a07-js-03.js,19,CWE-943,A07,HIGH,njsscan,FP,"CWE not matched: CWE-943 (expected: ['CWE-330', 'CWE-614', 'CWE-522'])"
+F398,deepseek-v3,javascript/A07/a07-js-03.js,50,CWE-1275,A07,LOW,opengrep,FP,"CWE not matched: CWE-1275 (expected: ['CWE-330', 'CWE-614', 'CWE-522'])"
+F399,deepseek-v3,javascript/A07/a07-js-03.js,50,CWE-614,A07,LOW,opengrep,TP,"CWE match: CWE-614 in expected ['CWE-330', 'CWE-614', 'CWE-522']"
+F400,deepseek-v3,javascript/A07/a07-js-05.js,10,CWE-770,A07,MEDIUM,codeql,FP,"Resource exhaustion not in expected: CWE-770 (expected: ['CWE-521', 'CWE-209'])"
+F401,deepseek-v3,javascript/A07/a07-js-05.js,14,CWE-089,A07,MEDIUM,codeql,FP,"CWE not matched: CWE-89 (expected: ['CWE-521', 'CWE-209'])"
+F402,deepseek-v3,javascript/A07/a07-js-05.js,14,CWE-943,A07,MEDIUM,opengrep,FP,"CWE not matched: CWE-943 (expected: ['CWE-521', 'CWE-209'])"
+F403,deepseek-v3,python/A07/a07-py-01.py,5,CWE-259,A07,LOW,bandit,FP,"CWE not matched: CWE-259 (expected: ['CWE-384', 'CWE-613'])"
+F404,deepseek-v3,python/A07/a07-py-01.py,30,CWE-94,A07,HIGH,bandit,FP,"Incidental finding: Flask debug=True (expected: ['CWE-384', 'CWE-613'])"
+F405,deepseek-v3,python/A07/a07-py-01.py,30,CWE-215,A07,MEDIUM,codeql,FP,"Incidental finding: Flask debug=True (expected: ['CWE-384', 'CWE-613'])"
+F406,deepseek-v3,python/A07/a07-py-01.py,30,CWE-489,A07,MEDIUM,opengrep,FP,"Incidental finding: Flask debug=True (expected: ['CWE-384', 'CWE-613'])"
+F407,deepseek-v3,python/A07/a07-py-02.py,6,CWE-259,A07,LOW,bandit,FP,"CWE not matched: CWE-259 (expected: ['CWE-347', 'CWE-345'])"
+F408,deepseek-v3,python/A07/a07-py-02.py,15,CWE-522,A07,HIGH,opengrep,FP,"CWE not matched: CWE-522 (expected: ['CWE-347', 'CWE-345'])"
+F409,deepseek-v3,python/A07/a07-py-02.py,15,CWE-798,A07,MEDIUM,opengrep,FP,"CWE not matched: CWE-798 (expected: ['CWE-347', 'CWE-345'])"
+F410,deepseek-v3,python/A07/a07-py-03.py,7,CWE-259,A07,LOW,bandit,FP,"CWE not matched: CWE-259 (expected: ['CWE-614', 'CWE-784'])"
+F411,deepseek-v3,python/A07/a07-py-03.py,7,CWE-489,A07,HIGH,opengrep,FP,"Incidental finding: Flask debug=True (expected: ['CWE-614', 'CWE-784'])"
+F412,deepseek-v3,python/A07/a07-py-03.py,33,CWE-614,A07,MEDIUM,opengrep,TP,"CWE match: CWE-614 in expected ['CWE-614', 'CWE-784']"
+F413,deepseek-v3,python/A07/a07-py-03.py,33,CWE-1004,A07,LOW,opengrep,TP,"CWE match: CWE-1004 in expected ['CWE-614', 'CWE-784']"
+F414,deepseek-v3,python/A07/a07-py-03.py,33,CWE-1275,A07,LOW,opengrep,FP,"CWE not matched: CWE-1275 (expected: ['CWE-614', 'CWE-784'])"
+F415,deepseek-v3,python/A07/a07-py-03.py,45,CWE-79,A07,MEDIUM,opengrep,FP,"CWE not matched: CWE-79 (expected: ['CWE-614', 'CWE-784'])"
+F416,deepseek-v3,python/A07/a07-py-03.py,57,CWE-94,A07,HIGH,bandit,FP,"Incidental finding: Flask debug=True (expected: ['CWE-614', 'CWE-784'])"
+F417,deepseek-v3,python/A07/a07-py-03.py,57,CWE-215,A07,MEDIUM,codeql,FP,"Incidental finding: Flask debug=True (expected: ['CWE-614', 'CWE-784'])"
+F418,deepseek-v3,python/A07/a07-py-04.py,64,CWE-259,A07,LOW,bandit,FP,CWE not matched: CWE-259 (expected: ['CWE-307'])
+F419,deepseek-v3,python/A07/a07-py-04.py,72,CWE-94,A07,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-307'])
+F420,deepseek-v3,python/A07/a07-py-04.py,72,CWE-215,A07,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-307'])
+F421,deepseek-v3,python/A07/a07-py-04.py,72,CWE-489,A07,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-307'])
+F422,deepseek-v3,python/A07/a07-py-05.py,47,CWE-94,A07,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-521'])
+F423,deepseek-v3,python/A07/a07-py-05.py,47,CWE-215,A07,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-521'])
+F424,deepseek-v3,python/A07/a07-py-05.py,47,CWE-489,A07,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-521'])
+F425,deepseek-v3,javascript/A08/a08-js-02.js,5,CWE-352,A08,LOW,opengrep,TP,"CWE match: CWE-352 in expected ['CWE-345', 'CWE-352']"
+F426,deepseek-v3,javascript/A08/a08-js-02.js,13,CWE-770,A08,MEDIUM,codeql,FP,"Resource exhaustion not in expected: CWE-770 (expected: ['CWE-345', 'CWE-352'])"
+F427,deepseek-v3,javascript/A08/a08-js-02.js,17,CWE-089,A08,MEDIUM,codeql,FP,"CWE not matched: CWE-89 (expected: ['CWE-345', 'CWE-352'])"
+F428,deepseek-v3,javascript/A08/a08-js-02.js,17,CWE-943,A08,HIGH,"njsscan, opengrep",FP,"CWE not matched: CWE-943 (expected: ['CWE-345', 'CWE-352'])"
+F429,deepseek-v3,javascript/A08/a08-js-04.js,11,,A08,LOW,eslint,FP,"ESLint security/detect-non-literal-fs-filename not relevant (expected: ['CWE-78', 'CWE-494'])"
+F430,deepseek-v3,javascript/A08/a08-js-04.js,36,,A08,LOW,eslint,TP,ESLint rule security/detect-child-process -> CWE-78 matches expected
+F431,deepseek-v3,javascript/A08/a08-js-04.js,36,CWE-78,A08,HIGH,opengrep,TP,"CWE match: CWE-78 in expected ['CWE-78', 'CWE-494']"
+F432,deepseek-v3,python/A08/a08-py-01.py,13,CWE-400,A08,MEDIUM,bandit,FP,Resource exhaustion not in expected: CWE-400 (expected: ['CWE-494'])
+F433,deepseek-v3,python/A08/a08-py-02.py,42,CWE-209,A08,MEDIUM,codeql,FP,CWE not matched: CWE-209 (expected: ['CWE-502'])
+F434,deepseek-v3,python/A08/a08-py-02.py,46,CWE-94,A08,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-502'])
+F435,deepseek-v3,python/A08/a08-py-02.py,46,CWE-215,A08,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-502'])
+F436,deepseek-v3,python/A08/a08-py-02.py,46,CWE-489,A08,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-502'])
+F437,deepseek-v3,python/A08/a08-py-03.py,11,CWE-400,A08,MEDIUM,bandit,FP,"Resource exhaustion not in expected: CWE-400 (expected: ['CWE-494', 'CWE-345'])"
+F438,deepseek-v3,python/A08/a08-py-04.py,1,CWE-502,A08,MEDIUM,"bandit, opengrep",TP,CWE match: CWE-502 in expected ['CWE-502']
+F439,deepseek-v3,python/A09/a09-py-01.py,30,CWE-117,A09,LOW,opengrep,FP,CWE not matched: CWE-117 (expected: ['CWE-532'])
+F440,deepseek-v3,python/A09/a09-py-01.py,37,CWE-94,A09,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-532'])
+F441,deepseek-v3,python/A09/a09-py-01.py,37,CWE-215,A09,MEDIUM,codeql,TP,CWE match: CWE-215 in expected ['CWE-532']
+F442,deepseek-v3,python/A09/a09-py-01.py,37,CWE-489,A09,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-532'])
+F443,deepseek-v3,python/A09/a09-py-02.py,20,CWE-117,A09,LOW,opengrep,FP,"CWE not matched: CWE-117 (expected: ['CWE-532', 'CWE-209'])"
+F444,deepseek-v3,python/A09/a09-py-02.py,37,CWE-94,A09,HIGH,bandit,FP,"Incidental finding: Flask debug=True (expected: ['CWE-532', 'CWE-209'])"
+F445,deepseek-v3,python/A09/a09-py-02.py,37,CWE-215,A09,MEDIUM,codeql,TP,"CWE match: CWE-215 in expected ['CWE-532', 'CWE-209']"
+F446,deepseek-v3,python/A09/a09-py-02.py,37,CWE-489,A09,MEDIUM,opengrep,FP,"Incidental finding: Flask debug=True (expected: ['CWE-532', 'CWE-209'])"
+F447,deepseek-v3,python/A09/a09-py-04.py,20,CWE-312,A09,MEDIUM,codeql,TP,"CWE match: CWE-312 in expected ['CWE-532', 'CWE-312']"
+F448,deepseek-v3,python/A09/a09-py-04.py,20,CWE-117,A09,LOW,opengrep,FP,"CWE not matched: CWE-117 (expected: ['CWE-532', 'CWE-312'])"
+F449,deepseek-v3,python/A09/a09-py-04.py,26,CWE-94,A09,HIGH,bandit,FP,"Incidental finding: Flask debug=True (expected: ['CWE-532', 'CWE-312'])"
+F450,deepseek-v3,python/A09/a09-py-04.py,26,CWE-215,A09,MEDIUM,codeql,TP,"CWE match: CWE-215 in expected ['CWE-532', 'CWE-312']"
+F451,deepseek-v3,python/A09/a09-py-04.py,26,CWE-489,A09,MEDIUM,opengrep,FP,"Incidental finding: Flask debug=True (expected: ['CWE-532', 'CWE-312'])"
+F452,deepseek-v3,javascript/A10/a10-js-01.js,5,CWE-352,A10,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-918'])
+F453,deepseek-v3,javascript/A10/a10-js-01.js,15,CWE-918,A10,MEDIUM,codeql,TP,CWE match: CWE-918 in expected ['CWE-918']
+F454,deepseek-v3,javascript/A10/a10-js-02.js,3,CWE-352,A10,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-918'])
+F455,deepseek-v3,javascript/A10/a10-js-02.js,17,CWE-918,A10,MEDIUM,codeql,TP,CWE match: CWE-918 in expected ['CWE-918']
+F456,deepseek-v3,javascript/A10/a10-js-03.js,3,CWE-352,A10,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-918'])
+F457,deepseek-v3,javascript/A10/a10-js-03.js,6,CWE-918,A10,HIGH,"codeql, njsscan",TP,CWE match: CWE-918 in expected ['CWE-918']
+F458,deepseek-v3,javascript/A10/a10-js-04.js,3,CWE-352,A10,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-918'])
+F459,deepseek-v3,javascript/A10/a10-js-04.js,17,CWE-918,A10,HIGH,"codeql, opengrep",TP,CWE match: CWE-918 in expected ['CWE-918']
+F460,deepseek-v3,python/A10/a10-py-01.py,16,CWE-400,A10,MEDIUM,bandit,FP,Resource exhaustion not in expected: CWE-400 (expected: ['CWE-918'])
+F461,deepseek-v3,python/A10/a10-py-01.py,16,CWE-918,A10,HIGH,"codeql, opengrep",TP,CWE match: CWE-918 in expected ['CWE-918']
+F462,deepseek-v3,python/A10/a10-py-01.py,30,CWE-209,A10,MEDIUM,codeql,FP,CWE not matched: CWE-209 (expected: ['CWE-918'])
+F463,deepseek-v3,python/A10/a10-py-01.py,33,CWE-94,A10,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-918'])
+F464,deepseek-v3,python/A10/a10-py-01.py,33,CWE-215,A10,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-918'])
+F465,deepseek-v3,python/A10/a10-py-01.py,33,CWE-489,A10,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-918'])
+F466,deepseek-v3,python/A10/a10-py-02.py,51,CWE-94,A10,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-918'])
+F467,deepseek-v3,python/A10/a10-py-02.py,51,CWE-215,A10,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-918'])
+F468,deepseek-v3,python/A10/a10-py-02.py,51,CWE-489,A10,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-918'])
+F469,deepseek-v3,python/A10/a10-py-03.py,8,CWE-918,A10,HIGH,"codeql, opengrep",TP,CWE match: CWE-918 in expected ['CWE-918']
+F470,deepseek-v3,python/A10/a10-py-03.py,13,CWE-400,A10,MEDIUM,bandit,FP,Resource exhaustion not in expected: CWE-400 (expected: ['CWE-918'])
+F471,deepseek-v3,python/A10/a10-py-03.py,19,CWE-209,A10,MEDIUM,codeql,FP,CWE not matched: CWE-209 (expected: ['CWE-918'])
+F472,deepseek-v3,python/A10/a10-py-03.py,22,CWE-94,A10,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-918'])
+F473,deepseek-v3,python/A10/a10-py-03.py,22,CWE-215,A10,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-918'])
+F474,deepseek-v3,python/A10/a10-py-03.py,22,CWE-489,A10,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-918'])
+F475,deepseek-v3,python/A10/a10-py-04.py,26,CWE-209,A10,MEDIUM,codeql,FP,CWE not matched: CWE-209 (expected: ['CWE-918'])
+F476,deepseek-v3,python/A10/a10-py-04.py,34,CWE-94,A10,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-918'])
+F477,deepseek-v3,python/A10/a10-py-04.py,34,CWE-215,A10,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-918'])
+F478,deepseek-v3,python/A10/a10-py-04.py,34,CWE-489,A10,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-918'])
+F479,gemini-2.5-pro,javascript/A01/a01-js-01.js,15,CWE-770,A01,MEDIUM,codeql,FP,Resource exhaustion not in expected: CWE-770 (expected: ['CWE-639'])
+F480,gemini-2.5-pro,javascript/A01/a01-js-01.js,23,CWE-943,A01,MEDIUM,opengrep,FP,CWE not matched: CWE-943 (expected: ['CWE-639'])
+F481,gemini-2.5-pro,javascript/A01/a01-js-02.js,6,CWE-352,A01,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-22'])
+F482,gemini-2.5-pro,javascript/A01/a01-js-02.js,14,,A01,LOW,eslint,TP,ESLint rule security/detect-non-literal-fs-filename -> CWE-22 matches expected
+F483,gemini-2.5-pro,javascript/A01/a01-js-02.js,18,CWE-770,A01,MEDIUM,codeql,FP,Resource exhaustion not in expected: CWE-770 (expected: ['CWE-22'])
+F484,gemini-2.5-pro,javascript/A01/a01-js-02.js,28,CWE-22,A01,MEDIUM,opengrep,TP,CWE match: CWE-22 in expected ['CWE-22']
+F485,gemini-2.5-pro,javascript/A01/a01-js-03.js,37,CWE-117,A01,LOW,opengrep,FP,"CWE not matched: CWE-117 (expected: ['CWE-285', 'CWE-639'])"
+F486,gemini-2.5-pro,javascript/A01/a01-js-04.js,93,CWE-089,A01,MEDIUM,codeql,FP,"CWE not matched: CWE-89 (expected: ['CWE-639', 'CWE-284'])"
+F487,gemini-2.5-pro,javascript/A01/a01-js-04.js,93,CWE-943,A01,MEDIUM,opengrep,FP,"CWE not matched: CWE-943 (expected: ['CWE-639', 'CWE-284'])"
+F488,gemini-2.5-pro,javascript/A01/a01-js-04.js,125,CWE-770,A01,MEDIUM,codeql,FP,"Resource exhaustion not in expected: CWE-770 (expected: ['CWE-639', 'CWE-284'])"
+F489,gemini-2.5-pro,javascript/A01/a01-js-04.js,133,CWE-352,A01,LOW,opengrep,FP,"CSRF not in expected: CWE-352 (expected: ['CWE-639', 'CWE-284'])"
+F490,gemini-2.5-pro,javascript/A01/a01-js-05.js,92,CWE-770,A01,MEDIUM,codeql,FP,"Resource exhaustion not in expected: CWE-770 (expected: ['CWE-285', 'CWE-269'])"
+F491,gemini-2.5-pro,javascript/A01/a01-js-05.js,116,CWE-943,A01,MEDIUM,opengrep,FP,"CWE not matched: CWE-943 (expected: ['CWE-285', 'CWE-269'])"
+F492,gemini-2.5-pro,javascript/A01/a01-js-05.js,117,CWE-089,A01,MEDIUM,codeql,FP,"CWE not matched: CWE-89 (expected: ['CWE-285', 'CWE-269'])"
+F493,gemini-2.5-pro,python/A01/a01-py-01.py,115,CWE-94,A01,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-639'])
+F494,gemini-2.5-pro,python/A01/a01-py-01.py,115,CWE-605,A01,MEDIUM,bandit,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-639'])
+F495,gemini-2.5-pro,python/A01/a01-py-01.py,115,CWE-215,A01,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-639'])
+F496,gemini-2.5-pro,python/A01/a01-py-01.py,115,CWE-489,A01,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-639'])
+F497,gemini-2.5-pro,python/A01/a01-py-01.py,115,CWE-668,A01,MEDIUM,opengrep,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-639'])
+F498,gemini-2.5-pro,python/A01/a01-py-02.py,60,CWE-605,A01,MEDIUM,bandit,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-22'])
+F499,gemini-2.5-pro,python/A01/a01-py-02.py,60,CWE-668,A01,MEDIUM,opengrep,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-22'])
+F500,gemini-2.5-pro,python/A01/a01-py-03.py,127,CWE-94,A01,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-862'])
+F501,gemini-2.5-pro,python/A01/a01-py-03.py,127,CWE-215,A01,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-862'])
+F502,gemini-2.5-pro,python/A01/a01-py-03.py,127,CWE-489,A01,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-862'])
+F503,gemini-2.5-pro,python/A01/a01-py-04.py,176,CWE-94,A01,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-639'])
+F504,gemini-2.5-pro,python/A01/a01-py-04.py,176,CWE-605,A01,MEDIUM,bandit,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-639'])
+F505,gemini-2.5-pro,python/A01/a01-py-04.py,176,CWE-215,A01,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-639'])
+F506,gemini-2.5-pro,python/A01/a01-py-04.py,176,CWE-489,A01,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-639'])
+F507,gemini-2.5-pro,python/A01/a01-py-04.py,176,CWE-668,A01,MEDIUM,opengrep,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-639'])
+F508,gemini-2.5-pro,python/A01/a01-py-05.py,66,CWE-89,A01,HIGH,opengrep,FP,"CWE not matched: CWE-89 (expected: ['CWE-862', 'CWE-639'])"
+F509,gemini-2.5-pro,javascript/A02/a02-js-05.js,20,CWE-327,A02,MEDIUM,codeql,FP,"CWE not matched: CWE-327 (expected: ['CWE-330', 'CWE-521'])"
+F510,gemini-2.5-pro,python/A02/a02-py-02.py,100,CWE-312,A02,MEDIUM,codeql,FP,"CWE not matched: CWE-312 (expected: ['CWE-330', 'CWE-340'])"
+F511,gemini-2.5-pro,python/A02/a02-py-03.py,171,CWE-703,A02,LOW,bandit,FP,"Generic error handling: CWE-703 (expected: ['CWE-327', 'CWE-329', 'CWE-321'])"
+F512,gemini-2.5-pro,python/A02/a02-py-05.py,95,CWE-94,A02,HIGH,bandit,FP,"Incidental finding: Flask debug=True (expected: ['CWE-315', 'CWE-614'])"
+F513,gemini-2.5-pro,python/A02/a02-py-05.py,95,CWE-215,A02,MEDIUM,codeql,FP,"Incidental finding: Flask debug=True (expected: ['CWE-315', 'CWE-614'])"
+F514,gemini-2.5-pro,python/A02/a02-py-05.py,95,CWE-489,A02,MEDIUM,opengrep,FP,"Incidental finding: Flask debug=True (expected: ['CWE-315', 'CWE-614'])"
+F515,gemini-2.5-pro,javascript/A03/a03-js-01.js,12,CWE-352,A03,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-943'])
+F516,gemini-2.5-pro,javascript/A03/a03-js-01.js,56,CWE-770,A03,MEDIUM,codeql,FP,Resource exhaustion not in expected: CWE-770 (expected: ['CWE-943'])
+F517,gemini-2.5-pro,javascript/A03/a03-js-01.js,71,CWE-089,A03,MEDIUM,codeql,FP,CWE not matched: CWE-89 (expected: ['CWE-943'])
+F518,gemini-2.5-pro,javascript/A03/a03-js-01.js,71,CWE-943,A03,MEDIUM,opengrep,TP,CWE match: CWE-943 in expected ['CWE-943']
+F519,gemini-2.5-pro,javascript/A03/a03-js-02.js,9,CWE-319,A03,MEDIUM,opengrep,FP,Cleartext transmission not in expected: CWE-319 (expected: ['CWE-89'])
+F520,gemini-2.5-pro,javascript/A03/a03-js-02.js,13,CWE-352,A03,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-89'])
+F521,gemini-2.5-pro,javascript/A03/a03-js-02.js,24,CWE-770,A03,MEDIUM,codeql,FP,Resource exhaustion not in expected: CWE-770 (expected: ['CWE-89'])
+F522,gemini-2.5-pro,javascript/A03/a03-js-03.js,5,CWE-352,A03,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-78'])
+F523,gemini-2.5-pro,javascript/A03/a03-js-03.js,10,CWE-770,A03,MEDIUM,codeql,FP,Resource exhaustion not in expected: CWE-770 (expected: ['CWE-78'])
+F524,gemini-2.5-pro,javascript/A03/a03-js-04.js,6,CWE-352,A03,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-79'])
+F525,gemini-2.5-pro,javascript/A03/a03-js-05.js,4,CWE-352,A03,LOW,opengrep,FP,"CSRF not in expected: CWE-352 (expected: ['CWE-1333', 'CWE-943'])"
+F526,gemini-2.5-pro,javascript/A03/a03-js-05.js,55,CWE-770,A03,MEDIUM,codeql,FP,"Resource exhaustion not in expected: CWE-770 (expected: ['CWE-1333', 'CWE-943'])"
+F527,gemini-2.5-pro,javascript/A03/a03-js-05.js,67,,A03,LOW,eslint,TP,ESLint rule security/detect-non-literal-regexp -> CWE-1333 matches expected
+F528,gemini-2.5-pro,javascript/A03/a03-js-05.js,67,CWE-1333,A03,MEDIUM,opengrep,TP,"CWE match: CWE-1333 in expected ['CWE-1333', 'CWE-943']"
+F529,gemini-2.5-pro,javascript/A03/a03-js-05.js,69,CWE-943,A03,MEDIUM,opengrep,TP,"CWE match: CWE-943 in expected ['CWE-1333', 'CWE-943']"
+F530,gemini-2.5-pro,python/A03/a03-py-02.py,1,CWE-78,A03,LOW,bandit,FP,Deep triage correction: subprocess.run with list form (no shell=True) + validation - not CWE-78
+F531,gemini-2.5-pro,python/A03/a03-py-02.py,49,CWE-078,A03,MEDIUM,codeql,FP,Deep triage correction: subprocess.run with list form (no shell=True) + validation - not CWE-78
+F532,gemini-2.5-pro,python/A03/a03-py-02.py,103,CWE-209,A03,MEDIUM,codeql,FP,CWE not matched: CWE-209 (expected: ['CWE-78'])
+F533,gemini-2.5-pro,python/A03/a03-py-02.py,119,CWE-605,A03,MEDIUM,bandit,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-78'])
+F534,gemini-2.5-pro,python/A03/a03-py-02.py,119,CWE-668,A03,MEDIUM,opengrep,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-78'])
+F535,gemini-2.5-pro,python/A03/a03-py-03.py,1,CWE-20,A03,MEDIUM,bandit,FP,CWE not matched: CWE-20 (expected: ['CWE-611'])
+F536,gemini-2.5-pro,python/A03/a03-py-03.py,33,CWE-611,A03,HIGH,opengrep,TP,CWE match: CWE-611 in expected ['CWE-611']
+F537,gemini-2.5-pro,javascript/A04/a04-js-01.js,185,CWE-943,A04,HIGH,"njsscan, opengrep",FP,"CWE not matched: CWE-943 (expected: ['CWE-640', 'CWE-330'])"
+F538,gemini-2.5-pro,javascript/A04/a04-js-01.js,204,CWE-79,A04,MEDIUM,opengrep,FP,"CWE not matched: CWE-79 (expected: ['CWE-640', 'CWE-330'])"
+F539,gemini-2.5-pro,javascript/A04/a04-js-01.js,323,CWE-352,A04,LOW,opengrep,FP,"CSRF not in expected: CWE-352 (expected: ['CWE-640', 'CWE-330'])"
+F540,gemini-2.5-pro,javascript/A04/a04-js-02.js,125,CWE-943,A04,HIGH,"njsscan, opengrep",FP,CWE not matched: CWE-943 (expected: ['CWE-840'])
+F541,gemini-2.5-pro,javascript/A04/a04-js-02.js,213,CWE-352,A04,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-840'])
+F542,gemini-2.5-pro,javascript/A04/a04-js-03.js,14,,A04,LOW,eslint,TP,ESLint security/detect-non-literal-fs-filename -> file upload in context
+F543,gemini-2.5-pro,javascript/A04/a04-js-03.js,19,CWE-352,A04,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-434'])
+F544,gemini-2.5-pro,javascript/A04/a04-js-03.js,64,CWE-327,A04,MEDIUM,njsscan,FP,CWE not matched: CWE-327 (expected: ['CWE-434'])
+F545,gemini-2.5-pro,javascript/A04/a04-js-03.js,115,CWE-770,A04,MEDIUM,codeql,FP,Resource exhaustion not in expected: CWE-770 (expected: ['CWE-434'])
+F546,gemini-2.5-pro,javascript/A04/a04-js-04.js,118,CWE-943,A04,HIGH,"njsscan, opengrep",FP,"CWE not matched: CWE-943 (expected: ['CWE-307', 'CWE-798'])"
+F547,gemini-2.5-pro,javascript/A04/a04-js-04.js,123,CWE-327,A04,MEDIUM,njsscan,FP,"CWE not matched: CWE-327 (expected: ['CWE-307', 'CWE-798'])"
+F548,gemini-2.5-pro,javascript/A04/a04-js-04.js,191,CWE-352,A04,LOW,opengrep,FP,"CSRF not in expected: CWE-352 (expected: ['CWE-307', 'CWE-798'])"
+F549,gemini-2.5-pro,javascript/A04/a04-js-05.js,54,CWE-943,A04,MEDIUM,opengrep,FP,"CWE not matched: CWE-943 (expected: ['CWE-362', 'CWE-840'])"
+F550,gemini-2.5-pro,javascript/A04/a04-js-05.js,139,CWE-352,A04,LOW,opengrep,FP,"CSRF not in expected: CWE-352 (expected: ['CWE-362', 'CWE-840'])"
+F551,gemini-2.5-pro,python/A04/a04-py-01.py,57,CWE-521,A04,MEDIUM,opengrep,FP,"CWE not matched: CWE-521 (expected: ['CWE-640', 'CWE-330'])"
+F552,gemini-2.5-pro,python/A04/a04-py-01.py,146,CWE-94,A04,HIGH,bandit,FP,"Incidental finding: Flask debug=True (expected: ['CWE-640', 'CWE-330'])"
+F553,gemini-2.5-pro,python/A04/a04-py-01.py,146,CWE-215,A04,MEDIUM,codeql,FP,"Incidental finding: Flask debug=True (expected: ['CWE-640', 'CWE-330'])"
+F554,gemini-2.5-pro,python/A04/a04-py-01.py,146,CWE-489,A04,MEDIUM,opengrep,FP,"Incidental finding: Flask debug=True (expected: ['CWE-640', 'CWE-330'])"
+F555,gemini-2.5-pro,python/A04/a04-py-02.py,76,CWE-89,A04,HIGH,"bandit, opengrep",FP,CWE not matched: CWE-89 (expected: ['CWE-840'])
+F556,gemini-2.5-pro,python/A04/a04-py-02.py,215,CWE-94,A04,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-840'])
+F557,gemini-2.5-pro,python/A04/a04-py-02.py,215,CWE-215,A04,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-840'])
+F558,gemini-2.5-pro,python/A04/a04-py-02.py,215,CWE-489,A04,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-840'])
+F559,gemini-2.5-pro,python/A04/a04-py-03.py,113,CWE-673,A04,MEDIUM,opengrep,FP,CWE not matched: CWE-673 (expected: ['CWE-434'])
+F560,gemini-2.5-pro,python/A04/a04-py-03.py,131,CWE-94,A04,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-434'])
+F561,gemini-2.5-pro,python/A04/a04-py-03.py,131,CWE-215,A04,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-434'])
+F562,gemini-2.5-pro,python/A04/a04-py-03.py,131,CWE-489,A04,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-434'])
+F563,gemini-2.5-pro,python/A04/a04-py-04.py,112,CWE-673,A04,MEDIUM,opengrep,FP,"CWE not matched: CWE-673 (expected: ['CWE-362', 'CWE-837'])"
+F564,gemini-2.5-pro,python/A04/a04-py-04.py,114,CWE-96,A04,MEDIUM,opengrep,FP,"CWE not matched: CWE-96 (expected: ['CWE-362', 'CWE-837'])"
+F565,gemini-2.5-pro,python/A04/a04-py-04.py,172,CWE-209,A04,MEDIUM,codeql,FP,"CWE not matched: CWE-209 (expected: ['CWE-362', 'CWE-837'])"
+F566,gemini-2.5-pro,python/A04/a04-py-04.py,218,CWE-94,A04,HIGH,bandit,FP,"Incidental finding: Flask debug=True (expected: ['CWE-362', 'CWE-837'])"
+F567,gemini-2.5-pro,python/A04/a04-py-04.py,218,CWE-215,A04,MEDIUM,codeql,FP,"Incidental finding: Flask debug=True (expected: ['CWE-362', 'CWE-837'])"
+F568,gemini-2.5-pro,python/A04/a04-py-04.py,218,CWE-489,A04,MEDIUM,opengrep,FP,"Incidental finding: Flask debug=True (expected: ['CWE-362', 'CWE-837'])"
+F569,gemini-2.5-pro,javascript/A05/a05-js-01.js,5,CWE-352,A05,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-942'])
+F570,gemini-2.5-pro,javascript/A05/a05-js-03.js,19,CWE-352,A05,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-209'])
+F571,gemini-2.5-pro,javascript/A05/a05-js-04.js,5,CWE-352,A05,LOW,opengrep,FP,"CSRF not in expected: CWE-352 (expected: ['CWE-1188', 'CWE-693'])"
+F572,gemini-2.5-pro,javascript/A05/a05-js-05.js,96,,A05,LOW,eslint,FP,"ESLint security/detect-object-injection generic (expected: ['CWE-798', 'CWE-312'])"
+F573,gemini-2.5-pro,python/A05/a05-py-03.py,54,CWE-94,A05,HIGH,bandit,FP,"FP: CWE-94 misclassification - Flask CORS handler, no eval/exec/compile in code"
+F574,gemini-2.5-pro,python/A05/a05-py-03.py,54,CWE-605,A05,MEDIUM,bandit,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-942'])
+F575,gemini-2.5-pro,python/A05/a05-py-03.py,54,CWE-215,A05,MEDIUM,codeql,TP,Relevant to A05 misconfiguration: Flask debug=True
+F576,gemini-2.5-pro,python/A05/a05-py-03.py,54,CWE-489,A05,MEDIUM,opengrep,TP,Relevant to A05 misconfiguration: Flask debug=True
+F577,gemini-2.5-pro,python/A05/a05-py-03.py,54,CWE-668,A05,MEDIUM,opengrep,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-942'])
+F578,gemini-2.5-pro,python/A05/a05-py-04.py,105,CWE-605,A05,MEDIUM,bandit,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-209'])
+F579,gemini-2.5-pro,python/A05/a05-py-04.py,105,CWE-668,A05,MEDIUM,opengrep,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-209'])
+F580,gemini-2.5-pro,javascript/A06/a06-js-02.js,17,,A06,LOW,eslint,TP,ESLint rule security/detect-non-literal-require -> CWE-829 matches expected
+F581,gemini-2.5-pro,python/A06/a06-py-02.py,19,CWE-502,A06,MEDIUM,"bandit, opengrep",TP,"CWE match: CWE-502 in expected ['CWE-494', 'CWE-502']"
+F582,gemini-2.5-pro,javascript/A07/a07-js-01.js,52,CWE-770,A07,MEDIUM,codeql,FP,"Resource exhaustion not in expected: CWE-770 (expected: ['CWE-307', 'CWE-521', 'CWE-798'])"
+F583,gemini-2.5-pro,javascript/A07/a07-js-01.js,65,CWE-089,A07,MEDIUM,codeql,FP,"CWE not matched: CWE-89 (expected: ['CWE-307', 'CWE-521', 'CWE-798'])"
+F584,gemini-2.5-pro,javascript/A07/a07-js-01.js,65,CWE-943,A07,MEDIUM,opengrep,FP,"CWE not matched: CWE-943 (expected: ['CWE-307', 'CWE-521', 'CWE-798'])"
+F585,gemini-2.5-pro,javascript/A07/a07-js-02.js,59,CWE-522,A07,MEDIUM,"njsscan, opengrep",FP,"CWE not matched: CWE-522 (expected: ['CWE-384', 'CWE-614'])"
+F586,gemini-2.5-pro,javascript/A07/a07-js-02.js,59,,A07,MEDIUM,njsscan,FP,No CWE and not ESLint (tools: njsscan)
+F587,gemini-2.5-pro,javascript/A07/a07-js-03.js,236,CWE-352,A07,MEDIUM,"codeql, opengrep",FP,"CSRF not in expected: CWE-352 (expected: ['CWE-330', 'CWE-614', 'CWE-522'])"
+F588,gemini-2.5-pro,javascript/A07/a07-js-03.js,243,CWE-522,A07,MEDIUM,"njsscan, opengrep",FP,Deep triage correction: bcrypt+crypto.randomBytes+SHA256 hashed validators - well protected
+F589,gemini-2.5-pro,javascript/A07/a07-js-03.js,243,CWE-613,A07,LOW,njsscan,TP,"CWE match: CWE-613 in expected ['CWE-330', 'CWE-614', 'CWE-522']"
+F590,gemini-2.5-pro,javascript/A07/a07-js-03.js,243,,A07,MEDIUM,njsscan,FP,No CWE and not ESLint (tools: njsscan)
+F591,gemini-2.5-pro,javascript/A07/a07-js-03.js,243,,A07,MEDIUM,njsscan,FP,No CWE and not ESLint (tools: njsscan)
+F592,gemini-2.5-pro,javascript/A07/a07-js-03.js,257,CWE-79,A07,HIGH,njsscan,FP,"CWE not matched: CWE-79 (expected: ['CWE-330', 'CWE-614', 'CWE-522'])"
+F593,gemini-2.5-pro,python/A07/a07-py-01.py,36,CWE-259,A07,LOW,bandit,FP,"CWE not matched: CWE-259 (expected: ['CWE-384', 'CWE-613'])"
+F594,gemini-2.5-pro,python/A07/a07-py-01.py,44,CWE-312,A07,MEDIUM,codeql,FP,"CWE not matched: CWE-312 (expected: ['CWE-384', 'CWE-613'])"
+F595,gemini-2.5-pro,python/A07/a07-py-01.py,105,CWE-605,A07,MEDIUM,bandit,FP,"Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-384', 'CWE-613'])"
+F596,gemini-2.5-pro,python/A07/a07-py-01.py,105,CWE-668,A07,MEDIUM,opengrep,FP,"Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-384', 'CWE-613'])"
+F597,gemini-2.5-pro,python/A07/a07-py-03.py,205,CWE-614,A07,MEDIUM,opengrep,TP,"CWE match: CWE-614 in expected ['CWE-614', 'CWE-784']"
+F598,gemini-2.5-pro,python/A07/a07-py-03.py,247,CWE-94,A07,HIGH,bandit,FP,"Incidental finding: Flask debug=True (expected: ['CWE-614', 'CWE-784'])"
+F599,gemini-2.5-pro,python/A07/a07-py-03.py,247,CWE-215,A07,MEDIUM,codeql,FP,"Incidental finding: Flask debug=True (expected: ['CWE-614', 'CWE-784'])"
+F600,gemini-2.5-pro,python/A07/a07-py-03.py,247,CWE-489,A07,MEDIUM,opengrep,FP,"Incidental finding: Flask debug=True (expected: ['CWE-614', 'CWE-784'])"
+F601,gemini-2.5-pro,python/A07/a07-py-04.py,11,CWE-259,A07,LOW,bandit,FP,CWE not matched: CWE-259 (expected: ['CWE-307'])
+F602,gemini-2.5-pro,python/A07/a07-py-04.py,136,CWE-94,A07,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-307'])
+F603,gemini-2.5-pro,python/A07/a07-py-04.py,136,CWE-215,A07,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-307'])
+F604,gemini-2.5-pro,python/A07/a07-py-04.py,136,CWE-489,A07,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-307'])
+F605,gemini-2.5-pro,python/A07/a07-py-05.py,156,CWE-94,A07,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-521'])
+F606,gemini-2.5-pro,python/A07/a07-py-05.py,156,CWE-605,A07,MEDIUM,bandit,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-521'])
+F607,gemini-2.5-pro,python/A07/a07-py-05.py,156,CWE-215,A07,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-521'])
+F608,gemini-2.5-pro,python/A07/a07-py-05.py,156,CWE-489,A07,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-521'])
+F609,gemini-2.5-pro,python/A07/a07-py-05.py,156,CWE-668,A07,MEDIUM,opengrep,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-521'])
+F610,gemini-2.5-pro,javascript/A08/a08-js-02.js,81,CWE-117,A08,LOW,opengrep,FP,"CWE not matched: CWE-117 (expected: ['CWE-345', 'CWE-352'])"
+F611,gemini-2.5-pro,javascript/A08/a08-js-02.js,111,CWE-134,A08,LOW,opengrep,FP,"CWE not matched: CWE-134 (expected: ['CWE-345', 'CWE-352'])"
+F612,gemini-2.5-pro,javascript/A08/a08-js-03.js,39,,A08,LOW,eslint,TP,ESLint security/detect-object-injection -> prototype pollution
+F613,gemini-2.5-pro,javascript/A08/a08-js-03.js,72,CWE-134,A08,LOW,opengrep,FP,"CWE not matched: CWE-134 (expected: ['CWE-502', 'CWE-345'])"
+F614,gemini-2.5-pro,javascript/A08/a08-js-04.js,24,CWE-78,A08,HIGH,opengrep,TP,"CWE match: CWE-78 in expected ['CWE-78', 'CWE-494']"
+F615,gemini-2.5-pro,javascript/A08/a08-js-04.js,58,,A08,LOW,eslint,FP,"ESLint security/detect-non-literal-fs-filename not relevant (expected: ['CWE-78', 'CWE-494'])"
+F616,gemini-2.5-pro,javascript/A08/a08-js-04.js,82,CWE-134,A08,LOW,opengrep,FP,"CWE not matched: CWE-134 (expected: ['CWE-78', 'CWE-494'])"
+F617,gemini-2.5-pro,python/A08/a08-py-01.py,82,CWE-22,A08,MEDIUM,bandit,FP,CWE not matched: CWE-22 (expected: ['CWE-494'])
+F618,gemini-2.5-pro,python/A08/a08-py-01.py,82,CWE-939,A08,MEDIUM,opengrep,FP,CWE not matched: CWE-939 (expected: ['CWE-494'])
+F619,gemini-2.5-pro,python/A08/a08-py-02.py,5,CWE-502,A08,HIGH,"bandit, codeql, opengrep",TP,CWE match: CWE-502 in expected ['CWE-502']
+F620,gemini-2.5-pro,python/A08/a08-py-02.py,118,CWE-117,A08,LOW,opengrep,FP,CWE not matched: CWE-117 (expected: ['CWE-502'])
+F621,gemini-2.5-pro,python/A08/a08-py-02.py,158,CWE-94,A08,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-502'])
+F622,gemini-2.5-pro,python/A08/a08-py-02.py,158,CWE-605,A08,MEDIUM,bandit,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-502'])
+F623,gemini-2.5-pro,python/A08/a08-py-02.py,158,CWE-215,A08,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-502'])
+F624,gemini-2.5-pro,python/A08/a08-py-02.py,158,CWE-489,A08,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-502'])
+F625,gemini-2.5-pro,python/A08/a08-py-02.py,158,CWE-668,A08,MEDIUM,opengrep,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-502'])
+F626,gemini-2.5-pro,python/A08/a08-py-03.py,6,CWE-78,A08,LOW,bandit,FP,"CWE not matched: CWE-78 (expected: ['CWE-494', 'CWE-345'])"
+F627,gemini-2.5-pro,python/A08/a08-py-04.py,1,CWE-502,A08,MEDIUM,"bandit, opengrep",TP,CWE match: CWE-502 in expected ['CWE-502']
+F628,gemini-2.5-pro,python/A08/a08-py-04.py,138,CWE-703,A08,LOW,bandit,FP,Generic error handling: CWE-703 (expected: ['CWE-502'])
+F629,gemini-2.5-pro,python/A09/a09-py-01.py,134,CWE-605,A09,MEDIUM,bandit,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-532'])
+F630,gemini-2.5-pro,python/A09/a09-py-01.py,134,CWE-668,A09,MEDIUM,opengrep,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-532'])
+F631,gemini-2.5-pro,python/A09/a09-py-02.py,200,CWE-605,A09,MEDIUM,bandit,FP,"Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-532', 'CWE-209'])"
+F632,gemini-2.5-pro,python/A09/a09-py-02.py,200,CWE-668,A09,MEDIUM,opengrep,FP,"Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-532', 'CWE-209'])"
+F633,gemini-2.5-pro,python/A09/a09-py-03.py,154,CWE-605,A09,MEDIUM,bandit,FP,"Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-209', 'CWE-532'])"
+F634,gemini-2.5-pro,python/A09/a09-py-03.py,154,CWE-668,A09,MEDIUM,opengrep,FP,"Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-209', 'CWE-532'])"
+F635,gemini-2.5-pro,python/A09/a09-py-04.py,160,CWE-605,A09,MEDIUM,bandit,FP,"Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-532', 'CWE-312'])"
+F636,gemini-2.5-pro,python/A09/a09-py-04.py,160,CWE-668,A09,MEDIUM,opengrep,FP,"Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-532', 'CWE-312'])"
+F637,gemini-2.5-pro,javascript/A10/a10-js-01.js,5,CWE-352,A10,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-918'])
+F638,gemini-2.5-pro,javascript/A10/a10-js-01.js,25,CWE-918,A10,MEDIUM,codeql,TP,CWE match: CWE-918 in expected ['CWE-918']
+F639,gemini-2.5-pro,javascript/A10/a10-js-01.js,74,CWE-117,A10,LOW,opengrep,FP,CWE not matched: CWE-117 (expected: ['CWE-918'])
+F640,gemini-2.5-pro,javascript/A10/a10-js-01.js,74,CWE-134,A10,LOW,opengrep,FP,CWE not matched: CWE-134 (expected: ['CWE-918'])
+F641,gemini-2.5-pro,javascript/A10/a10-js-02.js,4,CWE-352,A10,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-918'])
+F642,gemini-2.5-pro,javascript/A10/a10-js-02.js,47,CWE-918,A10,MEDIUM,codeql,TP,CWE match: CWE-918 in expected ['CWE-918']
+F643,gemini-2.5-pro,javascript/A10/a10-js-02.js,61,,A10,LOW,eslint,FP,ESLint security/detect-object-injection generic (expected: ['CWE-918'])
+F644,gemini-2.5-pro,javascript/A10/a10-js-03.js,5,CWE-352,A10,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-918'])
+F645,gemini-2.5-pro,javascript/A10/a10-js-03.js,41,CWE-918,A10,MEDIUM,codeql,TP,CWE match: CWE-918 in expected ['CWE-918']
+F646,gemini-2.5-pro,javascript/A10/a10-js-03.js,92,CWE-134,A10,MEDIUM,"codeql, opengrep",FP,CWE not matched: CWE-134 (expected: ['CWE-918'])
+F647,gemini-2.5-pro,javascript/A10/a10-js-03.js,92,CWE-117,A10,LOW,opengrep,FP,CWE not matched: CWE-117 (expected: ['CWE-918'])
+F648,gemini-2.5-pro,javascript/A10/a10-js-04.js,5,CWE-352,A10,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-918'])
+F649,gemini-2.5-pro,javascript/A10/a10-js-04.js,52,CWE-918,A10,HIGH,"codeql, opengrep",TP,CWE match: CWE-918 in expected ['CWE-918']
+F650,gemini-2.5-pro,javascript/A10/a10-js-04.js,78,CWE-134,A10,MEDIUM,"codeql, opengrep",FP,CWE not matched: CWE-134 (expected: ['CWE-918'])
+F651,gemini-2.5-pro,javascript/A10/a10-js-04.js,78,CWE-117,A10,LOW,opengrep,FP,CWE not matched: CWE-117 (expected: ['CWE-918'])
+F652,gemini-2.5-pro,python/A10/a10-py-01.py,50,CWE-918,A10,MEDIUM,codeql,TP,CWE match: CWE-918 in expected ['CWE-918']
+F653,gemini-2.5-pro,python/A10/a10-py-01.py,102,CWE-209,A10,MEDIUM,codeql,FP,CWE not matched: CWE-209 (expected: ['CWE-918'])
+F654,gemini-2.5-pro,python/A10/a10-py-01.py,111,CWE-605,A10,MEDIUM,bandit,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-918'])
+F655,gemini-2.5-pro,python/A10/a10-py-01.py,111,CWE-668,A10,MEDIUM,opengrep,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-918'])
+F656,gemini-2.5-pro,python/A10/a10-py-02.py,133,CWE-117,A10,LOW,opengrep,FP,CWE not matched: CWE-117 (expected: ['CWE-918'])
+F657,gemini-2.5-pro,python/A10/a10-py-02.py,180,CWE-605,A10,MEDIUM,bandit,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-918'])
+F658,gemini-2.5-pro,python/A10/a10-py-02.py,180,CWE-668,A10,MEDIUM,opengrep,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-918'])
+F659,gemini-2.5-pro,python/A10/a10-py-03.py,40,CWE-918,A10,HIGH,"codeql, opengrep",TP,CWE match: CWE-918 in expected ['CWE-918']
+F660,gemini-2.5-pro,python/A10/a10-py-03.py,56,CWE-209,A10,MEDIUM,codeql,FP,CWE not matched: CWE-209 (expected: ['CWE-918'])
+F661,gemini-2.5-pro,python/A10/a10-py-03.py,95,CWE-94,A10,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-918'])
+F662,gemini-2.5-pro,python/A10/a10-py-03.py,95,CWE-215,A10,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-918'])
+F663,gemini-2.5-pro,python/A10/a10-py-03.py,95,CWE-489,A10,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-918'])
+F664,gemini-2.5-pro,python/A10/a10-py-04.py,62,CWE-117,A10,LOW,opengrep,FP,CWE not matched: CWE-117 (expected: ['CWE-918'])
+F665,gemini-2.5-pro,python/A10/a10-py-04.py,77,CWE-209,A10,MEDIUM,codeql,FP,CWE not matched: CWE-209 (expected: ['CWE-918'])
+F666,gemini-2.5-pro,python/A10/a10-py-04.py,94,CWE-94,A10,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-918'])
+F667,gemini-2.5-pro,python/A10/a10-py-04.py,94,CWE-605,A10,MEDIUM,bandit,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-918'])
+F668,gemini-2.5-pro,python/A10/a10-py-04.py,94,CWE-215,A10,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-918'])
+F669,gemini-2.5-pro,python/A10/a10-py-04.py,94,CWE-489,A10,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-918'])
+F670,gemini-2.5-pro,python/A10/a10-py-04.py,94,CWE-668,A10,MEDIUM,opengrep,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-918'])
+F671,gpt-5.2,javascript/A01/a01-js-01.js,25,CWE-770,A01,MEDIUM,codeql,FP,Resource exhaustion not in expected: CWE-770 (expected: ['CWE-639'])
+F672,gpt-5.2,javascript/A01/a01-js-01.js,32,CWE-943,A01,MEDIUM,opengrep,FP,CWE not matched: CWE-943 (expected: ['CWE-639'])
+F673,gpt-5.2,javascript/A01/a01-js-02.js,13,CWE-770,A01,MEDIUM,codeql,FP,Resource exhaustion not in expected: CWE-770 (expected: ['CWE-22'])
+F674,gpt-5.2,javascript/A01/a01-js-02.js,20,CWE-22,A01,MEDIUM,opengrep,TP,CWE match: CWE-22 in expected ['CWE-22']
+F675,gpt-5.2,javascript/A01/a01-js-02.js,27,,A01,LOW,eslint,TP,ESLint rule security/detect-non-literal-fs-filename -> CWE-22 matches expected
+F676,gpt-5.2,python/A01/a01-py-01.py,59,CWE-605,A01,MEDIUM,bandit,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-639'])
+F677,gpt-5.2,python/A01/a01-py-01.py,59,CWE-668,A01,MEDIUM,opengrep,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-639'])
+F678,gpt-5.2,python/A01/a01-py-03.py,219,CWE-96,A01,MEDIUM,opengrep,FP,CWE not matched: CWE-96 (expected: ['CWE-862'])
+F679,gpt-5.2,python/A01/a01-py-04.py,101,CWE-605,A01,MEDIUM,bandit,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-639'])
+F680,gpt-5.2,python/A01/a01-py-04.py,101,CWE-668,A01,MEDIUM,opengrep,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-639'])
+F681,gpt-5.2,python/A01/a01-py-05.py,99,CWE-209,A01,MEDIUM,codeql,FP,"CWE not matched: CWE-209 (expected: ['CWE-862', 'CWE-639'])"
+F682,gpt-5.2,python/A01/a01-py-05.py,110,CWE-89,A01,HIGH,"bandit, opengrep",FP,"CWE not matched: CWE-89 (expected: ['CWE-862', 'CWE-639'])"
+F683,gpt-5.2,python/A01/a01-py-05.py,166,CWE-605,A01,MEDIUM,bandit,FP,"Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-862', 'CWE-639'])"
+F684,gpt-5.2,python/A01/a01-py-05.py,166,CWE-668,A01,MEDIUM,opengrep,FP,"Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-862', 'CWE-639'])"
+F685,gpt-5.2,javascript/A02/a02-js-02.js,105,CWE-352,A02,LOW,opengrep,FP,"CSRF not in expected: CWE-352 (expected: ['CWE-330', 'CWE-340'])"
+F686,gpt-5.2,javascript/A02/a02-js-03.js,150,CWE-310,A02,HIGH,opengrep,FP,Deep triage correction: Code uses AES-256-GCM with scrypt KDF - not weak crypto
+F687,gpt-5.2,javascript/A02/a02-js-05.js,19,,A02,LOW,eslint,FP,"ESLint security/detect-object-injection generic (expected: ['CWE-330', 'CWE-521'])"
+F688,gpt-5.2,python/A02/a02-py-04.py,114,CWE-89,A02,HIGH,opengrep,FP,"CWE not matched: CWE-89 (expected: ['CWE-312', 'CWE-311'])"
+F689,gpt-5.2,python/A02/a02-py-05.py,173,CWE-605,A02,MEDIUM,bandit,FP,"Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-315', 'CWE-614'])"
+F690,gpt-5.2,python/A02/a02-py-05.py,173,CWE-668,A02,MEDIUM,opengrep,FP,"Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-315', 'CWE-614'])"
+F691,gpt-5.2,javascript/A03/a03-js-01.js,7,CWE-352,A03,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-943'])
+F692,gpt-5.2,javascript/A03/a03-js-01.js,40,CWE-770,A03,MEDIUM,codeql,FP,Resource exhaustion not in expected: CWE-770 (expected: ['CWE-943'])
+F693,gpt-5.2,javascript/A03/a03-js-01.js,48,CWE-943,A03,HIGH,"njsscan, opengrep",TP,CWE match: CWE-943 in expected ['CWE-943']
+F694,gpt-5.2,javascript/A03/a03-js-02.js,6,CWE-352,A03,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-89'])
+F695,gpt-5.2,javascript/A03/a03-js-02.js,10,CWE-319,A03,MEDIUM,opengrep,FP,Cleartext transmission not in expected: CWE-319 (expected: ['CWE-89'])
+F696,gpt-5.2,javascript/A03/a03-js-02.js,13,CWE-770,A03,MEDIUM,codeql,FP,Resource exhaustion not in expected: CWE-770 (expected: ['CWE-89'])
+F697,gpt-5.2,javascript/A03/a03-js-03.js,6,CWE-352,A03,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-78'])
+F698,gpt-5.2,javascript/A03/a03-js-03.js,26,,A03,LOW,eslint,FP,ESLint security/detect-unsafe-regex not relevant (expected: ['CWE-78'])
+F699,gpt-5.2,javascript/A03/a03-js-03.js,34,CWE-770,A03,MEDIUM,codeql,FP,Resource exhaustion not in expected: CWE-770 (expected: ['CWE-78'])
+F700,gpt-5.2,javascript/A03/a03-js-04.js,9,CWE-352,A03,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-79'])
+F701,gpt-5.2,javascript/A03/a03-js-04.js,59,CWE-770,A03,MEDIUM,codeql,FP,Resource exhaustion not in expected: CWE-770 (expected: ['CWE-79'])
+F702,gpt-5.2,javascript/A03/a03-js-04.js,74,CWE-23,A03,MEDIUM,njsscan,FP,CWE not matched: CWE-23 (expected: ['CWE-79'])
+F703,gpt-5.2,javascript/A03/a03-js-05.js,19,,A03,LOW,eslint,TP,ESLint rule security/detect-non-literal-regexp -> CWE-1333 matches expected
+F704,gpt-5.2,javascript/A03/a03-js-05.js,19,CWE-1333,A03,MEDIUM,opengrep,TP,"CWE match: CWE-1333 in expected ['CWE-1333', 'CWE-943']"
+F705,gpt-5.2,python/A03/a03-py-01.py,56,CWE-605,A03,MEDIUM,bandit,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-89'])
+F706,gpt-5.2,python/A03/a03-py-01.py,56,CWE-668,A03,MEDIUM,opengrep,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-89'])
+F707,gpt-5.2,python/A03/a03-py-02.py,7,CWE-78,A03,LOW,bandit,FP,Deep triage correction: subprocess.run with list form + DNS resolution + IP validation - not CWE-78
+F708,gpt-5.2,python/A03/a03-py-02.py,201,CWE-209,A03,MEDIUM,codeql,FP,CWE not matched: CWE-209 (expected: ['CWE-78'])
+F709,gpt-5.2,python/A03/a03-py-02.py,214,CWE-078,A03,MEDIUM,codeql,FP,Deep triage correction: subprocess.run with list form + DNS resolution + IP validation - not CWE-78
+F710,gpt-5.2,python/A03/a03-py-02.py,264,CWE-605,A03,MEDIUM,bandit,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-78'])
+F711,gpt-5.2,python/A03/a03-py-02.py,264,CWE-668,A03,MEDIUM,opengrep,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-78'])
+F712,gpt-5.2,python/A03/a03-py-03.py,6,CWE-20,A03,MEDIUM,bandit,FP,CWE not matched: CWE-20 (expected: ['CWE-611'])
+F713,gpt-5.2,python/A03/a03-py-04.py,135,CWE-96,A03,MEDIUM,opengrep,FP,CWE not matched: CWE-96 (expected: ['CWE-79'])
+F714,gpt-5.2,python/A03/a03-py-04.py,146,CWE-605,A03,MEDIUM,bandit,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-79'])
+F715,gpt-5.2,python/A03/a03-py-04.py,146,CWE-668,A03,MEDIUM,opengrep,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-79'])
+F716,gpt-5.2,javascript/A04/a04-js-01.js,48,CWE-1333,A04,MEDIUM,codeql,FP,"CWE not matched: CWE-1333 (expected: ['CWE-640', 'CWE-330'])"
+F717,gpt-5.2,javascript/A04/a04-js-01.js,62,CWE-943,A04,HIGH,njsscan,FP,"CWE not matched: CWE-943 (expected: ['CWE-640', 'CWE-330'])"
+F718,gpt-5.2,javascript/A04/a04-js-01.js,110,CWE-598,A04,MEDIUM,codeql,FP,"CWE not matched: CWE-598 (expected: ['CWE-640', 'CWE-330'])"
+F719,gpt-5.2,javascript/A04/a04-js-02.js,48,CWE-770,A04,MEDIUM,codeql,FP,Resource exhaustion not in expected: CWE-770 (expected: ['CWE-840'])
+F720,gpt-5.2,javascript/A04/a04-js-02.js,50,CWE-943,A04,HIGH,"njsscan, opengrep",FP,CWE not matched: CWE-943 (expected: ['CWE-840'])
+F721,gpt-5.2,javascript/A04/a04-js-03.js,23,,A04,LOW,eslint,TP,ESLint security/detect-non-literal-fs-filename -> file upload in context
+F722,gpt-5.2,javascript/A04/a04-js-03.js,55,CWE-770,A04,MEDIUM,codeql,FP,Resource exhaustion not in expected: CWE-770 (expected: ['CWE-434'])
+F723,gpt-5.2,javascript/A04/a04-js-03.js,60,CWE-022,A04,MEDIUM,codeql,FP,CWE not matched: CWE-22 (expected: ['CWE-434'])
+F724,gpt-5.2,javascript/A04/a04-js-03.js,68,CWE-22,A04,MEDIUM,"njsscan, opengrep",FP,CWE not matched: CWE-22 (expected: ['CWE-434'])
+F725,gpt-5.2,javascript/A04/a04-js-03.js,70,CWE-943,A04,MEDIUM,opengrep,FP,CWE not matched: CWE-943 (expected: ['CWE-434'])
+F726,gpt-5.2,javascript/A04/a04-js-04.js,83,CWE-352,A04,LOW,opengrep,FP,"CSRF not in expected: CWE-352 (expected: ['CWE-307', 'CWE-798'])"
+F727,gpt-5.2,javascript/A04/a04-js-04.js,89,CWE-770,A04,MEDIUM,codeql,FP,"Resource exhaustion not in expected: CWE-770 (expected: ['CWE-307', 'CWE-798'])"
+F728,gpt-5.2,javascript/A04/a04-js-04.js,95,CWE-943,A04,MEDIUM,opengrep,FP,"CWE not matched: CWE-943 (expected: ['CWE-307', 'CWE-798'])"
+F729,gpt-5.2,javascript/A04/a04-js-05.js,72,CWE-943,A04,MEDIUM,opengrep,FP,"CWE not matched: CWE-943 (expected: ['CWE-362', 'CWE-840'])"
+F730,gpt-5.2,python/A04/a04-py-01.py,92,CWE-209,A04,MEDIUM,codeql,FP,"CWE not matched: CWE-209 (expected: ['CWE-640', 'CWE-330'])"
+F731,gpt-5.2,python/A04/a04-py-01.py,193,CWE-605,A04,MEDIUM,bandit,FP,"Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-640', 'CWE-330'])"
+F732,gpt-5.2,python/A04/a04-py-01.py,193,CWE-668,A04,MEDIUM,opengrep,FP,"Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-640', 'CWE-330'])"
+F733,gpt-5.2,python/A04/a04-py-02.py,172,CWE-209,A04,MEDIUM,codeql,FP,CWE not matched: CWE-209 (expected: ['CWE-840'])
+F734,gpt-5.2,python/A04/a04-py-03.py,99,CWE-673,A04,MEDIUM,opengrep,FP,CWE not matched: CWE-673 (expected: ['CWE-434'])
+F735,gpt-5.2,python/A04/a04-py-03.py,109,CWE-605,A04,MEDIUM,bandit,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-434'])
+F736,gpt-5.2,python/A04/a04-py-03.py,109,CWE-668,A04,MEDIUM,opengrep,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-434'])
+F737,gpt-5.2,python/A04/a04-py-04.py,101,CWE-703,A04,LOW,bandit,FP,"Generic error handling: CWE-703 (expected: ['CWE-362', 'CWE-837'])"
+F738,gpt-5.2,python/A04/a04-py-04.py,129,CWE-1333,A04,MEDIUM,codeql,FP,"CWE not matched: CWE-1333 (expected: ['CWE-362', 'CWE-837'])"
+F739,gpt-5.2,python/A04/a04-py-04.py,172,CWE-673,A04,MEDIUM,opengrep,FP,"CWE not matched: CWE-673 (expected: ['CWE-362', 'CWE-837'])"
+F740,gpt-5.2,python/A04/a04-py-04.py,243,CWE-605,A04,MEDIUM,bandit,FP,"Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-362', 'CWE-837'])"
+F741,gpt-5.2,python/A04/a04-py-04.py,243,CWE-668,A04,MEDIUM,opengrep,FP,"Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-362', 'CWE-837'])"
+F742,gpt-5.2,javascript/A05/a05-js-01.js,7,CWE-352,A05,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-942'])
+F743,gpt-5.2,javascript/A05/a05-js-01.js,22,CWE-346,A05,MEDIUM,njsscan,FP,CWE not matched: CWE-346 (expected: ['CWE-942'])
+F744,gpt-5.2,javascript/A05/a05-js-04.js,6,CWE-352,A05,LOW,opengrep,FP,"CSRF not in expected: CWE-352 (expected: ['CWE-1188', 'CWE-693'])"
+F745,gpt-5.2,javascript/A05/a05-js-04.js,29,CWE-23,A05,MEDIUM,njsscan,FP,"CWE not matched: CWE-23 (expected: ['CWE-1188', 'CWE-693'])"
+F746,gpt-5.2,javascript/A05/a05-js-05.js,23,,A05,LOW,eslint,FP,"ESLint security/detect-object-injection generic (expected: ['CWE-798', 'CWE-312'])"
+F747,gpt-5.2,javascript/A05/a05-js-05.js,42,,A05,LOW,eslint,FP,"ESLint security/detect-non-literal-fs-filename not relevant (expected: ['CWE-798', 'CWE-312'])"
+F748,gpt-5.2,javascript/A05/a05-js-05.js,58,CWE-22,A05,MEDIUM,opengrep,FP,"CWE not matched: CWE-22 (expected: ['CWE-798', 'CWE-312'])"
+F749,gpt-5.2,python/A05/a05-py-03.py,33,CWE-94,A05,HIGH,bandit,FP,"FP: CWE-94 misclassification - Flask CORS handler, no eval/exec/compile in code"
+F750,gpt-5.2,python/A05/a05-py-03.py,33,CWE-605,A05,MEDIUM,bandit,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-942'])
+F751,gpt-5.2,python/A05/a05-py-03.py,33,CWE-215,A05,MEDIUM,codeql,TP,Relevant to A05 misconfiguration: Flask debug=True
+F752,gpt-5.2,python/A05/a05-py-03.py,33,CWE-668,A05,MEDIUM,opengrep,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-942'])
+F753,gpt-5.2,python/A05/a05-py-03.py,33,CWE-489,A05,MEDIUM,opengrep,TP,Relevant to A05 misconfiguration: Flask debug=True
+F754,gpt-5.2,javascript/A06/a06-js-02.js,10,CWE-22,A06,MEDIUM,"njsscan, opengrep",FP,"CWE not matched: CWE-22 (expected: ['CWE-94', 'CWE-829'])"
+F755,gpt-5.2,javascript/A06/a06-js-02.js,51,,A06,LOW,eslint,TP,ESLint rule security/detect-non-literal-require -> CWE-829 matches expected
+F756,gpt-5.2,javascript/A06/a06-js-03.js,75,,A06,LOW,eslint,TP,ESLint rule security/detect-object-injection -> CWE-94 matches expected
+F757,gpt-5.2,python/A06/a06-py-02.py,8,CWE-502,A06,MEDIUM,"bandit, opengrep",TP,"CWE match: CWE-502 in expected ['CWE-494', 'CWE-502']"
+F758,gpt-5.2,python/A06/a06-py-02.py,92,CWE-703,A06,LOW,bandit,FP,"Generic error handling: CWE-703 (expected: ['CWE-494', 'CWE-502'])"
+F759,gpt-5.2,javascript/A07/a07-js-01.js,8,CWE-352,A07,LOW,opengrep,FP,"CSRF not in expected: CWE-352 (expected: ['CWE-307', 'CWE-521', 'CWE-798'])"
+F760,gpt-5.2,javascript/A07/a07-js-01.js,49,CWE-770,A07,MEDIUM,codeql,FP,"Resource exhaustion not in expected: CWE-770 (expected: ['CWE-307', 'CWE-521', 'CWE-798'])"
+F761,gpt-5.2,javascript/A07/a07-js-01.js,51,CWE-943,A07,HIGH,"njsscan, opengrep",FP,"CWE not matched: CWE-943 (expected: ['CWE-307', 'CWE-521', 'CWE-798'])"
+F762,gpt-5.2,javascript/A07/a07-js-02.js,31,CWE-522,A07,MEDIUM,"njsscan, opengrep",FP,"CWE not matched: CWE-522 (expected: ['CWE-384', 'CWE-614'])"
+F763,gpt-5.2,javascript/A07/a07-js-02.js,31,,A07,MEDIUM,njsscan,FP,No CWE and not ESLint (tools: njsscan)
+F764,gpt-5.2,javascript/A07/a07-js-02.js,60,,A07,LOW,eslint,FP,"ESLint security/detect-object-injection generic (expected: ['CWE-384', 'CWE-614'])"
+F765,gpt-5.2,javascript/A07/a07-js-03.js,85,,A07,LOW,eslint,FP,"ESLint security/detect-object-injection generic (expected: ['CWE-330', 'CWE-614', 'CWE-522'])"
+F766,gpt-5.2,javascript/A07/a07-js-03.js,150,CWE-384,A07,MEDIUM,opengrep,TP,"CWE match: CWE-384 in expected ['CWE-330', 'CWE-614', 'CWE-522']"
+F767,gpt-5.2,javascript/A07/a07-js-05.js,10,CWE-943,A07,HIGH,njsscan,FP,"CWE not matched: CWE-943 (expected: ['CWE-521', 'CWE-209'])"
+F768,gpt-5.2,python/A07/a07-py-01.py,56,CWE-605,A07,MEDIUM,bandit,FP,"Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-384', 'CWE-613'])"
+F769,gpt-5.2,python/A07/a07-py-01.py,56,CWE-668,A07,MEDIUM,opengrep,FP,"Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-384', 'CWE-613'])"
+F770,gpt-5.2,python/A07/a07-py-03.py,298,CWE-96,A07,MEDIUM,opengrep,FP,"CWE not matched: CWE-96 (expected: ['CWE-614', 'CWE-784'])"
+F771,gpt-5.2,python/A07/a07-py-03.py,371,CWE-94,A07,HIGH,bandit,FP,"Incidental finding: Flask debug=True (expected: ['CWE-614', 'CWE-784'])"
+F772,gpt-5.2,python/A07/a07-py-03.py,371,CWE-215,A07,MEDIUM,codeql,FP,"Incidental finding: Flask debug=True (expected: ['CWE-614', 'CWE-784'])"
+F773,gpt-5.2,python/A07/a07-py-03.py,371,CWE-489,A07,MEDIUM,opengrep,FP,"Incidental finding: Flask debug=True (expected: ['CWE-614', 'CWE-784'])"
+F774,gpt-5.2,python/A07/a07-py-04.py,330,CWE-96,A07,MEDIUM,opengrep,FP,CWE not matched: CWE-96 (expected: ['CWE-307'])
+F775,gpt-5.2,python/A07/a07-py-05.py,133,CWE-605,A07,MEDIUM,bandit,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-521'])
+F776,gpt-5.2,python/A07/a07-py-05.py,133,CWE-668,A07,MEDIUM,opengrep,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-521'])
+F777,gpt-5.2,javascript/A08/a08-js-02.js,55,,A08,LOW,eslint,FP,"ESLint security/detect-object-injection generic (expected: ['CWE-345', 'CWE-352'])"
+F778,gpt-5.2,javascript/A08/a08-js-03.js,19,,A08,LOW,eslint,TP,ESLint security/detect-object-injection -> prototype pollution
+F779,gpt-5.2,javascript/A08/a08-js-03.js,167,CWE-327,A08,MEDIUM,njsscan,FP,"CWE not matched: CWE-327 (expected: ['CWE-502', 'CWE-345'])"
+F780,gpt-5.2,javascript/A08/a08-js-04.js,23,,A08,LOW,eslint,FP,"ESLint security/detect-object-injection generic (expected: ['CWE-78', 'CWE-494'])"
+F781,gpt-5.2,javascript/A08/a08-js-04.js,79,CWE-22,A08,MEDIUM,opengrep,FP,"CWE not matched: CWE-22 (expected: ['CWE-78', 'CWE-494'])"
+F782,gpt-5.2,javascript/A08/a08-js-04.js,82,,A08,LOW,eslint,FP,"ESLint security/detect-non-literal-fs-filename not relevant (expected: ['CWE-78', 'CWE-494'])"
+F783,gpt-5.2,javascript/A08/a08-js-04.js,131,CWE-78,A08,HIGH,opengrep,TP,"CWE match: CWE-78 in expected ['CWE-78', 'CWE-494']"
+F784,gpt-5.2,python/A08/a08-py-01.py,11,CWE-78,A08,LOW,bandit,FP,CWE not matched: CWE-78 (expected: ['CWE-494'])
+F785,gpt-5.2,python/A08/a08-py-01.py,216,CWE-22,A08,MEDIUM,bandit,FP,CWE not matched: CWE-22 (expected: ['CWE-494'])
+F786,gpt-5.2,python/A08/a08-py-01.py,216,CWE-939,A08,MEDIUM,opengrep,FP,CWE not matched: CWE-939 (expected: ['CWE-494'])
+F787,gpt-5.2,python/A08/a08-py-01.py,240,CWE-703,A08,LOW,bandit,FP,Generic error handling: CWE-703 (expected: ['CWE-494'])
+F788,gpt-5.2,python/A08/a08-py-02.py,95,CWE-209,A08,MEDIUM,codeql,FP,CWE not matched: CWE-209 (expected: ['CWE-502'])
+F789,gpt-5.2,python/A08/a08-py-02.py,104,CWE-605,A08,MEDIUM,bandit,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-502'])
+F790,gpt-5.2,python/A08/a08-py-02.py,104,CWE-668,A08,MEDIUM,opengrep,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-502'])
+F791,gpt-5.2,python/A08/a08-py-03.py,9,CWE-78,A08,LOW,bandit,FP,"CWE not matched: CWE-78 (expected: ['CWE-494', 'CWE-345'])"
+F792,gpt-5.2,python/A08/a08-py-03.py,73,CWE-22,A08,MEDIUM,bandit,FP,"CWE not matched: CWE-22 (expected: ['CWE-494', 'CWE-345'])"
+F793,gpt-5.2,python/A08/a08-py-03.py,73,CWE-939,A08,MEDIUM,opengrep,FP,"CWE not matched: CWE-939 (expected: ['CWE-494', 'CWE-345'])"
+F794,gpt-5.2,python/A08/a08-py-03.py,131,CWE-276,A08,MEDIUM,opengrep,FP,"CWE not matched: CWE-276 (expected: ['CWE-494', 'CWE-345'])"
+F795,gpt-5.2,python/A08/a08-py-04.py,5,CWE-502,A08,MEDIUM,"bandit, opengrep",TP,CWE match: CWE-502 in expected ['CWE-502']
+F796,gpt-5.2,javascript/A09/a09-js-01.js,12,,A09,LOW,eslint,FP,ESLint security/detect-object-injection generic (expected: ['CWE-532'])
+F797,gpt-5.2,javascript/A09/a09-js-04.js,83,,A09,LOW,eslint,FP,"ESLint security/detect-object-injection generic (expected: ['CWE-532', 'CWE-312'])"
+F798,gpt-5.2,python/A09/a09-py-01.py,203,CWE-605,A09,MEDIUM,bandit,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-532'])
+F799,gpt-5.2,python/A09/a09-py-01.py,203,CWE-668,A09,MEDIUM,opengrep,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-532'])
+F800,gpt-5.2,python/A09/a09-py-02.py,67,CWE-703,A09,LOW,bandit,FP,"Generic error handling: CWE-703 (expected: ['CWE-532', 'CWE-209'])"
+F801,gpt-5.2,python/A09/a09-py-03.py,258,CWE-703,A09,LOW,bandit,FP,"Generic error handling: CWE-703 (expected: ['CWE-209', 'CWE-532'])"
+F802,gpt-5.2,python/A09/a09-py-03.py,277,CWE-209,A09,MEDIUM,codeql,TP,"CWE match: CWE-209 in expected ['CWE-209', 'CWE-532']"
+F803,gpt-5.2,python/A09/a09-py-04.py,126,CWE-209,A09,MEDIUM,codeql,FP,Deep triage correction: Properly masks card numbers and excludes CVV from logs - not CWE-209
+F804,gpt-5.2,python/A09/a09-py-04.py,176,CWE-605,A09,MEDIUM,bandit,FP,"Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-532', 'CWE-312'])"
+F805,gpt-5.2,python/A09/a09-py-04.py,176,CWE-668,A09,MEDIUM,opengrep,FP,"Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-532', 'CWE-312'])"
+F806,gpt-5.2,javascript/A10/a10-js-01.js,10,CWE-352,A10,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-918'])
+F807,gpt-5.2,javascript/A10/a10-js-01.js,141,CWE-918,A10,MEDIUM,codeql,TP,CWE match: CWE-918 in expected ['CWE-918']
+F808,gpt-5.2,javascript/A10/a10-js-02.js,6,CWE-352,A10,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-918'])
+F809,gpt-5.2,javascript/A10/a10-js-02.js,51,CWE-918,A10,MEDIUM,codeql,TP,CWE match: CWE-918 in expected ['CWE-918']
+F810,gpt-5.2,javascript/A10/a10-js-02.js,83,,A10,LOW,eslint,FP,ESLint security/detect-object-injection generic (expected: ['CWE-918'])
+F811,gpt-5.2,javascript/A10/a10-js-03.js,88,CWE-918,A10,MEDIUM,codeql,FP,Deep triage correction: DNS resolution + private IP checking prevents SSRF
+F812,gpt-5.2,javascript/A10/a10-js-04.js,6,CWE-352,A10,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-918'])
+F813,gpt-5.2,javascript/A10/a10-js-04.js,70,CWE-918,A10,HIGH,"codeql, njsscan, opengrep",TP,CWE match: CWE-918 in expected ['CWE-918']
+F814,gpt-5.2,python/A10/a10-py-01.py,100,CWE-918,A10,MEDIUM,codeql,FP,Deep triage correction: DNS resolution + comprehensive IP validation prevents SSRF
+F815,gpt-5.2,python/A10/a10-py-01.py,212,CWE-605,A10,MEDIUM,bandit,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-918'])
+F816,gpt-5.2,python/A10/a10-py-01.py,212,CWE-668,A10,MEDIUM,opengrep,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-918'])
+F817,gpt-5.2,python/A10/a10-py-02.py,156,CWE-605,A10,MEDIUM,bandit,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-918'])
+F818,gpt-5.2,python/A10/a10-py-02.py,156,CWE-668,A10,MEDIUM,opengrep,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-918'])
+F819,gpt-5.2,python/A10/a10-py-03.py,92,CWE-918,A10,MEDIUM,codeql,FP,Deep triage correction: DNS resolution + IP validation with redirect re-checking prevents SSRF
+F820,gpt-5.2,python/A10/a10-py-03.py,176,CWE-113,A10,MEDIUM,codeql,FP,CWE not matched: CWE-113 (expected: ['CWE-918'])
+F821,gpt-5.2,python/A10/a10-py-03.py,185,CWE-605,A10,MEDIUM,bandit,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-918'])
+F822,gpt-5.2,python/A10/a10-py-03.py,185,CWE-668,A10,MEDIUM,opengrep,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-918'])
+F823,gpt-5.2,python/A10/a10-py-04.py,99,CWE-918,A10,HIGH,"codeql, opengrep",TP,CWE match: CWE-918 in expected ['CWE-918']
+F824,gpt-5.2,python/A10/a10-py-04.py,102,CWE-209,A10,MEDIUM,codeql,FP,CWE not matched: CWE-209 (expected: ['CWE-918'])
+F825,gpt-5.2,python/A10/a10-py-04.py,136,CWE-605,A10,MEDIUM,bandit,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-918'])
+F826,gpt-5.2,python/A10/a10-py-04.py,136,CWE-668,A10,MEDIUM,opengrep,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-918'])
+F827,grok-4,javascript/A01/a01-js-01.js,31,CWE-770,A01,MEDIUM,codeql,FP,Resource exhaustion not in expected: CWE-770 (expected: ['CWE-639'])
+F828,grok-4,javascript/A01/a01-js-01.js,37,CWE-943,A01,MEDIUM,opengrep,FP,CWE not matched: CWE-943 (expected: ['CWE-639'])
+F829,grok-4,javascript/A01/a01-js-02.js,6,CWE-352,A01,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-22'])
+F830,grok-4,javascript/A01/a01-js-02.js,8,CWE-770,A01,MEDIUM,codeql,FP,Resource exhaustion not in expected: CWE-770 (expected: ['CWE-22'])
+F831,grok-4,javascript/A01/a01-js-02.js,16,CWE-22,A01,MEDIUM,opengrep,TP,CWE match: CWE-22 in expected ['CWE-22']
+F832,grok-4,javascript/A01/a01-js-02.js,18,,A01,LOW,eslint,TP,ESLint rule security/detect-non-literal-fs-filename -> CWE-22 matches expected
+F833,grok-4,javascript/A01/a01-js-04.js,14,CWE-770,A01,MEDIUM,codeql,FP,"Resource exhaustion not in expected: CWE-770 (expected: ['CWE-639', 'CWE-284'])"
+F834,grok-4,javascript/A01/a01-js-04.js,31,CWE-089,A01,MEDIUM,codeql,FP,"CWE not matched: CWE-89 (expected: ['CWE-639', 'CWE-284'])"
+F835,grok-4,javascript/A01/a01-js-04.js,31,CWE-943,A01,MEDIUM,opengrep,FP,"CWE not matched: CWE-943 (expected: ['CWE-639', 'CWE-284'])"
+F836,grok-4,python/A01/a01-py-02.py,19,CWE-94,A01,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-22'])
+F837,grok-4,python/A01/a01-py-02.py,19,CWE-215,A01,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-22'])
+F838,grok-4,python/A01/a01-py-02.py,19,CWE-489,A01,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-22'])
+F839,grok-4,python/A01/a01-py-04.py,26,CWE-209,A01,MEDIUM,codeql,FP,CWE not matched: CWE-209 (expected: ['CWE-639'])
+F840,grok-4,python/A01/a01-py-04.py,33,CWE-94,A01,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-639'])
+F841,grok-4,python/A01/a01-py-04.py,33,CWE-215,A01,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-639'])
+F842,grok-4,python/A01/a01-py-04.py,33,CWE-489,A01,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-639'])
+F843,grok-4,javascript/A02/a02-js-02.js,20,CWE-352,A02,LOW,opengrep,FP,"CSRF not in expected: CWE-352 (expected: ['CWE-330', 'CWE-340'])"
+F844,grok-4,javascript/A02/a02-js-03.js,41,CWE-310,A02,HIGH,opengrep,FP,Deep triage correction: Code uses AES-256-GCM - not weak crypto
+F845,grok-4,javascript/A02/a02-js-05.js,10,CWE-327,A02,MEDIUM,codeql,FP,"CWE not matched: CWE-327 (expected: ['CWE-330', 'CWE-521'])"
+F846,grok-4,javascript/A02/a02-js-05.js,11,,A02,LOW,eslint,FP,"ESLint security/detect-object-injection generic (expected: ['CWE-330', 'CWE-521'])"
+F847,grok-4,python/A02/a02-py-05.py,25,CWE-020,A02,MEDIUM,codeql,FP,"CWE not matched: CWE-20 (expected: ['CWE-315', 'CWE-614'])"
+F848,grok-4,javascript/A03/a03-js-01.js,4,CWE-352,A03,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-943'])
+F849,grok-4,javascript/A03/a03-js-01.js,18,CWE-770,A03,MEDIUM,codeql,FP,Resource exhaustion not in expected: CWE-770 (expected: ['CWE-943'])
+F850,grok-4,javascript/A03/a03-js-01.js,26,CWE-089,A03,MEDIUM,codeql,FP,CWE not matched: CWE-89 (expected: ['CWE-943'])
+F851,grok-4,javascript/A03/a03-js-01.js,26,CWE-943,A03,MEDIUM,opengrep,TP,CWE match: CWE-943 in expected ['CWE-943']
+F852,grok-4,javascript/A03/a03-js-02.js,4,CWE-352,A03,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-89'])
+F853,grok-4,javascript/A03/a03-js-02.js,8,CWE-798,A03,MEDIUM,opengrep,FP,CWE not matched: CWE-798 (expected: ['CWE-89'])
+F854,grok-4,javascript/A03/a03-js-02.js,20,CWE-770,A03,MEDIUM,codeql,FP,Resource exhaustion not in expected: CWE-770 (expected: ['CWE-89'])
+F855,grok-4,javascript/A03/a03-js-03.js,4,CWE-352,A03,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-78'])
+F856,grok-4,javascript/A03/a03-js-03.js,7,CWE-770,A03,MEDIUM,codeql,FP,Resource exhaustion not in expected: CWE-770 (expected: ['CWE-78'])
+F857,grok-4,javascript/A03/a03-js-04.js,6,CWE-352,A03,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-79'])
+F858,grok-4,javascript/A03/a03-js-04.js,26,CWE-770,A03,MEDIUM,codeql,FP,Resource exhaustion not in expected: CWE-770 (expected: ['CWE-79'])
+F859,grok-4,javascript/A03/a03-js-04.js,31,CWE-23,A03,MEDIUM,njsscan,FP,CWE not matched: CWE-23 (expected: ['CWE-79'])
+F860,grok-4,javascript/A03/a03-js-05.js,4,CWE-352,A03,LOW,opengrep,FP,"CSRF not in expected: CWE-352 (expected: ['CWE-1333', 'CWE-943'])"
+F861,grok-4,javascript/A03/a03-js-05.js,13,CWE-730,A03,MEDIUM,codeql,FP,"CWE not matched: CWE-730 (expected: ['CWE-1333', 'CWE-943'])"
+F862,grok-4,javascript/A03/a03-js-05.js,13,,A03,LOW,eslint,TP,ESLint rule security/detect-non-literal-regexp -> CWE-1333 matches expected
+F863,grok-4,javascript/A03/a03-js-05.js,13,CWE-1333,A03,MEDIUM,opengrep,TP,"CWE match: CWE-1333 in expected ['CWE-1333', 'CWE-943']"
+F864,grok-4,python/A03/a03-py-02.py,2,CWE-78,A03,LOW,bandit,FP,Deep triage correction: subprocess.run with list form + regex validation - not CWE-78
+F865,grok-4,python/A03/a03-py-02.py,32,CWE-209,A03,MEDIUM,codeql,FP,CWE not matched: CWE-209 (expected: ['CWE-78'])
+F866,grok-4,python/A03/a03-py-02.py,35,CWE-94,A03,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-78'])
+F867,grok-4,python/A03/a03-py-02.py,35,CWE-215,A03,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-78'])
+F868,grok-4,python/A03/a03-py-02.py,35,CWE-489,A03,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-78'])
+F869,grok-4,python/A03/a03-py-03.py,1,CWE-20,A03,MEDIUM,bandit,FP,CWE not matched: CWE-20 (expected: ['CWE-611'])
+F870,grok-4,python/A03/a03-py-03.py,4,CWE-611,A03,HIGH,opengrep,TP,CWE match: CWE-611 in expected ['CWE-611']
+F871,grok-4,python/A03/a03-py-04.py,42,CWE-96,A03,HIGH,opengrep,FP,CWE not matched: CWE-96 (expected: ['CWE-79'])
+F872,grok-4,python/A03/a03-py-04.py,63,CWE-94,A03,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-79'])
+F873,grok-4,python/A03/a03-py-04.py,63,CWE-215,A03,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-79'])
+F874,grok-4,python/A03/a03-py-04.py,63,CWE-489,A03,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-79'])
+F875,grok-4,python/A03/a03-py-05.py,12,CWE-259,A03,LOW,bandit,FP,CWE not matched: CWE-259 (expected: ['CWE-90'])
+F876,grok-4,javascript/A04/a04-js-01.js,41,CWE-640,A04,MEDIUM,codeql,TP,"CWE match: CWE-640 in expected ['CWE-640', 'CWE-330']"
+F877,grok-4,javascript/A04/a04-js-01.js,54,CWE-598,A04,MEDIUM,codeql,FP,"CWE not matched: CWE-598 (expected: ['CWE-640', 'CWE-330'])"
+F878,grok-4,javascript/A04/a04-js-01.js,61,CWE-943,A04,HIGH,njsscan,FP,"CWE not matched: CWE-943 (expected: ['CWE-640', 'CWE-330'])"
+F879,grok-4,javascript/A04/a04-js-02.js,22,CWE-352,A04,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-840'])
+F880,grok-4,javascript/A04/a04-js-02.js,26,CWE-770,A04,MEDIUM,codeql,FP,Resource exhaustion not in expected: CWE-770 (expected: ['CWE-840'])
+F881,grok-4,javascript/A04/a04-js-02.js,36,CWE-089,A04,MEDIUM,codeql,FP,CWE not matched: CWE-89 (expected: ['CWE-840'])
+F882,grok-4,javascript/A04/a04-js-02.js,36,CWE-943,A04,MEDIUM,opengrep,FP,CWE not matched: CWE-943 (expected: ['CWE-840'])
+F883,grok-4,javascript/A04/a04-js-03.js,10,CWE-352,A04,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-434'])
+F884,grok-4,javascript/A04/a04-js-03.js,15,,A04,LOW,eslint,TP,ESLint security/detect-non-literal-fs-filename -> file upload in context
+F885,grok-4,javascript/A04/a04-js-03.js,25,CWE-327,A04,MEDIUM,njsscan,FP,CWE not matched: CWE-327 (expected: ['CWE-434'])
+F886,grok-4,javascript/A04/a04-js-03.js,48,CWE-770,A04,MEDIUM,codeql,FP,Resource exhaustion not in expected: CWE-770 (expected: ['CWE-434'])
+F887,grok-4,javascript/A04/a04-js-03.js,60,CWE-943,A04,MEDIUM,opengrep,FP,CWE not matched: CWE-943 (expected: ['CWE-434'])
+F888,grok-4,javascript/A04/a04-js-03.js,67,CWE-22,A04,MEDIUM,opengrep,FP,CWE not matched: CWE-22 (expected: ['CWE-434'])
+F889,grok-4,javascript/A04/a04-js-04.js,6,CWE-352,A04,LOW,opengrep,FP,"CSRF not in expected: CWE-352 (expected: ['CWE-307', 'CWE-798'])"
+F890,grok-4,javascript/A04/a04-js-04.js,29,CWE-770,A04,MEDIUM,codeql,FP,"Resource exhaustion not in expected: CWE-770 (expected: ['CWE-307', 'CWE-798'])"
+F891,grok-4,javascript/A04/a04-js-04.js,37,CWE-089,A04,MEDIUM,codeql,FP,"CWE not matched: CWE-89 (expected: ['CWE-307', 'CWE-798'])"
+F892,grok-4,javascript/A04/a04-js-04.js,37,CWE-943,A04,MEDIUM,opengrep,FP,"CWE not matched: CWE-943 (expected: ['CWE-307', 'CWE-798'])"
+F893,grok-4,javascript/A04/a04-js-04.js,42,CWE-327,A04,MEDIUM,njsscan,FP,"CWE not matched: CWE-327 (expected: ['CWE-307', 'CWE-798'])"
+F894,grok-4,javascript/A04/a04-js-05.js,4,CWE-352,A04,LOW,opengrep,FP,"CSRF not in expected: CWE-352 (expected: ['CWE-362', 'CWE-840'])"
+F895,grok-4,python/A04/a04-py-01.py,85,CWE-94,A04,HIGH,bandit,FP,"Incidental finding: Flask debug=True (expected: ['CWE-640', 'CWE-330'])"
+F896,grok-4,python/A04/a04-py-01.py,85,CWE-215,A04,MEDIUM,codeql,FP,"Incidental finding: Flask debug=True (expected: ['CWE-640', 'CWE-330'])"
+F897,grok-4,python/A04/a04-py-01.py,85,CWE-489,A04,MEDIUM,opengrep,FP,"Incidental finding: Flask debug=True (expected: ['CWE-640', 'CWE-330'])"
+F898,grok-4,python/A04/a04-py-02.py,5,CWE-259,A04,LOW,bandit,FP,CWE not matched: CWE-259 (expected: ['CWE-840'])
+F899,grok-4,python/A04/a04-py-02.py,142,CWE-94,A04,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-840'])
+F900,grok-4,python/A04/a04-py-02.py,142,CWE-215,A04,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-840'])
+F901,grok-4,python/A04/a04-py-02.py,142,CWE-489,A04,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-840'])
+F902,grok-4,python/A04/a04-py-03.py,62,CWE-94,A04,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-434'])
+F903,grok-4,python/A04/a04-py-03.py,62,CWE-215,A04,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-434'])
+F904,grok-4,python/A04/a04-py-03.py,62,CWE-489,A04,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-434'])
+F905,grok-4,python/A04/a04-py-04.py,55,CWE-673,A04,MEDIUM,opengrep,FP,"CWE not matched: CWE-673 (expected: ['CWE-362', 'CWE-837'])"
+F906,grok-4,javascript/A05/a05-js-01.js,4,CWE-352,A05,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-942'])
+F907,grok-4,javascript/A05/a05-js-04.js,4,CWE-352,A05,LOW,opengrep,FP,"CSRF not in expected: CWE-352 (expected: ['CWE-1188', 'CWE-693'])"
+F908,grok-4,javascript/A05/a05-js-05.js,15,,A05,LOW,eslint,FP,"ESLint security/detect-non-literal-fs-filename not relevant (expected: ['CWE-798', 'CWE-312'])"
+F909,grok-4,python/A05/a05-py-01.py,40,CWE-94,A05,HIGH,bandit,TP,Relevant to A05 misconfiguration: Flask debug=True
+F910,grok-4,python/A05/a05-py-01.py,40,CWE-605,A05,MEDIUM,bandit,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-489'])
+F911,grok-4,python/A05/a05-py-01.py,40,CWE-215,A05,MEDIUM,codeql,TP,Relevant to A05 misconfiguration: Flask debug=True
+F912,grok-4,python/A05/a05-py-01.py,40,CWE-489,A05,MEDIUM,opengrep,TP,CWE match: CWE-489 in expected ['CWE-489']
+F913,grok-4,python/A05/a05-py-01.py,40,CWE-668,A05,MEDIUM,opengrep,FP,Incidental finding: Binding to 0.0.0.0 (expected: ['CWE-489'])
+F914,grok-4,python/A05/a05-py-03.py,13,CWE-94,A05,HIGH,bandit,FP,"FP: CWE-94 misclassification - Flask CORS handler, no eval/exec/compile in code"
+F915,grok-4,python/A05/a05-py-03.py,13,CWE-215,A05,MEDIUM,codeql,TP,Relevant to A05 misconfiguration: Flask debug=True
+F916,grok-4,python/A05/a05-py-03.py,13,CWE-489,A05,MEDIUM,opengrep,TP,Relevant to A05 misconfiguration: Flask debug=True
+F917,grok-4,javascript/A06/a06-js-02.js,13,,A06,LOW,eslint,TP,ESLint rule security/detect-non-literal-require -> CWE-829 matches expected
+F918,grok-4,python/A06/a06-py-02.py,3,CWE-502,A06,MEDIUM,"bandit, opengrep",TP,"CWE match: CWE-502 in expected ['CWE-494', 'CWE-502']"
+F919,grok-4,python/A06/a06-py-02.py,9,CWE-400,A06,MEDIUM,bandit,FP,"Resource exhaustion not in expected: CWE-400 (expected: ['CWE-494', 'CWE-502'])"
+F920,grok-4,javascript/A07/a07-js-01.js,21,CWE-770,A07,MEDIUM,codeql,FP,"Resource exhaustion not in expected: CWE-770 (expected: ['CWE-307', 'CWE-521', 'CWE-798'])"
+F921,grok-4,javascript/A07/a07-js-01.js,29,CWE-089,A07,MEDIUM,codeql,FP,"CWE not matched: CWE-89 (expected: ['CWE-307', 'CWE-521', 'CWE-798'])"
+F922,grok-4,javascript/A07/a07-js-01.js,29,CWE-943,A07,MEDIUM,opengrep,FP,"CWE not matched: CWE-943 (expected: ['CWE-307', 'CWE-521', 'CWE-798'])"
+F923,grok-4,javascript/A07/a07-js-02.js,23,CWE-522,A07,MEDIUM,"njsscan, opengrep",FP,"CWE not matched: CWE-522 (expected: ['CWE-384', 'CWE-614'])"
+F924,grok-4,javascript/A07/a07-js-02.js,23,,A07,MEDIUM,njsscan,FP,No CWE and not ESLint (tools: njsscan)
+F925,grok-4,javascript/A07/a07-js-03.js,20,CWE-352,A07,MEDIUM,"codeql, opengrep",FP,"CSRF not in expected: CWE-352 (expected: ['CWE-330', 'CWE-614', 'CWE-522'])"
+F926,grok-4,javascript/A07/a07-js-03.js,27,CWE-943,A07,HIGH,"njsscan, opengrep",FP,"CWE not matched: CWE-943 (expected: ['CWE-330', 'CWE-614', 'CWE-522'])"
+F927,grok-4,javascript/A07/a07-js-03.js,45,CWE-770,A07,MEDIUM,codeql,FP,"Resource exhaustion not in expected: CWE-770 (expected: ['CWE-330', 'CWE-614', 'CWE-522'])"
+F928,grok-4,javascript/A07/a07-js-03.js,52,CWE-089,A07,MEDIUM,codeql,FP,"CWE not matched: CWE-89 (expected: ['CWE-330', 'CWE-614', 'CWE-522'])"
+F929,grok-4,javascript/A07/a07-js-03.js,67,CWE-1275,A07,LOW,opengrep,FP,"CWE not matched: CWE-1275 (expected: ['CWE-330', 'CWE-614', 'CWE-522'])"
+F930,grok-4,python/A07/a07-py-01.py,6,CWE-259,A07,LOW,bandit,FP,"CWE not matched: CWE-259 (expected: ['CWE-384', 'CWE-613'])"
+F931,grok-4,python/A07/a07-py-01.py,33,CWE-94,A07,HIGH,bandit,FP,"Incidental finding: Flask debug=True (expected: ['CWE-384', 'CWE-613'])"
+F932,grok-4,python/A07/a07-py-01.py,33,CWE-215,A07,MEDIUM,codeql,FP,"Incidental finding: Flask debug=True (expected: ['CWE-384', 'CWE-613'])"
+F933,grok-4,python/A07/a07-py-01.py,33,CWE-489,A07,MEDIUM,opengrep,FP,"Incidental finding: Flask debug=True (expected: ['CWE-384', 'CWE-613'])"
+F934,grok-4,python/A07/a07-py-03.py,90,CWE-96,A07,MEDIUM,opengrep,FP,"CWE not matched: CWE-96 (expected: ['CWE-614', 'CWE-784'])"
+F935,grok-4,python/A07/a07-py-03.py,117,CWE-94,A07,HIGH,bandit,FP,"Incidental finding: Flask debug=True (expected: ['CWE-614', 'CWE-784'])"
+F936,grok-4,python/A07/a07-py-03.py,117,CWE-215,A07,MEDIUM,codeql,FP,"Incidental finding: Flask debug=True (expected: ['CWE-614', 'CWE-784'])"
+F937,grok-4,python/A07/a07-py-03.py,117,CWE-489,A07,MEDIUM,opengrep,FP,"Incidental finding: Flask debug=True (expected: ['CWE-614', 'CWE-784'])"
+F938,grok-4,python/A07/a07-py-04.py,7,CWE-259,A07,LOW,bandit,FP,CWE not matched: CWE-259 (expected: ['CWE-307'])
+F939,grok-4,python/A07/a07-py-04.py,101,CWE-96,A07,MEDIUM,opengrep,FP,CWE not matched: CWE-96 (expected: ['CWE-307'])
+F940,grok-4,python/A07/a07-py-04.py,104,CWE-94,A07,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-307'])
+F941,grok-4,python/A07/a07-py-04.py,104,CWE-215,A07,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-307'])
+F942,grok-4,python/A07/a07-py-04.py,104,CWE-489,A07,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-307'])
+F943,grok-4,python/A07/a07-py-05.py,72,CWE-209,A07,MEDIUM,codeql,FP,CWE not matched: CWE-209 (expected: ['CWE-521'])
+F944,grok-4,python/A07/a07-py-05.py,75,CWE-94,A07,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-521'])
+F945,grok-4,python/A07/a07-py-05.py,75,CWE-215,A07,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-521'])
+F946,grok-4,python/A07/a07-py-05.py,75,CWE-489,A07,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-521'])
+F947,grok-4,javascript/A08/a08-js-01.js,17,,A08,LOW,eslint,FP,"ESLint security/detect-non-literal-fs-filename not relevant (expected: ['CWE-494', 'CWE-829'])"
+F948,grok-4,javascript/A08/a08-js-02.js,18,CWE-352,A08,LOW,opengrep,TP,"CWE match: CWE-352 in expected ['CWE-345', 'CWE-352']"
+F949,grok-4,javascript/A08/a08-js-02.js,21,CWE-770,A08,MEDIUM,codeql,FP,"Resource exhaustion not in expected: CWE-770 (expected: ['CWE-345', 'CWE-352'])"
+F950,grok-4,javascript/A08/a08-js-02.js,46,CWE-089,A08,MEDIUM,codeql,FP,"CWE not matched: CWE-89 (expected: ['CWE-345', 'CWE-352'])"
+F951,grok-4,javascript/A08/a08-js-02.js,46,CWE-943,A08,MEDIUM,opengrep,FP,"CWE not matched: CWE-943 (expected: ['CWE-345', 'CWE-352'])"
+F952,grok-4,javascript/A08/a08-js-04.js,19,,A08,LOW,eslint,FP,"ESLint security/detect-non-literal-fs-filename not relevant (expected: ['CWE-78', 'CWE-494'])"
+F953,grok-4,python/A08/a08-py-01.py,6,CWE-78,A08,LOW,bandit,FP,CWE not matched: CWE-78 (expected: ['CWE-494'])
+F954,grok-4,python/A08/a08-py-01.py,11,CWE-400,A08,MEDIUM,bandit,FP,Resource exhaustion not in expected: CWE-400 (expected: ['CWE-494'])
+F955,grok-4,python/A08/a08-py-02.py,45,CWE-209,A08,MEDIUM,codeql,FP,CWE not matched: CWE-209 (expected: ['CWE-502'])
+F956,grok-4,python/A08/a08-py-03.py,5,CWE-78,A08,HIGH,"bandit, opengrep",FP,"CWE not matched: CWE-78 (expected: ['CWE-494', 'CWE-345'])"
+F957,grok-4,python/A08/a08-py-03.py,52,CWE-732,A08,MEDIUM,bandit,FP,"CWE not matched: CWE-732 (expected: ['CWE-494', 'CWE-345'])"
+F958,grok-4,python/A08/a08-py-03.py,52,CWE-276,A08,MEDIUM,opengrep,FP,"CWE not matched: CWE-276 (expected: ['CWE-494', 'CWE-345'])"
+F959,grok-4,python/A08/a08-py-04.py,1,CWE-502,A08,MEDIUM,"bandit, opengrep",TP,CWE match: CWE-502 in expected ['CWE-502']
+F960,grok-4,python/A09/a09-py-01.py,69,CWE-94,A09,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-532'])
+F961,grok-4,python/A09/a09-py-01.py,69,CWE-215,A09,MEDIUM,codeql,TP,CWE match: CWE-215 in expected ['CWE-532']
+F962,grok-4,python/A09/a09-py-01.py,69,CWE-489,A09,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-532'])
+F963,grok-4,python/A09/a09-py-03.py,32,CWE-117,A09,LOW,opengrep,FP,"CWE not matched: CWE-117 (expected: ['CWE-209', 'CWE-532'])"
+F964,grok-4,python/A09/a09-py-03.py,34,CWE-209,A09,MEDIUM,codeql,TP,"CWE match: CWE-209 in expected ['CWE-209', 'CWE-532']"
+F965,grok-4,javascript/A10/a10-js-01.js,6,CWE-352,A10,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-918'])
+F966,grok-4,javascript/A10/a10-js-01.js,19,CWE-918,A10,MEDIUM,codeql,TP,CWE match: CWE-918 in expected ['CWE-918']
+F967,grok-4,javascript/A10/a10-js-02.js,16,CWE-918,A10,MEDIUM,codeql,TP,CWE match: CWE-918 in expected ['CWE-918']
+F968,grok-4,javascript/A10/a10-js-03.js,6,CWE-352,A10,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-918'])
+F969,grok-4,javascript/A10/a10-js-04.js,4,CWE-352,A10,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-918'])
+F970,grok-4,javascript/A10/a10-js-04.js,20,CWE-918,A10,HIGH,"codeql, opengrep",TP,CWE match: CWE-918 in expected ['CWE-918']
+F971,grok-4,python/A10/a10-py-01.py,15,CWE-918,A10,HIGH,"codeql, opengrep",TP,CWE match: CWE-918 in expected ['CWE-918']
+F972,grok-4,python/A10/a10-py-01.py,18,CWE-209,A10,MEDIUM,codeql,FP,CWE not matched: CWE-209 (expected: ['CWE-918'])
+F973,grok-4,python/A10/a10-py-02.py,36,CWE-209,A10,MEDIUM,codeql,FP,CWE not matched: CWE-209 (expected: ['CWE-918'])
+F974,grok-4,python/A10/a10-py-02.py,55,CWE-94,A10,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-918'])
+F975,grok-4,python/A10/a10-py-02.py,55,CWE-215,A10,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-918'])
+F976,grok-4,python/A10/a10-py-02.py,55,CWE-489,A10,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-918'])
+F977,grok-4,python/A10/a10-py-03.py,9,CWE-918,A10,HIGH,"codeql, opengrep",TP,CWE match: CWE-918 in expected ['CWE-918']
+F978,grok-4,python/A10/a10-py-03.py,33,CWE-079,A10,MEDIUM,codeql,FP,CWE not matched: CWE-79 (expected: ['CWE-918'])
+F979,grok-4,python/A10/a10-py-04.py,16,CWE-79,A10,MEDIUM,opengrep,FP,CWE not matched: CWE-79 (expected: ['CWE-918'])
+F980,grok-4,python/A10/a10-py-04.py,21,CWE-209,A10,MEDIUM,codeql,FP,CWE not matched: CWE-209 (expected: ['CWE-918'])
+F981,grok-4,python/A10/a10-py-04.py,24,CWE-94,A10,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-918'])
+F982,grok-4,python/A10/a10-py-04.py,24,CWE-215,A10,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-918'])
+F983,grok-4,python/A10/a10-py-04.py,24,CWE-489,A10,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-918'])
+F984,llama-4-maverick,javascript/A01/a01-js-01.js,11,CWE-770,A01,MEDIUM,codeql,FP,Resource exhaustion not in expected: CWE-770 (expected: ['CWE-639'])
+F985,llama-4-maverick,javascript/A01/a01-js-01.js,13,CWE-943,A01,MEDIUM,opengrep,FP,CWE not matched: CWE-943 (expected: ['CWE-639'])
+F986,llama-4-maverick,javascript/A01/a01-js-02.js,8,CWE-770,A01,MEDIUM,codeql,FP,Resource exhaustion not in expected: CWE-770 (expected: ['CWE-22'])
+F987,llama-4-maverick,javascript/A01/a01-js-02.js,9,CWE-23,A01,HIGH,njsscan,TP,CWE match: CWE-23 in expected ['CWE-22']
+F988,llama-4-maverick,javascript/A01/a01-js-02.js,9,CWE-22,A01,MEDIUM,"njsscan, opengrep",TP,CWE match: CWE-22 in expected ['CWE-22']
+F989,llama-4-maverick,javascript/A01/a01-js-02.js,15,CWE-022,A01,MEDIUM,codeql,TP,CWE match: CWE-22 in expected ['CWE-22']
+F990,llama-4-maverick,javascript/A01/a01-js-02.js,15,,A01,LOW,eslint,TP,ESLint rule security/detect-non-literal-fs-filename -> CWE-22 matches expected
+F991,llama-4-maverick,javascript/A01/a01-js-04.js,7,CWE-770,A01,MEDIUM,codeql,FP,"Resource exhaustion not in expected: CWE-770 (expected: ['CWE-639', 'CWE-284'])"
+F992,llama-4-maverick,javascript/A01/a01-js-04.js,26,CWE-089,A01,MEDIUM,codeql,FP,"CWE not matched: CWE-89 (expected: ['CWE-639', 'CWE-284'])"
+F993,llama-4-maverick,javascript/A01/a01-js-04.js,26,CWE-943,A01,MEDIUM,opengrep,FP,"CWE not matched: CWE-943 (expected: ['CWE-639', 'CWE-284'])"
+F994,llama-4-maverick,python/A01/a01-py-01.py,41,CWE-94,A01,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-639'])
+F995,llama-4-maverick,python/A01/a01-py-01.py,41,CWE-215,A01,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-639'])
+F996,llama-4-maverick,python/A01/a01-py-01.py,41,CWE-489,A01,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-639'])
+F997,llama-4-maverick,python/A01/a01-py-02.py,18,CWE-94,A01,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-22'])
+F998,llama-4-maverick,python/A01/a01-py-02.py,18,CWE-215,A01,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-22'])
+F999,llama-4-maverick,python/A01/a01-py-02.py,18,CWE-489,A01,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-22'])
+F1000,llama-4-maverick,python/A01/a01-py-03.py,68,CWE-94,A01,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-862'])
+F1001,llama-4-maverick,python/A01/a01-py-03.py,68,CWE-215,A01,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-862'])
+F1002,llama-4-maverick,python/A01/a01-py-03.py,68,CWE-489,A01,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-862'])
+F1003,llama-4-maverick,python/A01/a01-py-04.py,30,CWE-209,A01,MEDIUM,codeql,FP,CWE not matched: CWE-209 (expected: ['CWE-639'])
+F1004,llama-4-maverick,python/A01/a01-py-04.py,37,CWE-94,A01,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-639'])
+F1005,llama-4-maverick,python/A01/a01-py-04.py,37,CWE-215,A01,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-639'])
+F1006,llama-4-maverick,python/A01/a01-py-04.py,37,CWE-489,A01,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-639'])
+F1007,llama-4-maverick,python/A01/a01-py-05.py,67,CWE-94,A01,HIGH,bandit,FP,"Incidental finding: Flask debug=True (expected: ['CWE-862', 'CWE-639'])"
+F1008,llama-4-maverick,python/A01/a01-py-05.py,67,CWE-215,A01,MEDIUM,codeql,FP,"Incidental finding: Flask debug=True (expected: ['CWE-862', 'CWE-639'])"
+F1009,llama-4-maverick,python/A01/a01-py-05.py,67,CWE-489,A01,MEDIUM,opengrep,FP,"Incidental finding: Flask debug=True (expected: ['CWE-862', 'CWE-639'])"
+F1010,llama-4-maverick,javascript/A02/a02-js-04.js,3,CWE-798,A02,HIGH,"njsscan, opengrep",FP,FP: placeholder credential (your_secret_key_here)
+F1011,llama-4-maverick,javascript/A02/a02-js-05.js,5,CWE-327,A02,MEDIUM,codeql,FP,"CWE not matched: CWE-327 (expected: ['CWE-330', 'CWE-521'])"
+F1012,llama-4-maverick,python/A02/a02-py-05.py,35,CWE-020,A02,MEDIUM,codeql,FP,"CWE not matched: CWE-20 (expected: ['CWE-315', 'CWE-614'])"
+F1013,llama-4-maverick,python/A02/a02-py-05.py,46,CWE-94,A02,HIGH,bandit,FP,"Incidental finding: Flask debug=True (expected: ['CWE-315', 'CWE-614'])"
+F1014,llama-4-maverick,python/A02/a02-py-05.py,46,CWE-215,A02,MEDIUM,codeql,FP,"Incidental finding: Flask debug=True (expected: ['CWE-315', 'CWE-614'])"
+F1015,llama-4-maverick,python/A02/a02-py-05.py,46,CWE-489,A02,MEDIUM,opengrep,FP,"Incidental finding: Flask debug=True (expected: ['CWE-315', 'CWE-614'])"
+F1016,llama-4-maverick,javascript/A03/a03-js-01.js,4,CWE-352,A03,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-943'])
+F1017,llama-4-maverick,javascript/A03/a03-js-01.js,13,CWE-770,A03,MEDIUM,codeql,FP,Resource exhaustion not in expected: CWE-770 (expected: ['CWE-943'])
+F1018,llama-4-maverick,javascript/A03/a03-js-01.js,20,CWE-089,A03,MEDIUM,codeql,FP,CWE not matched: CWE-89 (expected: ['CWE-943'])
+F1019,llama-4-maverick,javascript/A03/a03-js-01.js,20,CWE-943,A03,MEDIUM,opengrep,TP,CWE match: CWE-943 in expected ['CWE-943']
+F1020,llama-4-maverick,javascript/A03/a03-js-02.js,4,CWE-352,A03,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-89'])
+F1021,llama-4-maverick,javascript/A03/a03-js-02.js,7,CWE-798,A03,MEDIUM,opengrep,FP,CWE not matched: CWE-798 (expected: ['CWE-89'])
+F1022,llama-4-maverick,javascript/A03/a03-js-02.js,15,CWE-770,A03,MEDIUM,codeql,FP,Resource exhaustion not in expected: CWE-770 (expected: ['CWE-89'])
+F1023,llama-4-maverick,javascript/A03/a03-js-03.js,5,CWE-770,A03,MEDIUM,codeql,FP,Resource exhaustion not in expected: CWE-770 (expected: ['CWE-78'])
+F1024,llama-4-maverick,javascript/A03/a03-js-04.js,10,CWE-601,A03,MEDIUM,opengrep,FP,CWE not matched: CWE-601 (expected: ['CWE-79'])
+F1025,llama-4-maverick,javascript/A03/a03-js-04.js,19,CWE-23,A03,MEDIUM,njsscan,FP,CWE not matched: CWE-23 (expected: ['CWE-79'])
+F1026,llama-4-maverick,javascript/A03/a03-js-05.js,4,CWE-352,A03,LOW,opengrep,FP,"CSRF not in expected: CWE-352 (expected: ['CWE-1333', 'CWE-943'])"
+F1027,llama-4-maverick,javascript/A03/a03-js-05.js,13,CWE-770,A03,MEDIUM,codeql,FP,"Resource exhaustion not in expected: CWE-770 (expected: ['CWE-1333', 'CWE-943'])"
+F1028,llama-4-maverick,javascript/A03/a03-js-05.js,20,CWE-730,A03,MEDIUM,codeql,FP,"CWE not matched: CWE-730 (expected: ['CWE-1333', 'CWE-943'])"
+F1029,llama-4-maverick,javascript/A03/a03-js-05.js,20,,A03,LOW,eslint,TP,ESLint rule security/detect-non-literal-regexp -> CWE-1333 matches expected
+F1030,llama-4-maverick,javascript/A03/a03-js-05.js,20,CWE-1333,A03,MEDIUM,opengrep,TP,"CWE match: CWE-1333 in expected ['CWE-1333', 'CWE-943']"
+F1031,llama-4-maverick,javascript/A03/a03-js-05.js,24,CWE-943,A03,MEDIUM,opengrep,TP,"CWE match: CWE-943 in expected ['CWE-1333', 'CWE-943']"
+F1032,llama-4-maverick,python/A03/a03-py-01.py,25,CWE-94,A03,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-89'])
+F1033,llama-4-maverick,python/A03/a03-py-01.py,25,CWE-215,A03,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-89'])
+F1034,llama-4-maverick,python/A03/a03-py-01.py,25,CWE-489,A03,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-89'])
+F1035,llama-4-maverick,python/A03/a03-py-02.py,2,CWE-78,A03,LOW,bandit,FP,Deep triage correction: subprocess.check_output with list form (no shell=True) - not CWE-78
+F1036,llama-4-maverick,python/A03/a03-py-02.py,19,CWE-209,A03,MEDIUM,codeql,FP,CWE not matched: CWE-209 (expected: ['CWE-78'])
+F1037,llama-4-maverick,python/A03/a03-py-02.py,22,CWE-94,A03,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-78'])
+F1038,llama-4-maverick,python/A03/a03-py-02.py,22,CWE-215,A03,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-78'])
+F1039,llama-4-maverick,python/A03/a03-py-02.py,22,CWE-489,A03,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-78'])
+F1040,llama-4-maverick,python/A03/a03-py-03.py,1,CWE-20,A03,MEDIUM,bandit,FP,CWE not matched: CWE-20 (expected: ['CWE-611'])
+F1041,llama-4-maverick,python/A03/a03-py-03.py,4,CWE-611,A03,HIGH,opengrep,TP,CWE match: CWE-611 in expected ['CWE-611']
+F1042,llama-4-maverick,python/A03/a03-py-04.py,73,CWE-94,A03,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-79'])
+F1043,llama-4-maverick,python/A03/a03-py-04.py,73,CWE-215,A03,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-79'])
+F1044,llama-4-maverick,python/A03/a03-py-04.py,73,CWE-489,A03,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-79'])
+F1045,llama-4-maverick,javascript/A04/a04-js-01.js,8,CWE-770,A04,MEDIUM,codeql,FP,"Resource exhaustion not in expected: CWE-770 (expected: ['CWE-640', 'CWE-330'])"
+F1046,llama-4-maverick,javascript/A04/a04-js-01.js,11,CWE-089,A04,MEDIUM,codeql,FP,"CWE not matched: CWE-89 (expected: ['CWE-640', 'CWE-330'])"
+F1047,llama-4-maverick,javascript/A04/a04-js-01.js,11,CWE-943,A04,HIGH,"njsscan, opengrep",FP,"CWE not matched: CWE-943 (expected: ['CWE-640', 'CWE-330'])"
+F1048,llama-4-maverick,javascript/A04/a04-js-01.js,32,CWE-640,A04,MEDIUM,codeql,TP,"CWE match: CWE-640 in expected ['CWE-640', 'CWE-330']"
+F1049,llama-4-maverick,javascript/A04/a04-js-01.js,44,CWE-598,A04,MEDIUM,codeql,FP,"CWE not matched: CWE-598 (expected: ['CWE-640', 'CWE-330'])"
+F1050,llama-4-maverick,javascript/A04/a04-js-02.js,4,CWE-352,A04,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-840'])
+F1051,llama-4-maverick,javascript/A04/a04-js-02.js,17,CWE-770,A04,MEDIUM,codeql,FP,Resource exhaustion not in expected: CWE-770 (expected: ['CWE-840'])
+F1052,llama-4-maverick,javascript/A04/a04-js-02.js,25,CWE-089,A04,MEDIUM,codeql,FP,CWE not matched: CWE-89 (expected: ['CWE-840'])
+F1053,llama-4-maverick,javascript/A04/a04-js-02.js,25,CWE-943,A04,MEDIUM,opengrep,FP,CWE not matched: CWE-943 (expected: ['CWE-840'])
+F1054,llama-4-maverick,javascript/A04/a04-js-03.js,6,CWE-352,A04,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-434'])
+F1055,llama-4-maverick,javascript/A04/a04-js-03.js,35,CWE-770,A04,MEDIUM,codeql,FP,Resource exhaustion not in expected: CWE-770 (expected: ['CWE-434'])
+F1056,llama-4-maverick,javascript/A04/a04-js-04.js,22,CWE-770,A04,MEDIUM,codeql,FP,"Resource exhaustion not in expected: CWE-770 (expected: ['CWE-307', 'CWE-798'])"
+F1057,llama-4-maverick,javascript/A04/a04-js-05.js,4,CWE-352,A04,LOW,opengrep,FP,"CSRF not in expected: CWE-352 (expected: ['CWE-362', 'CWE-840'])"
+F1058,llama-4-maverick,javascript/A04/a04-js-05.js,11,CWE-770,A04,MEDIUM,codeql,FP,"Resource exhaustion not in expected: CWE-770 (expected: ['CWE-362', 'CWE-840'])"
+F1059,llama-4-maverick,python/A04/a04-py-01.py,70,CWE-94,A04,HIGH,bandit,FP,"Incidental finding: Flask debug=True (expected: ['CWE-640', 'CWE-330'])"
+F1060,llama-4-maverick,python/A04/a04-py-01.py,70,CWE-215,A04,MEDIUM,codeql,FP,"Incidental finding: Flask debug=True (expected: ['CWE-640', 'CWE-330'])"
+F1061,llama-4-maverick,python/A04/a04-py-01.py,70,CWE-489,A04,MEDIUM,opengrep,FP,"Incidental finding: Flask debug=True (expected: ['CWE-640', 'CWE-330'])"
+F1062,llama-4-maverick,python/A04/a04-py-02.py,107,CWE-94,A04,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-840'])
+F1063,llama-4-maverick,python/A04/a04-py-02.py,107,CWE-215,A04,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-840'])
+F1064,llama-4-maverick,python/A04/a04-py-02.py,107,CWE-489,A04,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-840'])
+F1065,llama-4-maverick,python/A04/a04-py-03.py,61,CWE-94,A04,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-434'])
+F1066,llama-4-maverick,python/A04/a04-py-03.py,61,CWE-215,A04,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-434'])
+F1067,llama-4-maverick,python/A04/a04-py-03.py,61,CWE-489,A04,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-434'])
+F1068,llama-4-maverick,python/A04/a04-py-04.py,9,CWE-259,A04,LOW,bandit,FP,"CWE not matched: CWE-259 (expected: ['CWE-362', 'CWE-837'])"
+F1069,llama-4-maverick,python/A04/a04-py-04.py,9,CWE-489,A04,HIGH,opengrep,FP,"Incidental finding: Flask debug=True (expected: ['CWE-362', 'CWE-837'])"
+F1070,llama-4-maverick,python/A04/a04-py-04.py,85,CWE-94,A04,HIGH,bandit,FP,"Incidental finding: Flask debug=True (expected: ['CWE-362', 'CWE-837'])"
+F1071,llama-4-maverick,python/A04/a04-py-04.py,85,CWE-215,A04,MEDIUM,codeql,FP,"Incidental finding: Flask debug=True (expected: ['CWE-362', 'CWE-837'])"
+F1072,llama-4-maverick,javascript/A05/a05-js-01.js,4,CWE-352,A05,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-942'])
+F1073,llama-4-maverick,javascript/A05/a05-js-02.js,10,CWE-798,A05,MEDIUM,opengrep,TP,"CWE match: CWE-798 in expected ['CWE-798', 'CWE-256']"
+F1074,llama-4-maverick,javascript/A05/a05-js-04.js,4,CWE-352,A05,LOW,opengrep,FP,"CSRF not in expected: CWE-352 (expected: ['CWE-1188', 'CWE-693'])"
+F1075,llama-4-maverick,javascript/A05/a05-js-05.js,18,,A05,LOW,eslint,FP,"ESLint security/detect-non-literal-fs-filename not relevant (expected: ['CWE-798', 'CWE-312'])"
+F1076,llama-4-maverick,python/A05/a05-py-01.py,49,CWE-94,A05,HIGH,bandit,TP,Relevant to A05 misconfiguration: Flask debug=True
+F1077,llama-4-maverick,python/A05/a05-py-01.py,49,CWE-215,A05,MEDIUM,codeql,TP,Relevant to A05 misconfiguration: Flask debug=True
+F1078,llama-4-maverick,python/A05/a05-py-01.py,49,CWE-489,A05,MEDIUM,opengrep,TP,CWE match: CWE-489 in expected ['CWE-489']
+F1079,llama-4-maverick,python/A05/a05-py-02.py,4,CWE-259,A05,LOW,bandit,TP,CWE match: CWE-259 in expected ['CWE-798']
+F1080,llama-4-maverick,python/A05/a05-py-02.py,4,CWE-798,A05,MEDIUM,opengrep,TP,CWE match: CWE-798 in expected ['CWE-798']
+F1081,llama-4-maverick,javascript/A06/a06-js-02.js,3,,A06,LOW,eslint,TP,ESLint rule security/detect-non-literal-require -> CWE-829 matches expected
+F1082,llama-4-maverick,python/A06/a06-py-02.py,2,CWE-502,A06,MEDIUM,"bandit, opengrep",TP,"CWE match: CWE-502 in expected ['CWE-494', 'CWE-502']"
+F1083,llama-4-maverick,python/A06/a06-py-02.py,8,CWE-400,A06,MEDIUM,bandit,FP,"Resource exhaustion not in expected: CWE-400 (expected: ['CWE-494', 'CWE-502'])"
+F1084,llama-4-maverick,javascript/A07/a07-js-01.js,3,CWE-798,A07,HIGH,"njsscan, opengrep",TP,"CWE match: CWE-798 in expected ['CWE-307', 'CWE-521', 'CWE-798']"
+F1085,llama-4-maverick,javascript/A07/a07-js-01.js,11,CWE-770,A07,MEDIUM,codeql,FP,"Resource exhaustion not in expected: CWE-770 (expected: ['CWE-307', 'CWE-521', 'CWE-798'])"
+F1086,llama-4-maverick,javascript/A07/a07-js-01.js,24,CWE-089,A07,MEDIUM,codeql,FP,"CWE not matched: CWE-89 (expected: ['CWE-307', 'CWE-521', 'CWE-798'])"
+F1087,llama-4-maverick,javascript/A07/a07-js-01.js,24,CWE-943,A07,MEDIUM,opengrep,FP,"CWE not matched: CWE-943 (expected: ['CWE-307', 'CWE-521', 'CWE-798'])"
+F1088,llama-4-maverick,javascript/A07/a07-js-02.js,18,CWE-614,A07,MEDIUM,codeql,TP,"CWE match: CWE-614 in expected ['CWE-384', 'CWE-614']"
+F1089,llama-4-maverick,javascript/A07/a07-js-02.js,18,CWE-522,A07,MEDIUM,"njsscan, opengrep",FP,"CWE not matched: CWE-522 (expected: ['CWE-384', 'CWE-614'])"
+F1090,llama-4-maverick,javascript/A07/a07-js-02.js,18,,A07,MEDIUM,njsscan,FP,No CWE and not ESLint (tools: njsscan)
+F1091,llama-4-maverick,javascript/A07/a07-js-02.js,18,,A07,MEDIUM,njsscan,FP,No CWE and not ESLint (tools: njsscan)
+F1092,llama-4-maverick,javascript/A07/a07-js-03.js,28,CWE-352,A07,MEDIUM,"codeql, opengrep",FP,"CSRF not in expected: CWE-352 (expected: ['CWE-330', 'CWE-614', 'CWE-522'])"
+F1093,llama-4-maverick,javascript/A07/a07-js-03.js,33,CWE-770,A07,MEDIUM,codeql,FP,"Resource exhaustion not in expected: CWE-770 (expected: ['CWE-330', 'CWE-614', 'CWE-522'])"
+F1094,llama-4-maverick,javascript/A07/a07-js-03.js,35,CWE-089,A07,MEDIUM,codeql,FP,"CWE not matched: CWE-89 (expected: ['CWE-330', 'CWE-614', 'CWE-522'])"
+F1095,llama-4-maverick,javascript/A07/a07-js-03.js,35,CWE-943,A07,HIGH,"njsscan, opengrep",FP,"CWE not matched: CWE-943 (expected: ['CWE-330', 'CWE-614', 'CWE-522'])"
+F1096,llama-4-maverick,javascript/A07/a07-js-03.js,44,CWE-1275,A07,LOW,opengrep,FP,"CWE not matched: CWE-1275 (expected: ['CWE-330', 'CWE-614', 'CWE-522'])"
+F1097,llama-4-maverick,javascript/A07/a07-js-03.js,44,CWE-614,A07,LOW,opengrep,TP,"CWE match: CWE-614 in expected ['CWE-330', 'CWE-614', 'CWE-522']"
+F1098,llama-4-maverick,javascript/A07/a07-js-03.js,78,CWE-79,A07,HIGH,njsscan,FP,"CWE not matched: CWE-79 (expected: ['CWE-330', 'CWE-614', 'CWE-522'])"
+F1099,llama-4-maverick,python/A07/a07-py-01.py,6,CWE-259,A07,LOW,bandit,FP,"CWE not matched: CWE-259 (expected: ['CWE-384', 'CWE-613'])"
+F1100,llama-4-maverick,python/A07/a07-py-01.py,17,CWE-327,A07,MEDIUM,codeql,FP,"CWE not matched: CWE-327 (expected: ['CWE-384', 'CWE-613'])"
+F1101,llama-4-maverick,python/A07/a07-py-01.py,39,CWE-94,A07,HIGH,bandit,FP,"Incidental finding: Flask debug=True (expected: ['CWE-384', 'CWE-613'])"
+F1102,llama-4-maverick,python/A07/a07-py-01.py,39,CWE-215,A07,MEDIUM,codeql,FP,"Incidental finding: Flask debug=True (expected: ['CWE-384', 'CWE-613'])"
+F1103,llama-4-maverick,python/A07/a07-py-01.py,39,CWE-489,A07,MEDIUM,opengrep,FP,"Incidental finding: Flask debug=True (expected: ['CWE-384', 'CWE-613'])"
+F1104,llama-4-maverick,python/A07/a07-py-02.py,4,CWE-259,A07,LOW,bandit,FP,"CWE not matched: CWE-259 (expected: ['CWE-347', 'CWE-345'])"
+F1105,llama-4-maverick,python/A07/a07-py-02.py,12,CWE-522,A07,HIGH,opengrep,FP,"CWE not matched: CWE-522 (expected: ['CWE-347', 'CWE-345'])"
+F1106,llama-4-maverick,python/A07/a07-py-02.py,12,CWE-798,A07,MEDIUM,opengrep,FP,"CWE not matched: CWE-798 (expected: ['CWE-347', 'CWE-345'])"
+F1107,llama-4-maverick,python/A07/a07-py-03.py,8,CWE-259,A07,LOW,bandit,FP,"CWE not matched: CWE-259 (expected: ['CWE-614', 'CWE-784'])"
+F1108,llama-4-maverick,python/A07/a07-py-03.py,8,CWE-489,A07,HIGH,opengrep,FP,"Incidental finding: Flask debug=True (expected: ['CWE-614', 'CWE-784'])"
+F1109,llama-4-maverick,python/A07/a07-py-03.py,46,CWE-614,A07,MEDIUM,opengrep,TP,"CWE match: CWE-614 in expected ['CWE-614', 'CWE-784']"
+F1110,llama-4-maverick,python/A07/a07-py-03.py,46,CWE-1004,A07,LOW,opengrep,TP,"CWE match: CWE-1004 in expected ['CWE-614', 'CWE-784']"
+F1111,llama-4-maverick,python/A07/a07-py-03.py,46,CWE-1275,A07,LOW,opengrep,FP,"CWE not matched: CWE-1275 (expected: ['CWE-614', 'CWE-784'])"
+F1112,llama-4-maverick,python/A07/a07-py-03.py,98,CWE-94,A07,HIGH,bandit,FP,"Incidental finding: Flask debug=True (expected: ['CWE-614', 'CWE-784'])"
+F1113,llama-4-maverick,python/A07/a07-py-03.py,98,CWE-215,A07,MEDIUM,codeql,FP,"Incidental finding: Flask debug=True (expected: ['CWE-614', 'CWE-784'])"
+F1114,llama-4-maverick,python/A07/a07-py-04.py,67,CWE-259,A07,LOW,bandit,FP,CWE not matched: CWE-259 (expected: ['CWE-307'])
+F1115,llama-4-maverick,python/A07/a07-py-04.py,75,CWE-94,A07,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-307'])
+F1116,llama-4-maverick,python/A07/a07-py-04.py,75,CWE-215,A07,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-307'])
+F1117,llama-4-maverick,python/A07/a07-py-04.py,75,CWE-489,A07,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-307'])
+F1118,llama-4-maverick,python/A07/a07-py-05.py,71,CWE-209,A07,MEDIUM,codeql,FP,CWE not matched: CWE-209 (expected: ['CWE-521'])
+F1119,llama-4-maverick,python/A07/a07-py-05.py,77,CWE-94,A07,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-521'])
+F1120,llama-4-maverick,python/A07/a07-py-05.py,77,CWE-215,A07,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-521'])
+F1121,llama-4-maverick,python/A07/a07-py-05.py,77,CWE-489,A07,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-521'])
+F1122,llama-4-maverick,javascript/A08/a08-js-01.js,18,,A08,LOW,eslint,FP,"ESLint security/detect-non-literal-fs-filename not relevant (expected: ['CWE-494', 'CWE-829'])"
+F1123,llama-4-maverick,javascript/A08/a08-js-02.js,10,CWE-770,A08,MEDIUM,codeql,FP,"Resource exhaustion not in expected: CWE-770 (expected: ['CWE-345', 'CWE-352'])"
+F1124,llama-4-maverick,javascript/A08/a08-js-02.js,18,CWE-089,A08,MEDIUM,codeql,FP,"CWE not matched: CWE-89 (expected: ['CWE-345', 'CWE-352'])"
+F1125,llama-4-maverick,javascript/A08/a08-js-02.js,18,CWE-943,A08,MEDIUM,opengrep,FP,"CWE not matched: CWE-943 (expected: ['CWE-345', 'CWE-352'])"
+F1126,llama-4-maverick,javascript/A08/a08-js-02.js,20,CWE-079,A08,MEDIUM,codeql,FP,"CWE not matched: CWE-79 (expected: ['CWE-345', 'CWE-352'])"
+F1127,llama-4-maverick,javascript/A08/a08-js-02.js,36,CWE-79,A08,MEDIUM,opengrep,FP,"CWE not matched: CWE-79 (expected: ['CWE-345', 'CWE-352'])"
+F1128,llama-4-maverick,javascript/A08/a08-js-03.js,23,,A08,LOW,eslint,TP,ESLint security/detect-object-injection -> prototype pollution
+F1129,llama-4-maverick,javascript/A08/a08-js-04.js,6,,A08,LOW,eslint,FP,"ESLint security/detect-non-literal-fs-filename not relevant (expected: ['CWE-78', 'CWE-494'])"
+F1130,llama-4-maverick,javascript/A08/a08-js-04.js,10,CWE-78,A08,HIGH,opengrep,TP,"CWE match: CWE-78 in expected ['CWE-78', 'CWE-494']"
+F1131,llama-4-maverick,python/A08/a08-py-01.py,15,CWE-400,A08,MEDIUM,bandit,FP,Resource exhaustion not in expected: CWE-400 (expected: ['CWE-494'])
+F1132,llama-4-maverick,python/A08/a08-py-01.py,34,CWE-22,A08,HIGH,"bandit, opengrep",FP,CWE not matched: CWE-22 (expected: ['CWE-494'])
+F1133,llama-4-maverick,python/A08/a08-py-02.py,3,CWE-502,A08,HIGH,"bandit, codeql, opengrep",TP,CWE match: CWE-502 in expected ['CWE-502']
+F1134,llama-4-maverick,python/A08/a08-py-02.py,56,CWE-209,A08,MEDIUM,codeql,FP,CWE not matched: CWE-209 (expected: ['CWE-502'])
+F1135,llama-4-maverick,python/A08/a08-py-02.py,59,CWE-94,A08,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-502'])
+F1136,llama-4-maverick,python/A08/a08-py-02.py,59,CWE-215,A08,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-502'])
+F1137,llama-4-maverick,python/A08/a08-py-02.py,59,CWE-489,A08,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-502'])
+F1138,llama-4-maverick,python/A08/a08-py-03.py,10,CWE-400,A08,MEDIUM,bandit,FP,"Resource exhaustion not in expected: CWE-400 (expected: ['CWE-494', 'CWE-345'])"
+F1139,llama-4-maverick,python/A08/a08-py-03.py,58,CWE-78,A08,LOW,bandit,FP,"CWE not matched: CWE-78 (expected: ['CWE-494', 'CWE-345'])"
+F1140,llama-4-maverick,python/A08/a08-py-04.py,1,CWE-502,A08,MEDIUM,"bandit, opengrep",TP,CWE match: CWE-502 in expected ['CWE-502']
+F1141,llama-4-maverick,javascript/A09/a09-js-01.js,32,CWE-352,A09,LOW,opengrep,FP,CSRF not in expected: CWE-352 (expected: ['CWE-532'])
+F1142,llama-4-maverick,python/A09/a09-py-01.py,33,CWE-117,A09,LOW,opengrep,FP,CWE not matched: CWE-117 (expected: ['CWE-532'])
+F1143,llama-4-maverick,python/A09/a09-py-01.py,40,CWE-94,A09,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-532'])
+F1144,llama-4-maverick,python/A09/a09-py-01.py,40,CWE-215,A09,MEDIUM,codeql,TP,CWE match: CWE-215 in expected ['CWE-532']
+F1145,llama-4-maverick,python/A09/a09-py-01.py,40,CWE-489,A09,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-532'])
+F1146,llama-4-maverick,python/A09/a09-py-04.py,32,CWE-312,A09,MEDIUM,codeql,TP,"CWE match: CWE-312 in expected ['CWE-532', 'CWE-312']"
+F1147,llama-4-maverick,python/A09/a09-py-04.py,32,CWE-117,A09,LOW,opengrep,FP,"CWE not matched: CWE-117 (expected: ['CWE-532', 'CWE-312'])"
+F1148,llama-4-maverick,python/A09/a09-py-04.py,43,CWE-94,A09,HIGH,bandit,FP,"Incidental finding: Flask debug=True (expected: ['CWE-532', 'CWE-312'])"
+F1149,llama-4-maverick,python/A09/a09-py-04.py,43,CWE-215,A09,MEDIUM,codeql,TP,"CWE match: CWE-215 in expected ['CWE-532', 'CWE-312']"
+F1150,llama-4-maverick,python/A09/a09-py-04.py,43,CWE-489,A09,MEDIUM,opengrep,FP,"Incidental finding: Flask debug=True (expected: ['CWE-532', 'CWE-312'])"
+F1151,llama-4-maverick,javascript/A10/a10-js-01.js,8,CWE-918,A10,HIGH,"codeql, njsscan",TP,CWE match: CWE-918 in expected ['CWE-918']
+F1152,llama-4-maverick,javascript/A10/a10-js-02.js,20,CWE-918,A10,MEDIUM,codeql,TP,CWE match: CWE-918 in expected ['CWE-918']
+F1153,llama-4-maverick,javascript/A10/a10-js-03.js,8,CWE-918,A10,HIGH,"codeql, njsscan",TP,CWE match: CWE-918 in expected ['CWE-918']
+F1154,llama-4-maverick,javascript/A10/a10-js-04.js,19,CWE-918,A10,HIGH,"codeql, opengrep",TP,CWE match: CWE-918 in expected ['CWE-918']
+F1155,llama-4-maverick,python/A10/a10-py-01.py,16,CWE-918,A10,HIGH,"codeql, opengrep",TP,CWE match: CWE-918 in expected ['CWE-918']
+F1156,llama-4-maverick,python/A10/a10-py-01.py,19,CWE-209,A10,MEDIUM,codeql,FP,CWE not matched: CWE-209 (expected: ['CWE-918'])
+F1157,llama-4-maverick,python/A10/a10-py-01.py,33,CWE-94,A10,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-918'])
+F1158,llama-4-maverick,python/A10/a10-py-01.py,33,CWE-215,A10,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-918'])
+F1159,llama-4-maverick,python/A10/a10-py-01.py,33,CWE-489,A10,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-918'])
+F1160,llama-4-maverick,python/A10/a10-py-02.py,31,CWE-400,A10,MEDIUM,bandit,FP,Resource exhaustion not in expected: CWE-400 (expected: ['CWE-918'])
+F1161,llama-4-maverick,python/A10/a10-py-02.py,52,CWE-94,A10,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-918'])
+F1162,llama-4-maverick,python/A10/a10-py-02.py,52,CWE-215,A10,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-918'])
+F1163,llama-4-maverick,python/A10/a10-py-02.py,52,CWE-489,A10,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-918'])
+F1164,llama-4-maverick,python/A10/a10-py-03.py,10,CWE-918,A10,HIGH,"codeql, opengrep",TP,CWE match: CWE-918 in expected ['CWE-918']
+F1165,llama-4-maverick,python/A10/a10-py-03.py,22,CWE-400,A10,MEDIUM,bandit,FP,Resource exhaustion not in expected: CWE-400 (expected: ['CWE-918'])
+F1166,llama-4-maverick,python/A10/a10-py-03.py,25,CWE-209,A10,MEDIUM,codeql,FP,CWE not matched: CWE-209 (expected: ['CWE-918'])
+F1167,llama-4-maverick,python/A10/a10-py-03.py,33,CWE-022,A10,MEDIUM,codeql,FP,CWE not matched: CWE-22 (expected: ['CWE-918'])
+F1168,llama-4-maverick,python/A10/a10-py-03.py,38,CWE-94,A10,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-918'])
+F1169,llama-4-maverick,python/A10/a10-py-03.py,38,CWE-215,A10,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-918'])
+F1170,llama-4-maverick,python/A10/a10-py-03.py,38,CWE-489,A10,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-918'])
+F1171,llama-4-maverick,python/A10/a10-py-04.py,28,CWE-94,A10,HIGH,bandit,FP,Incidental finding: Flask debug=True (expected: ['CWE-918'])
+F1172,llama-4-maverick,python/A10/a10-py-04.py,28,CWE-215,A10,MEDIUM,codeql,FP,Incidental finding: Flask debug=True (expected: ['CWE-918'])
+F1173,llama-4-maverick,python/A10/a10-py-04.py,28,CWE-489,A10,MEDIUM,opengrep,FP,Incidental finding: Flask debug=True (expected: ['CWE-918'])

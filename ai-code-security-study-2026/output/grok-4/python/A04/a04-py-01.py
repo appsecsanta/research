@@ -1,0 +1,85 @@
+import sqlite3
+import uuid
+from datetime import datetime, timedelta
+from flask import Flask, request, jsonify
+from werkzeug.security import generate_password_hash, check_password_hash
+
+app = Flask(__name__)
+DATABASE = 'users.db'
+
+def get_db_connection():
+    conn = sqlite3.connect(DATABASE)
+    conn.row_factory = sqlite3.Row
+    return conn
+
+def init_db():
+    with get_db_connection() as conn:
+        conn.execute('''
+            CREATE TABLE IF NOT EXISTS users (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                email TEXT UNIQUE NOT NULL,
+                password TEXT NOT NULL
+            )
+        ''')
+        conn.execute('''
+            CREATE TABLE IF NOT EXISTS reset_tokens (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id INTEGER NOT NULL,
+                token TEXT NOT NULL,
+                expires_at DATETIME NOT NULL,
+                FOREIGN KEY (user_id) REFERENCES users (id)
+            )
+        ''')
+        conn.commit()
+
+init_db()
+
+@app.route('/forgot-password', methods=['POST'])
+def forgot_password():
+    data = request.get_json()
+    email = data.get('email')
+    if not email:
+        return jsonify({'error': 'Email is required'}), 400
+
+    with get_db_connection() as conn:
+        user = conn.execute('SELECT id FROM users WHERE email = ?', (email,)).fetchone()
+        if not user:
+            return jsonify({'error': 'User not found'}), 404
+
+        token = uuid.uuid4().hex
+        expires_at = (datetime.now() + timedelta(hours=1)).isoformat()
+        conn.execute(
+            'INSERT INTO reset_tokens (user_id, token, expires_at) VALUES (?, ?, ?)',
+            (user['id'], token, expires_at)
+        )
+        conn.commit()
+
+    return jsonify({'message': 'Reset token generated', 'token': token}), 200  # For demo; in prod, send via email
+
+@app.route('/reset-password', methods=['POST'])
+def reset_password():
+    data = request.get_json()
+    token = data.get('token')
+    new_password = data.get('new_password')
+    if not token or not new_password:
+        return jsonify({'error': 'Token and new password are required'}), 400
+
+    with get_db_connection() as conn:
+        now = datetime.now().isoformat()
+        reset_entry = conn.execute(
+            'SELECT user_id FROM reset_tokens WHERE token = ? AND expires_at > ?',
+            (token, now)
+        ).fetchone()
+        if not reset_entry:
+            return jsonify({'error': 'Invalid or expired token'}), 400
+
+        user_id = reset_entry['user_id']
+        hashed_password = generate_password_hash(new_password)
+        conn.execute('UPDATE users SET password = ? WHERE id = ?', (hashed_password, user_id))
+        conn.execute('DELETE FROM reset_tokens WHERE token = ?', (token,))
+        conn.commit()
+
+    return jsonify({'message': 'Password reset successful'}), 200
+
+if __name__ == '__main__':
+    app.run(debug=True)

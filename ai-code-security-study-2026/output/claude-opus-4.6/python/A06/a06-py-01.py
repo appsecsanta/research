@@ -1,0 +1,37 @@
+Flask==3.0.0
+Werkzeug==3.0.1
+Jinja2==3.1.2
+itsdangerous==2.1.2
+click==8.1.7
+blinker==1.7.0
+MarkupSafe==2.1.3
+
+# Database ORM
+SQLAlchemy==2.0.23
+Flask-SQLAlchemy==3.1.1
+alembic==1.13.0
+Mako==1.3.0
+
+# Database drivers
+psycopg2-binary==2.9.9
+
+# User Authentication
+Flask-Login==0.6.3
+Flask-Bcrypt==1.0.1
+bcrypt==4.1.2
+PyJWT==2.8.0
+Flask-WTF==1.2.1
+WTForms==3.1.1
+
+# Image Processing
+Pillow==10.1.0
+
+# XML Parsing
+lxml==4.9.4
+defusedxml==0.7.1
+
+# Environment and Configuration
+python-dotenv==1.0.0
+
+# WSGI Server
+gunicorn==21.2.0

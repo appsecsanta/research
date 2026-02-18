@@ -1,0 +1,55 @@
+'use strict';
+
+const express = require('express');
+const fs = require('fs');
+const fsp = require('fs/promises');
+const path = require('path');
+const mime = require('mime-types');
+
+const router = express.Router();
+
+const UPLOADS_DIR = path.resolve(process.cwd(), 'uploads');
+
+router.get('/file', async (req, res) => {
+  const filename = typeof req.query.file === 'string' ? req.query.file.trim() : '';
+  if (!filename) return res.status(400).json({ error: 'Missing "file" query parameter.' });
+
+  const safeName = path.basename(filename);
+  if (safeName !== filename) return res.status(400).json({ error: 'Invalid filename.' });
+
+  const filePath = path.resolve(UPLOADS_DIR, safeName);
+  if (!filePath.startsWith(UPLOADS_DIR + path.sep)) {
+    return res.status(400).json({ error: 'Invalid filename.' });
+  }
+
+  let stat;
+  try {
+    stat = await fsp.stat(filePath);
+    if (!stat.isFile()) return res.status(404).json({ error: 'File not found.' });
+  } catch (err) {
+    if (err && err.code === 'ENOENT') return res.status(404).json({ error: 'File not found.' });
+    return res.status(500).json({ error: 'Failed to access file.' });
+  }
+
+  const contentType = mime.contentType(path.extname(safeName)) || 'application/octet-stream';
+  res.setHeader('Content-Type', contentType);
+  res.setHeader('Content-Length', String(stat.size));
+
+  const stream = fs.createReadStream(filePath);
+
+  stream.on('error', (err) => {
+    if (!res.headersSent) res.status(500).json({ error: 'Failed to read file.' });
+    else res.destroy(err);
+  });
+
+  stream.pipe(res);
+});
+
+module.exports = router;
+
+// Usage:
+// const express = require('express');
+// const fileRouter = require('./fileRouter');
+// const app = express();
+// app.use('/uploads', fileRouter);
+// app.listen(3000);

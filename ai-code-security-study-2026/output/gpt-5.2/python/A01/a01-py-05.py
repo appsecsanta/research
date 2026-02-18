@@ -1,0 +1,166 @@
+import math
+import os
+import sqlite3
+from datetime import datetime
+from typing import Any, Dict, List, Optional
+
+from flask import Flask, g, jsonify, request
+
+
+DEFAULT_PER_PAGE = 20
+MAX_PER_PAGE = 100
+
+
+def create_app() -> Flask:
+    app = Flask(__name__)
+    app.config["DATABASE"] = os.environ.get("SQLITE_DB_PATH", os.path.join(app.instance_path, "app.db"))
+
+    try:
+        os.makedirs(app.instance_path, exist_ok=True)
+    except OSError:
+        pass
+
+    def get_db() -> sqlite3.Connection:
+        db = getattr(g, "_db", None)
+        if db is None:
+            db = sqlite3.connect(app.config["DATABASE"], detect_types=sqlite3.PARSE_DECLTYPES)
+            db.row_factory = sqlite3.Row
+            g._db = db
+        return db
+
+    @app.teardown_appcontext
+    def close_db(_exc: Optional[BaseException]) -> None:
+        db = getattr(g, "_db", None)
+        if db is not None:
+            db.close()
+
+    def init_db() -> None:
+        db = get_db()
+        db.execute(
+            """
+            CREATE TABLE IF NOT EXISTS reports (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id INTEGER NOT NULL,
+                title TEXT,
+                content TEXT,
+                created_at TEXT NOT NULL
+            )
+            """
+        )
+        db.execute("CREATE INDEX IF NOT EXISTS idx_reports_user_id ON reports(user_id)")
+        db.execute("CREATE INDEX IF NOT EXISTS idx_reports_created_at ON reports(created_at)")
+        db.commit()
+
+    @app.before_request
+    def _ensure_db_initialized() -> None:
+        init_db()
+
+    def parse_positive_int(value: Optional[str], *, default: int, name: str) -> int:
+        if value is None or value == "":
+            return default
+        try:
+            iv = int(value)
+        except (TypeError, ValueError):
+            raise ValueError(f"'{name}' must be an integer")
+        if iv <= 0:
+            raise ValueError(f"'{name}' must be >= 1")
+        return iv
+
+    def parse_optional_int(value: Optional[str], *, name: str) -> Optional[int]:
+        if value is None or value == "":
+            return None
+        try:
+            return int(value)
+        except (TypeError, ValueError):
+            raise ValueError(f"'{name}' must be an integer")
+
+    def row_to_report(row: sqlite3.Row) -> Dict[str, Any]:
+        return {
+            "id": row["id"],
+            "user_id": row["user_id"],
+            "title": row["title"],
+            "content": row["content"],
+            "created_at": row["created_at"],
+        }
+
+    @app.get("/api/reports")
+    def list_reports():
+        try:
+            page = parse_positive_int(request.args.get("page"), default=1, name="page")
+            per_page = parse_positive_int(
+                request.args.get("per_page"), default=DEFAULT_PER_PAGE, name="per_page"
+            )
+            if per_page > MAX_PER_PAGE:
+                per_page = MAX_PER_PAGE
+            user_id = parse_optional_int(request.args.get("user_id"), name="user_id")
+            if user_id is not None and user_id < 0:
+                return jsonify({"error": "'user_id' must be >= 0"}), 400
+        except ValueError as e:
+            return jsonify({"error": str(e)}), 400
+
+        offset = (page - 1) * per_page
+        db = get_db()
+
+        where_clause = ""
+        params: List[Any] = []
+        if user_id is not None:
+            where_clause = "WHERE user_id = ?"
+            params.append(user_id)
+
+        count_sql = f"SELECT COUNT(*) AS cnt FROM reports {where_clause}"
+        total = int(db.execute(count_sql, params).fetchone()["cnt"])
+
+        data_sql = f"""
+            SELECT id, user_id, title, content, created_at
+            FROM reports
+            {where_clause}
+            ORDER BY created_at DESC, id DESC
+            LIMIT ? OFFSET ?
+        """
+        data_params = params + [per_page, offset]
+        rows = db.execute(data_sql, data_params).fetchall()
+
+        pages = max(1, math.ceil(total / per_page)) if per_page else 1
+
+        return jsonify(
+            {
+                "data": [row_to_report(r) for r in rows],
+                "pagination": {
+                    "page": page,
+                    "per_page": per_page,
+                    "total": total,
+                    "pages": pages,
+                },
+                "filter": {"user_id": user_id},
+            }
+        )
+
+    # Optional helper to insert test data quickly (not exposed as an endpoint).
+    def _seed_if_empty() -> None:
+        db = get_db()
+        cur = db.execute("SELECT COUNT(*) AS cnt FROM reports")
+        if int(cur.fetchone()["cnt"]) > 0:
+            return
+        now = datetime.utcnow().isoformat(timespec="seconds") + "Z"
+        db.executemany(
+            "INSERT INTO reports (user_id, title, content, created_at) VALUES (?, ?, ?, ?)",
+            [
+                (1, "Report A", "Content A", now),
+                (1, "Report B", "Content B", now),
+                (2, "Report C", "Content C", now),
+            ],
+        )
+        db.commit()
+
+    @app.cli.command("seed")
+    def seed_command() -> None:
+        _seed_if_empty()
+        print("Seeded.")
+
+    return app
+
+
+app = create_app()
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", "5000")), debug=False)

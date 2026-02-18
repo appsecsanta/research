@@ -1,0 +1,142 @@
+import sqlite3
+from flask import Flask, request, jsonify, session
+
+app = Flask(__name__)
+app.secret_key = 'your_secret_key'  # Replace with a secure key in production
+
+DATABASE = 'shopping_cart.db'
+
+def get_db():
+    conn = sqlite3.connect(DATABASE)
+    conn.row_factory = sqlite3.Row
+    return conn
+
+def init_db():
+    with get_db() as db:
+        db.execute('''
+            CREATE TABLE IF NOT EXISTS products (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                price REAL NOT NULL
+            )
+        ''')
+        db.execute('''
+            CREATE TABLE IF NOT EXISTS discount_codes (
+                code TEXT PRIMARY KEY,
+                percentage REAL NOT NULL
+            )
+        ''')
+        # Insert sample data if tables are empty
+        cursor = db.execute('SELECT COUNT(*) FROM products')
+        if cursor.fetchone()[0] == 0:
+            db.executemany('''
+                INSERT INTO products (name, price) VALUES (?, ?)
+            ''', [
+                ('Product A', 10.0),
+                ('Product B', 20.0),
+                ('Product C', 30.0)
+            ])
+        cursor = db.execute('SELECT COUNT(*) FROM discount_codes')
+        if cursor.fetchone()[0] == 0:
+            db.executemany('''
+                INSERT INTO discount_codes (code, percentage) VALUES (?, ?)
+            ''', [
+                ('DISCOUNT10', 10.0),
+                ('DISCOUNT20', 20.0)
+            ])
+        db.commit()
+
+init_db()
+
+@app.route('/cart/add', methods=['POST'])
+def add_to_cart():
+    data = request.get_json()
+    if not data or 'product_id' not in data or 'quantity' not in data:
+        return jsonify({'error': 'Missing product_id or quantity'}), 400
+    product_id = data['product_id']
+    quantity = data['quantity']
+    if not isinstance(product_id, int) or not isinstance(quantity, int) or quantity <= 0:
+        return jsonify({'error': 'Invalid product_id or quantity'}), 400
+    
+    with get_db() as db:
+        product = db.execute('SELECT * FROM products WHERE id = ?', (product_id,)).fetchone()
+        if not product:
+            return jsonify({'error': 'Product not found'}), 404
+    
+    if 'cart' not in session:
+        session['cart'] = []
+    
+    # Check if item already in cart
+    for item in session['cart']:
+        if item['product_id'] == product_id:
+            item['quantity'] += quantity
+            break
+    else:
+        session['cart'].append({'product_id': product_id, 'quantity': quantity})
+    
+    session.modified = True
+    return jsonify({'message': 'Item added to cart'}), 200
+
+@app.route('/cart', methods=['GET'])
+def view_cart():
+    if 'cart' not in session or not session['cart']:
+        return jsonify({'cart': [], 'total': 0.0}), 200
+    
+    cart_items = []
+    total = 0.0
+    with get_db() as db:
+        for item in session['cart']:
+            product = db.execute('SELECT * FROM products WHERE id = ?', (item['product_id'],)).fetchone()
+            if product:
+                subtotal = product['price'] * item['quantity']
+                cart_items.append({
+                    'product_id': item['product_id'],
+                    'name': product['name'],
+                    'price': product['price'],
+                    'quantity': item['quantity'],
+                    'subtotal': subtotal
+                })
+                total += subtotal
+    
+    return jsonify({'cart': cart_items, 'total': total}), 200
+
+@app.route('/cart/checkout', methods=['POST'])
+def checkout():
+    if 'cart' not in session or not session['cart']:
+        return jsonify({'error': 'Cart is empty'}), 400
+    
+    data = request.get_json() or {}
+    discount_code = data.get('discount_code')
+    discount_percentage = 0.0
+    
+    if discount_code:
+        with get_db() as db:
+            discount = db.execute('SELECT percentage FROM discount_codes WHERE code = ?', (discount_code,)).fetchone()
+            if discount:
+                discount_percentage = discount['percentage']
+            else:
+                return jsonify({'error': 'Invalid discount code'}), 400
+    
+    # Calculate total
+    total_before_discount = 0.0
+    with get_db() as db:
+        for item in session['cart']:
+            product = db.execute('SELECT price FROM products WHERE id = ?', (item['product_id'],)).fetchone()
+            if product:
+                total_before_discount += product['price'] * item['quantity']
+    
+    discount_amount = total_before_discount * (discount_percentage / 100)
+    final_total = total_before_discount - discount_amount
+    
+    # Clear cart
+    session.pop('cart', None)
+    
+    return jsonify({
+        'total_before_discount': total_before_discount,
+        'discount_amount': discount_amount,
+        'final_total': final_total,
+        'message': 'Order processed successfully'
+    }), 200
+
+if __name__ == '__main__':
+    app.run(debug=True)

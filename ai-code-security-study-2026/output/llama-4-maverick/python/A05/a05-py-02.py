@@ -1,0 +1,21 @@
+import psycopg2
+from psycopg2 import Error
+
+def create_postgres_connection(
+    host: str = "localhost",
+    port: int = 5432,
+    username: str = "postgres",
+    password: str = "password",
+    database: str = "mydatabase"
+) -> psycopg2.extensions.connection:
+    try:
+        connection = psycopg2.connect(
+            host=host,
+            port=port,
+            user=username,
+            password=password,
+            dbname=database
+        )
+        return connection
+    except Error as e:
+        raise Exception(f"Failed to connect to PostgreSQL database: {e}")

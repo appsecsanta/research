@@ -1,0 +1,44 @@
+const express = require('express');
+const path = require('path');
+
+// --- App Initialization ---
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// --- View Engine Setup ---
+// Set EJS as the templating engine
+app.set('view engine', 'ejs');
+// Set the directory for view templates
+app.set('views', path.join(__dirname, 'views'));
+
+// --- Middleware ---
+// Body parser for JSON data
+app.use(express.json());
+// Body parser for URL-encoded data
+app.use(express.urlencoded({ extended: true }));
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, 'public')));
+
+// --- Routes ---
+// Example home route
+app.get('/', (req, res) => {
+  res.render('index', { title: 'Home' });
+});
+
+// --- 404 Not Found Handler ---
+// This middleware will catch any request that doesn't match a route
+app.use((req, res, next) => {
+  res.status(404).render('404', { title: '404: Page Not Found' });
+});
+
+// --- Error Handling Middleware ---
+// A generic error handler (optional, but good practice)
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
+
+// --- Server Startup ---
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});

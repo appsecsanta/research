@@ -1,0 +1,86 @@
+const express = require('express');
+const { MongoClient, ObjectId } = require('mongodb');
+
+const app = express();
+app.use(express.json());
+
+// MongoDB connection (replace with your URI)
+const uri = 'mongodb://localhost:27017';
+const client = new MongoClient(uri);
+let db;
+
+async function connectDB() {
+  await client.connect();
+  db = client.db('bankDB');
+}
+
+connectDB().catch(console.error);
+
+// POST /api/transfer endpoint
+app.post('/api/transfer', async (req, res) => {
+  const { fromAccountId, toAccountId, amount } = req.body;
+
+  // Input validation
+  if (!fromAccountId || !toAccountId || typeof amount !== 'number' || amount <= 0) {
+    return res.status(400).json({ error: 'Invalid input: fromAccountId, toAccountId, and positive amount are required' });
+  }
+
+  if (fromAccountId === toAccountId) {
+    return res.status(400).json({ error: 'Cannot transfer to the same account' });
+  }
+
+  const session = client.startSession();
+
+  try {
+    await session.withTransaction(async () => {
+      const accountsCollection = db.collection('accounts');
+
+      // Find fromAccount and check balance
+      const fromAccount = await accountsCollection.findOne(
+        { _id: new ObjectId(fromAccountId) },
+        { session }
+      );
+
+      if (!fromAccount) {
+        throw new Error('Source account not found');
+      }
+
+      if (fromAccount.balance < amount) {
+        throw new Error('Insufficient balance');
+      }
+
+      // Find toAccount (ensure it exists)
+      const toAccount = await accountsCollection.findOne(
+        { _id: new ObjectId(toAccountId) },
+        { session }
+      );
+
+      if (!toAccount) {
+        throw new Error('Destination account not found');
+      }
+
+      // Update balances
+      await accountsCollection.updateOne(
+        { _id: new ObjectId(fromAccountId) },
+        { $inc: { balance: -amount } },
+        { session }
+      );
+
+      await accountsCollection.updateOne(
+        { _id: new ObjectId(toAccountId) },
+        { $inc: { balance: amount } },
+        { session }
+      );
+    });
+
+    res.status(200).json({ message: 'Transfer successful' });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  } finally {
+    await session.endSession();
+  }
+});
+
+// Start server (for completeness; adjust port as needed)
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

@@ -1,0 +1,438 @@
+#!/usr/bin/env python3
+"""
+CI/CD Pipeline Dependency Manager
+
+Downloads project dependencies from URLs specified in a config file,
+verifies their integrity via checksums, and installs them into a local directory.
+"""
+
+import hashlib
+import json
+import logging
+import os
+import shutil
+import subprocess
+import sys
+import tempfile
+import urllib.request
+import urllib.error
+from dataclasses import dataclass, field
+from pathlib import Path
+from typing import Optional
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    datefmt="%Y-%m-%dT%H:%M:%S",
+)
+logger = logging.getLogger(__name__)
+
+
+@dataclass
+class Dependency:
+    name: str
+    version: str
+    url: str
+    sha256: str
+    install_subdir: str = ""
+    post_install_cmd: Optional[str] = None
+    headers: dict = field(default_factory=dict)
+
+
+@dataclass
+class PipelineConfig:
+    dependencies: list[Dependency]
+    install_dir: str
+    download_timeout: int = 120
+    max_retries: int = 3
+    artifact_server_token: Optional[str] = None
+
+
+def load_config(config_path: str) -> PipelineConfig:
+    """Load and validate the pipeline configuration file."""
+    path = Path(config_path)
+    if not path.exists():
+        raise FileNotFoundError(f"Config file not found: {config_path}")
+
+    with open(path, "r") as f:
+        raw = json.load(f)
+
+    dependencies = []
+    for dep in raw.get("dependencies", []):
+        dependencies.append(
+            Dependency(
+                name=dep["name"],
+                version=dep["version"],
+                url=dep["url"],
+                sha256=dep["sha256"],
+                install_subdir=dep.get("install_subdir", ""),
+                post_install_cmd=dep.get("post_install_cmd"),
+                headers=dep.get("headers", {}),
+            )
+        )
+
+    if not dependencies:
+        raise ValueError("No dependencies specified in config file")
+
+    config = PipelineConfig(
+        dependencies=dependencies,
+        install_dir=raw.get("install_dir", "./deps"),
+        download_timeout=raw.get("download_timeout", 120),
+        max_retries=raw.get("max_retries", 3),
+        artifact_server_token=raw.get("artifact_server_token")
+        or os.environ.get("ARTIFACT_SERVER_TOKEN"),
+    )
+
+    return config
+
+
+def compute_sha256(file_path: Path) -> str:
+    """Compute SHA-256 hash of a file."""
+    sha256 = hashlib.sha256()
+    with open(file_path, "rb") as f:
+        while True:
+            chunk = f.read(8192)
+            if not chunk:
+                break
+            sha256.update(chunk)
+    return sha256.hexdigest()
+
+
+def download_file(
+    url: str,
+    dest: Path,
+    timeout: int,
+    max_retries: int,
+    headers: Optional[dict] = None,
+    token: Optional[str] = None,
+) -> Path:
+    """Download a file from a URL with retry logic."""
+    request_headers = dict(headers or {})
+    if token:
+        request_headers.setdefault("Authorization", f"Bearer {token}")
+
+    last_exception = None
+    for attempt in range(1, max_retries + 1):
+        try:
+            logger.info(
+                "Downloading %s (attempt %d/%d)", url, attempt, max_retries
+            )
+            req = urllib.request.Request(url, headers=request_headers)
+            with urllib.request.urlopen(req, timeout=timeout) as response:
+                with open(dest, "wb") as out_file:
+                    shutil.copyfileobj(response, out_file)
+
+            file_size = dest.stat().st_size
+            logger.info("Downloaded %s (%d bytes)", dest.name, file_size)
+
+            if file_size == 0:
+                raise ValueError(f"Downloaded file is empty: {dest}")
+
+            return dest
+
+        except (urllib.error.URLError, urllib.error.HTTPError, OSError, ValueError) as e:
+            last_exception = e
+            logger.warning("Download attempt %d failed: %s", attempt, e)
+            if dest.exists():
+                dest.unlink()
+
+    raise RuntimeError(
+        f"Failed to download {url} after {max_retries} attempts: {last_exception}"
+    )
+
+
+def verify_checksum(file_path: Path, expected_sha256: str) -> bool:
+    """Verify the SHA-256 checksum of a downloaded file."""
+    actual = compute_sha256(file_path)
+    if actual != expected_sha256:
+        logger.error(
+            "Checksum mismatch for %s: expected=%s, actual=%s",
+            file_path.name,
+            expected_sha256,
+            actual,
+        )
+        return False
+    logger.info("Checksum verified for %s", file_path.name)
+    return True
+
+
+def extract_archive(archive_path: Path, extract_dir: Path) -> Path:
+    """Extract a compressed archive to a directory."""
+    extract_dir.mkdir(parents=True, exist_ok=True)
+    name = archive_path.name.lower()
+
+    if name.endswith((".tar.gz", ".tgz")):
+        import tarfile
+        with tarfile.open(archive_path, "r:gz") as tar:
+            # Security: prevent path traversal
+            for member in tar.getmembers():
+                member_path = Path(extract_dir / member.name).resolve()
+                if not str(member_path).startswith(str(extract_dir.resolve())):
+                    raise ValueError(
+                        f"Path traversal detected in archive: {member.name}"
+                    )
+            tar.extractall(path=extract_dir)
+    elif name.endswith(".tar.bz2"):
+        import tarfile
+        with tarfile.open(archive_path, "r:bz2") as tar:
+            for member in tar.getmembers():
+                member_path = Path(extract_dir / member.name).resolve()
+                if not str(member_path).startswith(str(extract_dir.resolve())):
+                    raise ValueError(
+                        f"Path traversal detected in archive: {member.name}"
+                    )
+            tar.extractall(path=extract_dir)
+    elif name.endswith(".zip"):
+        import zipfile
+        with zipfile.ZipFile(archive_path, "r") as zf:
+            for info in zf.infolist():
+                member_path = Path(extract_dir / info.filename).resolve()
+                if not str(member_path).startswith(str(extract_dir.resolve())):
+                    raise ValueError(
+                        f"Path traversal detected in archive: {info.filename}"
+                    )
+            zf.extractall(path=extract_dir)
+    elif name.endswith(".whl") or name.endswith(".egg"):
+        import zipfile
+        with zipfile.ZipFile(archive_path, "r") as zf:
+            zf.extractall(path=extract_dir)
+    else:
+        # Not an archive — just copy the file directly
+        shutil.copy2(archive_path, extract_dir / archive_path.name)
+
+    logger.info("Extracted %s to %s", archive_path.name, extract_dir)
+    return extract_dir
+
+
+def install_dependency(
+    dep: Dependency,
+    download_path: Path,
+    install_base: Path,
+) -> None:
+    """Install a single dependency into the target directory."""
+    if dep.install_subdir:
+        target_dir = install_base / dep.install_subdir
+    else:
+        target_dir = install_base / f"{dep.name}-{dep.version}"
+
+    if target_dir.exists():
+        logger.info("Removing existing installation: %s", target_dir)
+        shutil.rmtree(target_dir)
+
+    target_dir.mkdir(parents=True, exist_ok=True)
+    extract_archive(download_path, target_dir)
+
+    if dep.post_install_cmd:
+        logger.info(
+            "Running post-install command for %s: %s",
+            dep.name,
+            dep.post_install_cmd,
+        )
+        result = subprocess.run(
+            dep.post_install_cmd,
+            shell=True,
+            cwd=str(target_dir),
+            capture_output=True,
+            text=True,
+            timeout=300,
+        )
+        if result.returncode != 0:
+            logger.error("Post-install stdout: %s", result.stdout)
+            logger.error("Post-install stderr: %s", result.stderr)
+            raise RuntimeError(
+                f"Post-install command failed for {dep.name} "
+                f"(exit code {result.returncode})"
+            )
+        logger.info("Post-install command succeeded for %s", dep.name)
+
+    logger.info("Installed %s %s to %s", dep.name, dep.version, target_dir)
+
+
+def generate_manifest(
+    dependencies: list[Dependency],
+    install_dir: Path,
+) -> None:
+    """Generate a manifest file listing all installed dependencies."""
+    manifest = {
+        "dependencies": [
+            {
+                "name": dep.name,
+                "version": dep.version,
+                "sha256": dep.sha256,
+                "url": dep.url,
+                "install_path": str(
+                    install_dir
+                    / (dep.install_subdir or f"{dep.name}-{dep.version}")
+                ),
+            }
+            for dep in dependencies
+        ]
+    }
+
+    manifest_path = install_dir / "manifest.json"
+    with open(manifest_path, "w") as f:
+        json.dump(manifest, f, indent=2)
+
+    logger.info("Manifest written to %s", manifest_path)
+
+
+def run_pipeline(config_path: str) -> None:
+    """Execute the full dependency download, verify, and install pipeline."""
+    logger.info("=" * 60)
+    logger.info("CI/CD Dependency Pipeline Starting")
+    logger.info("=" * 60)
+
+    config = load_config(config_path)
+    install_dir = Path(config.install_dir).resolve()
+    install_dir.mkdir(parents=True, exist_ok=True)
+
+    logger.info("Install directory: %s", install_dir)
+    logger.info("Dependencies to process: %d", len(config.dependencies))
+
+    failed: list[str] = []
+    succeeded: list[Dependency] = []
+
+    with tempfile.TemporaryDirectory(prefix="cicd_deps_") as tmp_dir:
+        tmp_path = Path(tmp_dir)
+
+        for dep in config.dependencies:
+            logger.info("-" * 40)
+            logger.info("Processing: %s %s", dep.name, dep.version)
+
+            try:
+                # Determine filename from URL
+                filename = dep.url.rsplit("/", 1)[-1]
+                if not filename:
+                    filename = f"{dep.name}-{dep.version}"
+
+                download_dest = tmp_path / filename
+
+                # Download
+                download_file(
+                    url=dep.url,
+                    dest=download_dest,
+                    timeout=config.download_timeout,
+                    max_retries=config.max_retries,
+                    headers=dep.headers,
+                    token=config.artifact_server_token,
+                )
+
+                # Verify
+                if not verify_checksum(download_dest, dep.sha256):
+                    raise ValueError(
+                        f"Integrity check failed for {dep.name} {dep.version}"
+                    )
+
+                # Install
+                install_dependency(dep, download_dest, install_dir)
+                succeeded.append(dep)
+
+            except Exception as e:
+                logger.error(
+                    "Failed to process %s %s: %s", dep.name, dep.version, e
+                )
+                failed.append(f"{dep.name}-{dep.version}")
+
+    # Generate manifest for successfully installed deps
+    if succeeded:
+        generate_manifest(succeeded, install_dir)
+
+    # Summary
+    logger.info("=" * 60)
+    logger.info("Pipeline Summary")
+    logger.info("=" * 60)
+    logger.info("Succeeded: %d", len(succeeded))
+    for dep in succeeded:
+        logger.info("  ✓ %s %s", dep.name, dep.version)
+
+    if failed:
+        logger.error("Failed: %d", len(failed))
+        for name in failed:
+            logger.error("  ✗ %s", name)
+        raise RuntimeError(
+            f"Pipeline failed: {len(failed)} dependency(ies) could not be installed"
+        )
+
+    logger.info("All dependencies installed successfully.")
+
+
+def create_sample_config(output_path: str) -> None:
+    """Generate a sample configuration file for reference."""
+    sample = {
+        "install_dir": "./deps",
+        "download_timeout": 120,
+        "max_retries": 3,
+        "artifact_server_token": None,
+        "dependencies": [
+            {
+                "name": "my-library",
+                "version": "1.2.3",
+                "url": "https://artifacts.internal.example.com/libs/my-library-1.2.3.tar.gz",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "install_subdir": "",
+                "post_install_cmd": None,
+                "headers": {},
+            },
+            {
+                "name": "another-tool",
+                "version": "0.9.1",
+                "url": "https://artifacts.internal.example.com/tools/another-tool-0.9.1.zip",
+                "sha256": "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2",
+                "install_subdir": "tools/another",
+                "post_install_cmd": "chmod +x bin/*",
+                "headers": {"X-Custom-Header": "value"},
+            },
+        ],
+    }
+
+    with open(output_path, "w") as f:
+        json.dump(sample, f, indent=2)
+
+    logger.info("Sample config written to %s", output_path)
+
+
+def main() -> None:
+    import argparse
+
+    parser = argparse.ArgumentParser(
+        description="CI/CD Pipeline Dependency Manager"
+    )
+    subparsers = parser.add_subparsers(dest="command", help="Available commands")
+
+    # Run command
+    run_parser = subparsers.add_parser("run", help="Run the dependency pipeline")
+    run_parser.add_argument(
+        "-c",
+        "--config",
+        default="dependencies.json",
+        help="Path to the config file (default: dependencies.json)",
+    )
+
+    # Init command
+    init_parser = subparsers.add_parser(
+        "init", help="Generate a sample config file"
+    )
+    init_parser.add_argument(
+        "-o",
+        "--output",
+        default="dependencies.json",
+        help="Output path for sample config (default: dependencies.json)",
+    )
+
+    args = parser.parse_args()
+
+    if args.command == "run":
+        try:
+            run_pipeline(args.config)
+        except Exception as e:
+            logger.error("Pipeline failed: %s", e)
+            sys.exit(1)
+    elif args.command == "init":
+        create_sample_config(args.output)
+    else:
+        parser.print_help()
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()

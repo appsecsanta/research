@@ -1,0 +1,159 @@
+import logging
+import os
+import re
+from datetime import datetime
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+# Configure transaction logger
+transaction_logger = logging.getLogger("transactions")
+transaction_logger.setLevel(logging.INFO)
+
+log_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "logs")
+os.makedirs(log_dir, exist_ok=True)
+
+file_handler = logging.FileHandler(os.path.join(log_dir, "transactions.log"))
+file_handler.setLevel(logging.INFO)
+formatter = logging.Formatter("%(asctime)s | %(levelname)s | %(message)s")
+file_handler.setFormatter(formatter)
+transaction_logger.addHandler(file_handler)
+
+
+def mask_card_number(card_number: str) -> str:
+    """Mask all but the last 4 digits of the card number."""
+    cleaned = card_number.replace(" ", "").replace("-", "")
+    if len(cleaned) < 4:
+        return "****"
+    return "*" * (len(cleaned) - 4) + cleaned[-4:]
+
+
+def validate_card_number(card_number: str) -> bool:
+    """Validate card number using Luhn algorithm."""
+    cleaned = card_number.replace(" ", "").replace("-", "")
+    if not cleaned.isdigit() or not (13 <= len(cleaned) <= 19):
+        return False
+
+    digits = [int(d) for d in cleaned]
+    digits.reverse()
+    total = 0
+    for i, digit in enumerate(digits):
+        if i % 2 == 1:
+            digit *= 2
+            if digit > 9:
+                digit -= 9
+        total += digit
+    return total % 10 == 0
+
+
+def validate_expiry_date(expiry_date: str) -> bool:
+    """Validate expiry date in MM/YY or MM/YYYY format and check it's not expired."""
+    match = re.match(r"^(0[1-9]|1[0-2])/(\d{2}|\d{4})$", expiry_date.strip())
+    if not match:
+        return False
+
+    month = int(match.group(1))
+    year_str = match.group(2)
+    year = int(year_str)
+
+    if len(year_str) == 2:
+        year += 2000
+
+    now = datetime.now()
+    # Card expires at the end of the expiry month
+    if year < now.year or (year == now.year and month < now.month):
+        return False
+
+    return True
+
+
+def validate_cvv(cvv: str) -> bool:
+    """Validate CVV is 3 or 4 digits."""
+    return bool(re.match(r"^\d{3,4}$", cvv.strip()))
+
+
+def validate_amount(amount) -> bool:
+    """Validate amount is a positive number."""
+    try:
+        value = float(amount)
+        return value > 0
+    except (TypeError, ValueError):
+        return False
+
+
+@app.route("/api/payment", methods=["POST"])
+def process_payment():
+    """Process a payment with card details and amount."""
+    data = request.get_json()
+
+    if not data:
+        return jsonify({"success": False, "error": "Request body must be JSON"}), 400
+
+    # Extract fields
+    card_number = data.get("card_number", "")
+    expiry_date = data.get("expiry_date", "")
+    cvv = data.get("cvv", "")
+    amount = data.get("amount")
+
+    # Validate required fields
+    errors = []
+
+    if not card_number:
+        errors.append("card_number is required")
+    elif not isinstance(card_number, str):
+        errors.append("card_number must be a string")
+    elif not validate_card_number(card_number):
+        errors.append("Invalid card number")
+
+    if not expiry_date:
+        errors.append("expiry_date is required")
+    elif not isinstance(expiry_date, str):
+        errors.append("expiry_date must be a string in MM/YY or MM/YYYY format")
+    elif not validate_expiry_date(expiry_date):
+        errors.append("Invalid or expired expiry date (use MM/YY or MM/YYYY format)")
+
+    if not cvv:
+        errors.append("cvv is required")
+    elif not isinstance(cvv, str):
+        errors.append("cvv must be a string")
+    elif not validate_cvv(cvv):
+        errors.append("Invalid CVV (must be 3 or 4 digits)")
+
+    if amount is None:
+        errors.append("amount is required")
+    elif not validate_amount(amount):
+        errors.append("amount must be a positive number")
+
+    if errors:
+        return jsonify({"success": False, "errors": errors}), 400
+
+    # Process payment
+    amount_value = round(float(amount), 2)
+    masked_card = mask_card_number(card_number)
+    transaction_id = f"TXN-{datetime.utcnow().strftime('%Y%m%d%H%M%S%f')}"
+
+    # Simulate payment processing (in production, integrate with payment gateway)
+    payment_status = "approved"
+
+    # Log transaction details (never log full card number or CVV)
+    transaction_logger.info(
+        "transaction_id=%s | card=%s | expiry=%s | amount=%.2f | status=%s",
+        transaction_id,
+        masked_card,
+        expiry_date,
+        amount_value,
+        payment_status,
+    )
+
+    return jsonify({
+        "success": True,
+        "transaction_id": transaction_id,
+        "status": payment_status,
+        "amount": amount_value,
+        "card": masked_card,
+        "message": f"Payment of ${amount_value:.2f} processed successfully",
+    }), 200
+
+
+if __name__ == "__main__":
+    app.run(debug=True, host="0.0.0.0", port=5000)

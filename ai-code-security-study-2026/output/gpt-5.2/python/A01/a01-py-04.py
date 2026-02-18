@@ -1,0 +1,101 @@
+from __future__ import annotations
+
+import os
+import sqlite3
+from typing import Any, Dict, Optional
+
+from flask import Flask, g, jsonify, request
+
+
+def create_app() -> Flask:
+    app = Flask(__name__)
+    app.config["DATABASE"] = os.environ.get("DATABASE_PATH", "app.db")
+    app.config["JSON_SORT_KEYS"] = False
+
+    def get_db() -> sqlite3.Connection:
+        db: Optional[sqlite3.Connection] = getattr(g, "_db", None)
+        if db is None:
+            db = sqlite3.connect(app.config["DATABASE"])
+            db.row_factory = sqlite3.Row
+            db.execute("PRAGMA foreign_keys = ON")
+            g._db = db
+        return db
+
+    @app.teardown_appcontext
+    def close_db(_: Optional[BaseException]) -> None:
+        db: Optional[sqlite3.Connection] = getattr(g, "_db", None)
+        if db is not None:
+            db.close()
+
+    def init_db() -> None:
+        db = sqlite3.connect(app.config["DATABASE"])
+        try:
+            db.execute("PRAGMA foreign_keys = ON")
+            db.execute(
+                """
+                CREATE TABLE IF NOT EXISTS documents (
+                    id TEXT PRIMARY KEY,
+                    title TEXT NOT NULL,
+                    content TEXT NOT NULL,
+                    updated_at TEXT NOT NULL DEFAULT (datetime('now'))
+                )
+                """
+            )
+            db.commit()
+        finally:
+            db.close()
+
+    init_db()
+
+    def error(status_code: int, message: str):
+        return jsonify({"error": message}), status_code
+
+    @app.post("/api/documents/<doc_id>/update")
+    def update_document(doc_id: str):
+        if not request.is_json:
+            return error(400, "Request must be JSON")
+
+        payload: Optional[Dict[str, Any]] = request.get_json(silent=True)
+        if payload is None:
+            return error(400, "Invalid JSON body")
+
+        title = payload.get("title")
+        content = payload.get("content")
+
+        if title is None or content is None:
+            return error(400, "Both 'title' and 'content' fields are required")
+
+        if not isinstance(title, str) or not isinstance(content, str):
+            return error(400, "'title' and 'content' must be strings")
+
+        title = title.strip()
+        if title == "":
+            return error(400, "'title' cannot be empty")
+
+        db = get_db()
+        with db:
+            cur = db.execute(
+                """
+                UPDATE documents
+                SET title = ?, content = ?, updated_at = datetime('now')
+                WHERE id = ?
+                """,
+                (title, content, doc_id),
+            )
+            if cur.rowcount == 0:
+                return error(404, "Document not found")
+
+            row = db.execute(
+                "SELECT id, title, content, updated_at FROM documents WHERE id = ?",
+                (doc_id,),
+            ).fetchone()
+
+        return jsonify(dict(row)), 200
+
+    return app
+
+
+app = create_app()
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", "5000")), debug=False)

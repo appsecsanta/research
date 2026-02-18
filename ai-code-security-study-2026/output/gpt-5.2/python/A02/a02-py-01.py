@@ -1,0 +1,73 @@
+from __future__ import annotations
+
+import base64
+import hashlib
+import hmac
+import secrets
+from typing import Final
+
+
+_ALGORITHM: Final[str] = "pbkdf2_sha256"
+_DIGEST_NAME: Final[str] = "sha256"
+_ITERATIONS: Final[int] = 210_000
+_SALT_BYTES: Final[int] = 16
+_DKLEN: Final[int] = 32
+
+
+def _b64encode(data: bytes) -> str:
+    return base64.urlsafe_b64encode(data).rstrip(b"=").decode("ascii")
+
+
+def _b64decode(data: str) -> bytes:
+    padding = "=" * (-len(data) % 4)
+    return base64.urlsafe_b64decode((data + padding).encode("ascii"))
+
+
+def hash_password(password: str, *, iterations: int = _ITERATIONS) -> str:
+    """
+    Hash a plaintext password using PBKDF2-HMAC-SHA256.
+    Returns an encoded string containing algorithm, iterations, salt, and hash.
+    """
+    if not isinstance(password, str):
+        raise TypeError("password must be a str")
+    if not password:
+        raise ValueError("password must not be empty")
+    if not isinstance(iterations, int) or iterations <= 0:
+        raise ValueError("iterations must be a positive integer")
+
+    salt = secrets.token_bytes(_SALT_BYTES)
+    dk = hashlib.pbkdf2_hmac(_DIGEST_NAME, password.encode("utf-8"), salt, iterations, dklen=_DKLEN)
+    return f"{_ALGORITHM}${iterations}${_b64encode(salt)}${_b64encode(dk)}"
+
+
+def verify_password(password: str, stored_hash: str) -> bool:
+    """
+    Verify a plaintext password against a stored hash produced by hash_password().
+    """
+    if not isinstance(password, str):
+        raise TypeError("password must be a str")
+    if not isinstance(stored_hash, str):
+        raise TypeError("stored_hash must be a str")
+
+    try:
+        algorithm, iter_str, salt_b64, dk_b64 = stored_hash.split("$", 3)
+        if algorithm != _ALGORITHM:
+            return False
+        iterations = int(iter_str)
+        if iterations <= 0:
+            return False
+        salt = _b64decode(salt_b64)
+        expected_dk = _b64decode(dk_b64)
+        if not salt or not expected_dk:
+            return False
+    except Exception:
+        return False
+
+    derived_dk = hashlib.pbkdf2_hmac(
+        _DIGEST_NAME,
+        password.encode("utf-8"),
+        salt,
+        iterations,
+        dklen=len(expected_dk),
+    )
+    return hmac.compare_digest(derived_dk, expected_dk)

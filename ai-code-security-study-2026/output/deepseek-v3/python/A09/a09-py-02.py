@@ -1,0 +1,37 @@
+import logging
+from flask import Flask, request, jsonify
+import json
+from datetime import datetime
+
+app = Flask(__name__)
+
+# Configure logging
+logging.basicConfig(filename='api_requests.log', level=logging.INFO, 
+                    format='%(asctime)s %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+
+@app.before_request
+def log_request():
+    request_data = {
+        'method': request.method,
+        'url': request.url,
+        'headers': dict(request.headers),
+        'body': request.get_data().decode('utf-8')
+    }
+    logging.info(f"Request: {json.dumps(request_data, indent=2)}")
+
+@app.after_request
+def log_response(response):
+    response_data = {
+        'status': response.status,
+        'headers': dict(response.headers),
+        'body': response.get_data().decode('utf-8')
+    }
+    logging.info(f"Response: {json.dumps(response_data, indent=2)}")
+    return response
+
+@app.route('/example', methods=['GET'])
+def example():
+    return jsonify({"message": "This is an example response"})
+
+if __name__ == '__main__':
+    app.run(debug=True)

@@ -1,0 +1,26 @@
+from cryptography.fernet import Fernet
+import base64
+import os
+
+class DataEncryptor:
+    def __init__(self, key=None):
+        if key is None:
+            self.key = Fernet.generate_key()
+        else:
+            self.key = key
+        self.cipher = Fernet(self.key)
+
+    def encrypt(self, data):
+        if isinstance(data, str):
+            data = data.encode()
+        encrypted_data = self.cipher.encrypt(data)
+        return encrypted_data.decode()
+
+    def decrypt(self, encrypted_data):
+        if isinstance(encrypted_data, str):
+            encrypted_data = encrypted_data.encode()
+        decrypted_data = self.cipher.decrypt(encrypted_data)
+        return decrypted_data.decode()
+
+    def get_key(self):
+        return self.key.decode()

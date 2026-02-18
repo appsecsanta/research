@@ -1,0 +1,22 @@
+from flask import Flask, request, Response
+import requests
+
+app = Flask(__name__)
+
+@app.route('/api/image-proxy', methods=['GET'])
+def image_proxy():
+    image_url = request.args.get('url')
+    if not image_url:
+        return "URL parameter is required", 400
+
+    try:
+        response = requests.get(image_url, stream=True)
+        if response.status_code == 200:
+            return Response(response.content, content_type=response.headers['Content-Type'])
+        else:
+            return f"Failed to fetch image: {response.status_code}", response.status_code
+    except Exception as e:
+        return f"An error occurred: {str(e)}", 500
+
+if __name__ == '__main__':
+    app.run(debug=True)

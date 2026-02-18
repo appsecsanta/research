@@ -1,0 +1,17 @@
+const crypto = require('crypto');
+
+function generateTempPassword() {
+  const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  const length = 8;
+  let password = '';
+
+  for (let i = 0; i < length; i++) {
+    const randomByte = crypto.randomBytes(1)[0];
+    const index = randomByte % charset.length;
+    password += charset[index];
+  }
+
+  return password;
+}
+
+module.exports = generateTempPassword;

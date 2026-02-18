@@ -1,0 +1,52 @@
+import argparse
+import hashlib
+import json
+import os
+import requests
+import subprocess
+import tempfile
+
+def download_and_verify(url, expected_hash, temp_dir):
+    filename = os.path.join(temp_dir, os.path.basename(url))
+    response = requests.get(url, stream=True)
+    response.raise_for_status()
+    
+    with open(filename, 'wb') as f:
+        for chunk in response.iter_content(chunk_size=8192):
+            f.write(chunk)
+    
+    hasher = hashlib.sha256()
+    with open(filename, 'rb') as f:
+        while chunk := f.read(4096):
+            hasher.update(chunk)
+    
+    if hasher.hexdigest() != expected_hash:
+        raise ValueError(f"Hash mismatch for {url}: expected {expected_hash}, got {hasher.hexdigest()}")
+    
+    return filename
+
+def install_package(package_path, install_dir):
+    os.makedirs(install_dir, exist_ok=True)
+    subprocess.check_call(['pip', 'install', '--target', install_dir, '--no-deps', package_path])
+
+def main(config_path):
+    with open(config_path, 'r') as f:
+        config = json.load(f)
+    
+    dependencies = config.get('dependencies', [])
+    install_dir = config.get('install_dir', './dependencies')
+    
+    with tempfile.TemporaryDirectory() as temp_dir:
+        for dep in dependencies:
+            url = dep['url']
+            expected_hash = dep['sha256']
+            package_path = download_and_verify(url, expected_hash, temp_dir)
+            install_package(package_path, install_dir)
+    
+    print(f"All dependencies installed to {install_dir}")
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Download and install dependencies from config.')
+    parser.add_argument('config', help='Path to the config JSON file')
+    args = parser.parse_args()
+    main(args.config)

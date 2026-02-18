@@ -1,0 +1,184 @@
+const crypto = require('crypto');
+const express = require('express');
+
+// In-memory store for tokens (replace with database in production)
+const tokenStore = new Map();
+
+/**
+ * Generates a unique, cryptographically secure verification token.
+ * Stores the token with associated user data and expiration.
+ *
+ * @param {string} userId - The user ID to associate with the token
+ * @param {object} [options] - Configuration options
+ * @param {number} [options.expiresInMs=86400000] - Token expiry in ms (default: 24 hours)
+ * @returns {string} The generated verification token
+ */
+function generateVerificationToken(userId, options = {}) {
+  const { expiresInMs = 24 * 60 * 60 * 1000 } = options;
+
+  const token = crypto.randomBytes(32).toString('hex');
+
+  tokenStore.set(token, {
+    userId,
+    createdAt: Date.now(),
+    expiresAt: Date.now() + expiresInMs,
+  });
+
+  return token;
+}
+
+/**
+ * Validates a verification token.
+ * Returns the associated user data if valid, or null if invalid/expired.
+ *
+ * @param {string} token - The token to validate
+ * @returns {{ userId: string, createdAt: number, expiresAt: number } | null}
+ */
+function validateToken(token) {
+  if (!token || typeof token !== 'string') {
+    return null;
+  }
+
+  const record = tokenStore.get(token);
+
+  if (!record) {
+    return null;
+  }
+
+  if (Date.now() > record.expiresAt) {
+    tokenStore.delete(token);
+    return null;
+  }
+
+  return record;
+}
+
+/**
+ * Consumes a token (single use). Validates and then removes it.
+ *
+ * @param {string} token
+ * @returns {{ userId: string, createdAt: number, expiresAt: number } | null}
+ */
+function consumeToken(token) {
+  const record = validateToken(token);
+
+  if (record) {
+    tokenStore.delete(token);
+  }
+
+  return record;
+}
+
+// --- Express App ---
+
+const app = express();
+app.use(express.json());
+
+/**
+ * POST /register
+ * Simulates user registration and generates a verification token.
+ * In production, this would also send the verification email.
+ */
+app.post('/register', (req, res) => {
+  const { email, userId } = req.body;
+
+  if (!email || !userId) {
+    return res.status(400).json({ error: 'email and userId are required' });
+  }
+
+  const token = generateVerificationToken(userId);
+  const verificationLink = `${req.protocol}://${req.get('host')}/verify?token=${token}`;
+
+  // In production: send email with verificationLink
+  // await sendVerificationEmail(email, verificationLink);
+
+  res.status(201).json({
+    message: 'Registration successful. Please check your email to verify your account.',
+    // Only include the link in development for testing
+    ...(process.env.NODE_ENV !== 'production' && { verificationLink }),
+  });
+});
+
+/**
+ * GET /verify?token=TOKEN
+ * Verifies the user's email using the provided token.
+ */
+app.get('/verify', (req, res) => {
+  const { token } = req.query;
+
+  if (!token) {
+    return res.status(400).json({ error: 'Verification token is required' });
+  }
+
+  const record = consumeToken(token);
+
+  if (!record) {
+    return res.status(400).json({
+      error: 'Invalid or expired verification token. Please request a new one.',
+    });
+  }
+
+  // In production: update user record in database
+  // await db.users.update({ id: record.userId }, { emailVerified: true });
+
+  res.status(200).json({
+    message: 'Email verified successfully.',
+    userId: record.userId,
+  });
+});
+
+/**
+ * POST /resend-verification
+ * Resends a verification token for a user.
+ */
+app.post('/resend-verification', (req, res) => {
+  const { email, userId } = req.body;
+
+  if (!email || !userId) {
+    return res.status(400).json({ error: 'email and userId are required' });
+  }
+
+  // In production: check if user exists and is not already verified
+
+  const token = generateVerificationToken(userId);
+  const verificationLink = `${req.protocol}://${req.get('host')}/verify?token=${token}`;
+
+  // In production: send email with verificationLink
+
+  res.status(200).json({
+    message: 'Verification email resent.',
+    ...(process.env.NODE_ENV !== 'production' && { verificationLink }),
+  });
+});
+
+// --- Periodic cleanup of expired tokens ---
+const CLEANUP_INTERVAL = 60 * 60 * 1000; // 1 hour
+
+const cleanupTimer = setInterval(() => {
+  const now = Date.now();
+  for (const [token, record] of tokenStore.entries()) {
+    if (now > record.expiresAt) {
+      tokenStore.delete(token);
+    }
+  }
+}, CLEANUP_INTERVAL);
+
+// Allow graceful shutdown
+cleanupTimer.unref();
+
+// --- Start server ---
+const PORT = process.env.PORT || 3000;
+
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
+
+module.exports = {
+  app,
+  generateVerificationToken,
+  validateToken,
+  consumeToken,
+  tokenStore,
+};

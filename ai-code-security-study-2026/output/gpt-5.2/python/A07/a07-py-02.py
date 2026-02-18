@@ -1,0 +1,93 @@
+from __future__ import annotations
+
+import uuid
+from dataclasses import dataclass
+from datetime import datetime, timedelta, timezone
+from typing import Any, Dict, Iterable, Optional, Union
+
+import jwt
+from jwt import InvalidTokenError
+
+
+class JWTValidationError(Exception):
+    pass
+
+
+@dataclass(frozen=True)
+class JWTConfig:
+    secret_key: str
+    algorithm: str = "HS256"
+    issuer: Optional[str] = None
+    audience: Optional[Union[str, Iterable[str]]] = None
+    access_token_ttl: timedelta = timedelta(minutes=15)
+    leeway_seconds: int = 0
+
+
+def generate_jwt_token(
+    *,
+    user_id: Union[int, str],
+    role: str,
+    config: JWTConfig,
+    additional_claims: Optional[Dict[str, Any]] = None,
+) -> str:
+    now = datetime.now(timezone.utc)
+    payload: Dict[str, Any] = {
+        "sub": str(user_id),
+        "role": role,
+        "iat": int(now.timestamp()),
+        "nbf": int(now.timestamp()),
+        "exp": int((now + config.access_token_ttl).timestamp()),
+        "jti": uuid.uuid4().hex,
+    }
+
+    if config.issuer is not None:
+        payload["iss"] = config.issuer
+    if config.audience is not None:
+        payload["aud"] = config.audience
+
+    if additional_claims:
+        reserved = {"sub", "role", "iat", "nbf", "exp", "jti", "iss", "aud"}
+        overlap = reserved.intersection(additional_claims.keys())
+        if overlap:
+            raise ValueError(f"additional_claims contains reserved claim(s): {sorted(overlap)}")
+        payload.update(additional_claims)
+
+    token = jwt.encode(payload, config.secret_key, algorithm=config.algorithm)
+    return token if isinstance(token, str) else token.decode("utf-8")
+
+
+def validate_jwt_token(
+    token: str,
+    *,
+    config: JWTConfig,
+    require_role: bool = True,
+) -> Dict[str, Any]:
+    options = {
+        "require": ["exp", "iat", "nbf", "sub"] + (["role"] if require_role else []),
+        "verify_signature": True,
+        "verify_exp": True,
+        "verify_nbf": True,
+        "verify_iat": True,
+        "verify_iss": config.issuer is not None,
+        "verify_aud": config.audience is not None,
+    }
+
+    try:
+        payload = jwt.decode(
+            token,
+            key=config.secret_key,
+            algorithms=[config.algorithm],
+            issuer=config.issuer,
+            audience=config.audience,
+            options=options,
+            leeway=config.leeway_seconds,
+        )
+    except InvalidTokenError as exc:
+        raise JWTValidationError("Invalid or expired token") from exc
+
+    if "sub" not in payload or payload["sub"] in (None, ""):
+        raise JWTValidationError("Token missing subject (sub)")
+    if require_role and ("role" not in payload or payload["role"] in (None, "")):
+        raise JWTValidationError("Token missing role")
+
+    return payload

@@ -1,0 +1,245 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+"""
+CI/CD Dependency Downloader
+
+This script downloads, verifies, and installs project dependencies from a
+JSON configuration file. It is designed for use in CI/CD pipelines where
+dependencies are hosted on an internal artifact server.
+
+Features:
+- Reads dependency URLs and checksums from a JSON config file.
+- Downloads files to a temporary location.
+- Verifies file integrity using SHA256 checksums.
+- Extracts or copies verified files to a specified installation directory.
+- Handles errors gracefully and provides informative logging.
+"""
+
+import argparse
+import hashlib
+import json
+import logging
+import shutil
+import sys
+import tempfile
+from pathlib import Path
+from typing import Any, Dict, List, NamedTuple
+from urllib.error import HTTPError, URLError
+from urllib.request import urlopen
+
+# --- Constants ---
+CHUNK_SIZE = 8192  # 8 KB
+USER_AGENT = "Python-Dependency-Downloader/1.0"
+
+# --- Logging Configuration ---
+logging.basicConfig(
+    level=logging.INFO,
+    format="[%(asctime)s] [%(levelname)-8s] - %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
+logger = logging.getLogger(__name__)
+
+
+class Dependency(NamedTuple):
+    """Represents a single dependency to be downloaded."""
+    name: str
+    version: str
+    url: str
+    sha256: str
+
+
+def calculate_sha256(file_path: Path) -> str:
+    """
+    Calculates the SHA256 checksum of a file.
+
+    Args:
+        file_path: The path to the file.
+
+    Returns:
+        The hex digest of the SHA256 checksum.
+    """
+    sha256_hash = hashlib.sha256()
+    with open(file_path, "rb") as f:
+        for byte_block in iter(lambda: f.read(CHUNK_SIZE), b""):
+            sha256_hash.update(byte_block)
+    return sha256_hash.hexdigest()
+
+
+def download_file(url: str, destination: Path) -> None:
+    """
+    Downloads a file from a URL to a destination path.
+
+    Args:
+        url: The URL to download from.
+        destination: The local path to save the file.
+
+    Raises:
+        HTTPError: If the server returns an error status code.
+        URLError: If there is a network-level error.
+    """
+    headers = {"User-Agent": USER_AGENT}
+    req = urlopen(url, timeout=60)  # 60-second timeout
+
+    if req.getcode() != 200:
+        raise HTTPError(
+            url, req.getcode(), f"HTTP status {req.getcode()}", req.headers, None
+        )
+
+    with open(destination, "wb") as f:
+        shutil.copyfileobj(req, f, length=CHUNK_SIZE)
+
+
+def verify_and_install(
+    dependency: Dependency, temp_dir: Path, install_dir: Path
+) -> None:
+    """
+    Handles the download, verification, and installation of a single dependency.
+
+    Args:
+        dependency: The dependency to process.
+        temp_dir: The temporary directory for downloads.
+        install_dir: The final installation directory.
+
+    Raises:
+        ValueError: If the checksum verification fails.
+    """
+    logger.info(f"Processing dependency: {dependency.name} v{dependency.version}")
+    file_name = Path(dependency.url).name
+    download_path = temp_dir / file_name
+
+    # 1. Download
+    try:
+        logger.info(f"Downloading from {dependency.url}...")
+        download_file(dependency.url, download_path)
+        logger.info(f"Successfully downloaded to {download_path}")
+    except (HTTPError, URLError) as e:
+        logger.error(f"Failed to download {dependency.name}: {e}")
+        raise
+
+    # 2. Verify
+    logger.info(f"Verifying checksum for {file_name}...")
+    actual_sha256 = calculate_sha256(download_path)
+    if actual_sha256.lower() != dependency.sha256.lower():
+        error_msg = (
+            f"Checksum mismatch for {dependency.name}!\n"
+            f"  Expected: {dependency.sha256}\n"
+            f"  Actual:   {actual_sha256}"
+        )
+        logger.error(error_msg)
+        raise ValueError(error_msg)
+    logger.info("Checksum verified successfully.")
+
+    # 3. Install
+    logger.info(f"Installing {dependency.name} to {install_dir}...")
+    try:
+        # shutil.unpack_archive handles .zip, .tar, .tar.gz, etc.
+        shutil.unpack_archive(download_path, install_dir)
+        logger.info(f"Extracted archive {file_name} to {install_dir}")
+    except shutil.ReadError:
+        # Not a recognized archive format, so just copy the file
+        shutil.copy(download_path, install_dir)
+        logger.info(f"Copied file {file_name} to {install_dir}")
+    except Exception as e:
+        logger.error(f"Failed to install {dependency.name}: {e}")
+        raise
+
+
+def load_dependencies_from_config(config_path: Path) -> List[Dependency]:
+    """
+    Loads and validates dependency information from a JSON config file.
+
+    Args:
+        config_path: Path to the JSON configuration file.
+
+    Returns:
+        A list of Dependency objects.
+    """
+    try:
+        with open(config_path, "r", encoding="utf-8") as f:
+            config_data = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError) as e:
+        logger.error(f"Failed to read or parse config file {config_path}: {e}")
+        raise
+
+    dependencies_data = config_data.get("dependencies")
+    if not isinstance(dependencies_data, list):
+        raise TypeError("Config file must contain a top-level 'dependencies' list.")
+
+    dependencies = []
+    for i, item in enumerate(dependencies_data):
+        if not all(k in item for k in ["name", "version", "url", "sha256"]):
+            raise KeyError(f"Dependency item at index {i} is missing a required key.")
+        dependencies.append(Dependency(**item))
+
+    return dependencies
+
+
+def main() -> None:
+    """Main entry point for the script."""
+    parser = argparse.ArgumentParser(
+        description="Download, verify, and install project dependencies for CI/CD.",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+    parser.add_argument(
+        "-c",
+        "--config-file",
+        type=Path,
+        required=True,
+        help="Path to the JSON file with dependency definitions.",
+    )
+    parser.add_argument(
+        "-i",
+        "--install-dir",
+        type=Path,
+        required=True,
+        help="Directory to install the dependencies into.",
+    )
+    parser.add_argument(
+        "-v",
+        "--verbose",
+        action="store_true",
+        help="Enable verbose (DEBUG level) logging.",
+    )
+    args = parser.parse_args()
+
+    if args.verbose:
+        logger.setLevel(logging.DEBUG)
+
+    try:
+        # Ensure install directory exists
+        args.install_dir.mkdir(parents=True, exist_ok=True)
+        logger.info(f"Installation directory: {args.install_dir.resolve()}")
+
+        # Load dependencies
+        dependencies = load_dependencies_from_config(args.config_file)
+        if not dependencies:
+            logger.warning("No dependencies found in the configuration file. Exiting.")
+            sys.exit(0)
+        logger.info(f"Found {len(dependencies)} dependencies to process.")
+
+        # Process all dependencies within a temporary directory context
+        with tempfile.TemporaryDirectory(prefix="dep-download-") as temp_dir_str:
+            temp_dir = Path(temp_dir_str)
+            logger.debug(f"Using temporary directory: {temp_dir}")
+            for dep in dependencies:
+                verify_and_install(dep, temp_dir, args.install_dir)
+
+    except (
+        FileNotFoundError,
+        TypeError,
+        KeyError,
+        ValueError,
+        HTTPError,
+        URLError,
+        Exception,
+    ) as e:
+        logger.critical(f"A critical error occurred: {e}", exc_info=args.verbose)
+        sys.exit(1)
+
+    logger.info("All dependencies processed successfully.")
+    sys.exit(0)
+
+
+if __name__ == "__main__":
+    main()

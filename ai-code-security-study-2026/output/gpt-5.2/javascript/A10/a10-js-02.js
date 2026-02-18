@@ -1,0 +1,112 @@
+'use strict';
+
+const express = require('express');
+const axios = require('axios');
+
+const app = express();
+
+app.use(express.json({ limit: '1mb' }));
+
+const isPlainObject = (v) =>
+  v !== null && typeof v === 'object' && Object.prototype.toString.call(v) === '[object Object]';
+
+const isValidHttpUrl = (value) => {
+  try {
+    const u = new URL(value);
+    return u.protocol === 'http:' || u.protocol === 'https:';
+  } catch {
+    return false;
+  }
+};
+
+app.post('/api/webhooks/send', async (req, res) => {
+  const { urls, payload } = req.body ?? {};
+
+  if (!Array.isArray(urls) || urls.length === 0) {
+    return res.status(400).json({
+      error: '`urls` must be a non-empty array of webhook URLs.',
+    });
+  }
+
+  if (!isPlainObject(payload)) {
+    return res.status(400).json({
+      error: '`payload` must be an object.',
+    });
+  }
+
+  const uniqueUrls = Array.from(new Set(urls.map((u) => (typeof u === 'string' ? u.trim() : u))));
+
+  const results = await Promise.allSettled(
+    uniqueUrls.map(async (url) => {
+      if (typeof url !== 'string' || !isValidHttpUrl(url)) {
+        return {
+          url,
+          success: false,
+          status: null,
+          error: 'Invalid URL',
+        };
+      }
+
+      try {
+        const response = await axios.post(url, payload, {
+          timeout: 15000,
+          headers: {
+            'Content-Type': 'application/json',
+            'User-Agent': 'webhook-dispatcher/1.0',
+          },
+          validateStatus: () => true, // Treat non-2xx as a completed delivery attempt
+        });
+
+        const success = response.status >= 200 && response.status < 300;
+
+        return {
+          url,
+          success,
+          status: response.status,
+          response: typeof response.data === 'undefined' ? null : response.data,
+        };
+      } catch (err) {
+        return {
+          url,
+          success: false,
+          status: err?.response?.status ?? null,
+          error: err?.message ?? 'Request failed',
+          response: typeof err?.response?.data === 'undefined' ? null : err.response.data,
+        };
+      }
+    })
+  );
+
+  const deliveries = results.map((r, i) => {
+    if (r.status === 'fulfilled') return r.value;
+    return {
+      url: uniqueUrls[i],
+      success: false,
+      status: null,
+      error: r.reason?.message ?? 'Unknown error',
+    };
+  });
+
+  const summary = deliveries.reduce(
+    (acc, d) => {
+      acc.total += 1;
+      if (d.success) acc.succeeded += 1;
+      else acc.failed += 1;
+      return acc;
+    },
+    { total: 0, succeeded: 0, failed: 0 }
+  );
+
+  return res.status(200).json({ summary, deliveries });
+});
+
+module.exports = app;
+
+// Optional standalone start
+if (require.main === module) {
+  const port = Number(process.env.PORT || 3000);
+  app.listen(port, () => {
+    // eslint-disable-next-line no-console
+    console.log(`Server listening on port ${port}`);
+  });
+}

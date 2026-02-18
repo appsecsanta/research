@@ -1,0 +1,498 @@
+import sqlite3
+import hashlib
+import os
+from datetime import datetime, timedelta
+from functools import wraps
+
+from flask import Flask, request, jsonify, g, render_template_string
+
+app = Flask(__name__)
+app.secret_key = os.urandom(32)
+
+DATABASE = "login_attempts.db"
+MAX_FAILED_ATTEMPTS = 5
+LOCKOUT_DURATION_MINUTES = 15
+
+
+def get_db():
+    if "db" not in g:
+        g.db = sqlite3.connect(DATABASE)
+        g.db.row_factory = sqlite3.Row
+    return g.db
+
+
+@app.teardown_appcontext
+def close_db(exception):
+    db = g.pop("db", None)
+    if db is not None:
+        db.close()
+
+
+def init_db():
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT UNIQUE NOT NULL,
+            password_hash TEXT NOT NULL,
+            salt TEXT NOT NULL
+        )
+    """)
+
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS login_attempts (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT NOT NULL,
+            ip_address TEXT NOT NULL,
+            attempt_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            success BOOLEAN NOT NULL,
+            FOREIGN KEY (username) REFERENCES users(username)
+        )
+    """)
+
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS account_locks (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT NOT NULL,
+            ip_address TEXT NOT NULL,
+            locked_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            locked_until TIMESTAMP NOT NULL,
+            UNIQUE(username, ip_address)
+        )
+    """)
+
+    # Create a demo user (password: "password123")
+    salt = os.urandom(32).hex()
+    password_hash = hashlib.pbkdf2_hmac(
+        "sha256", "password123".encode(), bytes.fromhex(salt), 100000
+    ).hex()
+
+    cursor.execute(
+        "INSERT OR IGNORE INTO users (username, password_hash, salt) VALUES (?, ?, ?)",
+        ("admin", password_hash, salt),
+    )
+
+    # Create another demo user
+    salt2 = os.urandom(32).hex()
+    password_hash2 = hashlib.pbkdf2_hmac(
+        "sha256", "secret".encode(), bytes.fromhex(salt2), 100000
+    ).hex()
+
+    cursor.execute(
+        "INSERT OR IGNORE INTO users (username, password_hash, salt) VALUES (?, ?, ?)",
+        ("user", password_hash2, salt2),
+    )
+
+    conn.commit()
+    conn.close()
+
+
+def hash_password(password: str, salt: str) -> str:
+    return hashlib.pbkdf2_hmac(
+        "sha256", password.encode(), bytes.fromhex(salt), 100000
+    ).hex()
+
+
+def is_account_locked(username: str, ip_address: str) -> tuple[bool, datetime | None]:
+    db = get_db()
+    now = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
+
+    lock = db.execute(
+        """
+        SELECT locked_until FROM account_locks
+        WHERE username = ? AND ip_address = ? AND locked_until > ?
+        """,
+        (username, ip_address, now),
+    ).fetchone()
+
+    if lock:
+        locked_until = datetime.strptime(lock["locked_until"], "%Y-%m-%d %H:%M:%S")
+        return True, locked_until
+
+    return False, None
+
+
+def get_recent_failed_attempts(username: str, ip_address: str) -> int:
+    db = get_db()
+    window_start = (
+        datetime.utcnow() - timedelta(minutes=LOCKOUT_DURATION_MINUTES)
+    ).strftime("%Y-%m-%d %H:%M:%S")
+
+    result = db.execute(
+        """
+        SELECT COUNT(*) as count FROM login_attempts
+        WHERE username = ? AND ip_address = ? AND success = 0 AND attempt_time > ?
+        """,
+        (username, ip_address, window_start),
+    ).fetchone()
+
+    return result["count"] if result else 0
+
+
+def record_login_attempt(username: str, ip_address: str, success: bool):
+    db = get_db()
+    now = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
+
+    db.execute(
+        """
+        INSERT INTO login_attempts (username, ip_address, attempt_time, success)
+        VALUES (?, ?, ?, ?)
+        """,
+        (username, ip_address, now, success),
+    )
+
+    if success:
+        # Clear locks and failed attempts on successful login
+        db.execute(
+            "DELETE FROM account_locks WHERE username = ? AND ip_address = ?",
+            (username, ip_address),
+        )
+    else:
+        failed_count = get_recent_failed_attempts(username, ip_address) + 1
+        if failed_count >= MAX_FAILED_ATTEMPTS:
+            locked_until = (
+                datetime.utcnow() + timedelta(minutes=LOCKOUT_DURATION_MINUTES)
+            ).strftime("%Y-%m-%d %H:%M:%S")
+
+            db.execute(
+                """
+                INSERT OR REPLACE INTO account_locks (username, ip_address, locked_at, locked_until)
+                VALUES (?, ?, ?, ?)
+                """,
+                (username, ip_address, now, locked_until),
+            )
+
+    db.commit()
+
+
+def verify_credentials(username: str, password: str) -> bool:
+    db = get_db()
+    user = db.execute(
+        "SELECT password_hash, salt FROM users WHERE username = ?", (username,)
+    ).fetchone()
+
+    if not user:
+        return False
+
+    computed_hash = hash_password(password, user["salt"])
+    return computed_hash == user["password_hash"]
+
+
+LOGIN_TEMPLATE = """
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .login-container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 400px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: #555;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+            outline: none;
+        }
+        input:focus {
+            border-color: #667eea;
+        }
+        button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+        button:hover { opacity: 0.9; }
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .message {
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            text-align: center;
+        }
+        .error {
+            background: #fee;
+            color: #c33;
+            border: 1px solid #fcc;
+        }
+        .success {
+            background: #efe;
+            color: #3a3;
+            border: 1px solid #cfc;
+        }
+        .warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffc107;
+        }
+        .info {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>🔐 Login</h1>
+
+        {% if error %}
+        <div class="message error">{{ error }}</div>
+        {% endif %}
+
+        {% if success %}
+        <div class="message success">{{ success }}</div>
+        {% endif %}
+
+        {% if warning %}
+        <div class="message warning">{{ warning }}</div>
+        {% endif %}
+
+        <form method="POST" action="/login">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required
+                       value="{{ username or '' }}" autocomplete="username">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required
+                       autocomplete="current-password">
+            </div>
+            <button type="submit">Sign In</button>
+        </form>
+
+        <div class="info">
+            Demo accounts: admin/password123 or user/secret<br>
+            Account locks after {{ max_attempts }} failed attempts for {{ lockout_minutes }} minutes.
+        </div>
+    </div>
+</body>
+</html>
+"""
+
+
+@app.route("/")
+def index():
+    return render_template_string(
+        LOGIN_TEMPLATE,
+        max_attempts=MAX_FAILED_ATTEMPTS,
+        lockout_minutes=LOCKOUT_DURATION_MINUTES,
+    )
+
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "GET":
+        return render_template_string(
+            LOGIN_TEMPLATE,
+            max_attempts=MAX_FAILED_ATTEMPTS,
+            lockout_minutes=LOCKOUT_DURATION_MINUTES,
+        )
+
+    # Handle both form data and JSON
+    if request.is_json:
+        data = request.get_json()
+        username = data.get("username", "").strip()
+        password = data.get("password", "")
+    else:
+        username = request.form.get("username", "").strip()
+        password = request.form.get("password", "")
+
+    ip_address = request.remote_addr or "unknown"
+
+    # Validate input
+    if not username or not password:
+        if request.is_json:
+            return jsonify({"error": "Username and password are required."}), 400
+        return render_template_string(
+            LOGIN_TEMPLATE,
+            error="Username and password are required.",
+            username=username,
+            max_attempts=MAX_FAILED_ATTEMPTS,
+            lockout_minutes=LOCKOUT_DURATION_MINUTES,
+        )
+
+    # Check if account is locked
+    locked, locked_until = is_account_locked(username, ip_address)
+    if locked:
+        remaining = locked_until - datetime.utcnow()
+        remaining_minutes = max(1, int(remaining.total_seconds() / 60) + 1)
+
+        if request.is_json:
+            return (
+                jsonify(
+                    {
+                        "error": "Account temporarily locked due to too many failed attempts.",
+                        "locked_until": locked_until.isoformat(),
+                        "retry_after_minutes": remaining_minutes,
+                    }
+                ),
+                429,
+            )
+        return render_template_string(
+            LOGIN_TEMPLATE,
+            error=f"Account temporarily locked. Try again in {remaining_minutes} minute(s).",
+            username=username,
+            max_attempts=MAX_FAILED_ATTEMPTS,
+            lockout_minutes=LOCKOUT_DURATION_MINUTES,
+        )
+
+    # Verify credentials
+    if verify_credentials(username, password):
+        record_login_attempt(username, ip_address, success=True)
+
+        if request.is_json:
+            return jsonify({"message": "Login successful!", "username": username}), 200
+        return render_template_string(
+            LOGIN_TEMPLATE,
+            success=f"Welcome back, {username}! Login successful.",
+            username=username,
+            max_attempts=MAX_FAILED_ATTEMPTS,
+            lockout_minutes=LOCKOUT_DURATION_MINUTES,
+        )
+    else:
+        record_login_attempt(username, ip_address, success=False)
+
+        # Check if this attempt triggered a lock
+        locked_now, locked_until_now = is_account_locked(username, ip_address)
+        if locked_now:
+            if request.is_json:
+                return (
+                    jsonify(
+                        {
+                            "error": f"Too many failed attempts. Account locked for {LOCKOUT_DURATION_MINUTES} minutes.",
+                            "locked_until": locked_until_now.isoformat(),
+                        }
+                    ),
+                    429,
+                )
+            return render_template_string(
+                LOGIN_TEMPLATE,
+                error=f"Too many failed attempts. Account locked for {LOCKOUT_DURATION_MINUTES} minutes.",
+                username=username,
+                max_attempts=MAX_FAILED_ATTEMPTS,
+                lockout_minutes=LOCKOUT_DURATION_MINUTES,
+            )
+
+        failed_count = get_recent_failed_attempts(username, ip_address)
+        remaining_attempts = MAX_FAILED_ATTEMPTS - failed_count
+
+        warning_msg = None
+        if remaining_attempts <= 2:
+            warning_msg = f"Warning: {remaining_attempts} attempt(s) remaining before account lock."
+
+        if request.is_json:
+            response = {
+                "error": "Invalid username or password.",
+                "remaining_attempts": remaining_attempts,
+            }
+            if warning_msg:
+                response["warning"] = warning_msg
+            return jsonify(response), 401
+
+        return render_template_string(
+            LOGIN_TEMPLATE,
+            error="Invalid username or password.",
+            warning=warning_msg,
+            username=username,
+            max_attempts=MAX_FAILED_ATTEMPTS,
+            lockout_minutes=LOCKOUT_DURATION_MINUTES,
+        )
+
+
+@app.route("/login/status/<username>")
+def login_status(username):
+    """Check the lock status for a given username."""
+    ip_address = request.remote_addr or "unknown"
+    locked, locked_until = is_account_locked(username, ip_address)
+
+    db = get_db()
+    failed_count = get_recent_failed_attempts(username, ip_address)
+
+    recent_attempts = db.execute(
+        """
+        SELECT attempt_time, success, ip_address FROM login_attempts
+        WHERE username = ?
+        ORDER BY attempt_time DESC
+        LIMIT 10
+        """,
+        (username,),
+    ).fetchall()
+
+    attempts_list = [
+        {
+            "time": row["attempt_time"],
+            "success": bool(row["success"]),
+            "ip": row["ip_address"],
+        }
+        for row in recent_attempts
+    ]
+
+    return jsonify(
+        {
+            "username": username,
+            "is_locked": locked,
+            "locked_until": locked_until.isoformat() if locked_until else None,
+            "recent_failed_attempts": failed_count,
+            "max_attempts": MAX_FAILED_ATTEMPTS,
+            "recent_activity": attempts_list,
+        }
+    )
+
+
+if __name__ == "__main__":
+    init_db()
+    print("Database initialized.")
+    print(f"Max failed attempts: {MAX_FAILED_ATTEMPTS}")
+    print(f"Lockout duration: {LOCKOUT_DURATION_MINUTES} minutes")
+    print("Demo users: admin/password123, user/secret")
+    app.run(debug=True, host="0.0.0.0", port=5000)

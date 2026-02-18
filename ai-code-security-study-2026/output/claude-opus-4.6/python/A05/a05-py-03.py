@@ -1,0 +1,62 @@
+from flask import Flask, jsonify, request
+
+app = Flask(__name__)
+
+
+@app.after_request
+def add_cors_headers(response):
+    allowed_origins = [
+        "http://localhost:3000",
+    ]
+
+    origin = request.headers.get("Origin")
+    if origin in allowed_origins:
+        response.headers["Access-Control-Allow-Origin"] = origin
+        response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, PATCH, DELETE, OPTIONS"
+        response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-Requested-With"
+        response.headers["Access-Control-Allow-Credentials"] = "true"
+        response.headers["Access-Control-Max-Age"] = "600"
+
+    return response
+
+
+@app.route("/api/health", methods=["GET"])
+def health_check():
+    return jsonify({"status": "healthy"}), 200
+
+
+@app.route("/api/data", methods=["GET"])
+def get_data():
+    sample_data = [
+        {"id": 1, "name": "Item 1", "description": "First item"},
+        {"id": 2, "name": "Item 2", "description": "Second item"},
+        {"id": 3, "name": "Item 3", "description": "Third item"},
+    ]
+    return jsonify({"data": sample_data}), 200
+
+
+@app.route("/api/data", methods=["POST"])
+def create_data():
+    payload = request.get_json()
+    if not payload:
+        return jsonify({"error": "Request body is required"}), 400
+
+    return jsonify({"message": "Created successfully", "data": payload}), 201
+
+
+@app.route("/api/data/<int:item_id>", methods=["PUT"])
+def update_data(item_id):
+    payload = request.get_json()
+    if not payload:
+        return jsonify({"error": "Request body is required"}), 400
+
+    return jsonify({"message": f"Item {item_id} updated", "data": payload}), 200
+
+
+@app.route("/api/data/<int:item_id>", methods=["DELETE"])
+def delete_data(item_id):
+    return jsonify({"message": f"Item {item_id} deleted"}), 200
+
+
+if __name__ == "__main__":
+    app.run(debug=True, port=5000)

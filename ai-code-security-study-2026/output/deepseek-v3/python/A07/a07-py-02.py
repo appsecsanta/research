@@ -1,0 +1,40 @@
+import jwt
+import datetime
+from functools import wraps
+from flask import request, jsonify
+
+SECRET_KEY = 'your_secret_key'
+ALGORITHM = 'HS256'
+
+def generate_jwt_token(user_id, role):
+    payload = {
+        'user_id': user_id,
+        'role': role,
+        'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1)
+    }
+    token = jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
+    return token
+
+def validate_jwt_token(token):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        return payload
+    except jwt.ExpiredSignatureError:
+        return None
+    except jwt.InvalidTokenError:
+        return None
+
+def token_required(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        token = request.headers.get('Authorization')
+        if not token:
+            return jsonify({'message': 'Token is missing'}), 401
+
+        token = token.split(" ")[1]
+        payload = validate_jwt_token(token)
+        if not payload:
+            return jsonify({'message': 'Invalid or expired token'}), 401
+
+        return f(payload, *args, **kwargs)
+    return decorated

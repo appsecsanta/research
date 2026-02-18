@@ -1,0 +1,26 @@
+from cryptography.fernet import Fernet
+import base64
+
+class DataEncryptor:
+    def __init__(self, key: bytes):
+        """
+        Initialize the DataEncryptor with a symmetric key.
+        The key should be securely generated and stored.
+        Example: key = Fernet.generate_key()
+        """
+        self.fernet = Fernet(key)
+
+    def encrypt(self, data: str) -> str:
+        """
+        Encrypt the given data and return a base64-encoded string suitable for database storage.
+        """
+        encrypted_bytes = self.fernet.encrypt(data.encode('utf-8'))
+        return base64.urlsafe_b64encode(encrypted_bytes).decode('utf-8')
+
+    def decrypt(self, encrypted_data: str) -> str:
+        """
+        Decrypt the base64-encoded encrypted data and return the original string.
+        """
+        encrypted_bytes = base64.urlsafe_b64decode(encrypted_data)
+        decrypted_bytes = self.fernet.decrypt(encrypted_bytes)
+        return decrypted_bytes.decode('utf-8')

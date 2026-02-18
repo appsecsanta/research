@@ -1,0 +1,139 @@
+{
+  "tool": "eslint",
+  "model": "gemini-2.5-pro",
+  "scan_timestamp": "2026-02-17T07:16:25Z",
+  "findings": [
+    {
+      "file": "javascript/A01/a01-js-02.js",
+      "line": 14,
+      "rule_id": "security/detect-non-literal-fs-filename",
+      "severity": "LOW",
+      "confidence": "HIGH",
+      "cwe": "",
+      "owasp": "A01",
+      "message": "Found existsSync from package \"fs\" with non literal argument at index 0",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A01/a01-js-02.js",
+      "line": 15,
+      "rule_id": "security/detect-non-literal-fs-filename",
+      "severity": "LOW",
+      "confidence": "HIGH",
+      "cwe": "",
+      "owasp": "A01",
+      "message": "Found mkdirSync from package \"fs\" with non literal argument at index 0",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A01/a01-js-02.js",
+      "line": 47,
+      "rule_id": "security/detect-non-literal-fs-filename",
+      "severity": "LOW",
+      "confidence": "HIGH",
+      "cwe": "",
+      "owasp": "A01",
+      "message": "Found createReadStream from package \"fs\" with non literal argument at index 0",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A03/a03-js-05.js",
+      "line": 67,
+      "rule_id": "security/detect-non-literal-regexp",
+      "severity": "LOW",
+      "confidence": "HIGH",
+      "cwe": "",
+      "owasp": "A03",
+      "message": "Found non-literal argument to RegExp Constructor",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A04/a04-js-03.js",
+      "line": 14,
+      "rule_id": "security/detect-non-literal-fs-filename",
+      "severity": "LOW",
+      "confidence": "HIGH",
+      "cwe": "",
+      "owasp": "A04",
+      "message": "Found existsSync from package \"fs\" with non literal argument at index 0",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A04/a04-js-03.js",
+      "line": 15,
+      "rule_id": "security/detect-non-literal-fs-filename",
+      "severity": "LOW",
+      "confidence": "HIGH",
+      "cwe": "",
+      "owasp": "A04",
+      "message": "Found mkdirSync from package \"fs\" with non literal argument at index 0",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A05/a05-js-05.js",
+      "line": 96,
+      "rule_id": "security/detect-object-injection",
+      "severity": "LOW",
+      "confidence": "HIGH",
+      "cwe": "",
+      "owasp": "A05",
+      "message": "Generic Object Injection Sink",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A06/a06-js-02.js",
+      "line": 17,
+      "rule_id": "security/detect-non-literal-require",
+      "severity": "LOW",
+      "confidence": "HIGH",
+      "cwe": "",
+      "owasp": "A06",
+      "message": "Found non-literal argument in require",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A08/a08-js-03.js",
+      "line": 39,
+      "rule_id": "security/detect-object-injection",
+      "severity": "LOW",
+      "confidence": "HIGH",
+      "cwe": "",
+      "owasp": "A08",
+      "message": "Generic Object Injection Sink",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A08/a08-js-03.js",
+      "line": 39,
+      "rule_id": "security/detect-object-injection",
+      "severity": "LOW",
+      "confidence": "HIGH",
+      "cwe": "",
+      "owasp": "A08",
+      "message": "Generic Object Injection Sink",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A08/a08-js-04.js",
+      "line": 58,
+      "rule_id": "security/detect-non-literal-fs-filename",
+      "severity": "LOW",
+      "confidence": "HIGH",
+      "cwe": "",
+      "owasp": "A08",
+      "message": "Found readFile from package \"fs/promises\" with non literal argument at index 0",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A10/a10-js-02.js",
+      "line": 61,
+      "rule_id": "security/detect-object-injection",
+      "severity": "LOW",
+      "confidence": "HIGH",
+      "cwe": "",
+      "owasp": "A10",
+      "message": "Variable Assigned to Object Injection Sink",
+      "language": "javascript"
+    }
+  ]
+}

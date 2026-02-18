@@ -1,0 +1,75 @@
+from flask import Flask, request, jsonify
+import sqlite3
+from datetime import datetime, timedelta
+
+app = Flask(__name__)
+
+# SQLite database connection
+def get_db_connection():
+    conn = sqlite3.connect('login_attempts.db')
+    conn.row_factory = sqlite3.Row
+    return conn
+
+# Create table if not exists
+def create_table():
+    conn = get_db_connection()
+    conn.execute('''
+        CREATE TABLE IF NOT EXISTS login_attempts
+        (username TEXT PRIMARY KEY, attempts INTEGER, last_attempt TEXT, blocked_until TEXT)
+    ''')
+    conn.close()
+
+create_table()
+
+# Check if user is blocked
+def is_blocked(username):
+    conn = get_db_connection()
+    user = conn.execute('SELECT * FROM login_attempts WHERE username = ?', (username,)).fetchone()
+    conn.close()
+    if user and user['blocked_until']:
+        blocked_until = datetime.strptime(user['blocked_until'], '%Y-%m-%d %H:%M:%S')
+        if datetime.now() < blocked_until:
+            return True
+    return False
+
+# Update login attempt data
+def update_login_attempt(username, success):
+    conn = get_db_connection()
+    user = conn.execute('SELECT * FROM login_attempts WHERE username = ?', (username,)).fetchone()
+    if user:
+        attempts = user['attempts'] + 1 if not success else 0
+        conn.execute('UPDATE login_attempts SET attempts = ?, last_attempt = ? WHERE username = ?', 
+                     (attempts, datetime.now().strftime('%Y-%m-%d %H:%M:%S'), username))
+        if attempts >= 5:
+            blocked_until = (datetime.now() + timedelta(minutes=30)).strftime('%Y-%m-%d %H:%M:%S')
+            conn.execute('UPDATE login_attempts SET blocked_until = ? WHERE username = ?', (blocked_until, username))
+    else:
+        attempts = 1 if not success else 0
+        conn.execute('INSERT INTO login_attempts (username, attempts, last_attempt) VALUES (?, ?, ?)', 
+                     (username, attempts, datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+    conn.commit()
+    conn.close()
+
+# Login endpoint
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.json
+    if not data or 'username' not in data or 'password' not in data:
+        return jsonify({'error': 'Missing username or password'}), 400
+    
+    username = data['username']
+    password = data['password']
+
+    if is_blocked(username):
+        return jsonify({'error': 'User is temporarily blocked'}), 403
+
+    # Replace this with your actual authentication logic
+    if username != 'admin' or password != 'password':
+        update_login_attempt(username, False)
+        return jsonify({'error': 'Invalid username or password'}), 401
+
+    update_login_attempt(username, True)
+    return jsonify({'message': 'Login successful'}), 200
+
+if __name__ == '__main__':
+    app.run(debug=True)

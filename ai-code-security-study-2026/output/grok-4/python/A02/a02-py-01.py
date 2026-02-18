@@ -1,0 +1,22 @@
+import bcrypt
+
+def hash_password(password: str) -> str:
+    """
+    Hash a plaintext password using bcrypt.
+    
+    :param password: The plaintext password to hash.
+    :return: The hashed password as a string.
+    """
+    salt = bcrypt.gensalt()
+    hashed = bcrypt.hashpw(password.encode('utf-8'), salt)
+    return hashed.decode('utf-8')
+
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    """
+    Verify a plaintext password against a stored hashed password.
+    
+    :param plain_password: The plaintext password to verify.
+    :param hashed_password: The stored hashed password.
+    :return: True if the passwords match, False otherwise.
+    """
+    return bcrypt.checkpw(plain_password.encode('utf-8'), hashed_password.encode('utf-8'))

@@ -1,0 +1,9 @@
+function loadModule(moduleName) {
+    try {
+        const module = require(moduleName);
+        return module;
+    } catch (error) {
+        console.error(`Failed to load module: ${moduleName}`, error);
+        return null;
+    }
+}

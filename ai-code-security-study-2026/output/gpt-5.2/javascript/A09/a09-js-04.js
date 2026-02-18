@@ -1,0 +1,126 @@
+'use strict';
+
+const DEFAULT_MAX_FIELD_LENGTH = 128;
+
+function clampString(value, maxLen = DEFAULT_MAX_FIELD_LENGTH) {
+  if (value == null) return null;
+  const str = typeof value === 'string' ? value : String(value);
+  if (str.length <= maxLen) return str;
+  return `${str.slice(0, Math.max(0, maxLen - 1))}\u2026`;
+}
+
+function maskEmail(email) {
+  if (!email) return null;
+  const str = clampString(email, 320);
+  const at = str.indexOf('@');
+  if (at <= 0) return '[invalid-email]';
+
+  const local = str.slice(0, at);
+  const domain = str.slice(at + 1);
+
+  const localMasked = (() => {
+    if (local.length === 1) return '*';
+    if (local.length === 2) return `${local[0]}*`;
+    if (local.length === 3) return `${local[0]}**`;
+    return `${local.slice(0, 2)}***${local.slice(-1)}`;
+  })();
+
+  const domainMasked = (() => {
+    if (!domain) return '';
+    const parts = domain.split('.');
+    if (parts.length < 2) return clampString(domain, 64);
+    const tld = parts.pop();
+    const sld = parts.pop();
+    const base = `${sld}.${tld}`;
+    return clampString(base, 64);
+  })();
+
+  return `${localMasked}@${domainMasked || '[domain]'}`;
+}
+
+function summarizeTokens(tokens) {
+  if (tokens == null) return null;
+
+  if (typeof tokens === 'string') {
+    return { kind: 'string', count: 1, length: tokens.length };
+  }
+
+  if (Array.isArray(tokens)) {
+    return { kind: 'array', count: tokens.length };
+  }
+
+  if (tokens instanceof Set) {
+    return { kind: 'set', count: tokens.size };
+  }
+
+  if (typeof tokens === 'object') {
+    const keys = Object.keys(tokens);
+    return { kind: 'object', count: keys.length, keys: keys.slice(0, 20) };
+  }
+
+  return { kind: typeof tokens };
+}
+
+function pickUserId(user) {
+  if (user == null) return null;
+  if (typeof user === 'string' || typeof user === 'number' || typeof user === 'bigint') return String(user);
+
+  const id =
+    user.id ??
+    user._id ??
+    user.userId ??
+    user.userID ??
+    user.uid ??
+    null;
+
+  return id == null ? null : clampString(id, 128);
+}
+
+function detectPasswordHashField(user) {
+  if (!user || typeof user !== 'object') return null;
+  const candidates = ['passwordHash', 'password_hash', 'passHash', 'hash', 'password'];
+  for (const key of candidates) {
+    if (Object.prototype.hasOwnProperty.call(user, key) && user[key] != null && user[key] !== '') {
+      return key;
+    }
+  }
+  return null;
+}
+
+function buildSafeUser(user) {
+  if (user == null) {
+    return { type: 'User', present: false };
+  }
+
+  if (typeof user !== 'object') {
+    return { type: 'User', present: true, id: pickUserId(user) };
+  }
+
+  const passwordField = detectPasswordHashField(user);
+
+  return {
+    type: 'User',
+    present: true,
+    id: pickUserId(user),
+    name: user.name != null ? clampString(user.name, 128) : null,
+    email: user.email != null ? maskEmail(user.email) : null,
+    role: user.role != null ? clampString(user.role, 64) : null,
+    passwordHash: passwordField ? '[REDACTED]' : null,
+    tokens: summarizeTokens(user.tokens),
+  };
+}
+
+/**
+ * Serialize a user object to a log-safe JSON string.
+ * @param {any} user
+ * @returns {string}
+ */
+function logUser(user) {
+  try {
+    return JSON.stringify(buildSafeUser(user));
+  } catch {
+    return JSON.stringify({ type: 'User', present: true, error: 'serialization_failed' });
+  }
+}
+
+module.exports = { logUser };

@@ -1,0 +1,241 @@
+import os
+import base64
+import json
+import logging
+from typing import Optional, Union
+from cryptography.fernet import Fernet, InvalidToken
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+
+logger = logging.getLogger(__name__)
+
+
+class DataEncryptor:
+    """
+    Symmetric encryption utility for sensitive user data such as SSNs,
+    credit card numbers, and other PII before database storage.
+
+    Supports two modes:
+    1. Simple Fernet key-based encryption.
+    2. Password-based key derivation (PBKDF2) with a stored salt.
+    """
+
+    def __init__(
+        self,
+        key: Optional[bytes] = None,
+        password: Optional[str] = None,
+        salt: Optional[bytes] = None,
+    ):
+        """
+        Initialize the encryptor with either a Fernet key or a password.
+
+        Args:
+            key: A Fernet-compatible key (32 url-safe base64-encoded bytes).
+                 Generate one with DataEncryptor.generate_key().
+            password: A passphrase used to derive an encryption key via PBKDF2.
+            salt: A salt for PBKDF2 derivation. If not provided, a random
+                  16-byte salt is generated. Store this salt alongside the
+                  ciphertext to allow decryption later.
+
+        Raises:
+            ValueError: If neither key nor password is provided.
+        """
+        if key is None and password is None:
+            raise ValueError("Provide either a 'key' or a 'password'.")
+
+        if key is not None:
+            self._fernet = Fernet(key)
+            self._salt: Optional[bytes] = None
+        else:
+            if salt is None:
+                salt = os.urandom(16)
+            self._salt = salt
+            derived_key = self._derive_key(password, salt)
+            self._fernet = Fernet(derived_key)
+
+    # ------------------------------------------------------------------
+    # Public helpers
+    # ------------------------------------------------------------------
+
+    @staticmethod
+    def generate_key() -> bytes:
+        """Generate a new random Fernet key."""
+        return Fernet.generate_key()
+
+    @property
+    def salt(self) -> Optional[bytes]:
+        """Return the PBKDF2 salt (None when using a direct key)."""
+        return self._salt
+
+    # ------------------------------------------------------------------
+    # Encrypt / Decrypt
+    # ------------------------------------------------------------------
+
+    def encrypt(self, plaintext: Union[str, dict, int, float]) -> str:
+        """
+        Encrypt a piece of sensitive data.
+
+        Args:
+            plaintext: The data to encrypt. Strings, numbers, and dicts
+                       (JSON-serialisable) are accepted.
+
+        Returns:
+            A url-safe base64-encoded ciphertext string suitable for
+            database storage.
+
+        Raises:
+            TypeError: If the plaintext type is not supported.
+        """
+        serialized = self._serialize(plaintext)
+        token: bytes = self._fernet.encrypt(serialized.encode("utf-8"))
+        return token.decode("utf-8")
+
+    def decrypt(self, ciphertext: str, as_type: type = str) -> Union[str, dict, int, float]:
+        """
+        Decrypt a previously encrypted value.
+
+        Args:
+            ciphertext: The base64-encoded ciphertext string.
+            as_type: The Python type to deserialize the result into.
+                     Supported: str, int, float, dict.
+
+        Returns:
+            The decrypted and deserialized value.
+
+        Raises:
+            InvalidToken: If the ciphertext is invalid or the key is wrong.
+            ValueError: If deserialization to the requested type fails.
+        """
+        try:
+            decrypted_bytes: bytes = self._fernet.decrypt(ciphertext.encode("utf-8"))
+        except InvalidToken:
+            logger.error("Decryption failed – invalid token or wrong key.")
+            raise
+
+        raw = decrypted_bytes.decode("utf-8")
+        return self._deserialize(raw, as_type)
+
+    def encrypt_fields(self, data: dict, fields: list[str]) -> dict:
+        """
+        Encrypt specific fields inside a dictionary (e.g. a database row).
+
+        Args:
+            data: The original dictionary.
+            fields: Keys whose values should be encrypted.
+
+        Returns:
+            A *new* dictionary with the specified fields encrypted.
+        """
+        result = dict(data)
+        for field in fields:
+            if field in result and result[field] is not None:
+                result[field] = self.encrypt(result[field])
+        return result
+
+    def decrypt_fields(
+        self,
+        data: dict,
+        fields: dict[str, type],
+    ) -> dict:
+        """
+        Decrypt specific fields inside a dictionary.
+
+        Args:
+            data: The dictionary with encrypted values.
+            fields: A mapping of field name → expected Python type.
+
+        Returns:
+            A *new* dictionary with the specified fields decrypted.
+        """
+        result = dict(data)
+        for field, as_type in fields.items():
+            if field in result and result[field] is not None:
+                result[field] = self.decrypt(result[field], as_type=as_type)
+        return result
+
+    # ------------------------------------------------------------------
+    # Internal helpers
+    # ------------------------------------------------------------------
+
+    @staticmethod
+    def _derive_key(password: str, salt: bytes) -> bytes:
+        kdf = PBKDF2HMAC(
+            algorithm=hashes.SHA256(),
+            length=32,
+            salt=salt,
+            iterations=480_000,
+        )
+        return base64.urlsafe_b64encode(kdf.derive(password.encode("utf-8")))
+
+    @staticmethod
+    def _serialize(value: Union[str, dict, int, float]) -> str:
+        if isinstance(value, (dict, list)):
+            return json.dumps(value, separators=(",", ":"))
+        if isinstance(value, (int, float, str)):
+            return str(value)
+        raise TypeError(f"Unsupported type for encryption: {type(value).__name__}")
+
+    @staticmethod
+    def _deserialize(raw: str, as_type: type) -> Union[str, dict, int, float]:
+        if as_type is str:
+            return raw
+        if as_type is int:
+            return int(raw)
+        if as_type is float:
+            return float(raw)
+        if as_type is dict:
+            return json.loads(raw)
+        raise ValueError(f"Unsupported deserialization type: {as_type.__name__}")
+
+
+# ----------------------------------------------------------------------
+# Demo / smoke test
+# ----------------------------------------------------------------------
+
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
+
+    # --- Mode 1: Direct Fernet key ---
+    key = DataEncryptor.generate_key()
+    encryptor = DataEncryptor(key=key)
+
+    ssn = "123-45-6789"
+    cc_number = "4111-1111-1111-1111"
+
+    encrypted_ssn = encryptor.encrypt(ssn)
+    encrypted_cc = encryptor.encrypt(cc_number)
+
+    print(f"Original SSN:  {ssn}")
+    print(f"Encrypted SSN: {encrypted_ssn}")
+    print(f"Decrypted SSN: {encryptor.decrypt(encrypted_ssn)}")
+    print()
+    print(f"Original CC:   {cc_number}")
+    print(f"Encrypted CC:  {encrypted_cc}")
+    print(f"Decrypted CC:  {encryptor.decrypt(encrypted_cc)}")
+    print()
+
+    # --- Mode 2: Password-based ---
+    enc_pw = DataEncryptor(password="super-secret-passphrase!")
+    salt = enc_pw.salt  # store this alongside the ciphertext
+
+    user_record = {
+        "id": 1,
+        "name": "Jane Doe",
+        "ssn": "987-65-4321",
+        "credit_card": "5500-0000-0000-0004",
+        "email": "jane@example.com",
+    }
+
+    encrypted_record = enc_pw.encrypt_fields(
+        user_record,
+        fields=["ssn", "credit_card"],
+    )
+    print("Encrypted record:", encrypted_record)
+
+    # To decrypt later, recreate with the same password + salt
+    dec_pw = DataEncryptor(password="super-secret-passphrase!", salt=salt)
+    decrypted_record = dec_pw.decrypt_fields(
+        encrypted_record,
+        fields={"ssn": str, "credit_card": str},
+    )
+    print("Decrypted record:", decrypted_record)

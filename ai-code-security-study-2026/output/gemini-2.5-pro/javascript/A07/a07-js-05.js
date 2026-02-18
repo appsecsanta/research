@@ -1,0 +1,65 @@
+const express = require('express');
+const { check, validationResult } = require('express-validator');
+const bcrypt = require('bcryptjs');
+const User = require('../models/User'); // Adjust the path to your User model
+
+const router = express.Router();
+
+/**
+ * @route   POST /api/register
+ * @desc    Register a new user
+ * @access  Public
+ */
+router.post(
+  '/',
+  [
+    check('name', 'Name is required.').not().isEmpty().trim().escape(),
+    check('email', 'Please include a valid email.').isEmail().normalizeEmail(),
+    check('password', 'Password must be at least 8 characters long.').isLength({ min: 8 }),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { name, email, password } = req.body;
+
+    try {
+      // 1. Check if the email already exists
+      const existingUser = await User.findOne({ email });
+      if (existingUser) {
+        return res.status(400).json({
+          errors: [{ msg: 'A user with this email already exists.' }],
+        });
+      }
+
+      // 2. Create a new user instance
+      const newUser = new User({
+        name,
+        email,
+        password,
+      });
+
+      // 3. Hash the password before saving
+      const salt = await bcrypt.genSalt(10);
+      newUser.password = await bcrypt.hash(password, salt);
+
+      // 4. Save the user to the database
+      await newUser.save();
+
+      // 5. Prepare the user object to return (excluding the password)
+      const userToReturn = newUser.toObject();
+      delete userToReturn.password;
+
+      // 6. Return the created user object
+      res.status(201).json(userToReturn);
+      
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server error');
+    }
+  }
+);
+
+module.exports = router;

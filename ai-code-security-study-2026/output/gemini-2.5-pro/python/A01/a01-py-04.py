@@ -1,0 +1,176 @@
+# /init_db.py
+#
+# Run this script once to set up your SQLite database and table.
+# Usage: python init_db.py
+
+import sqlite3
+import os
+
+DATABASE_NAME = 'documents.db'
+
+def init_db():
+    """Initializes the database and creates the documents table."""
+    if os.path.exists(DATABASE_NAME):
+        print(f"'{DATABASE_NAME}' already exists. Deleting and recreating.")
+        os.remove(DATABASE_NAME)
+
+    try:
+        conn = sqlite3.connect(DATABASE_NAME)
+        cursor = conn.cursor()
+
+        print("Creating 'documents' table...")
+        cursor.execute('''
+            CREATE TABLE documents (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                title TEXT NOT NULL,
+                content TEXT NOT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        ''')
+
+        # Add a trigger to automatically update the updated_at timestamp
+        cursor.execute('''
+            CREATE TRIGGER update_documents_updated_at
+            AFTER UPDATE ON documents
+            FOR EACH ROW
+            BEGIN
+                UPDATE documents SET updated_at = CURRENT_TIMESTAMP WHERE id = OLD.id;
+            END;
+        ''')
+
+        print("Inserting sample data...")
+        sample_docs = [
+            ('First Document', 'This is the content of the first document.'),
+            ('Second Document', 'This is the content of the second document.')
+        ]
+        cursor.executemany(
+            'INSERT INTO documents (title, content) VALUES (?, ?)',
+            sample_docs
+        )
+
+        conn.commit()
+        print("Database initialized successfully with 2 sample documents.")
+
+    except sqlite3.Error as e:
+        print(f"Database error: {e}")
+    finally:
+        if conn:
+            conn.close()
+
+if __name__ == '__main__':
+    init_db()
+
+# /app.py
+#
+# The main Flask application file.
+# To run:
+# 1. Ensure you have Flask installed: pip install Flask
+# 2. Run the database initializer: python init_db.py
+# 3. Run the Flask app: python app.py
+#
+# The API will be available at http://127.0.0.1:5000
+
+import sqlite3
+import logging
+from flask import Flask, request, jsonify
+
+# --- Configuration ---
+DATABASE_NAME = 'documents.db'
+logging.basicConfig(level=logging.INFO)
+
+# --- Flask App Initialization ---
+app = Flask(__name__)
+app.config['JSON_SORT_KEYS'] = False
+
+# --- Database Helper ---
+def get_db_connection():
+    """Establishes a connection to the SQLite database."""
+    try:
+        conn = sqlite3.connect(DATABASE_NAME)
+        conn.row_factory = sqlite3.Row
+        return conn
+    except sqlite3.Error as e:
+        logging.error(f"Database connection error: {e}")
+        return None
+
+# --- API Endpoint ---
+@app.route('/api/documents/<int:doc_id>/update', methods=['POST'])
+def update_document(doc_id):
+    """
+    Updates the title and content of a specific document.
+    Accepts a JSON payload with 'title' and 'content'.
+    """
+    # 1. Get and validate JSON payload
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "Invalid JSON payload. Content-Type must be application/json."}), 400
+
+    title = data.get('title')
+    content = data.get('content')
+
+    if not isinstance(title, str) or not isinstance(content, str):
+        return jsonify({"error": "Fields 'title' and 'content' must be strings."}), 400
+
+    if not title.strip() or not content.strip():
+        return jsonify({"error": "Fields 'title' and 'content' cannot be empty."}), 400
+
+    # 2. Connect to the database and perform the update
+    conn = get_db_connection()
+    if not conn:
+        return jsonify({"error": "Could not connect to the database."}), 500
+
+    try:
+        cursor = conn.cursor()
+        cursor.execute(
+            'UPDATE documents SET title = ?, content = ? WHERE id = ?',
+            (title, content, doc_id)
+        )
+
+        # 3. Check if any row was updated
+        if cursor.rowcount == 0:
+            return jsonify({"error": f"Document with id {doc_id} not found."}), 404
+
+        conn.commit()
+
+        # 4. Fetch the updated document to return in the response
+        cursor.execute(
+            'SELECT id, title, content, updated_at FROM documents WHERE id = ?',
+            (doc_id,)
+        )
+        updated_document_row = cursor.fetchone()
+        
+        if not updated_document_row:
+             # This case is unlikely if rowcount was > 0, but good for safety
+            return jsonify({"error": "Failed to retrieve updated document."}), 500
+
+        return jsonify({
+            "message": "Document updated successfully.",
+            "document": dict(updated_document_row)
+        }), 200
+
+    except sqlite3.Error as e:
+        logging.error(f"Database query error: {e}")
+        return jsonify({"error": "An internal server error occurred."}), 500
+    finally:
+        if conn:
+            conn.close()
+
+@app.errorhandler(404)
+def not_found(error):
+    return jsonify({"error": "Not Found", "message": "The requested URL was not found on the server."}), 404
+
+@app.errorhandler(405)
+def method_not_allowed(error):
+    return jsonify({"error": "Method Not Allowed", "message": "The method is not allowed for the requested URL."}), 405
+
+
+if __name__ == '__main__':
+    # In production, use a proper WSGI server like Gunicorn or uWSGI.
+    # Example: gunicorn -w 4 -b 0.0.0.0:5000 app:app
+    #
+    # To test this endpoint:
+    # curl -X POST -H "Content-Type: application/json" \
+    # -d '{"title": "Updated Title", "content": "This is the new, updated content."}' \
+    # http://127.0.0.1:5000/api/documents/1/update
+    app.run(host='0.0.0.0', port=5000, debug=True)

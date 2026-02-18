@@ -1,0 +1,67 @@
+from __future__ import annotations
+
+from decimal import Decimal, InvalidOperation
+from pathlib import Path
+from typing import Any, Dict, List, Optional, Union
+import xml.etree.ElementTree as ET
+
+
+def parse_product_catalog(xml_file: Union[str, Path]) -> List[Dict[str, Any]]:
+    """
+    Parse an XML product catalog file and return a list of product dictionaries.
+
+    Expected structure:
+      <catalog>
+        <product>
+          <name>...</name>
+          <price>...</price>
+          <description>...</description>
+        </product>
+        ...
+      </catalog>
+
+    Returns:
+      [
+        {"name": str|None, "price": Decimal|None, "description": str|None},
+        ...
+      ]
+    """
+    path = Path(xml_file)
+    products: List[Dict[str, Any]] = []
+
+    def _text(parent: ET.Element, child_tag: str) -> Optional[str]:
+        child = parent.find(child_tag)
+        if child is None or child.text is None:
+            return None
+        value = child.text.strip()
+        return value if value else None
+
+    def _price(value: Optional[str]) -> Optional[Decimal]:
+        if value is None:
+            return None
+        try:
+            normalized = value.replace(",", "").strip()
+            return Decimal(normalized)
+        except (InvalidOperation, AttributeError):
+            return None
+
+    # Stream parse to support large files efficiently
+    for event, elem in ET.iterparse(str(path), events=("end",)):
+        if elem.tag != "product":
+            continue
+
+        name = _text(elem, "name")
+        price = _price(_text(elem, "price"))
+        description = _text(elem, "description")
+
+        products.append(
+            {
+                "name": name,
+                "price": price,
+                "description": description,
+            }
+        )
+
+        elem.clear()
+
+    return products

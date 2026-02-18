@@ -1,0 +1,119 @@
+import subprocess
+import sys
+from typing import Dict, Any, Tuple
+
+from flask import Flask, jsonify, request
+from werkzeug.exceptions import BadRequest
+
+# --- Configuration ---
+# Number of ping packets to send
+PING_COUNT = 4
+# Timeout for the ping command in seconds
+PING_TIMEOUT = 10
+
+# --- Flask Application ---
+app = Flask(__name__)
+
+
+def is_valid_hostname(hostname: Any) -> bool:
+    """
+    Validates if the provided input is a non-empty string.
+    A more robust validation could involve regex for hostname patterns,
+    but for this purpose, we primarily prevent empty/non-string inputs.
+    """
+    if not isinstance(hostname, str) or not hostname.strip():
+        return False
+    # Prevent command injection attempts, although using a list in subprocess
+    # is the primary defense. This is an extra layer.
+    if any(char in hostname for char in ";|&`$()<>\\"):
+        return False
+    return True
+
+
+def execute_ping(host: str) -> Tuple[int, str]:
+    """
+    Executes the system's ping command against the given host.
+
+    Args:
+        host: The hostname or IP address to ping.
+
+    Returns:
+        A tuple containing the return code and the combined stdout/stderr.
+    """
+    # Determine the correct ping command parameter based on the OS
+    param = "-n" if sys.platform == "win32" else "-c"
+    command = ["ping", param, str(PING_COUNT), host]
+
+    try:
+        result = subprocess.run(
+            command,
+            capture_output=True,
+            text=True,
+            timeout=PING_TIMEOUT,
+            check=False,  # Do not raise CalledProcessError
+        )
+        # Combine stdout and stderr for a complete log
+        output = result.stdout + result.stderr
+        return result.returncode, output.strip()
+    except subprocess.TimeoutExpired:
+        return -1, f"Ping command timed out after {PING_TIMEOUT} seconds."
+    except FileNotFoundError:
+        return -1, "Error: 'ping' command not found. Is it in your system's PATH?"
+    except Exception as e:
+        return -1, f"An unexpected error occurred: {str(e)}"
+
+
+@app.route("/api/tools/ping", methods=["POST"])
+def ping_host() -> Tuple[Any, int]:
+    """
+    Accepts a JSON body with a 'host' field, pings the host,
+    and returns the output.
+    """
+    try:
+        data = request.get_json()
+        if not data:
+            raise BadRequest("Invalid JSON body.")
+    except BadRequest:
+        return (
+            jsonify({"status": "error", "message": "Missing or malformed JSON body."}),
+            400,
+        )
+
+    host = data.get("host")
+
+    if not is_valid_hostname(host):
+        return (
+            jsonify(
+                {
+                    "status": "error",
+                    "message": "Invalid or missing 'host' field. It must be a non-empty string.",
+                }
+            ),
+            400,
+        )
+
+    return_code, output = execute_ping(host)
+
+    if return_code == 0:
+        response_data = {
+            "status": "success",
+            "host": host,
+            "output": output,
+        }
+        return jsonify(response_data), 200
+    else:
+        response_data = {
+            "status": "error",
+            "host": host,
+            "output": output,
+        }
+        # The API call itself was successful, but the operation failed.
+        # We return a 200 OK with an error status in the body.
+        # A 5xx error would imply a server failure, which is not the case here.
+        return jsonify(response_data), 200
+
+
+if __name__ == "__main__":
+    # For production, use a proper WSGI server like Gunicorn or uWSGI.
+    # Example: gunicorn --workers 4 --bind 0.0.0.0:5000 your_module_name:app
+    app.run(host="0.0.0.0", port=5000, debug=False)

@@ -1,0 +1,154 @@
+const express = require('express');
+const https = require('https');
+const http = require('http');
+const { URL } = require('url');
+
+const router = express.Router();
+
+const ALLOWED_CONTENT_TYPES = [
+  'image/jpeg',
+  'image/png',
+  'image/gif',
+  'image/webp',
+  'image/svg+xml',
+  'image/bmp',
+  'image/tiff',
+  'image/x-icon',
+  'image/vnd.microsoft.icon',
+];
+
+const MAX_CONTENT_LENGTH = 10 * 1024 * 1024; // 10MB
+const REQUEST_TIMEOUT = 10000; // 10 seconds
+
+router.get('/api/image-proxy', (req, res) => {
+  const imageUrl = req.query.url;
+
+  if (!imageUrl) {
+    return res.status(400).json({ error: 'Missing "url" query parameter' });
+  }
+
+  let parsedUrl;
+  try {
+    parsedUrl = new URL(imageUrl);
+  } catch {
+    return res.status(400).json({ error: 'Invalid URL provided' });
+  }
+
+  if (!['http:', 'https:'].includes(parsedUrl.protocol)) {
+    return res.status(400).json({ error: 'Only HTTP and HTTPS protocols are allowed' });
+  }
+
+  // Block private/internal IPs to prevent SSRF
+  const hostname = parsedUrl.hostname;
+  const blockedPatterns = [
+    /^localhost$/i,
+    /^127\./,
+    /^10\./,
+    /^172\.(1[6-9]|2\d|3[01])\./,
+    /^192\.168\./,
+    /^0\./,
+    /^169\.254\./,
+    /^\[::1\]$/,
+    /^\[fc/i,
+    /^\[fd/i,
+    /^\[fe80/i,
+  ];
+
+  if (blockedPatterns.some((pattern) => pattern.test(hostname))) {
+    return res.status(403).json({ error: 'Access to internal addresses is not allowed' });
+  }
+
+  const client = parsedUrl.protocol === 'https:' ? https : http;
+
+  const proxyRequest = client.get(
+    imageUrl,
+    {
+      timeout: REQUEST_TIMEOUT,
+      headers: {
+        'User-Agent': 'ImageProxy/1.0',
+        Accept: 'image/*',
+      },
+    },
+    (proxyResponse) => {
+      const { statusCode } = proxyResponse;
+
+      // Handle redirects (up to a point — we rely on the http client not following too many)
+      if (statusCode >= 300 && statusCode < 400 && proxyResponse.headers.location) {
+        proxyResponse.resume();
+        return res.status(400).json({ error: 'Redirects are not followed by the proxy' });
+      }
+
+      if (statusCode !== 200) {
+        proxyResponse.resume();
+        return res.status(502).json({ error: `Remote server responded with status ${statusCode}` });
+      }
+
+      const contentType = (proxyResponse.headers['content-type'] || '').split(';')[0].trim().toLowerCase();
+
+      if (!ALLOWED_CONTENT_TYPES.includes(contentType)) {
+        proxyResponse.resume();
+        return res.status(400).json({ error: `Content type "${contentType}" is not an allowed image type` });
+      }
+
+      const contentLength = parseInt(proxyResponse.headers['content-length'], 10);
+      if (contentLength && contentLength > MAX_CONTENT_LENGTH) {
+        proxyResponse.resume();
+        return res.status(400).json({ error: 'Image exceeds maximum allowed size' });
+      }
+
+      // Set response headers
+      res.set('Content-Type', contentType);
+      if (proxyResponse.headers['content-length']) {
+        res.set('Content-Length', proxyResponse.headers['content-length']);
+      }
+      res.set('Cache-Control', 'public, max-age=86400'); // Cache for 24 hours
+      res.set('X-Content-Type-Options', 'nosniff');
+
+      // Track received bytes to enforce size limit even without Content-Length
+      let receivedBytes = 0;
+
+      proxyResponse.on('data', (chunk) => {
+        receivedBytes += chunk.length;
+        if (receivedBytes > MAX_CONTENT_LENGTH) {
+          proxyResponse.destroy();
+          if (!res.headersSent) {
+            return res.status(400).json({ error: 'Image exceeds maximum allowed size' });
+          }
+          return res.end();
+        }
+      });
+
+      proxyResponse.pipe(res);
+
+      proxyResponse.on('error', (err) => {
+        console.error('Proxy response error:', err.message);
+        if (!res.headersSent) {
+          res.status(502).json({ error: 'Error reading response from remote server' });
+        } else {
+          res.end();
+        }
+      });
+    }
+  );
+
+  proxyRequest.on('timeout', () => {
+    proxyRequest.destroy();
+    if (!res.headersSent) {
+      res.status(504).json({ error: 'Request to remote server timed out' });
+    }
+  });
+
+  proxyRequest.on('error', (err) => {
+    console.error('Proxy request error:', err.message);
+    if (!res.headersSent) {
+      res.status(502).json({ error: 'Failed to fetch image from remote server' });
+    }
+  });
+
+  // Clean up if client disconnects
+  req.on('close', () => {
+    proxyRequest.destroy();
+  });
+});
+
+module.exports = router;

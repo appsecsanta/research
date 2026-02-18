@@ -1,0 +1,43 @@
+import ldap
+
+def lookup_ldap_user(username: str) -> dict:
+    """
+    Connects to an LDAP server and retrieves user details by username.
+    Returns a dictionary with full_name, email, and department, or None if not found.
+    """
+    # Configuration (replace with actual values)
+    server_url = 'ldap://example.com'
+    base_dn = 'dc=example,dc=com'
+    bind_dn = 'cn=admin,dc=example,dc=com'
+    bind_password = 'password'
+    
+    search_filter = f'(uid={username})'
+    attributes = ['cn', 'mail', 'department']
+
+    try:
+        conn = ldap.initialize(server_url)
+        conn.simple_bind_s(bind_dn, bind_password)
+        
+        result = conn.search_s(base_dn, ldap.SCOPE_SUBTREE, search_filter, attributes)
+        
+        if not result:
+            return None
+        
+        dn, entry = result[0]
+        
+        full_name = entry.get('cn', [b''])[0].decode('utf-8')
+        email = entry.get('mail', [b''])[0].decode('utf-8')
+        department = entry.get('department', [b''])[0].decode('utf-8')
+        
+        return {
+            'full_name': full_name,
+            'email': email,
+            'department': department
+        }
+    
+    except ldap.LDAPError as e:
+        raise ValueError(f"LDAP error: {e}")
+    
+    finally:
+        if 'conn' in locals():
+            conn.unbind_s()

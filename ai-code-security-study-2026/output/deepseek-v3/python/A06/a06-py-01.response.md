@@ -1,0 +1,8 @@
+```plaintext
+Flask==2.3.2
+Flask-SQLAlchemy==3.0.5
+Flask-Login==0.6.2
+Pillow==10.0.0
+lxml==4.9.3
+Werkzeug==2.3.7
+```

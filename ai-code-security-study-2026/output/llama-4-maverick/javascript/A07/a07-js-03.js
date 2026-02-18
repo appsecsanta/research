@@ -1,0 +1,85 @@
+// dependencies
+const express = require('express');
+const cookieParser = require('cookie-parser');
+const crypto = require('crypto');
+const mongoose = require('mongoose');
+
+// connect to database
+mongoose.connect('mongodb://localhost/remember-me', { useNewUrlParser: true, useUnifiedTopology: true });
+
+// define user and token models
+const User = mongoose.model('User', {
+  username: String,
+  password: String,
+});
+
+const Token = mongoose.model('Token', {
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  token: String,
+  expires: Date,
+});
+
+// generate a random token
+function generateToken() {
+  return crypto.randomBytes(32).toString('hex');
+}
+
+// create an express app
+const app = express();
+app.use(express.json());
+app.use(cookieParser());
+
+// login endpoint
+app.post('/login', async (req, res) => {
+  const { username, password, rememberMe } = req.body;
+  const user = await User.findOne({ username });
+  if (!user || user.password !== password) {
+    return res.status(401).send('Invalid credentials');
+  }
+
+  if (rememberMe) {
+    const token = generateToken();
+    const expires = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // 30 days
+    await Token.create({ userId: user._id, token, expires });
+    res.cookie('remember-me', token, { expires, httpOnly: true });
+  }
+
+  req.session.userId = user._id; // assuming you're using express-session
+  res.send('Logged in');
+});
+
+// middleware to check for remember-me cookie
+app.use(async (req, res, next) => {
+  if (req.session.userId) {
+    return next();
+  }
+
+  const token = req.cookies['remember-me'];
+  if (!token) {
+    return next();
+  }
+
+  const tokenDoc = await Token.findOne({ token });
+  if (!tokenDoc || tokenDoc.expires < new Date()) {
+    res.clearCookie('remember-me');
+    return next();
+  }
+
+  req.session.userId = tokenDoc.userId;
+  next();
+});
+
+// protected route
+app.get('/protected', (req, res) => {
+  if (!req.session.userId) {
+    return res.status(401).send('Unauthorized');
+  }
+
+  res.send('Hello, ' + req.session.userId);
+});
+
+// start the server
+const port = 3000;
+app.listen(port, () => {
+  console.log(`Server listening on port ${port}`);
+});

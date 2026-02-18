@@ -1,0 +1,198 @@
+'use strict';
+
+const express = require('express');
+const axios = require('axios');
+const cheerio = require('cheerio');
+const { URL } = require('url');
+const dns = require('dns').promises;
+const net = require('net');
+
+const app = express();
+
+const MAX_HTML_BYTES = 1024 * 1024; // 1MB
+const REQUEST_TIMEOUT_MS = 8000;
+const MAX_REDIRECTS = 5;
+
+function isProbablyLocalHostname(hostname) {
+  const h = String(hostname || '').toLowerCase();
+  return (
+    h === 'localhost' ||
+    h === 'localhost.' ||
+    h.endsWith('.localhost') ||
+    h.endsWith('.localhost.') ||
+    h === '127.0.0.1' ||
+    h === '::1'
+  );
+}
+
+function ipv4ToInt(ip) {
+  const parts = ip.split('.').map((n) => Number(n));
+  if (parts.length !== 4 || parts.some((n) => !Number.isInteger(n) || n < 0 || n > 255)) return null;
+  return ((parts[0] << 24) >>> 0) + (parts[1] << 16) + (parts[2] << 8) + parts[3];
+}
+
+function inCidr4(ip, cidrBase, prefix) {
+  const ipInt = ipv4ToInt(ip);
+  const baseInt = ipv4ToInt(cidrBase);
+  if (ipInt === null || baseInt === null) return false;
+  const mask = prefix === 0 ? 0 : (~0 << (32 - prefix)) >>> 0;
+  return (ipInt & mask) === (baseInt & mask);
+}
+
+function isPrivateOrReservedIp(ip) {
+  const family = net.isIP(ip);
+  if (family === 4) {
+    return (
+      inCidr4(ip, '0.0.0.0', 8) ||        // "this" network
+      inCidr4(ip, '10.0.0.0', 8) ||       // private
+      inCidr4(ip, '100.64.0.0', 10) ||    // CGNAT
+      inCidr4(ip, '127.0.0.0', 8) ||      // loopback
+      inCidr4(ip, '169.254.0.0', 16) ||   // link-local
+      inCidr4(ip, '172.16.0.0', 12) ||    // private
+      inCidr4(ip, '192.0.0.0', 24) ||     // IETF protocol assignments
+      inCidr4(ip, '192.0.2.0', 24) ||     // TEST-NET-1
+      inCidr4(ip, '192.88.99.0', 24) ||   // 6to4 relay anycast (deprecated)
+      inCidr4(ip, '192.168.0.0', 16) ||   // private
+      inCidr4(ip, '198.18.0.0', 15) ||    // benchmarking
+      inCidr4(ip, '198.51.100.0', 24) ||  // TEST-NET-2
+      inCidr4(ip, '203.0.113.0', 24) ||   // TEST-NET-3
+      inCidr4(ip, '224.0.0.0', 4) ||      // multicast
+      inCidr4(ip, '240.0.0.0', 4) ||      // reserved
+      ip === '255.255.255.255'
+    );
+  }
+
+  if (family === 6) {
+    const s = ip.toLowerCase();
+
+    // normalize some common forms without heavy parsing
+    if (s === '::' || s === '::1') return true; // unspecified, loopback
+    if (s.startsWith('fe80:') || s.startsWith('fe80::')) return true; // link-local
+    if (s.startsWith('fc') || s.startsWith('fd')) return true; // ULA fc00::/7
+    if (s.startsWith('ff')) return true; // multicast ff00::/8
+
+    // IPv4-mapped IPv6: ::ffff:127.0.0.1
+    const mappedPrefix = '::ffff:';
+    if (s.startsWith(mappedPrefix)) {
+      const v4 = s.slice(mappedPrefix.length);
+      if (net.isIP(v4) === 4) return isPrivateOrReservedIp(v4);
+    }
+
+    return false;
+  }
+
+  return true; // treat non-IP as unsafe
+}
+
+async function assertUrlIsSafeToFetch(parsedUrl) {
+  if (!parsedUrl || !parsedUrl.hostname) throw new Error('Invalid URL');
+  if (isProbablyLocalHostname(parsedUrl.hostname)) throw new Error('Blocked hostname');
+
+  const addrs = await dns.lookup(parsedUrl.hostname, { all: true, verbatim: true });
+  if (!Array.isArray(addrs) || addrs.length === 0) throw new Error('DNS lookup failed');
+
+  for (const a of addrs) {
+    if (!a || !a.address || isPrivateOrReservedIp(a.address)) {
+      throw new Error('Blocked address');
+    }
+  }
+}
+
+function firstNonEmpty(...values) {
+  for (const v of values) {
+    const s = typeof v === 'string' ? v.trim() : '';
+    if (s) return s;
+  }
+  return '';
+}
+
+function absolutizeUrl(maybeUrl, baseUrl) {
+  const s = (maybeUrl || '').trim();
+  if (!s) return '';
+  try {
+    return new URL(s, baseUrl).toString();
+  } catch {
+    return '';
+  }
+}
+
+app.get('/api/preview', async (req, res) => {
+  try {
+    const raw = String(req.query.url || '').trim();
+    if (!raw) return res.status(400).json({ error: 'Missing url query parameter' });
+
+    let target;
+    try {
+      target = new URL(raw);
+    } catch {
+      return res.status(400).json({ error: 'Invalid URL' });
+    }
+
+    if (!['http:', 'https:'].includes(target.protocol)) {
+      return res.status(400).json({ error: 'Only http/https URLs are allowed' });
+    }
+
+    if (target.username || target.password) {
+      return res.status(400).json({ error: 'Credentials in URL are not allowed' });
+    }
+
+    await assertUrlIsSafeToFetch(target);
+
+    const response = await axios.get(target.toString(), {
+      timeout: REQUEST_TIMEOUT_MS,
+      maxRedirects: MAX_REDIRECTS,
+      responseType: 'text',
+      maxContentLength: MAX_HTML_BYTES,
+      maxBodyLength: MAX_HTML_BYTES,
+      headers: {
+        'User-Agent': 'LinkPreviewBot/1.0 (+https://example.com)',
+        'Accept': 'text/html,application/xhtml+xml;q=0.9,*/*;q=0.8',
+      },
+      validateStatus: (s) => s >= 200 && s < 400,
+    });
+
+    const contentType = String(response.headers?.['content-type'] || '').toLowerCase();
+    if (!contentType.includes('text/html') && !contentType.includes('application/xhtml+xml')) {
+      return res.status(415).json({ error: 'URL did not return HTML' });
+    }
+
+    const html = typeof response.data === 'string' ? response.data : '';
+    const $ = cheerio.load(html);
+
+    const ogTitle = $('meta[property="og:title"]').attr('content');
+    const ogDescription = $('meta[property="og:description"]').attr('content');
+    const ogImage = $('meta[property="og:image"]').attr('content');
+
+    const titleTag = $('title').first().text();
+    const metaDescription =
+      $('meta[name="description"]').attr('content') ||
+      $('meta[name="Description"]').attr('content');
+
+    const finalUrl = (response.request?.res?.responseUrl && String(response.request.res.responseUrl)) || target.toString();
+
+    const title = firstNonEmpty(ogTitle, titleTag);
+    const description = firstNonEmpty(ogDescription, metaDescription);
+    const image = absolutizeUrl(firstNonEmpty(ogImage), finalUrl);
+
+    return res.json({
+      url: finalUrl,
+      title,
+      description,
+      image,
+    });
+  } catch (err) {
+    const msg = (err && err.message) ? String(err.message) : 'Failed to fetch preview';
+    const status =
+      msg.includes('Blocked') ? 403 :
+      msg.includes('timeout') ? 504 :
+      500;
+
+    return res.status(status).json({ error: msg });
+  }
+});
+
+module.exports = app;
+
+// If running standalone:
+// const PORT = process.env.PORT || 3000;
+// app.listen(PORT, () => console.log(`Listening on ${PORT}`));

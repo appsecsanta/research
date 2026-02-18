@@ -1,0 +1,248 @@
+import os
+import secrets
+from datetime import datetime, timedelta, timezone
+from functools import wraps
+
+from flask import Flask, request, jsonify, url_for
+from flask_sqlalchemy import SQLAlchemy
+from flask_mail import Mail, Message
+from werkzeug.security import generate_password_hash, check_password_hash
+from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature
+
+app = Flask(__name__)
+
+# Configuration
+app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "dev-secret-key-change-in-production")
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL", "sqlite:///app.db")
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+# Mail configuration
+app.config["MAIL_SERVER"] = os.environ.get("MAIL_SERVER", "smtp.gmail.com")
+app.config["MAIL_PORT"] = int(os.environ.get("MAIL_PORT", 587))
+app.config["MAIL_USE_TLS"] = os.environ.get("MAIL_USE_TLS", "true").lower() == "true"
+app.config["MAIL_USERNAME"] = os.environ.get("MAIL_USERNAME", "")
+app.config["MAIL_PASSWORD"] = os.environ.get("MAIL_PASSWORD", "")
+app.config["MAIL_DEFAULT_SENDER"] = os.environ.get("MAIL_DEFAULT_SENDER", "noreply@example.com")
+
+# Verification token expiry (24 hours)
+app.config["VERIFICATION_TOKEN_MAX_AGE"] = 86400
+
+db = SQLAlchemy(app)
+mail = Mail(app)
+serializer = URLSafeTimedSerializer(app.config["SECRET_KEY"])
+
+
+class User(db.Model):
+    __tablename__ = "users"
+
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False, index=True)
+    email = db.Column(db.String(120), unique=True, nullable=False, index=True)
+    password_hash = db.Column(db.String(256), nullable=False)
+    is_verified = db.Column(db.Boolean, default=False, nullable=False)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
+    verified_at = db.Column(db.DateTime, nullable=True)
+
+    def set_password(self, password: str) -> None:
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password: str) -> bool:
+        return check_password_hash(self.password_hash, password)
+
+    def to_dict(self) -> dict:
+        return {
+            "id": self.id,
+            "username": self.username,
+            "email": self.email,
+            "is_verified": self.is_verified,
+            "created_at": self.created_at.isoformat(),
+            "verified_at": self.verified_at.isoformat() if self.verified_at else None,
+        }
+
+
+def generate_verification_token(email: str) -> str:
+    return serializer.dumps(email, salt="email-verification")
+
+
+def verify_token(token: str) -> str | None:
+    try:
+        email = serializer.loads(
+            token,
+            salt="email-verification",
+            max_age=app.config["VERIFICATION_TOKEN_MAX_AGE"],
+        )
+        return email
+    except (SignatureExpired, BadSignature):
+        return None
+
+
+def send_verification_email(user: User) -> None:
+    token = generate_verification_token(user.email)
+    confirm_url = url_for("verify_email", token=token, _external=True)
+
+    subject = "Please confirm your email address"
+    html_body = f"""
+    <h2>Welcome, {user.username}!</h2>
+    <p>Thank you for registering. Please click the link below to verify your email address:</p>
+    <p><a href="{confirm_url}">Confirm Email Address</a></p>
+    <p>This link will expire in 24 hours.</p>
+    <p>If you did not register for this account, please ignore this email.</p>
+    """
+    text_body = (
+        f"Welcome, {user.username}!\n\n"
+        f"Please visit the following link to verify your email address:\n"
+        f"{confirm_url}\n\n"
+        f"This link will expire in 24 hours.\n"
+        f"If you did not register for this account, please ignore this email."
+    )
+
+    msg = Message(
+        subject=subject,
+        recipients=[user.email],
+        html=html_body,
+        body=text_body,
+    )
+    mail.send(msg)
+
+
+def validate_registration_data(data: dict) -> list[str]:
+    errors = []
+
+    if not data:
+        return ["Request body must be JSON with username, email, and password."]
+
+    username = data.get("username", "").strip()
+    email = data.get("email", "").strip()
+    password = data.get("password", "")
+
+    if not username:
+        errors.append("Username is required.")
+    elif len(username) < 3:
+        errors.append("Username must be at least 3 characters long.")
+    elif len(username) > 80:
+        errors.append("Username must be at most 80 characters long.")
+    elif not username.isalnum() and not all(c.isalnum() or c in ("_", "-") for c in username):
+        errors.append("Username may only contain letters, numbers, hyphens, and underscores.")
+
+    if not email:
+        errors.append("Email is required.")
+    elif "@" not in email or "." not in email.split("@")[-1]:
+        errors.append("A valid email address is required.")
+    elif len(email) > 120:
+        errors.append("Email must be at most 120 characters long.")
+
+    if not password:
+        errors.append("Password is required.")
+    elif len(password) < 8:
+        errors.append("Password must be at least 8 characters long.")
+    elif len(password) > 128:
+        errors.append("Password must be at most 128 characters long.")
+
+    return errors
+
+
+@app.route("/register", methods=["POST"])
+def register():
+    data = request.get_json(silent=True)
+
+    validation_errors = validate_registration_data(data or {})
+    if validation_errors:
+        return jsonify({"errors": validation_errors}), 400
+
+    username = data["username"].strip()
+    email = data["email"].strip().lower()
+    password = data["password"]
+
+    # Check for existing username
+    if User.query.filter_by(username=username).first():
+        return jsonify({"errors": ["Username is already taken."]}), 409
+
+    # Check for existing email
+    if User.query.filter_by(email=email).first():
+        return jsonify({"errors": ["Email is already registered."]}), 409
+
+    # Create user
+    user = User(username=username, email=email, is_verified=False)
+    user.set_password(password)
+
+    db.session.add(user)
+    db.session.commit()
+
+    # Send verification email
+    try:
+        send_verification_email(user)
+    except Exception as e:
+        app.logger.error(f"Failed to send verification email to {email}: {e}")
+        # User is still created; they can request a new verification email later
+        return jsonify({
+            "message": "Account created but verification email could not be sent. Please request a new verification email.",
+            "user": user.to_dict(),
+        }), 201
+
+    return jsonify({
+        "message": "Registration successful. Please check your email to verify your account.",
+        "user": user.to_dict(),
+    }), 201
+
+
+@app.route("/verify/<token>", methods=["GET"])
+def verify_email(token):
+    email = verify_token(token)
+
+    if email is None:
+        return jsonify({"error": "Invalid or expired verification link."}), 400
+
+    user = User.query.filter_by(email=email).first()
+
+    if user is None:
+        return jsonify({"error": "User not found."}), 404
+
+    if user.is_verified:
+        return jsonify({"message": "Email already verified."}), 200
+
+    user.is_verified = True
+    user.verified_at = datetime.now(timezone.utc)
+    db.session.commit()
+
+    return jsonify({
+        "message": "Email verified successfully.",
+        "user": user.to_dict(),
+    }), 200
+
+
+@app.route("/resend-verification", methods=["POST"])
+def resend_verification():
+    data = request.get_json(silent=True)
+
+    if not data or not data.get("email"):
+        return jsonify({"error": "Email is required."}), 400
+
+    email = data["email"].strip().lower()
+    user = User.query.filter_by(email=email).first()
+
+    if user is None:
+        # Don't reveal whether the email exists
+        return jsonify({
+            "message": "If an account with that email exists, a verification email has been sent."
+        }), 200
+
+    if user.is_verified:
+        return jsonify({"message": "Email is already verified."}), 200
+
+    try:
+        send_verification_email(user)
+    except Exception as e:
+        app.logger.error(f"Failed to resend verification email to {email}: {e}")
+        return jsonify({"error": "Failed to send verification email. Please try again later."}), 500
+
+    return jsonify({
+        "message": "If an account with that email exists, a verification email has been sent."
+    }), 200
+
+
+with app.app_context():
+    db.create_all()
+
+
+if __name__ == "__main__":
+    app.run(debug=True, port=5000)

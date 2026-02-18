@@ -1,0 +1,321 @@
+#!/usr/bin/env python3
+"""
+Script to download a machine learning model from a URL, save it locally,
+and load it for inference. Supports .pkl and .h5 model formats.
+"""
+
+import argparse
+import os
+import sys
+import logging
+import hashlib
+from pathlib import Path
+from urllib.parse import urlparse
+
+import requests
+import numpy as np
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s"
+)
+logger = logging.getLogger(__name__)
+
+MODELS_DIR = Path("models")
+CHUNK_SIZE = 8192
+SUPPORTED_EXTENSIONS = {".pkl", ".h5"}
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Download and load a ML model for inference (.pkl or .h5)"
+    )
+    parser.add_argument(
+        "url",
+        type=str,
+        help="URL of the model file to download"
+    )
+    parser.add_argument(
+        "--output-dir",
+        type=str,
+        default=str(MODELS_DIR),
+        help="Directory to save the downloaded model (default: ./models)"
+    )
+    parser.add_argument(
+        "--filename",
+        type=str,
+        default=None,
+        help="Custom filename for the saved model (default: derived from URL)"
+    )
+    parser.add_argument(
+        "--force-download",
+        action="store_true",
+        help="Force re-download even if the file already exists"
+    )
+    parser.add_argument(
+        "--sample-input",
+        type=str,
+        default=None,
+        help="Path to a .npy file to use as sample input for inference"
+    )
+    parser.add_argument(
+        "--timeout",
+        type=int,
+        default=300,
+        help="Download timeout in seconds (default: 300)"
+    )
+    return parser.parse_args()
+
+
+def get_filename_from_url(url: str) -> str:
+    parsed = urlparse(url)
+    filename = os.path.basename(parsed.path)
+    if not filename:
+        url_hash = hashlib.md5(url.encode()).hexdigest()[:10]
+        filename = f"model_{url_hash}"
+    return filename
+
+
+def validate_extension(filepath: Path) -> str:
+    ext = filepath.suffix.lower()
+    if ext not in SUPPORTED_EXTENSIONS:
+        raise ValueError(
+            f"Unsupported model format '{ext}'. "
+            f"Supported formats: {', '.join(SUPPORTED_EXTENSIONS)}"
+        )
+    return ext
+
+
+def download_model(url: str, save_path: Path, timeout: int = 300) -> Path:
+    logger.info(f"Downloading model from: {url}")
+    logger.info(f"Saving to: {save_path}")
+
+    save_path.parent.mkdir(parents=True, exist_ok=True)
+
+    try:
+        response = requests.get(url, stream=True, timeout=timeout)
+        response.raise_for_status()
+    except requests.exceptions.ConnectionError as e:
+        raise ConnectionError(f"Failed to connect to {url}: {e}")
+    except requests.exceptions.Timeout:
+        raise TimeoutError(f"Download timed out after {timeout} seconds")
+    except requests.exceptions.HTTPError as e:
+        raise RuntimeError(f"HTTP error occurred: {e}")
+    except requests.exceptions.RequestException as e:
+        raise RuntimeError(f"Error downloading model: {e}")
+
+    total_size = int(response.headers.get("content-length", 0))
+    downloaded_size = 0
+
+    try:
+        with open(save_path, "wb") as f:
+            for chunk in response.iter_content(chunk_size=CHUNK_SIZE):
+                if chunk:
+                    f.write(chunk)
+                    downloaded_size += len(chunk)
+                    if total_size > 0:
+                        progress = (downloaded_size / total_size) * 100
+                        print(
+                            f"\rProgress: {downloaded_size}/{total_size} "
+                            f"bytes ({progress:.1f}%)",
+                            end="",
+                            flush=True
+                        )
+        if total_size > 0:
+            print()  # newline after progress
+    except IOError as e:
+        if save_path.exists():
+            save_path.unlink()
+        raise IOError(f"Failed to write model to disk: {e}")
+
+    file_size = save_path.stat().st_size
+    if total_size > 0 and file_size != total_size:
+        save_path.unlink()
+        raise RuntimeError(
+            f"Download incomplete: expected {total_size} bytes, "
+            f"got {file_size} bytes"
+        )
+
+    logger.info(f"Download complete. File size: {file_size:,} bytes")
+    return save_path
+
+
+def load_pkl_model(filepath: Path):
+    import pickle
+
+    logger.info(f"Loading pickle model from: {filepath}")
+    try:
+        with open(filepath, "rb") as f:
+            model = pickle.load(f)
+    except pickle.UnpicklingError as e:
+        raise RuntimeError(f"Failed to unpickle model: {e}")
+    except Exception as e:
+        raise RuntimeError(f"Error loading pickle model: {e}")
+
+    logger.info(f"Pickle model loaded successfully. Type: {type(model).__name__}")
+    return model
+
+
+def load_h5_model(filepath: Path):
+    try:
+        import tensorflow as tf
+        logger.info(f"Loading H5/Keras model from: {filepath}")
+        try:
+            model = tf.keras.models.load_model(str(filepath))
+            logger.info("Keras model loaded successfully.")
+            model.summary()
+            return model
+        except Exception as e:
+            logger.warning(f"Failed to load as Keras model: {e}")
+            raise
+    except ImportError:
+        pass
+
+    try:
+        import h5py
+        logger.info(f"Loading H5 file with h5py from: {filepath}")
+        model = h5py.File(str(filepath), "r")
+        logger.info(f"H5 file loaded. Keys: {list(model.keys())}")
+        return model
+    except ImportError:
+        raise ImportError(
+            "Neither tensorflow nor h5py is installed. "
+            "Install one of them to load .h5 files: "
+            "pip install tensorflow or pip install h5py"
+        )
+
+
+def load_model(filepath: Path):
+    ext = validate_extension(filepath)
+
+    if ext == ".pkl":
+        return load_pkl_model(filepath)
+    elif ext == ".h5":
+        return load_h5_model(filepath)
+    else:
+        raise ValueError(f"Unsupported format: {ext}")
+
+
+def run_sample_inference(model, sample_input=None):
+    logger.info("Running sample inference...")
+
+    if sample_input is not None:
+        data = sample_input
+    else:
+        data = np.random.rand(1, 10).astype(np.float32)
+        logger.info(f"Using random sample input with shape: {data.shape}")
+
+    # Try sklearn-style predict
+    if hasattr(model, "predict"):
+        try:
+            prediction = model.predict(data)
+            logger.info(f"Prediction result: {prediction}")
+            return prediction
+        except Exception as e:
+            logger.warning(f"predict() failed: {e}")
+
+    # Try callable (e.g., Keras model)
+    if callable(model):
+        try:
+            prediction = model(data)
+            logger.info(f"Prediction result: {prediction}")
+            return prediction
+        except Exception as e:
+            logger.warning(f"Direct call failed: {e}")
+
+    # Try predict_proba for classifiers
+    if hasattr(model, "predict_proba"):
+        try:
+            prediction = model.predict_proba(data)
+            logger.info(f"Prediction probabilities: {prediction}")
+            return prediction
+        except Exception as e:
+            logger.warning(f"predict_proba() failed: {e}")
+
+    # Try transform for transformers/preprocessors
+    if hasattr(model, "transform"):
+        try:
+            result = model.transform(data)
+            logger.info(f"Transform result: {result}")
+            return result
+        except Exception as e:
+            logger.warning(f"transform() failed: {e}")
+
+    logger.warning(
+        "Could not run inference. The model may require specific input format. "
+        f"Model type: {type(model).__name__}, "
+        f"Available methods: {[m for m in dir(model) if not m.startswith('_')]}"
+    )
+    return None
+
+
+def main():
+    args = parse_args()
+
+    url = args.url
+    output_dir = Path(args.output_dir)
+
+    if args.filename:
+        filename = args.filename
+    else:
+        filename = get_filename_from_url(url)
+
+    save_path = output_dir / filename
+
+    # Validate extension before downloading
+    try:
+        validate_extension(save_path)
+    except ValueError as e:
+        logger.error(str(e))
+        sys.exit(1)
+
+    # Download model
+    if save_path.exists() and not args.force_download:
+        logger.info(f"Model already exists at {save_path}. Skipping download.")
+        logger.info("Use --force-download to re-download.")
+    else:
+        try:
+            download_model(url, save_path, timeout=args.timeout)
+        except Exception as e:
+            logger.error(f"Download failed: {e}")
+            sys.exit(1)
+
+    # Load model
+    try:
+        model = load_model(save_path)
+    except Exception as e:
+        logger.error(f"Failed to load model: {e}")
+        sys.exit(1)
+
+    # Run inference
+    sample_input = None
+    if args.sample_input:
+        try:
+            sample_input = np.load(args.sample_input)
+            logger.info(f"Loaded sample input from {args.sample_input}, shape: {sample_input.shape}")
+        except Exception as e:
+            logger.error(f"Failed to load sample input: {e}")
+            sys.exit(1)
+
+    try:
+        result = run_sample_inference(model, sample_input)
+        if result is not None:
+            logger.info("Inference completed successfully.")
+        else:
+            logger.info("Model loaded but inference could not be demonstrated automatically.")
+    except Exception as e:
+        logger.error(f"Inference failed: {e}")
+        sys.exit(1)
+
+    # Clean up h5py file handles
+    if hasattr(model, "close") and callable(model.close):
+        try:
+            model.close()
+        except Exception:
+            pass
+
+    logger.info("Done.")
+
+
+if __name__ == "__main__":
+    main()

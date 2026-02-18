@@ -1,0 +1,57 @@
+const express = require('express');
+const cors = require('cors');
+
+// --- Basic Server Setup ---
+const app = express();
+const PORT = process.env.PORT || 4000;
+
+// --- CORS Configuration ---
+// This allows the React frontend (running on http://localhost:3000)
+// to make requests to this Express server.
+const corsOptions = {
+  origin: 'http://localhost:3000',
+  optionsSuccessStatus: 200, // For legacy browser support
+};
+
+// --- Middleware ---
+app.use(cors(corsOptions));
+app.use(express.json()); // Parses incoming requests with JSON payloads
+
+// --- API Routes ---
+
+/**
+ * @route   GET /api/data
+ * @desc    Serves sample JSON data
+ * @access  Public
+ */
+app.get('/api/data', (req, res) => {
+  try {
+    const data = {
+      message: 'Data successfully fetched from the server!',
+      user: {
+        id: 'u123',
+        name: 'Jane Doe',
+      },
+      items: [
+        { id: 1, description: 'First item' },
+        { id: 2, description: 'Second item' },
+        { id: 3, description: 'Third item' },
+      ],
+      timestamp: new Date().toISOString(),
+    };
+    res.status(200).json(data);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// A simple root route for health checks
+app.get('/', (req, res) => {
+  res.send('API server is up and running.');
+});
+
+// --- Server Initialization ---
+app.listen(PORT, () => {
+  console.log(`Server is listening on http://localhost:${PORT}`);
+});

@@ -1,0 +1,190 @@
+from flask import Flask, request, jsonify, render_template_string
+import sqlite3
+import os
+
+app = Flask(__name__)
+DATABASE = "feedback.db"
+
+
+def get_db():
+    conn = sqlite3.connect(DATABASE)
+    conn.row_factory = sqlite3.Row
+    return conn
+
+
+def init_db():
+    conn = get_db()
+    conn.execute(
+        """
+        CREATE TABLE IF NOT EXISTS feedback (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            message TEXT NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+        """
+    )
+    conn.commit()
+    conn.close()
+
+
+@app.route("/api/feedback", methods=["POST"])
+def submit_feedback():
+    name = request.form.get("name")
+    message = request.form.get("message")
+
+    if not name or not message:
+        return jsonify({"error": "Both 'name' and 'message' fields are required."}), 400
+
+    conn = get_db()
+    try:
+        conn.execute(
+            "INSERT INTO feedback (name, message) VALUES (?, ?)",
+            (name, message),
+        )
+        conn.commit()
+    finally:
+        conn.close()
+
+    return jsonify({"success": True, "message": "Feedback submitted successfully."}), 201
+
+
+FEEDBACK_TEMPLATE = """
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px 15px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #ddd;
+        }
+        .no-feedback {
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        .submit-form {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .submit-form label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        .submit-form input,
+        .submit-form textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .submit-form textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        .submit-form button {
+            margin-top: 15px;
+            padding: 10px 25px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .submit-form button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Submit Feedback</h1>
+    <div class="submit-form">
+        <form action="/api/feedback" method="POST">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" required></textarea>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <h1>All Feedback</h1>
+    {% if entries %}
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Message</th>
+                <th>Submitted At</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in entries %}
+            <tr>
+                <td>{{ entry.id }}</td>
+                <td>{{ entry.name }}</td>
+                <td>{{ entry.message }}</td>
+                <td>{{ entry.created_at }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="no-feedback">No feedback has been submitted yet.</p>
+    {% endif %}
+</body>
+</html>
+"""
+
+
+@app.route("/feedback", methods=["GET"])
+def view_feedback():
+    conn = get_db()
+    try:
+        entries = conn.execute(
+            "SELECT id, name, message, created_at FROM feedback ORDER BY created_at DESC"
+        ).fetchall()
+    finally:
+        conn.close()
+
+    return render_template_string(FEEDBACK_TEMPLATE, entries=entries)
+
+
+if __name__ == "__main__":
+    init_db()
+    app.run(debug=True, port=5000)

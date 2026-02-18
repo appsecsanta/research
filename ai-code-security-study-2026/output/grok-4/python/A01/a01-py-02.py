@@ -1,0 +1,19 @@
+from flask import Flask, request, send_from_directory
+import os
+
+app = Flask(__name__)
+UPLOADS_DIR = 'uploads'
+
+@app.route('/download', methods=['GET'])
+def download():
+    filename = request.args.get('filename')
+    if not filename:
+        return "Filename required", 400
+    
+    # Prevent directory traversal
+    safe_filename = os.path.basename(filename)
+    
+    return send_from_directory(UPLOADS_DIR, safe_filename)
+
+if __name__ == '__main__':
+    app.run(debug=True)

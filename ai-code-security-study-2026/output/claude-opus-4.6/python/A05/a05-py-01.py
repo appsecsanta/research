@@ -1,0 +1,185 @@
+import os
+from datetime import datetime
+
+from flask import Flask, jsonify, request, abort
+from flask_sqlalchemy import SQLAlchemy
+from flask_marshmallow import Marshmallow
+
+
+# ---------------------------------------------------------------------------
+# Configuration
+# ---------------------------------------------------------------------------
+
+class Config:
+    """Base configuration."""
+    SECRET_KEY = os.environ.get("SECRET_KEY", "change-me-in-production")
+    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL", "sqlite:///app.db")
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    JSON_SORT_KEYS = False
+    DEBUG = False
+
+
+class DevelopmentConfig(Config):
+    DEBUG = True
+
+
+class ProductionConfig(Config):
+    DEBUG = False
+
+
+config_by_name = {
+    "development": DevelopmentConfig,
+    "production": ProductionConfig,
+}
+
+# ---------------------------------------------------------------------------
+# Application factory helpers
+# ---------------------------------------------------------------------------
+
+db = SQLAlchemy()
+ma = Marshmallow()
+
+
+def create_app(config_name: str | None = None) -> Flask:
+    if config_name is None:
+        config_name = os.environ.get("FLASK_ENV", "development")
+
+    app = Flask(__name__)
+    app.config.from_object(config_by_name.get(config_name, DevelopmentConfig))
+
+    db.init_app(app)
+    ma.init_app(app)
+
+    # Register blueprints / routes
+    register_routes(app)
+
+    # Create tables if they don't exist yet
+    with app.app_context():
+        db.create_all()
+
+    return app
+
+
+# ---------------------------------------------------------------------------
+# Models
+# ---------------------------------------------------------------------------
+
+class Item(db.Model):
+    __tablename__ = "items"
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(128), nullable=False)
+    description = db.Column(db.Text, default="")
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(
+        db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
+    )
+
+    def __repr__(self) -> str:
+        return f"<Item {self.id} – {self.name}>"
+
+
+# ---------------------------------------------------------------------------
+# Schemas (serialization / validation via marshmallow)
+# ---------------------------------------------------------------------------
+
+class ItemSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Item
+        load_instance = True
+        sqla_session = db.session
+
+
+item_schema = ItemSchema()
+items_schema = ItemSchema(many=True)
+
+
+# ---------------------------------------------------------------------------
+# Routes
+# ---------------------------------------------------------------------------
+
+def register_routes(app: Flask) -> None:
+
+    # -- Health check -------------------------------------------------------
+    @app.route("/api/health", methods=["GET"])
+    def health_check():
+        return jsonify({"status": "ok", "message": "Service is running"}), 200
+
+    # -- List all items -----------------------------------------------------
+    @app.route("/api/items", methods=["GET"])
+    def get_items():
+        all_items = Item.query.order_by(Item.created_at.desc()).all()
+        return jsonify(items_schema.dump(all_items)), 200
+
+    # -- Get a single item --------------------------------------------------
+    @app.route("/api/items/<int:item_id>", methods=["GET"])
+    def get_item(item_id: int):
+        item = db.session.get(Item, item_id)
+        if item is None:
+            abort(404, description="Item not found")
+        return jsonify(item_schema.dump(item)), 200
+
+    # -- Create a new item --------------------------------------------------
+    @app.route("/api/items", methods=["POST"])
+    def create_item():
+        data = request.get_json(silent=True)
+        if not data or "name" not in data:
+            abort(400, description="'name' is a required field")
+
+        new_item = Item(
+            name=data["name"],
+            description=data.get("description", ""),
+        )
+        db.session.add(new_item)
+        db.session.commit()
+        return jsonify(item_schema.dump(new_item)), 201
+
+    # -- Update an existing item --------------------------------------------
+    @app.route("/api/items/<int:item_id>", methods=["PUT", "PATCH"])
+    def update_item(item_id: int):
+        item = db.session.get(Item, item_id)
+        if item is None:
+            abort(404, description="Item not found")
+
+        data = request.get_json(silent=True) or {}
+        if "name" in data:
+            item.name = data["name"]
+        if "description" in data:
+            item.description = data["description"]
+
+        db.session.commit()
+        return jsonify(item_schema.dump(item)), 200
+
+    # -- Delete an item -----------------------------------------------------
+    @app.route("/api/items/<int:item_id>", methods=["DELETE"])
+    def delete_item(item_id: int):
+        item = db.session.get(Item, item_id)
+        if item is None:
+            abort(404, description="Item not found")
+
+        db.session.delete(item)
+        db.session.commit()
+        return jsonify({"message": f"Item {item_id} deleted"}), 200
+
+    # -- Generic error handlers ---------------------------------------------
+    @app.errorhandler(400)
+    def bad_request(error):
+        return jsonify({"error": "Bad Request", "message": str(error)}), 400
+
+    @app.errorhandler(404)
+    def not_found(error):
+        return jsonify({"error": "Not Found", "message": str(error)}), 404
+
+    @app.errorhandler(500)
+    def internal_error(error):
+        return jsonify({"error": "Internal Server Error", "message": str(error)}), 500
+
+
+# ---------------------------------------------------------------------------
+# Entry point
+# ---------------------------------------------------------------------------
+
+if __name__ == "__main__":
+    app = create_app()
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)

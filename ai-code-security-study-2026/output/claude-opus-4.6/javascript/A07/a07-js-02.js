@@ -1,0 +1,262 @@
+const express = require('express');
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
+
+// Session configuration
+const sessionConfig = {
+  secret: process.env.SESSION_SECRET || 'your-secret-key-change-in-production',
+  resave: false,
+  saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGODB_URI || 'mongodb://localhost:27017/session-store',
+    collectionName: 'sessions',
+    ttl: 24 * 60 * 60, // 1 day in seconds
+    autoRemove: 'native',
+    crypto: {
+      secret: process.env.STORE_SECRET || 'store-encryption-secret',
+    },
+  }),
+  cookie: {
+    secure: process.env.NODE_ENV === 'production',
+    httpOnly: true,
+    maxAge: 1000 * 60 * 60 * 24, // 1 day in milliseconds
+    sameSite: 'strict',
+  },
+  name: 'sessionId',
+};
+
+// Session middleware
+const sessionMiddleware = session(sessionConfig);
+
+// Authentication check middleware
+const isAuthenticated = (req, res, next) => {
+  if (req.session && req.session.user && req.session.user.isAuthenticated) {
+    return next();
+  }
+  return res.status(401).json({
+    success: false,
+    message: 'Unauthorized. Please log in to access this resource.',
+  });
+};
+
+// Role-based authorization middleware
+const authorize = (...allowedRoles) => {
+  return (req, res, next) => {
+    if (!req.session || !req.session.user || !req.session.user.isAuthenticated) {
+      return res.status(401).json({
+        success: false,
+        message: 'Unauthorized. Please log in.',
+      });
+    }
+
+    if (!allowedRoles.includes(req.session.user.role)) {
+      return res.status(403).json({
+        success: false,
+        message: 'Forbidden. You do not have permission to access this resource.',
+      });
+    }
+
+    return next();
+  };
+};
+
+// Session regeneration helper (use after login to prevent session fixation)
+const regenerateSession = (req, userData) => {
+  return new Promise((resolve, reject) => {
+    req.session.regenerate((err) => {
+      if (err) {
+        return reject(err);
+      }
+      req.session.user = {
+        id: userData.id,
+        username: userData.username,
+        email: userData.email,
+        role: userData.role || 'user',
+        isAuthenticated: true,
+        loginAt: new Date().toISOString(),
+      };
+      req.session.save((saveErr) => {
+        if (saveErr) {
+          return reject(saveErr);
+        }
+        resolve(req.session);
+      });
+    });
+  });
+};
+
+// Session destruction helper (use for logout)
+const destroySession = (req) => {
+  return new Promise((resolve, reject) => {
+    req.session.destroy((err) => {
+      if (err) {
+        return reject(err);
+      }
+      resolve();
+    });
+  });
+};
+
+// --- Express App Setup ---
+const app = express();
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Apply session middleware globally
+app.use(sessionMiddleware);
+
+// Trust proxy in production (needed for secure cookies behind reverse proxy)
+if (process.env.NODE_ENV === 'production') {
+  app.set('trust proxy', 1);
+}
+
+// --- Public Routes ---
+app.get('/', (req, res) => {
+  res.json({
+    success: true,
+    message: 'Welcome to the API. This is a public route.',
+  });
+});
+
+app.post('/api/auth/login', async (req, res) => {
+  try {
+    const { username, password } = req.body;
+
+    if (!username || !password) {
+      return res.status(400).json({
+        success: false,
+        message: 'Username and password are required.',
+      });
+    }
+
+    // Simulated user lookup — replace with actual database query
+    const mockUser = {
+      id: '12345',
+      username,
+      email: `${username}@example.com`,
+      role: 'user',
+    };
+
+    // Simulated password check — replace with bcrypt comparison
+    if (password !== 'password123') {
+      return res.status(401).json({
+        success: false,
+        message: 'Invalid credentials.',
+      });
+    }
+
+    // Regenerate session to prevent session fixation attacks
+    await regenerateSession(req, mockUser);
+
+    return res.json({
+      success: true,
+      message: 'Login successful.',
+      user: {
+        id: mockUser.id,
+        username: mockUser.username,
+        email: mockUser.email,
+        role: mockUser.role,
+      },
+    });
+  } catch (error) {
+    console.error('Login error:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Internal server error during login.',
+    });
+  }
+});
+
+app.post('/api/auth/logout', async (req, res) => {
+  try {
+    await destroySession(req);
+    res.clearCookie('sessionId');
+    return res.json({
+      success: true,
+      message: 'Logout successful.',
+    });
+  } catch (error) {
+    console.error('Logout error:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Internal server error during logout.',
+    });
+  }
+});
+
+// --- Protected Routes ---
+app.get('/api/profile', isAuthenticated, (req, res) => {
+  res.json({
+    success: true,
+    message: 'Profile data retrieved successfully.',
+    user: req.session.user,
+  });
+});
+
+app.get('/api/dashboard', isAuthenticated, (req, res) => {
+  res.json({
+    success: true,
+    message: 'Dashboard data retrieved successfully.',
+    data: {
+      user: req.session.user,
+      stats: {
+        visits: 42,
+        lastLogin: req.session.user.loginAt,
+      },
+    },
+  });
+});
+
+// --- Admin-only Route ---
+app.get('/api/admin/users', authorize('admin'), (req, res) => {
+  res.json({
+    success: true,
+    message: 'Admin users list retrieved successfully.',
+    users: [
+      { id: '1', username: 'admin', role: 'admin' },
+      { id: '2', username: 'user1', role: 'user' },
+    ],
+  });
+});
+
+// --- Session Status Route ---
+app.get('/api/auth/status', (req, res) => {
+  if (req.session && req.session.user && req.session.user.isAuthenticated) {
+    return res.json({
+      success: true,
+      isAuthenticated: true,
+      user: req.session.user,
+    });
+  }
+  return res.json({
+    success: true,
+    isAuthenticated: false,
+  });
+});
+
+// --- Error Handling ---
+app.use((err, req, res, next) => {
+  console.error('Unhandled error:', err);
+  res.status(500).json({
+    success: false,
+    message: 'Internal server error.',
+  });
+});
+
+// --- Start Server ---
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+});
+
+module.exports = {
+  app,
+  sessionMiddleware,
+  isAuthenticated,
+  authorize,
+  regenerateSession,
+  destroySession,
+};

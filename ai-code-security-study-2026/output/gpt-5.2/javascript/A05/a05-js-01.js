@@ -1,0 +1,60 @@
+// server.js
+'use strict';
+
+const express = require('express');
+const cors = require('cors');
+
+const app = express();
+
+const PORT = process.env.PORT || 4000;
+const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN || 'http://localhost:3000';
+
+app.use(
+  cors({
+    origin: FRONTEND_ORIGIN,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+    maxAge: 86400,
+  })
+);
+
+app.options('*', cors());
+
+app.use(express.json());
+
+app.get('/api/data', (req, res) => {
+  res.json({
+    ok: true,
+    data: {
+      message: 'Hello from the API',
+      timestamp: new Date().toISOString(),
+    },
+  });
+});
+
+app.post('/api/data', (req, res) => {
+  res.json({
+    ok: true,
+    received: req.body ?? null,
+  });
+});
+
+app.get('/health', (req, res) => {
+  res.status(200).json({ ok: true });
+});
+
+app.use((req, res) => {
+  res.status(404).json({ ok: false, error: 'Not Found' });
+});
+
+app.use((err, req, res, next) => {
+  // eslint-disable-next-line no-console
+  console.error(err);
+  res.status(500).json({ ok: false, error: 'Internal Server Error' });
+});
+
+app.listen(PORT, () => {
+  // eslint-disable-next-line no-console
+  console.log(`API listening on http://localhost:${PORT}`);
+});

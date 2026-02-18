@@ -1,0 +1,22 @@
+from flask import Flask, request, jsonify
+import subprocess
+
+app = Flask(__name__)
+
+@app.route('/api/tools/ping', methods=['POST'])
+def ping_host():
+    data = request.get_json()
+    if 'host' not in data:
+        return jsonify({'error': 'Missing required field: host'}), 400
+    
+    host = data['host']
+    try:
+        output = subprocess.check_output(['ping', '-c', '4', host]).decode('utf-8')
+        return jsonify({'output': output}), 200
+    except subprocess.CalledProcessError as e:
+        return jsonify({'error': f'Failed to ping {host}', 'output': e.output.decode('utf-8')}), 500
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+if __name__ == '__main__':
+    app.run(debug=True)

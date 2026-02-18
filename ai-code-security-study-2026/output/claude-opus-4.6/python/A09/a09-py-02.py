@@ -1,0 +1,213 @@
+import logging
+import json
+import time
+import uuid
+from datetime import datetime, timezone
+from io import BytesIO
+from logging.handlers import RotatingFileHandler
+
+from flask import Flask, request, g
+
+
+def setup_request_logger(log_file="api_requests.log", max_bytes=10_485_760, backup_count=5):
+    """Set up a dedicated logger for API request/response logging."""
+    logger = logging.getLogger("api_request_logger")
+    logger.setLevel(logging.INFO)
+    logger.propagate = False
+
+    handler = RotatingFileHandler(
+        log_file,
+        maxBytes=max_bytes,
+        backupCount=backup_count,
+        encoding="utf-8",
+    )
+    formatter = logging.Formatter("%(message)s")
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+
+    return logger
+
+
+def _safe_parse_body(data: bytes, content_type: str | None) -> str | dict | None:
+    """Attempt to parse body data, returning a safe representation."""
+    if not data:
+        return None
+
+    if content_type and "application/json" in content_type:
+        try:
+            return json.loads(data)
+        except (json.JSONDecodeError, UnicodeDecodeError):
+            pass
+
+    try:
+        text = data.decode("utf-8")
+        # Truncate very large bodies
+        if len(text) > 10_000:
+            return text[:10_000] + f"... [truncated, total {len(text)} chars]"
+        return text
+    except UnicodeDecodeError:
+        return f"<binary data, {len(data)} bytes>"
+
+
+def _sanitize_headers(headers) -> dict:
+    """Convert headers to dict, masking sensitive values."""
+    sensitive_keys = {"authorization", "cookie", "x-api-key", "x-auth-token"}
+    result = {}
+    for key, value in headers:
+        if key.lower() in sensitive_keys:
+            result[key] = "***REDACTED***"
+        else:
+            result[key] = value
+    return result
+
+
+class RequestResponseLogger:
+    """Flask middleware that logs all incoming requests and outgoing responses."""
+
+    def __init__(self, app: Flask, log_file: str = "api_requests.log",
+                 max_body_log_size: int = 10_000,
+                 exclude_paths: list[str] | None = None):
+        self.app = app
+        self.logger = setup_request_logger(log_file)
+        self.max_body_log_size = max_body_log_size
+        self.exclude_paths = set(exclude_paths or ["/health", "/healthz", "/ready"])
+
+        self._register_hooks()
+
+    def _register_hooks(self):
+        @self.app.before_request
+        def before_request_hook():
+            g.request_id = str(uuid.uuid4())
+            g.request_start_time = time.monotonic()
+
+            # Cache the request body so it can be read again later
+            # (request.data consumes the stream)
+            raw_data = request.get_data(cache=True)
+            g.request_body_raw = raw_data
+
+        @self.app.after_request
+        def after_request_hook(response):
+            if request.path in self.exclude_paths:
+                return response
+
+            duration_ms = round(
+                (time.monotonic() - getattr(g, "request_start_time", time.monotonic())) * 1000, 2
+            )
+
+            request_body = _safe_parse_body(
+                getattr(g, "request_body_raw", b""),
+                request.content_type,
+            )
+
+            # Get response body
+            response_data = response.get_data()
+            response_body = _safe_parse_body(response_data, response.content_type)
+
+            log_entry = {
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "request_id": getattr(g, "request_id", "unknown"),
+                "duration_ms": duration_ms,
+                "request": {
+                    "method": request.method,
+                    "url": request.url,
+                    "path": request.path,
+                    "query_string": request.query_string.decode("utf-8", errors="replace"),
+                    "remote_addr": request.remote_addr,
+                    "headers": _sanitize_headers(request.headers),
+                    "body": request_body,
+                },
+                "response": {
+                    "status_code": response.status_code,
+                    "status": response.status,
+                    "headers": dict(response.headers),
+                    "body": response_body,
+                },
+            }
+
+            try:
+                self.logger.info(json.dumps(log_entry, default=str, ensure_ascii=False))
+            except Exception as e:
+                self.logger.error(json.dumps({
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                    "error": f"Failed to serialize log entry: {e}",
+                    "request_id": getattr(g, "request_id", "unknown"),
+                }))
+
+            return response
+
+        @self.app.errorhandler(Exception)
+        def handle_exception(e):
+            duration_ms = round(
+                (time.monotonic() - getattr(g, "request_start_time", time.monotonic())) * 1000, 2
+            )
+
+            log_entry = {
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "request_id": getattr(g, "request_id", "unknown"),
+                "duration_ms": duration_ms,
+                "request": {
+                    "method": request.method,
+                    "url": request.url,
+                    "path": request.path,
+                    "remote_addr": request.remote_addr,
+                },
+                "error": {
+                    "type": type(e).__name__,
+                    "message": str(e),
+                },
+            }
+
+            self.logger.error(json.dumps(log_entry, default=str, ensure_ascii=False))
+
+            # Re-raise so Flask's default error handling takes over
+            raise
+
+
+def create_app() -> Flask:
+    """Factory function demonstrating middleware usage."""
+    app = Flask(__name__)
+
+    # Attach the request/response logging middleware
+    RequestResponseLogger(
+        app,
+        log_file="api_requests.log",
+        exclude_paths=["/health", "/healthz", "/favicon.ico"],
+    )
+
+    @app.route("/health")
+    def health():
+        return {"status": "ok"}
+
+    @app.route("/api/echo", methods=["GET", "POST", "PUT", "DELETE"])
+    def echo():
+        return {
+            "method": request.method,
+            "args": dict(request.args),
+            "json": request.get_json(silent=True),
+            "message": "Echo response",
+        }
+
+    @app.route("/api/users", methods=["GET"])
+    def list_users():
+        return {
+            "users": [
+                {"id": 1, "name": "Alice"},
+                {"id": 2, "name": "Bob"},
+            ]
+        }
+
+    @app.route("/api/users", methods=["POST"])
+    def create_user():
+        data = request.get_json(silent=True) or {}
+        return {"id": 3, "name": data.get("name", "Unknown")}, 201
+
+    @app.route("/api/error")
+    def trigger_error():
+        return {"error": "Something went wrong"}, 500
+
+    return app
+
+
+if __name__ == "__main__":
+    app = create_app()
+    app.run(debug=True, port=5000)

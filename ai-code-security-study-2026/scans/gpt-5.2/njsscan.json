@@ -1,0 +1,183 @@
+{
+  "tool": "njsscan",
+  "model": "gpt-5.2",
+  "scan_timestamp": "2026-02-17T07:20:25Z",
+  "findings": [
+    {
+      "file": "javascript/A07/a07-js-02.js",
+      "line": 31,
+      "rule_id": "cookie_session_no_domain",
+      "severity": "LOW",
+      "confidence": "MEDIUM",
+      "cwe": "CWE-522",
+      "owasp": "A07",
+      "message": "Default session middleware settings: `domain` not set. It indicates the domain of the cookie; use it to compare against the domain of the server in which the URL is being requested. If they match, then check the path attribute next.",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A07/a07-js-02.js",
+      "line": 31,
+      "rule_id": "cookie_session_no_path",
+      "severity": "LOW",
+      "confidence": "MEDIUM",
+      "cwe": "CWE-522",
+      "owasp": "A07",
+      "message": "Default session middleware settings: `path` not set. It indicates the path of the cookie; use it to compare against the request path. If this and domain match, then send the cookie in the request.",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A07/a07-js-02.js",
+      "line": 31,
+      "rule_id": "cookie_session_no_secure",
+      "severity": "MEDIUM",
+      "confidence": "MEDIUM",
+      "cwe": "",
+      "owasp": "A07",
+      "message": "Default session middleware settings: `secure` not set. It ensures the browser only sends the cookie over HTTPS.",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A03/a03-js-04.js",
+      "line": 74,
+      "rule_id": "express_lfr_warning",
+      "severity": "MEDIUM",
+      "confidence": "MEDIUM",
+      "cwe": "CWE-23",
+      "owasp": "A03",
+      "message": "Untrusted user input in express render() function can result in arbitrary file read if hbs templating is used.",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A05/a05-js-04.js",
+      "line": 29,
+      "rule_id": "express_lfr_warning",
+      "severity": "MEDIUM",
+      "confidence": "MEDIUM",
+      "cwe": "CWE-23",
+      "owasp": "A05",
+      "message": "Untrusted user input in express render() function can result in arbitrary file read if hbs templating is used.",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A05/a05-js-01.js",
+      "line": 22,
+      "rule_id": "generic_cors",
+      "severity": "MEDIUM",
+      "confidence": "MEDIUM",
+      "cwe": "CWE-346",
+      "owasp": "A05",
+      "message": "Access-Control-Allow-Origin response header is set to \"*\". This will disable CORS Same Origin Policy restrictions.",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A04/a04-js-03.js",
+      "line": 68,
+      "rule_id": "join_resolve_path_traversal",
+      "severity": "MEDIUM",
+      "confidence": "MEDIUM",
+      "cwe": "CWE-22",
+      "owasp": "A04",
+      "message": "Path constructed with user input can result in Path Traversal. Ensure that user input does not reach `join()` or `resolve()`. ",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A06/a06-js-02.js",
+      "line": 10,
+      "rule_id": "join_resolve_path_traversal",
+      "severity": "MEDIUM",
+      "confidence": "MEDIUM",
+      "cwe": "CWE-22",
+      "owasp": "A06",
+      "message": "Path constructed with user input can result in Path Traversal. Ensure that user input does not reach `join()` or `resolve()`. ",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A08/a08-js-03.js",
+      "line": 167,
+      "rule_id": "node_insecure_random_generator",
+      "severity": "MEDIUM",
+      "confidence": "MEDIUM",
+      "cwe": "CWE-327",
+      "owasp": "A08",
+      "message": "crypto.pseudoRandomBytes()/Math.random() is a cryptographically weak random number generator.",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A03/a03-js-01.js",
+      "line": 48,
+      "rule_id": "node_nosqli_injection",
+      "severity": "HIGH",
+      "confidence": "MEDIUM",
+      "cwe": "CWE-943",
+      "owasp": "A03",
+      "message": "Untrusted user input in findOne() function can result in NoSQL Injection.",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A04/a04-js-01.js",
+      "line": 62,
+      "rule_id": "node_nosqli_injection",
+      "severity": "HIGH",
+      "confidence": "MEDIUM",
+      "cwe": "CWE-943",
+      "owasp": "A04",
+      "message": "Untrusted user input in findOne() function can result in NoSQL Injection.",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A04/a04-js-01.js",
+      "line": 117,
+      "rule_id": "node_nosqli_injection",
+      "severity": "HIGH",
+      "confidence": "MEDIUM",
+      "cwe": "CWE-943",
+      "owasp": "A04",
+      "message": "Untrusted user input in findOne() function can result in NoSQL Injection.",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A04/a04-js-02.js",
+      "line": 50,
+      "rule_id": "node_nosqli_injection",
+      "severity": "HIGH",
+      "confidence": "MEDIUM",
+      "cwe": "CWE-943",
+      "owasp": "A04",
+      "message": "Untrusted user input in findOne() function can result in NoSQL Injection.",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A07/a07-js-01.js",
+      "line": 51,
+      "rule_id": "node_nosqli_injection",
+      "severity": "HIGH",
+      "confidence": "MEDIUM",
+      "cwe": "CWE-943",
+      "owasp": "A07",
+      "message": "Untrusted user input in findOne() function can result in NoSQL Injection.",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A07/a07-js-05.js",
+      "line": 10,
+      "rule_id": "node_nosqli_injection",
+      "severity": "HIGH",
+      "confidence": "MEDIUM",
+      "cwe": "CWE-943",
+      "owasp": "A07",
+      "message": "Untrusted user input in findOne() function can result in NoSQL Injection.",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A10/a10-js-04.js",
+      "line": 70,
+      "rule_id": "puppeteer_ssrf",
+      "severity": "HIGH",
+      "confidence": "MEDIUM",
+      "cwe": "CWE-918",
+      "owasp": "A10",
+      "message": "If unverified user data can reach the `puppeteer` methods it can result in Server-Side Request Forgery vulnerabilities.",
+      "language": "javascript"
+    }
+  ]
+}

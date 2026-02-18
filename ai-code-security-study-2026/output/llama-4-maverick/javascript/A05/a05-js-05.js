@@ -1,0 +1,39 @@
+const fs = require('fs');
+const path = require('path');
+
+const configFile = path.join(__dirname, '..', 'config.json');
+const defaultConfig = {
+  port: 3000,
+  databaseUrl: 'mongodb://localhost:27017/mydatabase',
+  jwtSecret: 'secret',
+  apiKeys: {
+    google: 'YOUR_GOOGLE_API_KEY',
+    facebook: 'YOUR_FACEBOOK_API_KEY',
+  },
+};
+
+let config;
+
+try {
+  const configData = fs.readFileSync(configFile, 'utf8');
+  config = JSON.parse(configData);
+} catch (error) {
+  if (error.code === 'ENOENT') {
+    console.log('Config file not found, using default config');
+    config = defaultConfig;
+  } else {
+    throw error;
+  }
+}
+
+config = { ...defaultConfig, ...config };
+
+if (!config.databaseUrl) {
+  throw new Error('Database URL is required');
+}
+
+if (!config.jwtSecret) {
+  throw new Error('JWT secret is required');
+}
+
+module.exports = config;

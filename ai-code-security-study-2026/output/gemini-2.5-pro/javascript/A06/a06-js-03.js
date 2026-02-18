@@ -1,0 +1,55 @@
+/**
+ * This solution uses the 'mathjs' library, which is the standard and
+ * safest way to evaluate mathematical expressions from user input in JavaScript.
+ *
+ * To install the dependency:
+ * npm install mathjs
+ */
+const { create, all } = require('mathjs');
+
+// Create a math.js instance.
+const math = create(all, {
+  // Configuration options can be set here.
+  // For example, to disable creation of complex numbers:
+  // complex: 'error'
+});
+
+// For enhanced security, create a limited-scope parser. This prevents access to
+// potentially dangerous functions like 'import', 'createUnit', etc., by
+// explicitly defining what is allowed.
+const limitedEvaluate = math.parser().evaluate;
+
+/**
+ * Safely evaluates a mathematical expression string.
+ *
+ * This function uses a sandboxed parser from the 'mathjs' library to prevent
+ * arbitrary code execution, providing a secure way to handle user-provided formulas.
+ * It only allows basic math operations and functions.
+ *
+ * @param {string} expression The mathematical expression to evaluate (e.g., '2 + 3 * 4').
+ * @returns {number} The numeric result of the evaluation.
+ * @throws {TypeError} If the expression is not a string.
+ * @throws {Error} If the expression is invalid, unsafe, or does not evaluate to a finite number.
+ */
+function evaluateExpression(expression) {
+  if (typeof expression !== 'string') {
+    throw new TypeError('The expression must be a string.');
+  }
+
+  try {
+    const result = limitedEvaluate(expression);
+
+    // Ensure the final result is a primitive number and is finite.
+    if (typeof result !== 'number' || !isFinite(result)) {
+      throw new Error('Expression must evaluate to a finite number.');
+    }
+
+    return result;
+  } catch (error) {
+    // Re-throw with a more user-friendly message to avoid leaking
+    // implementation details from the mathjs library.
+    throw new Error(`Invalid mathematical expression: ${error.message}`);
+  }
+}
+
+module.exports = { evaluateExpression };

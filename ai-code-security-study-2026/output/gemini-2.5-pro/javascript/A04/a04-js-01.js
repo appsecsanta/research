@@ -1,0 +1,342 @@
+/*
+// -----------------------------------------------------------------------------
+// File: .env
+// Description: Environment variables. Create this file in your project root.
+// -----------------------------------------------------------------------------
+
+MONGO_URI=mongodb://localhost:27017/yourdbname
+PORT=5000
+CLIENT_URL=http://localhost:3000
+
+# Nodemailer SMTP configuration (e.g., using Mailtrap or a real service)
+EMAIL_HOST=smtp.mailtrap.io
+EMAIL_PORT=2525
+EMAIL_USER=your_mailtrap_user
+EMAIL_PASS=your_mailtrap_password
+EMAIL_FROM="Password Reset <noreply@yourapp.com>"
+
+*/
+
+// -----------------------------------------------------------------------------
+// File: package.json
+// Description: Project dependencies. Run `npm install` to get these.
+// -----------------------------------------------------------------------------
+/*
+{
+  "name": "password-reset-api",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-async-handler": "^1.2.0",
+    "mongoose": "^6.8.0",
+    "nodemailer": "^6.8.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
+*/
+
+
+// -----------------------------------------------------------------------------
+// File: config/db.js
+// Description: MongoDB connection utility.
+// -----------------------------------------------------------------------------
+const mongoose = require('mongoose');
+
+const connectDB = async () => {
+  try {
+    const conn = await mongoose.connect(process.env.MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log(`MongoDB Connected: ${conn.connection.host}`);
+  } catch (error) {
+    console.error(`Error: ${error.message}`);
+    process.exit(1);
+  }
+};
+
+module.exports = connectDB;
+
+
+// -----------------------------------------------------------------------------
+// File: models/User.js
+// Description: Mongoose User schema and model.
+// -----------------------------------------------------------------------------
+const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
+const crypto = require('crypto');
+
+const userSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    lowercase: true,
+  },
+  password: {
+    type: String,
+    required: true,
+    select: false, // Do not return password on queries by default
+  },
+  passwordResetToken: String,
+  passwordResetExpires: Date,
+}, {
+  timestamps: true,
+});
+
+// Hash password before saving
+userSchema.pre('save', async function(next) {
+  if (!this.isModified('password')) {
+    return next();
+  }
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+  next();
+});
+
+// Method to generate and hash password reset token
+userSchema.methods.createPasswordResetToken = function() {
+  const resetToken = crypto.randomBytes(32).toString('hex');
+
+  this.passwordResetToken = crypto
+    .createHash('sha256')
+    .update(resetToken)
+    .digest('hex');
+
+  // Set token to expire in 10 minutes
+  this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
+
+  return resetToken; // Return the unhashed token
+};
+
+const User = mongoose.model('User', userSchema);
+
+module.exports = User;
+
+
+// -----------------------------------------------------------------------------
+// File: utils/emailSender.js
+// Description: Nodemailer transport and email sending utility.
+// -----------------------------------------------------------------------------
+const nodemailer = require('nodemailer');
+
+const sendEmail = async (options) => {
+  // 1) Create a transporter
+  const transporter = nodemailer.createTransport({
+    host: process.env.EMAIL_HOST,
+    port: process.env.EMAIL_PORT,
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
+
+  // 2) Define the email options
+  const mailOptions = {
+    from: process.env.EMAIL_FROM,
+    to: options.email,
+    subject: options.subject,
+    html: options.html,
+  };
+
+  // 3) Actually send the email
+  await transporter.sendMail(mailOptions);
+};
+
+module.exports = sendEmail;
+
+
+// -----------------------------------------------------------------------------
+// File: controllers/authController.js
+// Description: Controller functions for authentication logic.
+// -----------------------------------------------------------------------------
+const crypto = require('crypto');
+const User = require('../models/User');
+const sendEmail = require('../utils/emailSender');
+const asyncHandler = require('express-async-handler');
+
+/**
+ * @desc    Handle forgot password request
+ * @route   POST /api/forgot-password
+ * @access  Public
+ */
+const forgotPassword = asyncHandler(async (req, res) => {
+  const { email } = req.body;
+
+  if (!email) {
+    res.status(400);
+    throw new Error('Please provide an email address');
+  }
+
+  const user = await User.findOne({ email });
+
+  // Always send a success response to prevent user enumeration
+  if (!user) {
+    return res.status(200).json({
+      message: 'If a user with that email exists, a password reset link has been sent.',
+    });
+  }
+
+  // Generate the random reset token
+  const resetToken = user.createPasswordResetToken();
+  await user.save({ validateBeforeSave: false });
+
+  // Construct reset URL
+  const resetURL = `${process.env.CLIENT_URL}/reset-password/${resetToken}`;
+
+  const message = `
+    <h1>You have requested a password reset</h1>
+    <p>Please go to this link to reset your password:</p>
+    <a href="${resetURL}" clicktracking=off>${resetURL}</a>
+    <p>This link will expire in 10 minutes.</p>
+    <p>If you did not request this, please ignore this email.</p>
+  `;
+
+  try {
+    await sendEmail({
+      email: user.email,
+      subject: 'Your Password Reset Token (Valid for 10 min)',
+      html: message,
+    });
+
+    res.status(200).json({
+      message: 'If a user with that email exists, a password reset link has been sent.',
+    });
+  } catch (err) {
+    console.error(err);
+    user.passwordResetToken = undefined;
+    user.passwordResetExpires = undefined;
+    await user.save({ validateBeforeSave: false });
+
+    res.status(500);
+    throw new Error('There was an error sending the email. Please try again later.');
+  }
+});
+
+/**
+ * @desc    Reset user password
+ * @route   POST /api/reset-password/:token
+ * @access  Public
+ */
+const resetPassword = asyncHandler(async (req, res) => {
+  const { token } = req.params;
+  const { password } = req.body;
+
+  if (!password) {
+    res.status(400);
+    throw new Error('Please provide a new password');
+  }
+
+  // 1) Get user based on the token
+  const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
+
+  const user = await User.findOne({
+    passwordResetToken: hashedToken,
+    passwordResetExpires: { $gt: Date.now() },
+  });
+
+  // 2) If token has not expired, and there is a user, set the new password
+  if (!user) {
+    res.status(400);
+    throw new Error('Token is invalid or has expired');
+  }
+
+  user.password = password;
+  user.passwordResetToken = undefined;
+  user.passwordResetExpires = undefined;
+  await user.save();
+
+  // In a real app, you would also log the user in here by creating a JWT
+
+  res.status(200).json({ message: 'Password has been reset successfully.' });
+});
+
+module.exports = { forgotPassword, resetPassword };
+
+
+// -----------------------------------------------------------------------------
+// File: routes/authRoutes.js
+// Description: Defines the authentication routes.
+// -----------------------------------------------------------------------------
+const express = require('express');
+const { forgotPassword, resetPassword } = require('../controllers/authController');
+const router = express.Router();
+
+router.post('/forgot-password', forgotPassword);
+router.post('/reset-password/:token', resetPassword);
+
+module.exports = router;
+
+
+// -----------------------------------------------------------------------------
+// File: middleware/errorMiddleware.js
+// Description: Custom error handling middleware.
+// -----------------------------------------------------------------------------
+const errorHandler = (err, req, res, next) => {
+  const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
+  res.status(statusCode);
+  res.json({
+    message: err.message,
+    stack: process.env.NODE_ENV === 'production' ? null : err.stack,
+  });
+};
+
+const notFound = (req, res, next) => {
+  const error = new Error(`Not Found - ${req.originalUrl}`);
+  res.status(404);
+  next(error);
+};
+
+module.exports = { errorHandler, notFound };
+
+
+// -----------------------------------------------------------------------------
+// File: server.js
+// Description: Main application entry point.
+// -----------------------------------------------------------------------------
+const express = require('express');
+const dotenv = require('dotenv');
+const connectDB = require('./config/db');
+const authRoutes = require('./routes/authRoutes');
+const { notFound, errorHandler } = require('./middleware/errorMiddleware');
+
+// Load environment variables
+dotenv.config();
+
+// Connect to database
+connectDB();
+
+const app = express();
+
+// Body parser middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Mount routers
+app.use('/api', authRoutes);
+
+// Fallback for 404 Not Found
+app.use(notFound);
+
+// Custom error handler
+app.use(errorHandler);
+
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});

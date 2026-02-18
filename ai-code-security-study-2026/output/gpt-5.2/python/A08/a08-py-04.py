@@ -1,0 +1,98 @@
+from __future__ import annotations
+
+import gzip
+import os
+import pickle
+import tempfile
+from pathlib import Path
+from typing import Any, Optional
+
+
+def save_app_state(
+    state: Any,
+    path: str | os.PathLike,
+    *,
+    compress: bool = False,
+    protocol: int = pickle.HIGHEST_PROTOCOL,
+) -> Path:
+    """
+    Serialize and save application state to disk (atomic write).
+
+    Note: Pickle can execute arbitrary code when loading. Only load files you trust.
+    """
+    target = Path(path)
+    target.parent.mkdir(parents=True, exist_ok=True)
+
+    suffix = target.suffix or (".pkl.gz" if compress else ".pkl")
+    if not target.suffix:
+        target = target.with_suffix(suffix)
+
+    fd, tmp_name = tempfile.mkstemp(prefix=f".{target.name}.", dir=str(target.parent))
+    tmp_path = Path(tmp_name)
+
+    try:
+        with os.fdopen(fd, "wb") as f:
+            if compress or target.suffix.endswith(".gz"):
+                with gzip.GzipFile(fileobj=f, mode="wb", compresslevel=6) as gf:
+                    pickle.dump(state, gf, protocol=protocol)
+            else:
+                pickle.dump(state, f, protocol=protocol)
+
+        os.replace(str(tmp_path), str(target))
+        return target
+    except Exception:
+        try:
+            if tmp_path.exists():
+                tmp_path.unlink()
+        finally:
+            raise
+
+
+def load_app_state(
+    path: str | os.PathLike,
+    *,
+    compress: Optional[bool] = None,
+    default: Any = None,
+) -> Any:
+    """
+    Load and deserialize application state from disk.
+
+    If `default` is provided and the file doesn't exist, returns `default`.
+    Note: Pickle can execute arbitrary code when loading. Only load files you trust.
+    """
+    p = Path(path)
+
+    if not p.exists():
+        if default is not None:
+            return default
+        raise FileNotFoundError(str(p))
+
+    if compress is None:
+        compress = p.suffix.endswith(".gz")
+
+    with p.open("rb") as f:
+        if compress:
+            with gzip.GzipFile(fileobj=f, mode="rb") as gf:
+                return pickle.load(gf)
+        return pickle.load(f)
+
+
+def app_state(
+    path: str | os.PathLike,
+    state: Any = None,
+    *,
+    action: str = "load",
+    compress: Optional[bool] = None,
+    default: Any = None,
+) -> Any:
+    """
+    Convenience wrapper:
+      - action="save": saves `state` to `path` and returns the final Path
+      - action="load": loads from `path` and returns the state
+    """
+    action = action.lower().strip()
+    if action == "save":
+        return save_app_state(state, path, compress=bool(compress) if compress is not None else False)
+    if action == "load":
+        return load_app_state(path, compress=compress, default=default)
+    raise ValueError(f"Unsupported action: {action!r}. Use 'save' or 'load'.")

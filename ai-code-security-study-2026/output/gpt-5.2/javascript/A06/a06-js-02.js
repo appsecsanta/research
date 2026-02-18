@@ -1,0 +1,64 @@
+'use strict';
+
+const path = require('path');
+
+function loadModule(moduleName, options = {}) {
+  if (typeof moduleName !== 'string' || moduleName.trim() === '') {
+    throw new TypeError('moduleName must be a non-empty string');
+  }
+
+  const name = moduleName.trim();
+  const {
+    baseDir = process.cwd(),
+    allowBuiltins = true,
+    allowedBuiltins = null, // e.g. new Set(['fs', 'path'])
+    allowRelative = true,
+    allowAbsolute = true,
+    resolveFrom = baseDir,
+    unwrapDefault = true,
+  } = options;
+
+  const isRelative =
+    name.startsWith('./') || name.startsWith('../') || name === '.' || name === '..';
+  const isAbsolute = path.isAbsolute(name);
+  const isPathLike = isRelative || isAbsolute;
+
+  if (isRelative && !allowRelative) {
+    throw new Error(`Relative module paths are not allowed: ${name}`);
+  }
+  if (isAbsolute && !allowAbsolute) {
+    throw new Error(`Absolute module paths are not allowed: ${name}`);
+  }
+
+  let resolvedId;
+
+  if (isPathLike) {
+    const abs = isAbsolute ? name : path.resolve(baseDir, name);
+    resolvedId = require.resolve(abs);
+  } else {
+    // treat as package/builtin
+    if (!allowBuiltins && require('module').isBuiltin(name)) {
+      throw new Error(`Built-in modules are not allowed: ${name}`);
+    }
+    if (allowedBuiltins && require('module').isBuiltin(name) && !allowedBuiltins.has(name)) {
+      throw new Error(`Built-in module not permitted: ${name}`);
+    }
+    resolvedId = require.resolve(name, { paths: [resolveFrom] });
+  }
+
+  let mod;
+  try {
+    mod = require(resolvedId);
+  } catch (err) {
+    err.message = `Failed to load module "${name}" (resolved: ${resolvedId}): ${err.message}`;
+    throw err;
+  }
+
+  if (unwrapDefault && mod && typeof mod === 'object' && 'default' in mod) {
+    return mod.default;
+  }
+
+  return mod;
+}
+
+module.exports = { loadModule };

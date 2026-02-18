@@ -1,0 +1,262 @@
+# requirements: requests, packaging, psutil
+import logging
+import os
+import platform
+import shutil
+import subprocess
+import sys
+import tempfile
+import time
+import zipfile
+from typing import Dict, Any, Optional
+
+import requests
+from packaging.version import parse as parse_version
+
+# --- Configuration ---
+# This should be configured for your application
+CURRENT_VERSION = "1.0.0"
+UPDATE_MANIFEST_URL = "https://your-server.com/path/to/version.json"
+# --- End Configuration ---
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    stream=sys.stdout,
+)
+
+
+def get_latest_version_info() -> Optional[Dict[str, Any]]:
+    """
+    Fetches the latest version information from the remote manifest file.
+
+    Returns:
+        A dictionary containing version information or None on failure.
+    """
+    try:
+        response = requests.get(UPDATE_MANIFEST_URL, timeout=10)
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException as e:
+        logging.error(f"Failed to fetch version info: {e}")
+        return None
+    except ValueError as e:
+        logging.error(f"Failed to parse version info JSON: {e}")
+        return None
+
+
+def download_update(url: str, download_dir: str) -> Optional[str]:
+    """
+    Downloads the update package from the given URL.
+
+    Args:
+        url: The URL of the update package.
+        download_dir: The directory to save the downloaded file.
+
+    Returns:
+        The path to the downloaded file or None on failure.
+    """
+    try:
+        local_filename = os.path.join(download_dir, url.split("/")[-1])
+        logging.info(f"Downloading update from {url} to {local_filename}")
+        with requests.get(url, stream=True, timeout=30) as r:
+            r.raise_for_status()
+            with open(local_filename, "wb") as f:
+                for chunk in r.iter_content(chunk_size=8192):
+                    f.write(chunk)
+        logging.info("Download complete.")
+        return local_filename
+    except requests.exceptions.RequestException as e:
+        logging.error(f"Failed to download update: {e}")
+        return None
+
+
+def apply_update(archive_path: str):
+    """
+    Applies the update by extracting the archive and replacing the current
+    executable. This is done via a separate updater script.
+    """
+    app_path = os.path.realpath(sys.executable)
+    app_dir = os.path.dirname(app_path)
+    update_dir = os.path.dirname(archive_path)
+
+    try:
+        logging.info(f"Extracting update from {archive_path} to {update_dir}")
+        with zipfile.ZipFile(archive_path, "r") as zip_ref:
+            zip_ref.extractall(update_dir)
+        os.remove(archive_path)
+        logging.info("Extraction complete.")
+    except (zipfile.BadZipFile, OSError) as e:
+        logging.error(f"Failed to extract update: {e}")
+        shutil.rmtree(update_dir)
+        return
+
+    # The updater script will replace the old files with the new ones
+    updater_script_content = f"""
+import os
+import sys
+import time
+import shutil
+import subprocess
+import psutil
+
+def is_process_running(pid):
+    try:
+        return psutil.pid_exists(pid)
+    except AttributeError: # psutil < 5.7.0
+        return psutil.pid_exists(int(pid))
+
+def terminate_process(pid):
+    try:
+        p = psutil.Process(pid)
+        p.terminate()
+        p.wait(timeout=5)
+    except psutil.NoSuchProcess:
+        pass # Already terminated
+    except (psutil.AccessDenied, psutil.TimeoutExpired):
+        try:
+            p.kill()
+            p.wait(timeout=5)
+        except Exception as e:
+            print(f"Error killing process {{pid}}: {{e}}")
+
+
+def main():
+    parent_pid = {os.getpid()}
+    source_dir = r"{update_dir}"
+    dest_dir = r"{app_dir}"
+    app_executable = r"{app_path}"
+
+    print(f"Updater started. Waiting for main application (PID: {{parent_pid}}) to exit...")
+
+    if is_process_running(parent_pid):
+        terminate_process(parent_pid)
+        time.sleep(2) # Give it a moment to release file handles
+
+    if is_process_running(parent_pid):
+        print(f"Main application (PID: {{parent_pid}}) did not exit. Aborting update.")
+        sys.exit(1)
+
+    print("Main application closed. Applying update...")
+
+    # Find the new executable in the update directory
+    new_executable = None
+    for root, _, files in os.walk(source_dir):
+        for file in files:
+            if file.lower().endswith(('.exe', '')) and os.access(os.path.join(root, file), os.X_OK):
+                # A simple heuristic: find the first executable
+                # A more robust solution might use a manifest file in the zip
+                if os.path.basename(app_executable).lower() in file.lower():
+                    new_executable = os.path.join(root, file)
+                    break
+        if new_executable:
+            break
+    
+    if not new_executable:
+        print("Could not find new executable in the update package. Aborting.")
+        sys.exit(1)
+
+    # Move new files to the application directory
+    for item in os.listdir(source_dir):
+        s = os.path.join(source_dir, item)
+        d = os.path.join(dest_dir, item)
+        try:
+            if os.path.isdir(s):
+                if os.path.exists(d):
+                    shutil.rmtree(d)
+                shutil.move(s, d)
+            else:
+                if os.path.exists(d):
+                    os.remove(d)
+                shutil.move(s, d)
+        except Exception as e:
+            print(f"Error moving file {{s}} to {{d}}: {{e}}")
+
+
+    print("Update applied. Relaunching application...")
+    try:
+        subprocess.Popen([app_executable])
+    except Exception as e:
+        print(f"Failed to relaunch application: {{e}}")
+
+    print("Cleaning up...")
+    try:
+        shutil.rmtree(source_dir)
+    except Exception as e:
+        print(f"Warning: Failed to remove temporary update directory: {{e}}")
+
+if __name__ == "__main__":
+    main()
+"""
+    updater_script_path = os.path.join(update_dir, "updater.py")
+    with open(updater_script_path, "w", encoding="utf-8") as f:
+        f.write(updater_script_content)
+
+    logging.info("Launching updater script and exiting main application.")
+    # Use Popen to detach the process
+    subprocess.Popen([sys.executable, updater_script_path])
+    sys.exit(0)
+
+
+def check_and_apply_update():
+    """
+    Checks for a new version and applies it if one is found.
+    """
+    logging.info(f"Current version: {CURRENT_VERSION}")
+    logging.info("Checking for updates...")
+
+    version_info = get_latest_version_info()
+    if not version_info:
+        return
+
+    latest_version_str = version_info.get("version")
+    update_url = version_info.get("url")
+
+    if not latest_version_str or not update_url:
+        logging.error("Invalid version manifest format.")
+        return
+
+    current_v = parse_version(CURRENT_VERSION)
+    latest_v = parse_version(latest_version_str)
+
+    if latest_v > current_v:
+        logging.info(f"New version available: {latest_v}")
+        logging.info(f"Update notes: {version_info.get('notes', 'N/A')}")
+
+        try:
+            update_dir = tempfile.mkdtemp()
+            archive_path = download_update(update_url, update_dir)
+
+            if archive_path:
+                apply_update(archive_path)
+            else:
+                shutil.rmtree(update_dir)
+        except Exception as e:
+            logging.error(f"An unexpected error occurred during the update process: {e}")
+            if 'update_dir' in locals() and os.path.exists(update_dir):
+                shutil.rmtree(update_dir)
+    else:
+        logging.info("Application is up to date.")
+
+
+if __name__ == "__main__":
+    # To test this script, you would need to:
+    # 1. Host a `version.json` file at the `UPDATE_MANIFEST_URL`.
+    #    Example `version.json`:
+    #    {
+    #      "version": "1.0.1",
+    #      "url": "https://your-server.com/path/to/update-v1.0.1.zip",
+    #      "notes": "This is a test update."
+    #    }
+    # 2. Create and host the `update-v1.0.1.zip` file containing the new
+    #    version of the application executable.
+    # 3. Run this script. It should detect the new version, download,
+    #    and attempt to apply the update.
+
+    # Note: The `sys.executable` might point to the Python interpreter
+    # when running as a script. For a bundled application (e.g., with PyInstaller),
+    # `sys.executable` will correctly point to the app's .exe file.
+
+    print("--- Application Logic Would Run Here ---")
+    check_and_apply_update()
+    print("--- Application Continues if No Update ---")

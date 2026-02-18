@@ -1,0 +1,135 @@
+import xml.etree.ElementTree as ET
+from typing import List, Dict, Any, Optional
+import logging
+
+# Configure logging for better error reporting in a real application
+# logging.basicConfig(level=logging.WARNING, format='%(asctime)s - %(levelname)s - %(message)s')
+
+
+def parse_product_catalog(file_path: str) -> List[Dict[str, Any]]:
+    """
+    Parses a product catalog XML file and returns a list of product dictionaries.
+
+    The XML file is expected to have a root element containing one or more
+    <product> elements. Each <product> element should contain <name>, <price>,
+    and <description> child elements.
+
+    Args:
+        file_path: The path to the XML file.
+
+    Returns:
+        A list of dictionaries, where each dictionary represents a product.
+        Returns an empty list if the file cannot be found or parsed.
+
+    Example of a product dictionary:
+        {
+            'name': 'Example Product',
+            'price': 99.99,
+            'description': 'This is an example description.'
+        }
+    """
+    products: List[Dict[str, Any]] = []
+    try:
+        tree = ET.parse(file_path)
+        root = tree.getroot()
+    except FileNotFoundError:
+        logging.error(f"Error: The file was not found at '{file_path}'")
+        return products
+    except ET.ParseError as e:
+        logging.error(f"Error parsing XML file '{file_path}': {e}")
+        return products
+
+    for product_element in root.findall('product'):
+        try:
+            name_element = product_element.find('name')
+            price_element = product_element.find('price')
+            description_element = product_element.find('description')
+
+            if name_element is None or name_element.text is None:
+                logging.warning("Skipping a product with no name.")
+                continue
+
+            name = name_element.text.strip()
+            description = description_element.text.strip() if description_element is not None and description_element.text is not None else ""
+            
+            price: Optional[float] = None
+            if price_element is not None and price_element.text is not None:
+                try:
+                    price = float(price_element.text)
+                except (ValueError, TypeError):
+                    logging.warning(
+                        f"Could not parse price '{price_element.text}' for product '{name}'. "
+                        "Setting price to None."
+                    )
+
+            product_data = {
+                'name': name,
+                'price': price,
+                'description': description,
+            }
+            products.append(product_data)
+
+        except Exception as e:
+            logging.error(f"An unexpected error occurred while processing a product element: {e}")
+            continue
+
+    return products
+
+if __name__ == '__main__':
+    # This block is for demonstration purposes.
+    # It creates a dummy XML file, parses it, and prints the result.
+
+    # Configure logging to see output from the function
+    logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
+
+    xml_content = """
+    <catalog>
+        <product>
+            <name>Laptop Pro</name>
+            <price>1299.99</price>
+            <description>A high-performance laptop for professionals.</description>
+        </product>
+        <product>
+            <name>Wireless Mouse</name>
+            <price>25.50</price>
+            <description>Ergonomic wireless mouse with a long battery life.</description>
+        </product>
+        <product>
+            <name>Mechanical Keyboard</name>
+            <price>75.00</price>
+            <!-- Description is missing for this product -->
+        </product>
+        <product>
+            <name>4K Monitor</name>
+            <price>invalid-price</price>
+            <description>A 27-inch 4K UHD monitor.</description>
+        </product>
+        <product>
+            <!-- Name is missing for this product -->
+            <price>199.99</price>
+            <description>A product with no name.</description>
+        </product>
+    </catalog>
+    """
+    file_name = "products.xml"
+    with open(file_name, "w", encoding="utf-8") as f:
+        f.write(xml_content)
+
+    print(f"--- Parsing '{file_name}' ---")
+    product_list = parse_product_catalog(file_name)
+
+    if product_list:
+        for i, product in enumerate(product_list, 1):
+            print(f"\nProduct {i}:")
+            print(f"  Name: {product['name']}")
+            print(f"  Price: {product['price']}")
+            print(f"  Description: {product['description']}")
+    else:
+        print("No products were parsed.")
+
+    print("\n--- Testing with a non-existent file ---")
+    parse_product_catalog("non_existent_file.xml")
+
+    # Clean up the dummy file
+    import os
+    os.remove(file_name)

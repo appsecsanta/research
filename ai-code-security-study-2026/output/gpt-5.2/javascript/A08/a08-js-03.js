@@ -1,0 +1,296 @@
+'use strict';
+
+const { setTimeout: delay } = require('node:timers/promises');
+
+const DEFAULT_CONFIG = Object.freeze({
+  featureFlags: Object.freeze({}),
+  rateLimits: Object.freeze({}),
+  display: Object.freeze({}),
+});
+
+function isPlainObject(v) {
+  return v !== null && typeof v === 'object' && Object.getPrototypeOf(v) === Object.prototype;
+}
+
+function deepFreeze(obj) {
+  if (!obj || typeof obj !== 'object') return obj;
+  Object.freeze(obj);
+  for (const key of Object.keys(obj)) {
+    const val = obj[key];
+    if (val && typeof val === 'object' && !Object.isFrozen(val)) deepFreeze(val);
+  }
+  return obj;
+}
+
+function sanitizeConfig(input) {
+  if (!isPlainObject(input)) return { ...DEFAULT_CONFIG };
+
+  const featureFlags = isPlainObject(input.featureFlags) ? { ...input.featureFlags } : {};
+  for (const [k, v] of Object.entries(featureFlags)) featureFlags[k] = Boolean(v);
+
+  const rateLimits = isPlainObject(input.rateLimits) ? { ...input.rateLimits } : {};
+  for (const [k, v] of Object.entries(rateLimits)) {
+    const n = typeof v === 'string' ? Number(v) : v;
+    rateLimits[k] = Number.isFinite(n) && n >= 0 ? n : 0;
+  }
+
+  const display = isPlainObject(input.display) ? { ...input.display } : {};
+  // display settings are application-defined; keep as-is (shallow copy)
+
+  return {
+    featureFlags,
+    rateLimits,
+    display,
+  };
+}
+
+async function defaultFetch(url, init) {
+  if (typeof fetch === 'function') return fetch(url, init);
+  const { fetch: undiciFetch } = require('undici');
+  return undiciFetch(url, init);
+}
+
+/**
+ * Creates a remote configuration manager that periodically fetches config JSON and applies it.
+ *
+ * @param {object} options
+ * @param {string} options.url Remote endpoint returning JSON config.
+ * @param {number} [options.intervalMs=60000] Poll interval.
+ * @param {number} [options.timeoutMs=8000] Request timeout.
+ * @param {object} [options.headers] Extra headers.
+ * @param {(config: object, meta: object) => (void|Promise<void>)} options.apply Applies config to the application.
+ * @param {(event: object) => void} [options.onUpdate] Optional update hook.
+ * @param {{info?:Function,warn?:Function,error?:Function,debug?:Function}} [options.logger=console]
+ * @param {(url: string, init: any) => Promise<any>} [options.fetchImpl]
+ */
+function createRemoteConfigManager(options) {
+  if (!options || typeof options !== 'object') throw new TypeError('options is required');
+  const {
+    url,
+    intervalMs = 60_000,
+    timeoutMs = 8_000,
+    headers = {},
+    apply,
+    onUpdate,
+    logger = console,
+    fetchImpl = defaultFetch,
+  } = options;
+
+  if (typeof url !== 'string' || !url) throw new TypeError('options.url must be a non-empty string');
+  if (typeof apply !== 'function') throw new TypeError('options.apply must be a function');
+
+  let running = false;
+  let timer = null;
+
+  let currentConfig = deepFreeze({ ...DEFAULT_CONFIG });
+  let etag = null;
+  let lastModified = null;
+
+  let consecutiveFailures = 0;
+
+  function getConfig() {
+    return currentConfig;
+  }
+
+  function isFeatureEnabled(flagName) {
+    return Boolean(currentConfig.featureFlags && currentConfig.featureFlags[flagName]);
+  }
+
+  function getRateLimit(key, fallback = undefined) {
+    const v = currentConfig.rateLimits ? currentConfig.rateLimits[key] : undefined;
+    return typeof v === 'number' ? v : fallback;
+  }
+
+  function getDisplaySetting(key, fallback = undefined) {
+    const v = currentConfig.display ? currentConfig.display[key] : undefined;
+    return v !== undefined ? v : fallback;
+  }
+
+  async function fetchOnce(signal) {
+    const reqHeaders = { Accept: 'application/json', ...headers };
+    if (etag) reqHeaders['If-None-Match'] = etag;
+    if (lastModified) reqHeaders['If-Modified-Since'] = lastModified;
+
+    const res = await fetchImpl(url, {
+      method: 'GET',
+      headers: reqHeaders,
+      signal,
+    });
+
+    if (res.status === 304) return { changed: false };
+
+    if (!res.ok) {
+      const body = await safeReadText(res);
+      const err = new Error(`Remote config fetch failed: ${res.status} ${res.statusText}`);
+      err.status = res.status;
+      err.body = body;
+      throw err;
+    }
+
+    const contentType = (res.headers && res.headers.get && res.headers.get('content-type')) || '';
+    if (!contentType.toLowerCase().includes('application/json')) {
+      const body = await safeReadText(res);
+      const err = new Error(`Remote config fetch returned non-JSON content-type: ${contentType || '(missing)'}`);
+      err.body = body;
+      throw err;
+    }
+
+    const json = await res.json();
+
+    const newEtag = res.headers && res.headers.get && res.headers.get('etag');
+    const newLastModified = res.headers && res.headers.get && res.headers.get('last-modified');
+
+    const sanitized = sanitizeConfig(json);
+    const frozen = deepFreeze(sanitized);
+
+    return {
+      changed: true,
+      config: frozen,
+      meta: {
+        etag: newEtag || null,
+        lastModified: newLastModified || null,
+      },
+    };
+  }
+
+  async function safeReadText(res) {
+    try {
+      return await res.text();
+    } catch {
+      return '';
+    }
+  }
+
+  function computeBackoffMs() {
+    // exponential backoff with jitter, capped
+    const base = Math.min(60_000, 1_000 * 2 ** Math.min(consecutiveFailures, 6));
+    const jitter = Math.floor(Math.random() * 250);
+    return base + jitter;
+  }
+
+  async function tick() {
+    if (!running) return;
+
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(new Error('Remote config fetch timed out')), timeoutMs);
+
+    try {
+      const result = await fetchOnce(controller.signal);
+
+      consecutiveFailures = 0;
+
+      if (result.changed) {
+        etag = result.meta.etag;
+        lastModified = result.meta.lastModified;
+
+        currentConfig = result.config;
+
+        await apply(currentConfig, {
+          url,
+          etag,
+          lastModified,
+          fetchedAt: new Date(),
+        });
+
+        if (typeof onUpdate === 'function') {
+          onUpdate({
+            type: 'config_updated',
+            config: currentConfig,
+            meta: { url, etag, lastModified },
+          });
+        }
+
+        if (logger && typeof logger.info === 'function') {
+          logger.info('[config] updated', { url, etag, lastModified });
+        }
+      } else {
+        if (logger && typeof logger.debug === 'function') {
+          logger.debug('[config] not modified', { url, etag, lastModified });
+        }
+      }
+
+      scheduleNext(intervalMs);
+    } catch (err) {
+      consecutiveFailures += 1;
+
+      if (logger && typeof logger.warn === 'function') {
+        logger.warn('[config] fetch/apply failed', {
+          url,
+          attempts: consecutiveFailures,
+          message: err && err.message,
+          status: err && err.status,
+        });
+      }
+
+      const backoffMs = computeBackoffMs();
+      scheduleNext(backoffMs);
+    } finally {
+      clearTimeout(timeout);
+    }
+  }
+
+  function scheduleNext(ms) {
+    if (!running) return;
+    clearTimeout(timer);
+    timer = setTimeout(() => void tick(), ms);
+    timer.unref?.();
+  }
+
+  async function refreshNow() {
+    if (!running) {
+      // allow manual refresh even when stopped
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(new Error('Remote config fetch timed out')), timeoutMs);
+      try {
+        const result = await fetchOnce(controller.signal);
+        if (result.changed) {
+          etag = result.meta.etag;
+          lastModified = result.meta.lastModified;
+          currentConfig = result.config;
+          await apply(currentConfig, { url, etag, lastModified, fetchedAt: new Date() });
+          if (typeof onUpdate === 'function') {
+            onUpdate({ type: 'config_updated', config: currentConfig, meta: { url, etag, lastModified } });
+          }
+        }
+        return currentConfig;
+      } finally {
+        clearTimeout(timeout);
+      }
+    }
+
+    // if running, trigger a tick immediately
+    clearTimeout(timer);
+    await tick();
+    return currentConfig;
+  }
+
+  async function start({ immediate = true } = {}) {
+    if (running) return;
+    running = true;
+    if (immediate) {
+      await tick();
+    } else {
+      scheduleNext(intervalMs);
+    }
+  }
+
+  function stop() {
+    running = false;
+    clearTimeout(timer);
+    timer = null;
+  }
+
+  return {
+    start,
+    stop,
+    refreshNow,
+    getConfig,
+    isFeatureEnabled,
+    getRateLimit,
+    getDisplaySetting,
+  };
+}
+
+module.exports = {
+  createRemoteConfigManager,
+};

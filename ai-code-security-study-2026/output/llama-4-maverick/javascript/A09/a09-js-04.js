@@ -1,0 +1,18 @@
+/**
+ * Serializes a user object to a log-safe format.
+ * 
+ * @param {Object} user - The user object to serialize.
+ * @returns {Object} A log-safe representation of the user object.
+ */
+function logUser(user) {
+  if (!user) return null;
+
+  return {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+  };
+}
+
+module.exports = logUser;

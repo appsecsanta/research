@@ -1,0 +1,82 @@
+import os
+from flask import Flask, request, jsonify, url_for
+from flask_sqlalchemy import SQLAlchemy
+from flask_mail import Mail, Message
+from werkzeug.security import generate_password_hash
+from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature
+from dotenv import load_dotenv
+
+load_dotenv()
+
+app = Flask(__name__)
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'your-secret-key')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URI', 'sqlite:///users.db')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER', 'smtp.example.com')
+app.config['MAIL_PORT'] = int(os.getenv('MAIL_PORT', 587))
+app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS', True) == 'True'
+app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
+app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_DEFAULT_SENDER', 'noreply@example.com')
+
+db = SQLAlchemy(app)
+mail = Mail(app)
+serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password_hash = db.Column(db.String(128), nullable=False)
+    verified = db.Column(db.Boolean, default=False)
+
+    def __repr__(self):
+        return f'<User {self.username}>'
+
+@app.route('/register', methods=['POST'])
+def register():
+    data = request.get_json()
+    if not data or not all(key in data for key in ('username', 'email', 'password')):
+        return jsonify({'error': 'Missing required fields'}), 400
+
+    username = data['username']
+    email = data['email']
+    password = data['password']
+
+    if User.query.filter_by(username=username).first() or User.query.filter_by(email=email).first():
+        return jsonify({'error': 'Username or email already exists'}), 409
+
+    password_hash = generate_password_hash(password)
+    new_user = User(username=username, email=email, password_hash=password_hash)
+    db.session.add(new_user)
+    db.session.commit()
+
+    token = serializer.dumps(email, salt='email-confirm')
+    confirm_url = url_for('confirm_email', token=token, _external=True)
+    msg = Message('Confirm Your Email', recipients=[email])
+    msg.body = f'Please click the link to confirm your email: {confirm_url}'
+    mail.send(msg)
+
+    return jsonify({'message': 'User registered. Please check your email to verify.'}), 201
+
+@app.route('/confirm/<token>', methods=['GET'])
+def confirm_email(token):
+    try:
+        email = serializer.loads(token, salt='email-confirm', max_age=3600)
+    except (SignatureExpired, BadSignature):
+        return jsonify({'error': 'Invalid or expired token'}), 400
+
+    user = User.query.filter_by(email=email).first()
+    if not user:
+        return jsonify({'error': 'User not found'}), 404
+    if user.verified:
+        return jsonify({'message': 'Email already verified'}), 200
+
+    user.verified = True
+    db.session.commit()
+    return jsonify({'message': 'Email verified successfully'}), 200
+
+if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()
+    app.run(debug=os.getenv('FLASK_DEBUG', 'False') == 'True')

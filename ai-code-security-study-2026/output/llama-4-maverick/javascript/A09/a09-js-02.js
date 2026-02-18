@@ -1,0 +1,36 @@
+const { MongoClient } = require('mongodb');
+
+const mongoUrl = 'mongodb://localhost:27017';
+const dbName = 'auditLogs';
+const collectionName = 'loginAttempts';
+
+const client = new MongoClient(mongoUrl);
+
+async function logLoginAttempt({
+  username,
+  ipAddress,
+  userAgent,
+  success,
+}) {
+  try {
+    await client.connect();
+    const db = client.db(dbName);
+    const collection = db.collection(collectionName);
+
+    const log = {
+      username,
+      timestamp: new Date(),
+      ipAddress,
+      userAgent,
+      success,
+    };
+
+    await collection.insertOne(log);
+  } catch (error) {
+    console.error('Error logging login attempt:', error);
+  } finally {
+    await client.close();
+  }
+}
+
+module.exports = logLoginAttempt;

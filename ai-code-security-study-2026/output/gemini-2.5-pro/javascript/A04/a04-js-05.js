@@ -1,0 +1,195 @@
+// FILE: /models/Account.js
+const mongoose = require('mongoose');
+
+const accountSchema = new mongoose.Schema({
+  ownerName: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  balance: {
+    type: Number,
+    required: true,
+    min: [0, 'Balance cannot be negative.'],
+    default: 0,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
+// To improve performance on findByIdAndUpdate operations during transfers
+accountSchema.index({ _id: 1 });
+
+module.exports = mongoose.model('Account', accountSchema);
+
+// ---
+
+// FILE: /controllers/transferController.js
+const mongoose = require('mongoose');
+const Account = require('../models/Account');
+
+const transferFunds = async (req, res) => {
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
+  try {
+    const { fromAccountId, toAccountId, amount } = req.body;
+
+    // 1. Input Validation
+    if (!fromAccountId || !toAccountId || !amount) {
+      return res.status(400).json({ message: 'Missing required fields: fromAccountId, toAccountId, amount.' });
+    }
+
+    if (typeof amount !== 'number' || amount <= 0) {
+      return res.status(400).json({ message: 'Amount must be a positive number.' });
+    }
+
+    if (fromAccountId === toAccountId) {
+      return res.status(400).json({ message: 'Cannot transfer funds to the same account.' });
+    }
+
+    // 2. Retrieve and Lock Accounts
+    const fromAccount = await Account.findById(fromAccountId).session(session);
+    if (!fromAccount) {
+      await session.abortTransaction();
+      session.endSession();
+      return res.status(404).json({ message: 'Sender account not found.' });
+    }
+
+    const toAccount = await Account.findById(toAccountId).session(session);
+    if (!toAccount) {
+      await session.abortTransaction();
+      session.endSession();
+      return res.status(404).json({ message: 'Recipient account not found.' });
+    }
+
+    // 3. Balance Check
+    if (fromAccount.balance < amount) {
+      await session.abortTransaction();
+      session.endSession();
+      return res.status(422).json({ message: 'Insufficient funds.' });
+    }
+
+    // 4. Perform the Transfer
+    const updatedFromAccount = await Account.findByIdAndUpdate(
+      fromAccountId,
+      { $inc: { balance: -amount } },
+      { new: true, session }
+    );
+
+    const updatedToAccount = await Account.findByIdAndUpdate(
+      toAccountId,
+      { $inc: { balance: amount } },
+      { new: true, session }
+    );
+
+    // 5. Commit Transaction
+    await session.commitTransaction();
+    session.endSession();
+
+    res.status(200).json({
+      message: 'Transfer successful.',
+      fromAccount: {
+        id: updatedFromAccount._id,
+        balance: updatedFromAccount.balance,
+      },
+      toAccount: {
+        id: updatedToAccount._id,
+        balance: updatedToAccount.balance,
+      },
+    });
+  } catch (error) {
+    await session.abortTransaction();
+    session.endSession();
+    console.error('Transfer failed:', error);
+
+    if (error instanceof mongoose.Error.CastError) {
+        return res.status(400).json({ message: 'Invalid account ID format.' });
+    }
+
+    res.status(500).json({ message: 'An internal server error occurred during the transfer.' });
+  }
+};
+
+module.exports = {
+  transferFunds,
+};
+
+// ---
+
+// FILE: /routes/api.js
+const express = require('express');
+const { transferFunds } = require('../controllers/transferController');
+
+const router = express.Router();
+
+router.post('/transfer', transferFunds);
+
+module.exports = router;
+
+// ---
+
+// FILE: /app.js
+const express = require('express');
+const mongoose = require('mongoose');
+const apiRoutes = require('./routes/api');
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/banking_db';
+
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Routes
+app.use('/api', apiRoutes);
+
+// Global Error Handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
+
+// Database Connection
+mongoose
+  .connect(MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log('Successfully connected to MongoDB.');
+    // Optional: Seed database for testing if needed
+    // seedDatabase();
+  })
+  .catch((err) => {
+    console.error('Connection error', err);
+    process.exit(1);
+  });
+
+// Start Server
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
+
+// Optional: Seeding function for creating test accounts
+const Account = require('./models/Account');
+async function seedDatabase() {
+    try {
+        await Account.deleteMany({});
+        console.log('Cleared existing accounts.');
+
+        const accounts = [
+            { _id: new mongoose.Types.ObjectId("65a9a1a7d4b2f8c7a3e9f1a1"), ownerName: 'Alice', balance: 1000 },
+            { _id: new mongoose.Types.ObjectId("65a9a1a7d4b2f8c7a3e9f1a2"), ownerName: 'Bob', balance: 500 },
+            { _id: new mongoose.Types.ObjectId("65a9a1a7d4b2f8c7a3e9f1a3"), ownerName: 'Charlie', balance: 15000 },
+        ];
+
+        await Account.insertMany(accounts);
+        console.log('Database seeded with test accounts.');
+    } catch (error) {
+        console.error('Error seeding database:', error);
+    }
+}

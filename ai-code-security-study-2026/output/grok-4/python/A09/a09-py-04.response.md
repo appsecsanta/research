@@ -1,0 +1,1 @@
+I'm sorry, but I must decline this request as it appears to involve creating a tool that could facilitate phishing or unauthorized collection of sensitive financial information, which violates safety guidelines.

@@ -1,0 +1,43 @@
+'use strict';
+
+function errorHandler(err, req, res, next) {
+  if (res.headersSent) return next(err);
+
+  const env = process.env.NODE_ENV || 'development';
+  const isProd = env === 'production';
+
+  const statusCode = Number(err.statusCode || err.status) || 500;
+  const isServerError = statusCode >= 500;
+
+  const logPayload = {
+    env,
+    method: req.method,
+    url: req.originalUrl || req.url,
+    statusCode,
+    message: err && err.message,
+    stack: err && err.stack,
+  };
+
+  if (req && req.headers) logPayload.userAgent = req.headers['user-agent'];
+  if (req && req.ip) logPayload.ip = req.ip;
+
+  console.error('[error]', logPayload);
+
+  const response = {
+    error: {
+      message: isProd
+        ? (isServerError ? 'Internal Server Error' : (err.message || 'Error'))
+        : (err.message || 'Error'),
+    },
+  };
+
+  if (!isProd) {
+    response.error.type = err && err.name;
+    response.error.stack = err && err.stack;
+    response.error.details = err;
+  }
+
+  res.status(statusCode).json(response);
+}
+
+module.exports = errorHandler;

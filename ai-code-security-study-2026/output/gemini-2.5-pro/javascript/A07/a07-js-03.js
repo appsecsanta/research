@@ -1,0 +1,341 @@
+// FILE: db.js
+// A mock database layer. In a real application, this would be replaced
+// with a proper database connection (e.g., PostgreSQL, MongoDB) and ORM (e.g., Sequelize, Mongoose).
+
+const bcrypt = require('bcrypt');
+const crypto = require('crypto');
+
+// In-memory stores for demonstration purposes
+const users = new Map();
+const authTokens = new Map();
+
+// Pre-populate with a test user
+(async () => {
+  const hashedPassword = await bcrypt.hash('password123', 10);
+  const userId = crypto.randomUUID();
+  users.set('testuser', {
+    id: userId,
+    username: 'testuser',
+    hashedPassword,
+  });
+})();
+
+
+const db = {
+  users: {
+    async findByUsername(username) {
+      return users.get(username);
+    },
+    async findById(id) {
+      for (const user of users.values()) {
+        if (user.id === id) {
+          return user;
+        }
+      }
+      return undefined;
+    },
+  },
+  authTokens: {
+    async findBySelector(selector) {
+      return authTokens.get(selector);
+    },
+    async create({ selector, validatorHash, userId, expiresAt }) {
+      const token = { selector, validatorHash, userId, expiresAt };
+      authTokens.set(selector, token);
+      return token;
+    },
+    async updateValidator({ selector, newValidatorHash }) {
+        const token = authTokens.get(selector);
+        if (token) {
+            token.validatorHash = newValidatorHash;
+            authTokens.set(selector, token);
+        }
+        return token;
+    },
+    async delete(selector) {
+      return authTokens.delete(selector);
+    },
+  },
+};
+
+module.exports = db;
+
+// FILE: auth.js
+// Contains authentication and 'remember me' token logic.
+
+const crypto = require('crypto');
+const db = require('./db');
+
+const COOKIE_NAME = 'remember_me';
+const TOKEN_EXPIRATION_DAYS = 30;
+
+/**
+ * Hashes a string using SHA256.
+ * @param {string} str The string to hash.
+ * @returns {string} The SHA256 hash.
+ */
+function hash(str) {
+  return crypto.createHash('sha256').update(str).digest('hex');
+}
+
+/**
+ * Generates a secure remember-me token.
+ * @returns {{selector: string, validator: string, token: string}}
+ */
+function generateRememberToken() {
+  const selector = crypto.randomBytes(16).toString('hex');
+  const validator = crypto.randomBytes(32).toString('hex');
+  const token = `${selector}:${validator}`;
+  return { selector, validator, token };
+}
+
+/**
+ * Creates and stores a new remember-me token for a user.
+ * @param {string} userId The ID of the user.
+ * @param {import('express').Response} res The Express response object.
+ */
+async function issueRememberToken(userId, res) {
+  const { selector, validator, token } = generateRememberToken();
+  const validatorHash = hash(validator);
+
+  const expiresAt = new Date();
+  expiresAt.setDate(expiresAt.getDate() + TOKEN_EXPIRATION_DAYS);
+
+  await db.authTokens.create({
+    selector,
+    validatorHash,
+    userId,
+    expiresAt,
+  });
+
+  res.cookie(COOKIE_NAME, token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+    expires: expiresAt,
+    sameSite: 'lax',
+  });
+}
+
+/**
+ * Validates a remember-me token from a cookie and logs the user in.
+ * Implements token rotation for enhanced security.
+ * @param {import('express').Request} req The Express request object.
+ * @param {import('express').Response} res The Express response object.
+ * @returns {Promise<void>}
+ */
+async function loginWithToken(req, res) {
+  const cookieToken = req.cookies[COOKIE_NAME];
+  if (!cookieToken || !cookieToken.includes(':')) {
+    return;
+  }
+
+  const [selector, validator] = cookieToken.split(':');
+  if (!selector || !validator) {
+    res.clearCookie(COOKIE_NAME);
+    return;
+  }
+
+  const tokenRecord = await db.authTokens.findBySelector(selector);
+
+  if (!tokenRecord) {
+    res.clearCookie(COOKIE_NAME);
+    return;
+  }
+
+  if (tokenRecord.expiresAt < new Date()) {
+    await db.authTokens.delete(selector);
+    res.clearCookie(COOKIE_NAME);
+    return;
+  }
+
+  const validatorHash = hash(validator);
+  const areHashesEqual = crypto.timingSafeEqual(
+    Buffer.from(validatorHash),
+    Buffer.from(tokenRecord.validatorHash)
+  );
+
+  if (!areHashesEqual) {
+    // Possible token theft attempt. Invalidate all tokens for this user.
+    // (This is an advanced security measure not fully implemented here for brevity).
+    await db.authTokens.delete(selector);
+    res.clearCookie(COOKIE_NAME);
+    return;
+  }
+
+  // Token is valid. Log the user in.
+  const user = await db.users.findById(tokenRecord.userId);
+  if (user) {
+    req.session.user = { id: user.id, username: user.username };
+
+    // **Security Best Practice: Token Rotation**
+    // Invalidate the used token and issue a new one.
+    const { validator: newValidator, token: newToken } = generateRememberToken();
+    const newValidatorHash = hash(newValidator);
+    
+    await db.authTokens.updateValidator({ selector, newValidatorHash });
+
+    const expiresAt = new Date();
+    expiresAt.setDate(expiresAt.getDate() + TOKEN_EXPIRATION_DAYS);
+
+    res.cookie(COOKIE_NAME, newToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      expires: expiresAt,
+      sameSite: 'lax',
+    });
+  } else {
+    // User associated with token not found. Clean up.
+    await db.authTokens.delete(selector);
+    res.clearCookie(COOKIE_NAME);
+  }
+}
+
+/**
+ * Middleware to automatically log in a user if they have a valid remember-me cookie.
+ */
+const rememberMeMiddleware = async (req, res, next) => {
+  if (!req.session.user && req.cookies[COOKIE_NAME]) {
+    await loginWithToken(req, res);
+  }
+  next();
+};
+
+/**
+ * Middleware to protect routes that require authentication.
+ */
+const isAuthenticated = (req, res, next) => {
+  if (req.session.user) {
+    return next();
+  }
+  res.redirect('/login');
+};
+
+module.exports = {
+  issueRememberToken,
+  rememberMeMiddleware,
+  isAuthenticated,
+  COOKIE_NAME,
+};
+
+
+// FILE: server.js
+// The main Express application file.
+
+const express = require('express');
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
+const bcrypt = require('bcrypt');
+const db = require('./db');
+const {
+  issueRememberToken,
+  rememberMeMiddleware,
+  isAuthenticated,
+  COOKIE_NAME,
+} = require('./auth');
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// Middleware setup
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || 'a-very-strong-and-secret-key',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: process.env.NODE_ENV === 'production' },
+  })
+);
+
+// Apply the remember-me middleware to all requests
+app.use(rememberMeMiddleware);
+
+// --- Routes ---
+
+app.get('/', (req, res) => {
+  const user = req.session.user;
+  res.send(`
+    <h1>Home</h1>
+    ${user
+      ? `<p>Welcome, ${user.username}! <a href="/profile">View Profile</a></p>
+         <form action="/logout" method="post"><button type="submit">Logout</button></form>`
+      : '<p><a href="/login">Login</a></p>'
+    }
+  `);
+});
+
+app.get('/login', (req, res) => {
+  if (req.session.user) {
+    return res.redirect('/profile');
+  }
+  res.send(`
+    <h1>Login</h1>
+    <form action="/login" method="post">
+      <div>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" value="testuser" required>
+      </div>
+      <div>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" value="password123" required>
+      </div>
+      <div>
+        <input type="checkbox" id="rememberMe" name="rememberMe" value="true">
+        <label for="rememberMe">Remember Me</label>
+      </div>
+      <button type="submit">Login</button>
+    </form>
+  `);
+});
+
+app.post('/login', async (req, res) => {
+  const { username, password, rememberMe } = req.body;
+  const user = await db.users.findByUsername(username);
+
+  if (user && (await bcrypt.compare(password, user.hashedPassword))) {
+    // Password is correct, create session
+    req.session.user = { id: user.id, username: user.username };
+
+    if (rememberMe) {
+      await issueRememberToken(user.id, res);
+    }
+
+    res.redirect('/profile');
+  } else {
+    res.status(401).send('Invalid username or password. <a href="/login">Try again</a>');
+  }
+});
+
+app.get('/profile', isAuthenticated, (req, res) => {
+  res.send(`
+    <h1>Profile</h1>
+    <p>Hello, ${req.session.user.username}!</p>
+    <p>This is a protected page.</p>
+    <a href="/">Back to Home</a>
+  `);
+});
+
+app.post('/logout', async (req, res) => {
+  // Invalidate the remember-me token if it exists
+  const cookieToken = req.cookies[COOKIE_NAME];
+  if (cookieToken) {
+    const [selector] = cookieToken.split(':');
+    if (selector) {
+      await db.authTokens.delete(selector);
+    }
+    res.clearCookie(COOKIE_NAME);
+  }
+
+  // Destroy the session
+  req.session.destroy((err) => {
+    if (err) {
+      return res.status(500).send('Could not log out.');
+    }
+    res.redirect('/');
+  });
+});
+
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});

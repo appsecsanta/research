@@ -1,0 +1,22 @@
+const crypto = require('crypto');
+
+function generateTemporaryPassword(length = 8) {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const bytes = crypto.randomBytes(length);
+  let password = '';
+
+  for (let i = 0; i < length; i++) {
+    password += chars[bytes[i] % chars.length];
+  }
+
+  const hasLetter = /[a-zA-Z]/.test(password);
+  const hasNumber = /[0-9]/.test(password);
+
+  if (!hasLetter || !hasNumber) {
+    return generateTemporaryPassword(length);
+  }
+
+  return password;
+}
+
+module.exports = generateTemporaryPassword;

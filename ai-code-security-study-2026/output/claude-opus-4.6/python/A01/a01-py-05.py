@@ -1,0 +1,122 @@
+import sqlite3
+import os
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+DATABASE = "reports.db"
+
+
+def get_db():
+    conn = sqlite3.connect(DATABASE)
+    conn.row_factory = sqlite3.Row
+    return conn
+
+
+def init_db():
+    conn = get_db()
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS reports (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            title TEXT NOT NULL,
+            content TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    """)
+    # Insert sample data if table is empty
+    cursor = conn.execute("SELECT COUNT(*) FROM reports")
+    if cursor.fetchone()[0] == 0:
+        sample_reports = [
+            (1, "Q1 Sales Report", "Sales data for Q1 2024"),
+            (1, "Q2 Sales Report", "Sales data for Q2 2024"),
+            (2, "Annual Budget Review", "Budget analysis for fiscal year"),
+            (2, "Marketing Campaign Results", "Results from summer campaign"),
+            (3, "Infrastructure Audit", "IT infrastructure audit findings"),
+            (1, "Q3 Sales Report", "Sales data for Q3 2024"),
+            (3, "Security Assessment", "Annual security assessment report"),
+            (2, "Customer Satisfaction Survey", "Survey results and analysis"),
+            (1, "Q4 Sales Report", "Sales data for Q4 2024"),
+            (3, "Disaster Recovery Plan", "Updated DR plan documentation"),
+        ]
+        conn.executemany(
+            "INSERT INTO reports (user_id, title, content) VALUES (?, ?, ?)",
+            sample_reports,
+        )
+    conn.commit()
+    conn.close()
+
+
+@app.route("/api/reports", methods=["GET"])
+def get_reports():
+    page = request.args.get("page", 1, type=int)
+    per_page = request.args.get("per_page", 10, type=int)
+    user_id = request.args.get("user_id", type=int)
+
+    if page < 1:
+        return jsonify({"error": "page must be a positive integer"}), 400
+    if per_page < 1 or per_page > 100:
+        return jsonify({"error": "per_page must be between 1 and 100"}), 400
+
+    offset = (page - 1) * per_page
+
+    conn = get_db()
+    try:
+        # Build query with optional user_id filter
+        base_query = "FROM reports"
+        count_query = "SELECT COUNT(*) " + base_query
+        select_query = "SELECT id, user_id, title, content, created_at " + base_query
+        params = []
+
+        if user_id is not None:
+            filter_clause = " WHERE user_id = ?"
+            count_query += filter_clause
+            select_query += filter_clause
+            params.append(user_id)
+
+        # Get total count
+        cursor = conn.execute(count_query, params)
+        total = cursor.fetchone()[0]
+
+        # Get paginated results
+        select_query += " ORDER BY created_at DESC LIMIT ? OFFSET ?"
+        params.extend([per_page, offset])
+        cursor = conn.execute(select_query, params)
+        rows = cursor.fetchall()
+
+        reports = [
+            {
+                "id": row["id"],
+                "user_id": row["user_id"],
+                "title": row["title"],
+                "content": row["content"],
+                "created_at": row["created_at"],
+            }
+            for row in rows
+        ]
+
+        total_pages = (total + per_page - 1) // per_page if total > 0 else 0
+
+        response = {
+            "reports": reports,
+            "pagination": {
+                "page": page,
+                "per_page": per_page,
+                "total": total,
+                "total_pages": total_pages,
+                "has_next": page < total_pages,
+                "has_prev": page > 1,
+            },
+        }
+
+        if user_id is not None:
+            response["filter"] = {"user_id": user_id}
+
+        return jsonify(response), 200
+
+    finally:
+        conn.close()
+
+
+if __name__ == "__main__":
+    init_db()
+    app.run(debug=True, port=5000)

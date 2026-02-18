@@ -1,0 +1,185 @@
+# app.py
+#
+# To run this application:
+# 1. Install dependencies:
+#    pip install Flask Flask-SQLAlchemy Flask-Migrate python-dotenv
+#
+# 2. Set up the environment (optional, for configuration):
+#    Create a .env file in the same directory with:
+#    FLASK_APP=app.py
+#    FLASK_CONFIG=development
+#
+# 3. Initialize the database:
+#    flask db init
+#    flask db migrate -m "Initial migration."
+#    flask db upgrade
+#
+# 4. Run the application:
+#    flask run
+
+import os
+from typing import Dict, Any, Type, List
+
+from flask import Flask, jsonify, request, Response
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+
+# Initialize extensions globally
+db = SQLAlchemy()
+migrate = Migrate()
+
+
+class Config:
+    """Base configuration."""
+    SECRET_KEY = os.environ.get('SECRET_KEY', os.urandom(24))
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    # Use a path relative to the instance folder
+    SQLALCHEMY_DATABASE_URI = os.environ.get(
+        'DATABASE_URL', 'sqlite:///' + os.path.join(os.path.abspath(os.path.dirname(__file__)), 'app.db')
+    )
+
+
+class DevelopmentConfig(Config):
+    """Development configuration."""
+    DEBUG = True
+
+
+class ProductionConfig(Config):
+    """Production configuration."""
+    DEBUG = False
+
+
+config: Dict[str, Type[Config]] = {
+    'development': DevelopmentConfig,
+    'production': ProductionConfig,
+    'default': DevelopmentConfig
+}
+
+
+# --- Database Models ---
+
+class Item(db.Model):
+    """A sample item model."""
+    __tablename__ = 'items'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(80), unique=True, nullable=False)
+    description = db.Column(db.String(200), nullable=True)
+
+    def __init__(self, name: str, description: str = None):
+        self.name = name
+        self.description = description
+
+    def to_dict(self) -> Dict[str, Any]:
+        """Serializes the object to a dictionary."""
+        return {
+            'id': self.id,
+            'name': self.name,
+            'description': self.description
+        }
+
+    def __repr__(self) -> str:
+        return f'<Item {self.name}>'
+
+
+# --- Application Factory ---
+
+def create_app(config_name: str = 'default') -> Flask:
+    """
+    Creates and configures an instance of the Flask application.
+    """
+    app = Flask(__name__)
+
+    # Load configuration
+    config_name = os.getenv('FLASK_CONFIG', config_name)
+    app.config.from_object(config[config_name])
+
+    # Initialize extensions
+    db.init_app(app)
+    migrate.init_app(app, db)
+
+    # --- API Endpoints ---
+
+    @app.route('/api/health', methods=['GET'])
+    def health_check() -> Response:
+        """Health check endpoint."""
+        return jsonify({'status': 'ok'})
+
+    @app.route('/api/items', methods=['POST'])
+    def create_item() -> Response:
+        """Creates a new item."""
+        data = request.get_json()
+        if not data or 'name' not in data:
+            return jsonify({'error': 'Missing name in request body'}), 400
+
+        if Item.query.filter_by(name=data['name']).first():
+            return jsonify({'error': f"Item with name '{data['name']}' already exists."}), 409
+
+        new_item = Item(name=data['name'], description=data.get('description'))
+        db.session.add(new_item)
+        db.session.commit()
+
+        return jsonify(new_item.to_dict()), 201
+
+    @app.route('/api/items', methods=['GET'])
+    def get_all_items() -> Response:
+        """Returns a list of all items."""
+        items: List[Item] = Item.query.all()
+        return jsonify([item.to_dict() for item in items])
+
+    @app.route('/api/items/<int:item_id>', methods=['GET'])
+    def get_item(item_id: int) -> Response:
+        """Returns a single item by its ID."""
+        item = db.get_or_404(Item, item_id, description=f"Item with ID {item_id} not found.")
+        return jsonify(item.to_dict())
+
+    @app.route('/api/items/<int:item_id>', methods=['PUT'])
+    def update_item(item_id: int) -> Response:
+        """Updates an existing item."""
+        item = db.get_or_404(Item, item_id, description=f"Item with ID {item_id} not found.")
+        data = request.get_json()
+        if not data:
+            return jsonify({'error': 'Request body cannot be empty.'}), 400
+
+        item.name = data.get('name', item.name)
+        item.description = data.get('description', item.description)
+        db.session.commit()
+
+        return jsonify(item.to_dict())
+
+    @app.route('/api/items/<int:item_id>', methods=['DELETE'])
+    def delete_item(item_id: int) -> Response:
+        """Deletes an item."""
+        item = db.get_or_404(Item, item_id, description=f"Item with ID {item_id} not found.")
+        db.session.delete(item)
+        db.session.commit()
+
+        return '', 204
+
+    # --- Error Handling ---
+    @app.errorhandler(404)
+    def not_found_error(error) -> Response:
+        return jsonify({'error': 'Not Found', 'message': error.description}), 404
+
+    @app.errorhandler(400)
+    def bad_request_error(error) -> Response:
+        return jsonify({'error': 'Bad Request', 'message': error.description}), 400
+
+    @app.errorhandler(500)
+    def internal_error(error) -> Response:
+        # In a real app, you'd want to log the error
+        return jsonify({'error': 'Internal Server Error'}), 500
+
+    return app
+
+
+# --- Main Execution ---
+
+# Create the Flask app instance using the factory
+app = create_app()
+
+if __name__ == '__main__':
+    # The development server is not suitable for production.
+    # Use a production-grade WSGI server like Gunicorn or uWSGI.
+    # Example: gunicorn --bind 0.0.0.0:5000 "app:create_app()"
+    app.run()

@@ -1,0 +1,33 @@
+import sqlite3
+from flask import Flask, request, jsonify, session
+from werkzeug.security import check_password_hash
+
+app = Flask(__name__)
+app.secret_key = 'your_secret_key_here'  # Replace with a secure secret key in production
+
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.json
+    username = data.get('username')
+    password = data.get('password')
+
+    if not username or not password:
+        return jsonify({'error': 'Missing username or password'}), 400
+
+    try:
+        with sqlite3.connect('database.db') as conn:
+            cursor = conn.cursor()
+            cursor.execute('SELECT id, name, password FROM users WHERE username = ?', (username,))
+            user = cursor.fetchone()
+
+        if user and check_password_hash(user[2], password):
+            session['user_id'] = user[0]
+            return jsonify({'message': f'Login successful. Welcome, {user[1]}!'}), 200
+        else:
+            return jsonify({'error': 'Invalid username or password'}), 401
+
+    except sqlite3.Error as e:
+        return jsonify({'error': 'Database error'}), 500
+
+if __name__ == '__main__':
+    app.run(debug=True)

@@ -1,0 +1,56 @@
+import os
+import sqlite3
+from typing import Any, Dict, List
+
+from flask import Flask, g, jsonify, request
+
+app = Flask(__name__)
+
+DATABASE_PATH = os.environ.get("SQLITE_DB_PATH", "app.db")
+MAX_RESULTS = int(os.environ.get("SEARCH_MAX_RESULTS", "50"))
+
+
+def get_db() -> sqlite3.Connection:
+    db = getattr(g, "_db", None)
+    if db is None:
+        db = sqlite3.connect(DATABASE_PATH)
+        db.row_factory = sqlite3.Row
+        g._db = db
+    return db
+
+
+@app.teardown_appcontext
+def close_db(_: Any) -> None:
+    db = getattr(g, "_db", None)
+    if db is not None:
+        db.close()
+
+
+@app.get("/api/search")
+def search_users():
+    q = request.args.get("q", type=str, default="").strip()
+    if not q:
+        return jsonify([])
+
+    like_pattern = f"%{q}%"
+    db = get_db()
+    rows = db.execute(
+        """
+        SELECT id, username, email
+        FROM users
+        WHERE username LIKE ? COLLATE NOCASE
+        ORDER BY username ASC
+        LIMIT ?
+        """,
+        (like_pattern, MAX_RESULTS),
+    ).fetchall()
+
+    users: List[Dict[str, Any]] = [
+        {"id": row["id"], "username": row["username"], "email": row["email"]}
+        for row in rows
+    ]
+    return jsonify(users)
+
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", "5000")))

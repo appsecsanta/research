@@ -1,0 +1,32 @@
+const express = require('express');
+const puppeteer = require('puppeteer');
+
+const router = express.Router();
+
+router.post('/api/export-pdf', async (req, res) => {
+  const { url } = req.body;
+
+  if (!url) {
+    return res.status(400).send('URL is required');
+  }
+
+  try {
+    const browser = await puppeteer.launch({
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      defaultViewport: null,
+    });
+    const page = await browser.newPage();
+    await page.goto(url, { waitUntil: 'networkidle2' });
+    const pdf = await page.pdf({ format: 'A4' });
+    await browser.close();
+
+    res.set("Content-Disposition", `attachment; filename="export.pdf"`);
+    res.set("Content-Type", "application/pdf");
+    res.send(pdf);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Failed to generate PDF');
+  }
+});
+
+module.exports = router;

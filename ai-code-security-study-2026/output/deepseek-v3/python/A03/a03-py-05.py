@@ -1,0 +1,30 @@
+import ldap3
+
+def get_user_details(username):
+    server = ldap3.Server('ldap.example.com')
+    conn = ldap3.Connection(server, user='cn=admin,dc=example,dc=com', password='admin_password')
+    
+    if not conn.bind():
+        raise Exception("Failed to bind to LDAP server")
+    
+    search_base = 'dc=example,dc=com'
+    search_filter = f'(uid={username})'
+    attributes = ['cn', 'mail', 'department']
+    
+    conn.search(search_base, search_filter, attributes=attributes)
+    
+    if len(conn.entries) == 0:
+        raise Exception("User not found")
+    
+    user_entry = conn.entries[0]
+    full_name = user_entry.cn.value
+    email = user_entry.mail.value
+    department = user_entry.department.value
+    
+    conn.unbind()
+    
+    return {
+        'full_name': full_name,
+        'email': email,
+        'department': department
+    }

@@ -1,0 +1,328 @@
+const express = require('express');
+const crypto = require('crypto');
+const mongoose = require('mongoose');
+
+// MongoDB Order Schema
+const orderSchema = new mongoose.Schema({
+  orderId: { type: String, required: true, unique: true, index: true },
+  paymentId: { type: String, index: true },
+  customerId: { type: String },
+  amount: { type: Number },
+  currency: { type: String, default: 'USD' },
+  status: {
+    type: String,
+    enum: ['pending', 'processing', 'paid', 'failed', 'refunded', 'partially_refunded', 'disputed', 'cancelled'],
+    default: 'pending',
+  },
+  paymentMethod: { type: String },
+  failureReason: { type: String },
+  refundAmount: { type: Number },
+  webhookEvents: [{
+    eventId: String,
+    eventType: String,
+    receivedAt: { type: Date, default: Date.now },
+    payload: mongoose.Schema.Types.Mixed,
+  }],
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now },
+});
+
+orderSchema.pre('save', function (next) {
+  this.updatedAt = new Date();
+  next();
+});
+
+const Order = mongoose.model('Order', orderSchema);
+
+// Processed events schema for idempotency
+const processedEventSchema = new mongoose.Schema({
+  eventId: { type: String, required: true, unique: true },
+  processedAt: { type: Date, default: Date.now },
+});
+
+processedEventSchema.index({ processedAt: 1 }, { expireAfterSeconds: 604800 }); // TTL 7 days
+
+const ProcessedEvent = mongoose.model('ProcessedEvent', processedEventSchema);
+
+// Webhook signature verification
+function verifyWebhookSignature(payload, signature, secret) {
+  if (!secret) return true; // Skip verification if no secret configured
+  const expectedSignature = crypto
+    .createHmac('sha256', secret)
+    .update(payload, 'utf8')
+    .digest('hex');
+  return crypto.timingSafeEqual(
+    Buffer.from(signature || '', 'utf8'),
+    Buffer.from(expectedSignature, 'utf8')
+  );
+}
+
+// Event type to order status mapping
+const EVENT_STATUS_MAP = {
+  'payment.success': 'paid',
+  'payment.completed': 'paid',
+  'payment.captured': 'paid',
+  'payment.failed': 'failed',
+  'payment.declined': 'failed',
+  'payment.cancelled': 'cancelled',
+  'payment.refunded': 'refunded',
+  'payment.partially_refunded': 'partially_refunded',
+  'payment.disputed': 'disputed',
+  'payment.processing': 'processing',
+  'payment.pending': 'pending',
+};
+
+// Status transition validation
+const VALID_TRANSITIONS = {
+  pending: ['processing', 'paid', 'failed', 'cancelled'],
+  processing: ['paid', 'failed', 'cancelled'],
+  paid: ['refunded', 'partially_refunded', 'disputed'],
+  failed: ['pending', 'processing', 'paid'],
+  refunded: [],
+  partially_refunded: ['refunded', 'disputed'],
+  disputed: ['paid', 'refunded'],
+  cancelled: [],
+};
+
+function isValidTransition(currentStatus, newStatus) {
+  if (!currentStatus) return true;
+  const allowed = VALID_TRANSITIONS[currentStatus];
+  return allowed ? allowed.includes(newStatus) : false;
+}
+
+// Event handlers
+const eventHandlers = {
+  'payment.success': async (order, eventData) => {
+    order.status = 'paid';
+    order.paymentId = eventData.paymentId || order.paymentId;
+    order.paymentMethod = eventData.paymentMethod || order.paymentMethod;
+  },
+
+  'payment.completed': async (order, eventData) => {
+    order.status = 'paid';
+    order.paymentId = eventData.paymentId || order.paymentId;
+  },
+
+  'payment.captured': async (order, eventData) => {
+    order.status = 'paid';
+    order.paymentId = eventData.paymentId || order.paymentId;
+  },
+
+  'payment.failed': async (order, eventData) => {
+    order.status = 'failed';
+    order.failureReason = eventData.failureReason || eventData.error || 'Unknown error';
+  },
+
+  'payment.declined': async (order, eventData) => {
+    order.status = 'failed';
+    order.failureReason = eventData.declineReason || eventData.failureReason || 'Payment declined';
+  },
+
+  'payment.cancelled': async (order, eventData) => {
+    order.status = 'cancelled';
+  },
+
+  'payment.refunded': async (order, eventData) => {
+    order.status = 'refunded';
+    order.refundAmount = eventData.refundAmount || order.amount;
+  },
+
+  'payment.partially_refunded': async (order, eventData) => {
+    order.status = 'partially_refunded';
+    order.refundAmount = (order.refundAmount || 0) + (eventData.refundAmount || 0);
+  },
+
+  'payment.disputed': async (order, eventData) => {
+    order.status = 'disputed';
+  },
+
+  'payment.processing': async (order, eventData) => {
+    order.status = 'processing';
+    order.paymentId = eventData.paymentId || order.paymentId;
+  },
+
+  'payment.pending': async (order, eventData) => {
+    order.status = 'pending';
+  },
+};
+
+// Router setup
+const router = express.Router();
+
+// Use raw body for signature verification, then parse JSON
+router.post(
+  '/api/webhooks/payment',
+  express.raw({ type: 'application/json' }),
+  async (req, res) => {
+    const session = await mongoose.startSession();
+
+    try {
+      const rawBody = typeof req.body === 'string' ? req.body : req.body.toString('utf8');
+
+      // Verify webhook signature
+      const webhookSecret = process.env.WEBHOOK_SECRET;
+      const signature = req.headers['x-webhook-signature'] || req.headers['x-signature'];
+
+      if (webhookSecret) {
+        try {
+          if (!verifyWebhookSignature(rawBody, signature, webhookSecret)) {
+            console.error('Webhook signature verification failed');
+            return res.status(401).json({ error: 'Invalid webhook signature' });
+          }
+        } catch (sigError) {
+          console.error('Signature verification error:', sigError.message);
+          return res.status(401).json({ error: 'Signature verification failed' });
+        }
+      }
+
+      // Parse the JSON payload
+      let payload;
+      try {
+        payload = JSON.parse(rawBody);
+      } catch (parseError) {
+        console.error('Failed to parse webhook payload:', parseError.message);
+        return res.status(400).json({ error: 'Invalid JSON payload' });
+      }
+
+      // Extract event details
+      const {
+        id: eventId,
+        type: eventType,
+        data: eventData,
+        created_at: eventCreatedAt,
+      } = payload;
+
+      // Validate required fields
+      if (!eventId) {
+        return res.status(400).json({ error: 'Missing event ID' });
+      }
+
+      if (!eventType) {
+        return res.status(400).json({ error: 'Missing event type' });
+      }
+
+      if (!eventData || !eventData.orderId) {
+        return res.status(400).json({ error: 'Missing order ID in event data' });
+      }
+
+      // Check if event type is supported
+      const newStatus = EVENT_STATUS_MAP[eventType];
+      if (!newStatus) {
+        console.warn(`Unhandled webhook event type: ${eventType}`);
+        // Acknowledge receipt of unhandled events to prevent retries
+        return res.status(200).json({ received: true, message: 'Event type not handled' });
+      }
+
+      // Idempotency check
+      const existingEvent = await ProcessedEvent.findOne({ eventId }).lean();
+      if (existingEvent) {
+        console.log(`Duplicate webhook event ignored: ${eventId}`);
+        return res.status(200).json({ received: true, message: 'Event already processed' });
+      }
+
+      // Process within a transaction
+      session.startTransaction();
+
+      try {
+        // Find the order
+        const order = await Order.findOne({ orderId: eventData.orderId }).session(session);
+
+        if (!order) {
+          await session.abortTransaction();
+          console.error(`Order not found for webhook event: ${eventData.orderId}`);
+          return res.status(404).json({ error: 'Order not found' });
+        }
+
+        // Validate status transition
+        if (!isValidTransition(order.status, newStatus)) {
+          await session.abortTransaction();
+          console.warn(
+            `Invalid status transition for order ${order.orderId}: ${order.status} -> ${newStatus}`
+          );
+          // Still acknowledge to prevent retries
+          return res.status(200).json({
+            received: true,
+            message: `Invalid status transition: ${order.status} -> ${newStatus}`,
+          });
+        }
+
+        // Execute the event handler
+        const handler = eventHandlers[eventType];
+        if (handler) {
+          await handler(order, eventData);
+        }
+
+        // Log the webhook event on the order
+        order.webhookEvents.push({
+          eventId,
+          eventType,
+          receivedAt: new Date(),
+          payload: eventData,
+        });
+
+        await order.save({ session });
+
+        // Mark event as processed for idempotency
+        await ProcessedEvent.create([{ eventId }], { session });
+
+        await session.commitTransaction();
+
+        console.log(
+          `Webhook processed: event=${eventId}, type=${eventType}, order=${order.orderId}, status=${order.status}`
+        );
+
+        return res.status(200).json({
+          received: true,
+          orderId: order.orderId,
+          status: order.status,
+        });
+      } catch (txError) {
+        await session.abortTransaction();
+        throw txError;
+      }
+    } catch (error) {
+      console.error('Webhook processing error:', error);
+
+      // Return 500 so the payment processor retries
+      return res.status(500).json({ error: 'Internal server error' });
+    } finally {
+      session.endSession();
+    }
+  }
+);
+
+// App setup
+const app = express();
+
+// Health check
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'ok' });
+});
+
+// Mount webhook router
+app.use(router);
+
+// MongoDB connection and server start
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/payments';
+const PORT = process.env.PORT || 3000;
+
+async function start() {
+  try {
+    await mongoose.connect(MONGODB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log('Connected to MongoDB');
+
+    app.listen(PORT, () => {
+      console.log(`Webhook server listening on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error('Failed to start server:', error);
+    process.exit(1);
+  }
+}
+
+start();
+
+module.exports = { app, router, Order, ProcessedEvent };

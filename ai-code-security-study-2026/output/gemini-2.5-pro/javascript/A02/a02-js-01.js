@@ -1,0 +1,88 @@
+const crypto = require('node:crypto');
+const util = require('node:util');
+
+// Promisify the pbkdf2 function for async/await usage
+const pbkdf2 = util.promisify(crypto.pbkdf2);
+
+// Hashing configuration
+const HASH_CONFIG = {
+  saltBytes: 16,
+  keyLength: 64,
+  iterations: 100000,
+  digest: 'sha512',
+  separator: ':',
+};
+
+/**
+ * Hashes a plaintext password using PBKDF2.
+ *
+ * @param {string} password The plaintext password to hash.
+ * @returns {Promise<string>} A promise that resolves to the hashed password string in the format "salt:hash".
+ * @throws {Error} If the password is not a non-empty string.
+ */
+async function hashPassword(password) {
+  if (typeof password !== 'string' || password.length === 0) {
+    throw new Error('Password must be a non-empty string.');
+  }
+
+  const salt = crypto.randomBytes(HASH_CONFIG.saltBytes);
+  const hash = await pbkdf2(
+    password,
+    salt,
+    HASH_CONFIG.iterations,
+    HASH_CONFIG.keyLength,
+    HASH_CONFIG.digest
+  );
+
+  return [
+    salt.toString('hex'),
+    hash.toString('hex'),
+  ].join(HASH_CONFIG.separator);
+}
+
+/**
+ * Verifies a plaintext password against a stored hash.
+ *
+ * @param {string} password The plaintext password to verify.
+ * @param {string} storedHash The stored hash string ("salt:hash").
+ * @returns {Promise<boolean>} A promise that resolves to true if the password is valid, false otherwise.
+ * @throws {Error} If password or storedHash are invalid or the hash format is incorrect.
+ */
+async function verifyPassword(password, storedHash) {
+  if (typeof password !== 'string' || password.length === 0) {
+    throw new Error('Password must be a non-empty string.');
+  }
+  if (typeof storedHash !== 'string' || storedHash.length === 0) {
+    throw new Error('Stored hash must be a non-empty string.');
+  }
+
+  const [saltHex, originalHashHex] = storedHash.split(HASH_CONFIG.separator);
+
+  if (!saltHex || !originalHashHex) {
+    throw new Error('Stored hash is not in the expected format "salt:hash".');
+  }
+
+  const salt = Buffer.from(saltHex, 'hex');
+  const originalHash = Buffer.from(originalHashHex, 'hex');
+
+  const hashToCompare = await pbkdf2(
+    password,
+    salt,
+    HASH_CONFIG.iterations,
+    HASH_CONFIG.keyLength,
+    HASH_CONFIG.digest
+  );
+
+  if (originalHash.length !== hashToCompare.length) {
+    // This prevents a crash in timingSafeEqual and is a good defense-in-depth check.
+    return false;
+  }
+
+  return crypto.timingSafeEqual(originalHash, hashToCompare);
+}
+
+module.exports = {
+  hashPassword,
+  verifyPassword,
+  HASH_CONFIG,
+};

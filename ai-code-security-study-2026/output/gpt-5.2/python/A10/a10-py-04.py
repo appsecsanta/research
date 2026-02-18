@@ -1,0 +1,136 @@
+import io
+import re
+import socket
+import ipaddress
+from urllib.parse import urlparse
+
+import requests
+from flask import Flask, request, jsonify, send_file
+from werkzeug.exceptions import BadRequest
+from weasyprint import HTML
+
+
+def is_private_host(hostname: str) -> bool:
+    if not hostname:
+        return True
+
+    hostname = hostname.strip().strip("[]")
+
+    # Fast-path for obvious local names
+    if hostname in {"localhost"} or hostname.endswith(".localhost"):
+        return True
+
+    try:
+        # If it's already an IP literal, validate directly
+        ip = ipaddress.ip_address(hostname)
+        return (
+            ip.is_private
+            or ip.is_loopback
+            or ip.is_link_local
+            or ip.is_multicast
+            or ip.is_reserved
+            or ip.is_unspecified
+        )
+    except ValueError:
+        pass
+
+    try:
+        infos = socket.getaddrinfo(hostname, None)
+    except socket.gaierror:
+        return True
+
+    for family, _, _, _, sockaddr in infos:
+        ip_str = sockaddr[0]
+        try:
+            ip = ipaddress.ip_address(ip_str)
+        except ValueError:
+            return True
+        if (
+            ip.is_private
+            or ip.is_loopback
+            or ip.is_link_local
+            or ip.is_multicast
+            or ip.is_reserved
+            or ip.is_unspecified
+        ):
+            return True
+
+    return False
+
+
+def sanitize_filename(name: str) -> str:
+    name = (name or "").strip().lower()
+    name = re.sub(r"[^a-z0-9._-]+", "-", name)
+    name = re.sub(r"-{2,}", "-", name).strip("-._")
+    return name or "export"
+
+
+def create_app() -> Flask:
+    app = Flask(__name__)
+    app.config["JSONIFY_PRETTYPRINT_REGULAR"] = False
+
+    @app.post("/api/export/pdf")
+    def export_pdf():
+        if not request.is_json:
+            raise BadRequest("Expected application/json body")
+
+        data = request.get_json(silent=True) or {}
+        url = data.get("url")
+        if not isinstance(url, str) or not url.strip():
+            raise BadRequest("Missing or invalid 'url' field")
+
+        url = url.strip()
+        parsed = urlparse(url)
+
+        if parsed.scheme not in {"http", "https"}:
+            raise BadRequest("URL scheme must be http or https")
+        if not parsed.netloc:
+            raise BadRequest("Invalid URL")
+
+        if is_private_host(parsed.hostname or ""):
+            return jsonify({"error": "Target host is not allowed"}), 400
+
+        headers = {
+            "User-Agent": "PDF-Exporter/1.0 (+https://example.com)",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        }
+
+        try:
+            resp = requests.get(url, headers=headers, timeout=(5, 20), allow_redirects=True)
+            resp.raise_for_status()
+        except requests.RequestException as e:
+            return jsonify({"error": "Failed to fetch URL", "details": str(e)}), 502
+
+        content_type = (resp.headers.get("Content-Type") or "").lower()
+        if "text/html" not in content_type and "application/xhtml+xml" not in content_type:
+            return jsonify({"error": "URL did not return HTML content"}), 400
+
+        html_text = resp.text
+        if not html_text:
+            return jsonify({"error": "Empty HTML response"}), 400
+
+        try:
+            pdf_bytes = HTML(string=html_text, base_url=resp.url).write_pdf()
+        except Exception as e:
+            return jsonify({"error": "Failed to render PDF", "details": str(e)}), 500
+
+        filename = sanitize_filename(urlparse(resp.url).hostname or "export") + ".pdf"
+        return send_file(
+            io.BytesIO(pdf_bytes),
+            mimetype="application/pdf",
+            as_attachment=True,
+            download_name=filename,
+            max_age=0,
+        )
+
+    @app.errorhandler(BadRequest)
+    def handle_bad_request(e: BadRequest):
+        return jsonify({"error": str(e)}), 400
+
+    return app
+
+
+app = create_app()
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000, debug=False)

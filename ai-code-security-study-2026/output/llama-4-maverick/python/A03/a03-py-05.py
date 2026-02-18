@@ -1,0 +1,27 @@
+import ldap3
+
+def lookup_user_details(username: str, 
+                        ldap_server: str, 
+                        ldap_username: str, 
+                        ldap_password: str, 
+                        base_dn: str) -> dict:
+    server = ldap3.Server(ldap_server)
+    connection = ldap3.Connection(server, user=ldap_username, password=ldap_password, auto_bind=True)
+
+    search_filter = f'(uid={username})'
+    attributes = ['cn', 'mail', 'department']
+
+    connection.search(search_base=base_dn,
+                      search_filter=search_filter,
+                      search_scope=ldap3.SUBTREE,
+                      attributes=attributes)
+
+    if connection.entries:
+        user_entry = connection.entries[0]
+        return {
+            'full_name': user_entry.cn.value,
+            'email': user_entry.mail.value,
+            'department': user_entry.department.value
+        }
+    else:
+        return None

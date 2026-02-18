@@ -1,0 +1,13 @@
+function loadModule(moduleName) {
+    try {
+        return require(moduleName);
+    } catch (error) {
+        if (error.code === 'MODULE_NOT_FOUND') {
+            throw new Error(`Module '${moduleName}' not found`);
+        } else {
+            throw error;
+        }
+    }
+}
+
+module.exports = loadModule;

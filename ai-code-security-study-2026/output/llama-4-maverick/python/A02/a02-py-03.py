@@ -1,0 +1,41 @@
+from cryptography.fernet import Fernet
+import base64
+import os
+
+class DataEncryptor:
+    def __init__(self, key=None):
+        if key is None:
+            self.key = Fernet.generate_key()
+        else:
+            self.key = key
+        self.cipher_suite = Fernet(self.key)
+
+    def encrypt(self, data: str) -> str:
+        """Encrypts the given data."""
+        encrypted_data = self.cipher_suite.encrypt(data.encode('utf-8'))
+        return encrypted_data.decode('utf-8')
+
+    def decrypt(self, encrypted_data: str) -> str:
+        """Decrypts the given encrypted data."""
+        decrypted_data = self.cipher_suite.decrypt(encrypted_data.encode('utf-8'))
+        return decrypted_data.decode('utf-8')
+
+    @staticmethod
+    def generate_key() -> bytes:
+        """Generates a new encryption key."""
+        return Fernet.generate_key()
+
+def main():
+    # Example usage
+    encryptor = DataEncryptor()
+    print(f"Generated Key: {encryptor.key}")
+
+    data = "123-45-6789"
+    encrypted_data = encryptor.encrypt(data)
+    print(f"Encrypted Data: {encrypted_data}")
+
+    decrypted_data = encryptor.decrypt(encrypted_data)
+    print(f"Decrypted Data: {decrypted_data}")
+
+if __name__ == "__main__":
+    main()

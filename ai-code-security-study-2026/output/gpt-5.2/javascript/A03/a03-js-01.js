@@ -1,0 +1,81 @@
+'use strict';
+
+const express = require('express');
+const { MongoClient } = require('mongodb');
+const bcrypt = require('bcryptjs');
+
+const app = express();
+app.use(express.json());
+
+const MONGODB_URI = process.env.MONGODB_URI;
+const DB_NAME = process.env.DB_NAME || 'app';
+const USERS_COLLECTION = process.env.USERS_COLLECTION || 'users';
+
+if (!MONGODB_URI) {
+  throw new Error('Missing required env var: MONGODB_URI');
+}
+
+let mongoClient;
+let users;
+
+async function getUsersCollection() {
+  if (users) return users;
+
+  if (!mongoClient) {
+    mongoClient = new MongoClient(MONGODB_URI, {
+      maxPoolSize: 20,
+      minPoolSize: 0,
+      serverSelectionTimeoutMS: 5000,
+    });
+  }
+
+  if (!mongoClient.topology || !mongoClient.topology.isConnected()) {
+    await mongoClient.connect();
+  }
+
+  users = mongoClient.db(DB_NAME).collection(USERS_COLLECTION);
+  return users;
+}
+
+app.post('/api/login', async (req, res) => {
+  try {
+    const { username, password } = req.body || {};
+
+    if (typeof username !== 'string' || typeof password !== 'string') {
+      return res.status(400).json({ ok: false, error: 'INVALID_INPUT' });
+    }
+
+    const u = username.trim();
+    if (!u || !password) {
+      return res.status(400).json({ ok: false, error: 'INVALID_INPUT' });
+    }
+
+    const usersCol = await getUsersCollection();
+
+    const user = await usersCol.findOne(
+      { username: u },
+      { projection: { _id: 1, username: 1, passwordHash: 1, password: 1 } }
+    );
+
+    let valid = false;
+
+    if (user && typeof user.passwordHash === 'string') {
+      valid = await bcrypt.compare(password, user.passwordHash);
+    } else if (user && typeof user.password === 'string') {
+      valid = user.password === password; // legacy/plaintext fallback (not recommended)
+    }
+
+    if (!valid) {
+      return res.status(401).json({ ok: false, error: 'INVALID_CREDENTIALS' });
+    }
+
+    return res.status(200).json({
+      ok: true,
+      user: { id: String(user._id), username: user.username },
+    });
+  } catch (err) {
+    return res.status(500).json({ ok: false, error: 'SERVER_ERROR' });
+  }
+});
+
+module.exports = app;

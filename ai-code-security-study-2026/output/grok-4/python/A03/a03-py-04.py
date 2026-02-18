@@ -1,0 +1,63 @@
+from flask import Flask, request, render_template_string
+import sqlite3
+
+app = Flask(__name__)
+
+DATABASE = 'feedback.db'
+
+def get_db():
+    conn = sqlite3.connect(DATABASE)
+    conn.row_factory = sqlite3.Row
+    return conn
+
+def init_db():
+    with get_db() as db:
+        db.execute('''
+            CREATE TABLE IF NOT EXISTS feedback (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                message TEXT NOT NULL
+            )
+        ''')
+        db.commit()
+
+init_db()
+
+@app.route('/api/feedback', methods=['POST'])
+def api_feedback():
+    name = request.form.get('name')
+    message = request.form.get('message')
+    if not name or not message:
+        return 'Missing name or message', 400
+    with get_db() as db:
+        db.execute('INSERT INTO feedback (name, message) VALUES (?, ?)', (name, message))
+        db.commit()
+    return 'Feedback submitted', 200
+
+@app.route('/feedback', methods=['GET'])
+def feedback():
+    with get_db() as db:
+        feedbacks = db.execute('SELECT * FROM feedback').fetchall()
+    table_rows = ''.join(f'<tr><td>{f["id"]}</td><td>{f["name"]}</td><td>{f["message"]}</td></tr>' for f in feedbacks)
+    html = f'''
+    <html>
+    <head>
+        <title>Feedback</title>
+        <style>
+            table {{ border-collapse: collapse; width: 100%; }}
+            th, td {{ border: 1px solid black; padding: 8px; text-align: left; }}
+        </style>
+    </head>
+    <body>
+        <h1>Submitted Feedback</h1>
+        <table>
+            <tr><th>ID</th><th>Name</th><th>Message</th></tr>
+            {table_rows}
+        </table>
+    </body>
+    </html>
+    '''
+    return render_template_string(html)
+
+if __name__ == '__main__':
+    app.run(debug=True)

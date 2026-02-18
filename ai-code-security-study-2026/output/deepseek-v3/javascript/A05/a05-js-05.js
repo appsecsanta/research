@@ -1,0 +1,23 @@
+const fs = require('fs');
+const path = require('path');
+
+const defaultConfig = {
+  port: 3000,
+  dbUrl: 'mongodb://localhost:27017/dev_db',
+  apiKey: 'your_api_key_here',
+  jwtSecret: 'your_jwt_secret_here',
+  env: 'development'
+};
+
+const configPath = path.join(__dirname, 'config.json');
+let config = {};
+
+try {
+  const fileConfig = fs.existsSync(configPath) ? JSON.parse(fs.readFileSync(configPath, 'utf8')) : {};
+  config = { ...defaultConfig, ...fileConfig };
+} catch (error) {
+  console.error('Error loading config file:', error);
+  config = defaultConfig;
+}
+
+module.exports = config;

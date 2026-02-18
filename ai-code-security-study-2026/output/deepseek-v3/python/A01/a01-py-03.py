@@ -1,0 +1,34 @@
+from flask import Flask, jsonify, request, abort
+from flask_sqlalchemy import SQLAlchemy
+
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+
+@app.route('/admin/users', methods=['GET'])
+def list_users():
+    users = User.query.all()
+    return jsonify([{'id': user.id, 'username': user.username, 'email': user.email} for user in users])
+
+@app.route('/admin/users/<int:id>/delete', methods=['DELETE'])
+def delete_user(id):
+    user = User.query.get_or_404(id)
+    db.session.delete(user)
+    db.session.commit()
+    return jsonify({'message': 'User deleted successfully'})
+
+@app.route('/admin/stats', methods=['GET'])
+def site_stats():
+    total_users = User.query.count()
+    return jsonify({'total_users': total_users})
+
+if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()
+    app.run(debug=True)

@@ -1,0 +1,179 @@
+import os
+import sqlite3
+import math
+import click
+from flask import Flask, request, jsonify, g
+from flask.cli import with_appcontext
+
+# --- Application Factory ---
+def create_app():
+    """Create and configure an instance of the Flask application."""
+    app = Flask(__name__, instance_relative_config=True)
+    app.config.from_mapping(
+        DATABASE=os.path.join(app.instance_path, 'reports.db'),
+        JSON_SORT_KEYS=False
+    )
+
+    # Ensure the instance folder exists
+    try:
+        os.makedirs(app.instance_path)
+    except OSError:
+        pass
+
+    # Register database functions
+    app.teardown_appcontext(close_db)
+    app.cli.add_command(init_db_command)
+
+    # --- API Endpoint ---
+    @app.route('/api/reports', methods=['GET'])
+    def get_reports():
+        """
+        Returns a paginated and optionally filtered list of reports.
+        Query Parameters:
+        - page: The page number (default: 1)
+        - per_page: The number of items per page (default: 10, max: 100)
+        - user_id: The ID of the user to filter reports by
+        """
+        try:
+            page = request.args.get('page', 1, type=int)
+            per_page = request.args.get('per_page', 10, type=int)
+            user_id = request.args.get('user_id', type=int)
+
+            if page < 1 or per_page < 1:
+                return jsonify({"error": "Page and per_page must be positive integers"}), 400
+            if per_page > 100:
+                per_page = 100
+
+        except (ValueError, TypeError):
+            return jsonify({"error": "Invalid query parameter type. 'page' and 'per_page' must be integers."}), 400
+
+        offset = (page - 1) * per_page
+        db = get_db()
+        
+        base_query = "FROM reports"
+        where_clauses = []
+        params = []
+
+        if user_id is not None:
+            where_clauses.append("user_id = ?")
+            params.append(user_id)
+
+        if where_clauses:
+            base_query += " WHERE " + " AND ".join(where_clauses)
+
+        try:
+            count_query = f"SELECT COUNT(id) {base_query}"
+            total_items = db.execute(count_query, params).fetchone()[0]
+
+            data_query = f"SELECT id, user_id, title, content, created_at {base_query} ORDER BY created_at DESC LIMIT ? OFFSET ?"
+            data_params = params + [per_page, offset]
+            report_rows = db.execute(data_query, data_params).fetchall()
+
+        except sqlite3.Error as e:
+            app.logger.error(f"Database error: {e}")
+            return jsonify({"error": "A database error occurred"}), 500
+
+        total_pages = math.ceil(total_items / per_page) if total_items > 0 else 1
+        reports = [dict(row) for row in report_rows]
+
+        response = {
+            "data": reports,
+            "pagination": {
+                "page": page,
+                "per_page": per_page,
+                "total_items": total_items,
+                "total_pages": total_pages,
+            }
+        }
+        return jsonify(response)
+
+    # --- Error Handlers ---
+    @app.errorhandler(404)
+    def not_found(error):
+        return jsonify({"error": "Not Found", "message": "The requested URL was not found on the server."}), 404
+
+    @app.errorhandler(500)
+    def internal_server_error(error):
+        app.logger.error(f"Server Error: {error}")
+        return jsonify({"error": "Internal Server Error", "message": "An unexpected error occurred."}), 500
+
+    return app
+
+# --- Database Management ---
+def get_db():
+    """Opens a new database connection if there is none yet for the current application context."""
+    if 'db' not in g:
+        g.db = sqlite3.connect(
+            Flask.get_app().config['DATABASE'],
+            detect_types=sqlite3.PARSE_DECLTYPES
+        )
+        g.db.row_factory = sqlite3.Row
+    return g.db
+
+def close_db(e=None):
+    """Closes the database again at the end of the request."""
+    db = g.pop('db', None)
+    if db is not None:
+        db.close()
+
+def init_db():
+    """Initializes the database by creating tables."""
+    db = get_db()
+    schema = """
+    DROP TABLE IF EXISTS reports;
+    CREATE TABLE reports (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL,
+      title TEXT NOT NULL,
+      content TEXT NOT NULL,
+      created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    );
+    CREATE INDEX idx_user_id ON reports (user_id);
+    """
+    db.executescript(schema)
+
+def seed_db():
+    """Seeds the database with sample data."""
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("DELETE FROM reports")
+    reports_data = [
+        (f'Report Title {i}', f'This is the content for report {i}.', (i % 5) + 1)
+        for i in range(1, 51)
+    ]
+    cursor.executemany(
+        'INSERT INTO reports (title, content, user_id) VALUES (?, ?, ?)',
+        reports_data
+    )
+    db.commit()
+
+@click.command('init-db')
+@with_appcontext
+def init_db_command():
+    """Clear existing data, create new tables, and seed with sample data."""
+    init_db()
+    seed_db()
+    click.echo('Initialized and seeded the database.')
+
+# --- Main Execution ---
+app = create_app()
+
+if __name__ == '__main__':
+    # To run this application:
+    # 1. Set up a virtual environment:
+    #    python -m venv venv
+    #    source venv/bin/activate  (or venv\Scripts\activate on Windows)
+    # 2. Install dependencies:
+    #    pip install Flask click
+    # 3. Initialize the database:
+    #    export FLASK_APP=your_script_name.py  (or set FLASK_APP=... on Windows)
+    #    flask init-db
+    # 4. Run the Flask development server:
+    #    flask run
+    #
+    # Example API calls:
+    # GET http://127.0.0.1:5000/api/reports
+    # GET http://127.0.0.1:5000/api/reports?page=2&per_page=5
+    # GET http://127.0.0.1:5000/api/reports?user_id=3
+    # GET http://127.0.0.1:5000/api/reports?user_id=2&page=2
+    app.run()

@@ -1,0 +1,66 @@
+const express = require('express');
+const bcrypt = require('bcryptjs');
+const { body, validationResult } = require('express-validator');
+const User = require('../models/User'); // Assuming a Mongoose User model
+const authMiddleware = require('../middleware/auth'); // Assuming an auth middleware
+
+const router = express.Router();
+
+/**
+ * @route   POST /api/change-password
+ * @desc    Change user password
+ * @access  Private
+ */
+router.post(
+  '/change-password',
+  [
+    authMiddleware,
+    body('currentPassword', 'Current password is required').notEmpty(),
+    body('newPassword', 'New password must be at least 8 characters long').isLength({ min: 8 }),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { currentPassword, newPassword } = req.body;
+    const userId = req.user.id; // Extracted from token by authMiddleware
+
+    try {
+      // Find user by ID and explicitly select the password field
+      const user = await User.findById(userId).select('+password');
+
+      if (!user) {
+        // This case is unlikely if auth middleware is effective
+        return res.status(404).json({ msg: 'User not found' });
+      }
+
+      // Compare the provided current password with the stored hashed password
+      const isMatch = await bcrypt.compare(currentPassword, user.password);
+
+      if (!isMatch) {
+        return res.status(400).json({ msg: 'Incorrect current password' });
+      }
+      
+      // Prevent setting the same password
+      if (currentPassword === newPassword) {
+        return res.status(400).json({ msg: 'New password cannot be the same as the old password' });
+      }
+
+      // Hash the new password
+      const salt = await bcrypt.genSalt(10);
+      user.password = await bcrypt.hash(newPassword, salt);
+
+      // Save the user with the new password
+      await user.save();
+
+      res.status(200).json({ msg: 'Password updated successfully' });
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
+
+module.exports = router;

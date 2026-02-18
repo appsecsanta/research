@@ -1,0 +1,140 @@
+'use strict';
+
+const fs = require('fs');
+const path = require('path');
+
+const DEFAULTS = Object.freeze({
+  env: process.env.NODE_ENV || 'development',
+  port: 3000,
+  databaseUrl: 'mongodb://localhost:27017/app',
+  apiKeys: {},
+  jwtSecret: 'dev_jwt_secret_change_me',
+});
+
+function isPlainObject(value) {
+  return Object.prototype.toString.call(value) === '[object Object]';
+}
+
+function deepMerge(target, source) {
+  const out = { ...target };
+  if (!isPlainObject(source)) return out;
+
+  for (const [key, value] of Object.entries(source)) {
+    if (isPlainObject(value) && isPlainObject(out[key])) {
+      out[key] = deepMerge(out[key], value);
+    } else {
+      out[key] = value;
+    }
+  }
+  return out;
+}
+
+function fileExists(p) {
+  try {
+    fs.accessSync(p, fs.constants.R_OK);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function readJsonFile(filePath) {
+  const raw = fs.readFileSync(filePath, 'utf8');
+  const trimmed = raw.replace(/^\uFEFF/, '');
+  return JSON.parse(trimmed);
+}
+
+function resolveConfigPath(env) {
+  const cwd = process.cwd();
+
+  if (process.env.CONFIG_PATH) {
+    const explicit = path.isAbsolute(process.env.CONFIG_PATH)
+      ? process.env.CONFIG_PATH
+      : path.resolve(cwd, process.env.CONFIG_PATH);
+    return explicit;
+  }
+
+  const candidates = [
+    path.resolve(cwd, 'config', `${env}.json`),
+    path.resolve(cwd, 'config', 'default.json'),
+    path.resolve(cwd, 'config.json'),
+  ];
+
+  for (const p of candidates) {
+    if (fileExists(p)) return p;
+  }
+
+  return null;
+}
+
+function loadFromFile(env) {
+  const configPath = resolveConfigPath(env);
+  if (!configPath) return { config: {}, configPath: null };
+
+  const config = readJsonFile(configPath);
+  if (!isPlainObject(config)) {
+    throw new Error(`Invalid config file format (expected JSON object): ${configPath}`);
+  }
+
+  return { config, configPath };
+}
+
+function loadFromEnv() {
+  const envConfig = {};
+
+  if (process.env.PORT) envConfig.port = Number(process.env.PORT);
+  if (process.env.DATABASE_URL) envConfig.databaseUrl = process.env.DATABASE_URL;
+  if (process.env.JWT_SECRET) envConfig.jwtSecret = process.env.JWT_SECRET;
+
+  const apiKeys = {};
+  for (const [k, v] of Object.entries(process.env)) {
+    if (k.startsWith('API_KEY_') && typeof v === 'string') {
+      apiKeys[k.slice('API_KEY_'.length).toLowerCase()] = v;
+    }
+  }
+  if (Object.keys(apiKeys).length) envConfig.apiKeys = apiKeys;
+
+  return envConfig;
+}
+
+function validateConfig(cfg) {
+  if (!cfg.port || !Number.isFinite(cfg.port) || cfg.port <= 0) {
+    throw new Error('Invalid configuration: "port" must be a positive number');
+  }
+  if (typeof cfg.databaseUrl !== 'string' || !cfg.databaseUrl.trim()) {
+    throw new Error('Invalid configuration: "databaseUrl" is required');
+  }
+  if (typeof cfg.jwtSecret !== 'string' || cfg.jwtSecret.length < 16) {
+    throw new Error('Invalid configuration: "jwtSecret" must be a string with length >= 16');
+  }
+
+  if (cfg.env === 'production') {
+    if (cfg.jwtSecret === DEFAULTS.jwtSecret) {
+      throw new Error('Invalid configuration: "jwtSecret" must be set to a secure value in production');
+    }
+  }
+}
+
+function deepFreeze(obj) {
+  if (!obj || typeof obj !== 'object') return obj;
+  Object.freeze(obj);
+  for (const value of Object.values(obj)) {
+    if (value && typeof value === 'object' && !Object.isFrozen(value)) {
+      deepFreeze(value);
+    }
+  }
+  return obj;
+}
+
+const env = process.env.NODE_ENV || DEFAULTS.env;
+
+const { config: fileConfig, configPath } = loadFromFile(env);
+const envConfig = loadFromEnv();
+
+const merged = deepMerge(DEFAULTS, deepMerge(fileConfig, envConfig));
+merged.env = env;
+merged.configPath = configPath;
+
+validateConfig(merged);
+
+module.exports = deepFreeze(merged);

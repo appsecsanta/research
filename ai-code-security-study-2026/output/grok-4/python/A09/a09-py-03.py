@@ -1,0 +1,35 @@
+import functools
+import logging
+import traceback
+from flask import request, jsonify
+
+# Configure logging to file
+logging.basicConfig(
+    filename='error.log',
+    level=logging.ERROR,
+    format='%(asctime)s %(levelname)s %(message)s'
+)
+
+def error_logging_decorator(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except Exception as e:
+            # Gather context
+            error_details = {
+                'exception': str(e),
+                'traceback': traceback.format_exc(),
+                'request_method': request.method,
+                'request_url': request.url,
+                'request_headers': dict(request.headers),
+                'request_query_params': request.args.to_dict(),
+                'request_form_data': request.form.to_dict(),
+                'request_json': request.get_json(silent=True),
+                'request_data': request.data.decode('utf-8') if request.data else None
+            }
+            # Log the error with context
+            logging.error(f"Error in {func.__name__}: {error_details}")
+            # Return error response
+            return jsonify({"error": "Internal Server Error", "message": str(e)}), 500
+    return wrapper

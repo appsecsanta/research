@@ -1,0 +1,38 @@
+const express = require('express');
+const fs = require('fs');
+const path = require('path');
+const mime = require('mime');
+
+const app = express();
+
+app.get('/file', (req, res) => {
+  const filename = req.query.filename;
+  if (!filename) {
+    return res.status(400).send('Filename is required');
+  }
+
+  // Sanitize to prevent path traversal
+  const safeFilename = path.basename(filename);
+  const filePath = path.join(__dirname, 'uploads', safeFilename);
+
+  fs.stat(filePath, (err, stat) => {
+    if (err || !stat.isFile()) {
+      return res.status(404).send('File not found');
+    }
+
+    res.setHeader('Content-Length', stat.size);
+    res.setHeader('Content-Type', mime.getType(filePath) || 'application/octet-stream');
+
+    const readStream = fs.createReadStream(filePath);
+    readStream.on('error', (streamErr) => {
+      res.status(500).send('Error reading file');
+    });
+    readStream.pipe(res);
+  });
+});
+
+// Example server start (remove if not needed)
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});

@@ -1,0 +1,40 @@
+from flask import Flask, jsonify, request
+from flask_sqlalchemy import SQLAlchemy
+
+app = Flask(__name__)
+
+# Configuration
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['JSON_SORT_KEYS'] = False
+
+db = SQLAlchemy(app)
+
+# Sample model
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+
+# Sample endpoints
+@app.route('/', methods=['GET'])
+def index():
+    return jsonify({'message': 'Welcome to the Flask REST API'})
+
+@app.route('/users', methods=['GET', 'POST'])
+def handle_users():
+    if request.method == 'POST':
+        data = request.get_json()
+        if not data or 'name' not in data:
+            return jsonify({'error': 'Name is required'}), 400
+        new_user = User(name=data['name'])
+        db.session.add(new_user)
+        db.session.commit()
+        return jsonify({'id': new_user.id, 'name': new_user.name}), 201
+    
+    users = User.query.all()
+    return jsonify([{'id': user.id, 'name': user.name} for user in users])
+
+if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()
+    app.run(host='0.0.0.0', port=5000, debug=True)

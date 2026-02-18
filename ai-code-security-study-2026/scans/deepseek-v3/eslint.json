@@ -1,0 +1,106 @@
+{
+  "tool": "eslint",
+  "model": "deepseek-v3",
+  "scan_timestamp": "2026-02-17T07:13:04Z",
+  "findings": [
+    {
+      "file": "javascript/A01/a01-js-02.js",
+      "line": 16,
+      "rule_id": "security/detect-non-literal-fs-filename",
+      "severity": "LOW",
+      "confidence": "HIGH",
+      "cwe": "",
+      "owasp": "A01",
+      "message": "Found existsSync from package \"fs\" with non literal argument at index 0",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A01/a01-js-02.js",
+      "line": 23,
+      "rule_id": "security/detect-non-literal-fs-filename",
+      "severity": "LOW",
+      "confidence": "HIGH",
+      "cwe": "",
+      "owasp": "A01",
+      "message": "Found createReadStream from package \"fs\" with non literal argument at index 0",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A03/a03-js-03.js",
+      "line": 14,
+      "rule_id": "security/detect-child-process",
+      "severity": "LOW",
+      "confidence": "HIGH",
+      "cwe": "",
+      "owasp": "A03",
+      "message": "Found child_process.exec() with non Literal first argument",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A03/a03-js-05.js",
+      "line": 13,
+      "rule_id": "security/detect-non-literal-regexp",
+      "severity": "LOW",
+      "confidence": "HIGH",
+      "cwe": "",
+      "owasp": "A03",
+      "message": "Found non-literal argument to RegExp Constructor",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A05/a05-js-05.js",
+      "line": 16,
+      "rule_id": "security/detect-non-literal-fs-filename",
+      "severity": "LOW",
+      "confidence": "HIGH",
+      "cwe": "",
+      "owasp": "A05",
+      "message": "Found existsSync from package \"fs\" with non literal argument at index 0",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A05/a05-js-05.js",
+      "line": 16,
+      "rule_id": "security/detect-non-literal-fs-filename",
+      "severity": "LOW",
+      "confidence": "HIGH",
+      "cwe": "",
+      "owasp": "A05",
+      "message": "Found readFileSync from package \"fs\" with non literal argument at index 0",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A06/a06-js-02.js",
+      "line": 3,
+      "rule_id": "security/detect-non-literal-require",
+      "severity": "LOW",
+      "confidence": "HIGH",
+      "cwe": "",
+      "owasp": "A06",
+      "message": "Found non-literal argument in require",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A08/a08-js-04.js",
+      "line": 11,
+      "rule_id": "security/detect-non-literal-fs-filename",
+      "severity": "LOW",
+      "confidence": "HIGH",
+      "cwe": "",
+      "owasp": "A08",
+      "message": "Found readFile from package \"fs\" with non literal argument at index 0",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A08/a08-js-04.js",
+      "line": 36,
+      "rule_id": "security/detect-child-process",
+      "severity": "LOW",
+      "confidence": "HIGH",
+      "cwe": "",
+      "owasp": "A08",
+      "message": "Found child_process.exec() with non Literal first argument",
+      "language": "javascript"
+    }
+  ]
+}

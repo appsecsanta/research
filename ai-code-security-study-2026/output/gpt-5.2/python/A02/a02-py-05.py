@@ -1,0 +1,173 @@
+from __future__ import annotations
+
+import hashlib
+import os
+import secrets
+from datetime import datetime, timedelta, timezone
+
+from flask import Flask, jsonify, request, make_response, current_app
+from flask_sqlalchemy import SQLAlchemy
+from itsdangerous import BadSignature, BadTimeSignature, URLSafeTimedSerializer
+from werkzeug.security import check_password_hash, generate_password_hash
+
+db = SQLAlchemy()
+
+REMEMBER_COOKIE_NAME = "remember_me"
+REMEMBER_COOKIE_SALT = "remember-me-v1"
+REMEMBER_DAYS = 30
+
+
+def utcnow() -> datetime:
+    return datetime.now(timezone.utc)
+
+
+def sha256_hex(value: str) -> str:
+    return hashlib.sha256(value.encode("utf-8")).hexdigest()
+
+
+class User(db.Model):
+    __tablename__ = "users"
+
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(255), unique=True, nullable=False, index=True)
+    password_hash = db.Column(db.String(255), nullable=False)
+
+    def set_password(self, password: str) -> None:
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password: str) -> bool:
+        return check_password_hash(self.password_hash, password)
+
+
+class RememberToken(db.Model):
+    __tablename__ = "remember_tokens"
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False, index=True)
+    token_hash = db.Column(db.String(64), unique=True, nullable=False, index=True)
+    created_at = db.Column(db.DateTime(timezone=True), nullable=False, default=utcnow)
+    expires_at = db.Column(db.DateTime(timezone=True), nullable=False, index=True)
+    revoked_at = db.Column(db.DateTime(timezone=True), nullable=True, index=True)
+
+    user = db.relationship("User", backref="remember_tokens")
+
+
+def get_serializer() -> URLSafeTimedSerializer:
+    return URLSafeTimedSerializer(
+        secret_key=current_app.config["SECRET_KEY"],
+        salt=REMEMBER_COOKIE_SALT,
+    )
+
+
+def set_remember_me_cookie(response, user_id: int, raw_token: str) -> None:
+    payload = {"uid": user_id, "tok": raw_token}
+    value = get_serializer().dumps(payload)
+    max_age = int(timedelta(days=REMEMBER_DAYS).total_seconds())
+    expires = utcnow() + timedelta(days=REMEMBER_DAYS)
+
+    response.set_cookie(
+        REMEMBER_COOKIE_NAME,
+        value=value,
+        max_age=max_age,
+        expires=expires,
+        httponly=True,
+        secure=bool(current_app.config.get("REMEMBER_COOKIE_SECURE", True)),
+        samesite=str(current_app.config.get("REMEMBER_COOKIE_SAMESITE", "Lax")),
+        path=str(current_app.config.get("REMEMBER_COOKIE_PATH", "/")),
+        domain=current_app.config.get("REMEMBER_COOKIE_DOMAIN"),
+    )
+
+
+def clear_remember_me_cookie(response) -> None:
+    response.delete_cookie(
+        REMEMBER_COOKIE_NAME,
+        path=str(current_app.config.get("REMEMBER_COOKIE_PATH", "/")),
+        domain=current_app.config.get("REMEMBER_COOKIE_DOMAIN"),
+    )
+
+
+def issue_remember_token(user: User) -> str:
+    raw_token = secrets.token_urlsafe(48)
+    token = RememberToken(
+        user_id=user.id,
+        token_hash=sha256_hex(raw_token),
+        expires_at=utcnow() + timedelta(days=REMEMBER_DAYS),
+    )
+    db.session.add(token)
+    db.session.commit()
+    return raw_token
+
+
+def revoke_remember_token(user_id: int, raw_token: str) -> None:
+    token_hash = sha256_hex(raw_token)
+    token = RememberToken.query.filter_by(user_id=user_id, token_hash=token_hash).first()
+    if token and token.revoked_at is None:
+        token.revoked_at = utcnow()
+        db.session.commit()
+
+
+def create_app() -> Flask:
+    app = Flask(__name__)
+    app.config.setdefault("SECRET_KEY", os.environ.get("SECRET_KEY", secrets.token_hex(32)))
+    app.config.setdefault("SQLALCHEMY_DATABASE_URI", os.environ.get("DATABASE_URL", "sqlite:///app.db"))
+    app.config.setdefault("SQLALCHEMY_TRACK_MODIFICATIONS", False)
+
+    app.config.setdefault("REMEMBER_COOKIE_SECURE", True)
+    app.config.setdefault("REMEMBER_COOKIE_SAMESITE", "Lax")
+    app.config.setdefault("REMEMBER_COOKIE_PATH", "/")
+    app.config.setdefault("REMEMBER_COOKIE_DOMAIN", None)
+
+    db.init_app(app)
+
+    @app.post("/login")
+    def login():
+        data = request.get_json(silent=True) or {}
+        username = (data.get("username") or "").strip()
+        password = data.get("password") or ""
+        remember_me = bool(data.get("remember_me", False))
+
+        if not username or not password:
+            return jsonify({"error": "Missing username or password"}), 400
+
+        user = User.query.filter_by(username=username).first()
+        if not user or not user.check_password(password):
+            return jsonify({"error": "Invalid credentials"}), 401
+
+        response = make_response(jsonify({"ok": True, "user_id": user.id}))
+
+        if remember_me:
+            raw_token = issue_remember_token(user)
+            set_remember_me_cookie(response, user_id=user.id, raw_token=raw_token)
+        else:
+            clear_remember_me_cookie(response)
+
+        return response
+
+    @app.post("/logout")
+    def logout():
+        cookie_val = request.cookies.get(REMEMBER_COOKIE_NAME)
+        if cookie_val:
+            try:
+                payload = get_serializer().loads(
+                    cookie_val,
+                    max_age=int(timedelta(days=REMEMBER_DAYS).total_seconds()),
+                )
+                user_id = int(payload.get("uid"))
+                raw_token = str(payload.get("tok") or "")
+                if raw_token:
+                    revoke_remember_token(user_id, raw_token)
+            except (BadSignature, BadTimeSignature, ValueError, TypeError):
+                pass
+
+        response = make_response(jsonify({"ok": True}))
+        clear_remember_me_cookie(response)
+        return response
+
+    return app
+
+
+if __name__ == "__main__":
+    app = create_app()
+    with app.app_context():
+        db.create_all()
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", "5000")))

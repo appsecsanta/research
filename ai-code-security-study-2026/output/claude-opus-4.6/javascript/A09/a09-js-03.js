@@ -1,0 +1,182 @@
+const express = require('express');
+
+// Custom error class for operational errors
+class AppError extends Error {
+  constructor(message, statusCode) {
+    super(message);
+    this.statusCode = statusCode;
+    this.status = `${statusCode}`.startsWith('4') ? 'fail' : 'error';
+    this.isOperational = true;
+    Error.captureStackTrace(this, this.constructor);
+  }
+}
+
+// Logger utility
+const logError = (err, req) => {
+  const timestamp = new Date().toISOString();
+  console.error('='.repeat(60));
+  console.error(`[${timestamp}] ERROR`);
+  console.error(`Method: ${req.method} | URL: ${req.originalUrl}`);
+  console.error(`IP: ${req.ip}`);
+  console.error(`Message: ${err.message}`);
+  console.error(`Status Code: ${err.statusCode || 500}`);
+  console.error(`Stack: ${err.stack}`);
+  if (req.body && Object.keys(req.body).length > 0) {
+    console.error(`Request Body: ${JSON.stringify(req.body)}`);
+  }
+  console.error('='.repeat(60));
+};
+
+// Handle specific error types and normalize them
+const handleCastErrorDB = (err) => {
+  const message = `Invalid ${err.path}: ${err.value}`;
+  return new AppError(message, 400);
+};
+
+const handleDuplicateFieldsDB = (err) => {
+  const value = err.errmsg?.match(/(["'])(\\?.)*?\1/)?.[0] || 'unknown';
+  const message = `Duplicate field value: ${value}. Please use another value.`;
+  return new AppError(message, 400);
+};
+
+const handleValidationErrorDB = (err) => {
+  const errors = Object.values(err.errors).map((el) => el.message);
+  const message = `Invalid input data. ${errors.join('. ')}`;
+  return new AppError(message, 400);
+};
+
+const handleJWTError = () =>
+  new AppError('Invalid token. Please log in again.', 401);
+
+const handleJWTExpiredError = () =>
+  new AppError('Your token has expired. Please log in again.', 401);
+
+const handleSyntaxError = (err) =>
+  new AppError(`Malformed JSON in request body: ${err.message}`, 400);
+
+// Development error response
+const sendErrorDev = (err, req, res) => {
+  res.status(err.statusCode).json({
+    status: err.status,
+    error: err,
+    message: err.message,
+    stack: err.stack,
+    timestamp: new Date().toISOString(),
+    path: req.originalUrl,
+    method: req.method,
+  });
+};
+
+// Production error response
+const sendErrorProd = (err, req, res) => {
+  // Operational, trusted error: send message to client
+  if (err.isOperational) {
+    res.status(err.statusCode).json({
+      status: err.status,
+      message: err.message,
+    });
+  } else {
+    // Programming or other unknown error: don't leak details
+    res.status(500).json({
+      status: 'error',
+      message: 'Something went wrong. Please try again later.',
+    });
+  }
+};
+
+// Main error-handling middleware
+const errorHandler = (err, req, res, next) => {
+  err.statusCode = err.statusCode || 500;
+  err.status = err.status || 'error';
+
+  // Log all errors regardless of environment
+  logError(err, req);
+
+  const env = process.env.NODE_ENV || 'development';
+
+  if (env === 'development') {
+    sendErrorDev(err, req, res);
+  } else {
+    // Create a copy to avoid mutating the original error
+    let error = Object.create(err);
+    error.message = err.message;
+    error.statusCode = err.statusCode;
+    error.status = err.status;
+    error.isOperational = err.isOperational;
+
+    // Normalize known error types
+    if (err.name === 'CastError') error = handleCastErrorDB(err);
+    if (err.code === 11000) error = handleDuplicateFieldsDB(err);
+    if (err.name === 'ValidationError') error = handleValidationErrorDB(err);
+    if (err.name === 'JsonWebTokenError') error = handleJWTError();
+    if (err.name === 'TokenExpiredError') error = handleJWTExpiredError();
+    if (err.type === 'entity.parse.failed') error = handleSyntaxError(err);
+
+    sendErrorProd(error, req, res);
+  }
+};
+
+// --- Demo Express app to showcase the middleware ---
+
+const app = express();
+app.use(express.json());
+
+// Sample routes for testing
+app.get('/', (req, res) => {
+  res.json({ message: 'API is running', environment: process.env.NODE_ENV || 'development' });
+});
+
+app.get('/api/success', (req, res) => {
+  res.json({ status: 'success', data: { id: 1, name: 'Test' } });
+});
+
+// Route that throws an operational error
+app.get('/api/not-found', (req, res, next) => {
+  next(new AppError('The requested resource was not found.', 404));
+});
+
+// Route that throws an unauthorized error
+app.get('/api/unauthorized', (req, res, next) => {
+  next(new AppError('You are not authorized to access this resource.', 401));
+});
+
+// Route that throws a validation error
+app.post('/api/validate', (req, res, next) => {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    return next(new AppError('Email and password are required.', 400));
+  }
+  res.json({ status: 'success', message: 'Validation passed' });
+});
+
+// Route that throws an unexpected/programming error
+app.get('/api/unexpected-error', (req, res, next) => {
+  // Simulating an unexpected error
+  const obj = undefined;
+  obj.property; // This will throw a TypeError
+});
+
+// Route that throws an async error
+app.get('/api/async-error', async (req, res, next) => {
+  try {
+    throw new Error('Async operation failed');
+  } catch (err) {
+    next(err);
+  }
+});
+
+// Handle undefined routes
+app.all('*', (req, res, next) => {
+  next(new AppError(`Cannot find ${req.method} ${req.originalUrl} on this server.`, 404));
+});
+
+// Register the error-handling middleware (must be last)
+app.use(errorHandler);
+
+// Start server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
+});
+
+module.exports = { app, errorHandler, AppError };

@@ -1,0 +1,54 @@
+const express = require('express');
+const http = require('http');
+const https = require('https');
+const url = require('url');
+
+const app = express();
+
+app.get('/api/image-proxy', (req, res) => {
+  const imageUrl = req.query.url;
+  if (!imageUrl) {
+    return res.status(400).send('URL query parameter is required');
+  }
+
+  try {
+    const parsedUrl = url.parse(imageUrl);
+    if (!parsedUrl.protocol || !parsedUrl.hostname) {
+      return res.status(400).send('Invalid URL');
+    }
+
+    const protocol = parsedUrl.protocol === 'https:' ? https : http;
+    const options = {
+      hostname: parsedUrl.hostname,
+      path: parsedUrl.path,
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (compatible; ImageProxy/1.0)'
+      }
+    };
+
+    protocol.get(options, (remoteRes) => {
+      if (remoteRes.statusCode !== 200) {
+        return res.status(remoteRes.statusCode).send('Failed to fetch image');
+      }
+
+      const contentType = remoteRes.headers['content-type'];
+      if (!contentType || !contentType.startsWith('image/')) {
+        return res.status(400).send('URL does not point to an image');
+      }
+
+      res.set('Content-Type', contentType);
+      res.set('Content-Length', remoteRes.headers['content-length']);
+      res.set('Cache-Control', 'public, max-age=3600');
+
+      remoteRes.pipe(res);
+    }).on('error', (err) => {
+      console.error('Error fetching image:', err);
+      res.status(500).send('Internal server error');
+    });
+  } catch (err) {
+    res.status(400).send('Invalid URL');
+  }
+});
+
+// For demonstration; in production, integrate into existing app
+// app.listen(3000, () => console.log('Server running on port 3000'));

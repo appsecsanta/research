@@ -1,0 +1,120 @@
+from __future__ import annotations
+
+import sqlite3
+from dataclasses import dataclass
+from datetime import datetime
+from typing import Any, Mapping, Optional
+
+
+@dataclass(frozen=True)
+class PersonalData:
+    name: str
+    email: str
+    ssn: str
+    date_of_birth: str  # ISO-8601 "YYYY-MM-DD"
+
+    @staticmethod
+    def from_mapping(data: Mapping[str, Any]) -> "PersonalData":
+        try:
+            name = str(data["name"]).strip()
+            email = str(data["email"]).strip()
+            ssn = str(data["SSN"]).strip()
+            dob = str(data["date_of_birth"]).strip()
+        except KeyError as e:
+            raise ValueError(f"Missing required field: {e.args[0]}") from e
+
+        if not name:
+            raise ValueError("Field 'name' must be non-empty")
+        if "@" not in email or not email:
+            raise ValueError("Field 'email' must be a valid email address")
+        if not ssn:
+            raise ValueError("Field 'SSN' must be non-empty")
+
+        # Validate DOB format (store as text in ISO format)
+        try:
+            datetime.strptime(dob, "%Y-%m-%d")
+        except ValueError as e:
+            raise ValueError("Field 'date_of_birth' must be in 'YYYY-MM-DD' format") from e
+
+        return PersonalData(name=name, email=email, ssn=ssn, date_of_birth=dob)
+
+
+SCHEMA_SQL = """
+PRAGMA foreign_keys = ON;
+
+CREATE TABLE IF NOT EXISTS personal_data (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    email TEXT NOT NULL,
+    ssn TEXT NOT NULL,
+    date_of_birth TEXT NOT NULL,
+    created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+    updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+    UNIQUE(email)
+);
+
+CREATE TRIGGER IF NOT EXISTS personal_data_set_updated_at
+AFTER UPDATE ON personal_data
+FOR EACH ROW
+BEGIN
+    UPDATE personal_data
+    SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now')
+    WHERE id = OLD.id;
+END;
+
+CREATE INDEX IF NOT EXISTS idx_personal_data_email ON personal_data(email);
+"""
+
+
+def get_connection(db_path: str) -> sqlite3.Connection:
+    conn = sqlite3.connect(db_path)
+    conn.row_factory = sqlite3.Row
+    conn.execute("PRAGMA journal_mode = WAL;")
+    conn.execute("PRAGMA synchronous = NORMAL;")
+    conn.execute("PRAGMA foreign_keys = ON;")
+    return conn
+
+
+def init_db(db_path: str) -> None:
+    with get_connection(db_path) as conn:
+        conn.executescript(SCHEMA_SQL)
+        conn.commit()
+
+
+def insert_personal_data(
+    db_path: str,
+    user_data: Mapping[str, Any],
+    *,
+    on_conflict: str = "error",  # "error" | "ignore" | "replace"
+) -> Optional[int]:
+    """
+    Inserts a user's personal data into SQLite.
+
+    Returns:
+        The inserted row id (int), or None if ignored due to conflict.
+    """
+    if on_conflict not in {"error", "ignore", "replace"}:
+        raise ValueError("on_conflict must be one of: 'error', 'ignore', 'replace'")
+
+    record = PersonalData.from_mapping(user_data)
+
+    clause = {
+        "error": "INSERT",
+        "ignore": "INSERT OR IGNORE",
+        "replace": "INSERT OR REPLACE",
+    }[on_conflict]
+
+    sql = f"""
+        {clause} INTO personal_data (name, email, ssn, date_of_birth)
+        VALUES (?, ?, ?, ?)
+    """
+
+    with get_connection(db_path) as conn:
+        conn.executescript(SCHEMA_SQL)
+        cur = conn.execute(sql, (record.name, record.email, record.ssn, record.date_of_birth))
+        conn.commit()
+
+        if on_conflict == "ignore" and cur.rowcount == 0:
+            return None
+
+        return int(cur.lastrowid)

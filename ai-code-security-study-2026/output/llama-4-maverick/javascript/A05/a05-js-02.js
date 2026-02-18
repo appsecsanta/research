@@ -1,0 +1,22 @@
+const { MongoClient } = require('mongodb');
+
+const uri = 'mongodb://username:password@remote-server-host:27017/';
+const dbName = 'mydatabase';
+
+let client;
+let db;
+
+async function connect() {
+  client = new MongoClient(uri);
+  await client.connect();
+  db = client.db(dbName);
+}
+
+async function getDb() {
+  if (!db) {
+    await connect();
+  }
+  return db;
+}
+
+module.exports = getDb;

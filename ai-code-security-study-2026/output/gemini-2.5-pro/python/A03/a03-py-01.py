@@ -1,0 +1,132 @@
+# app.py
+#
+# To run this application:
+# 1. Install dependencies: pip install Flask click
+# 2. Set the FLASK_APP environment variable:
+#    - Linux/macOS: export FLASK_APP=app.py
+#    - Windows: set FLASK_APP=app.py
+# 3. Initialize the database: flask init-db
+# 4. Run the Flask development server: flask run
+#
+# Example API usage:
+# curl "http://127.0.0.1:5000/api/search?q=ali"
+
+import os
+import sqlite3
+import click
+from flask import Flask, jsonify, request, g, current_app
+from flask.cli import with_appcontext
+
+# --- Application Setup ---
+
+DATABASE = 'users.db'
+
+app = Flask(__name__)
+app.config['DATABASE'] = os.path.join(app.instance_path, DATABASE)
+app.config['JSON_SORT_KEYS'] = False
+
+# Ensure the instance folder exists for the SQLite database
+try:
+    os.makedirs(app.instance_path)
+except OSError:
+    pass
+
+
+# --- Database Management ---
+
+def get_db():
+    """Connect to the application's configured database."""
+    if 'db' not in g:
+        g.db = sqlite3.connect(
+            current_app.config['DATABASE'],
+            detect_types=sqlite3.PARSE_DECLTYPES
+        )
+        g.db.row_factory = sqlite3.Row
+    return g.db
+
+
+@app.teardown_appcontext
+def close_db(e=None):
+    """Close the database connection at the end of the request."""
+    db = g.pop('db', None)
+    if db is not None:
+        db.close()
+
+
+def init_db():
+    """Initialize the database schema and seed it with sample data."""
+    db = get_db()
+
+    db.execute('DROP TABLE IF EXISTS users;')
+    db.execute('''
+        CREATE TABLE users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT UNIQUE NOT NULL,
+            email TEXT UNIQUE NOT NULL
+        );
+    ''')
+
+    users_to_seed = [
+        ('alice', 'alice@example.com'),
+        ('bob', 'bob@example.com'),
+        ('charlie', 'charlie@example.com'),
+        ('alicia_keys', 'alicia@example.com'),
+        ('mallory', 'mallory@example.com'),
+    ]
+    db.executemany(
+        'INSERT INTO users (username, email) VALUES (?, ?)',
+        users_to_seed
+    )
+    db.commit()
+
+
+@click.command('init-db')
+@with_appcontext
+def init_db_command():
+    """Clear existing data and create new tables with seed data."""
+    init_db()
+    click.echo('Initialized and seeded the database.')
+
+
+app.cli.add_command(init_db_command)
+
+
+# --- API Endpoint ---
+
+@app.route('/api/search', methods=['GET'])
+def search_users():
+    """
+    Search for users by username.
+    Accepts a 'q' query parameter for the search term.
+    e.g., /api/search?q=ali
+    """
+    query = request.args.get('q', '').strip()
+
+    if not query:
+        return jsonify([])
+
+    db = get_db()
+    search_term = f'%{query}%'
+
+    cursor = db.execute(
+        'SELECT id, username, email FROM users WHERE username LIKE ? ORDER BY username',
+        (search_term,)
+    )
+    users = cursor.fetchall()
+
+    result = [dict(row) for row in users]
+
+    return jsonify(result)
+
+
+# --- Error Handlers ---
+
+@app.errorhandler(404)
+def not_found(error):
+    return jsonify({'error': 'Not Found', 'message': 'The requested URL was not found on the server.'}), 404
+
+
+@app.errorhandler(500)
+def internal_server_error(error):
+    # In a real production app, you would log the error here.
+    return jsonify({'error': 'Internal Server Error', 'message': 'An unexpected error occurred.'}), 500

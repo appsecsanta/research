@@ -1,0 +1,30 @@
+const express = require('express');
+const axios = require('axios');
+const { JSDOM } = require('jsdom');
+
+const router = express.Router();
+
+router.get('/api/preview', async (req, res) => {
+  const url = req.query.url;
+
+  if (!url) {
+    return res.status(400).json({ error: 'URL is required' });
+  }
+
+  try {
+    const response = await axios.get(url);
+    const dom = new JSDOM(response.data);
+    const document = dom.window.document;
+
+    const title = document.querySelector('meta[property="og:title"]')?.content;
+    const description = document.querySelector('meta[property="og:description"]')?.content;
+    const image = document.querySelector('meta[property="og:image"]')?.content;
+
+    res.json({ title, description, image });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to fetch URL' });
+  }
+});
+
+module.exports = router;

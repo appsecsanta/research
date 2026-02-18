@@ -1,0 +1,29 @@
+const fs = require('fs');
+const childProcess = require('child_process');
+
+function runCICD(manifestPath) {
+    try {
+        const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+        manifest.forEach((entry) => {
+            if (entry.step && entry.command) {
+                console.log(`Executing step: ${entry.step}`);
+                childProcess.execSync(entry.command, { stdio: 'inherit' });
+            } else {
+                throw new Error('Invalid manifest entry: missing "step" or "command"');
+            }
+        });
+    } catch (error) {
+        console.error(`Error running CI/CD: ${error.message}`);
+        process.exit(1);
+    }
+}
+
+if (require.main === module) {
+    if (process.argv.length !== 3) {
+        console.error('Usage: node cicd.js <manifest_path>');
+        process.exit(1);
+    }
+    runCICD(process.argv[2]);
+}
+
+module.exports = runCICD;

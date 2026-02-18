@@ -37,6 +37,18 @@ This repository contains everything needed to **verify, reproduce, or build upon
 
 <br />
 
+### AI-Generated Code Security Study 2026
+
+> **6 LLMs** · 89 prompts · 534 code samples · 6 SAST tools · 1,173 findings triaged
+
+```
+GPT-5.2 · Claude Opus 4.6 · Gemini 2.5 Pro · DeepSeek V3 · Llama 4 Maverick · Grok 4
+```
+
+[Documentation](./ai-code-security-study-2026) · [Published Article](https://appsecsanta.com/research/ai-code-security-study-2026)
+
+<br />
+
 ### State of Open-Source AppSec Tools 2026
 
 > **65 tools** · 5 health dimensions · GitHub + npm + PyPI + Docker Hub data
@@ -65,14 +77,15 @@ CSP · HSTS · X-Frame-Options · Referrer-Policy · X-Content-Type-Options · R
 
 ## How It Works
 
-Each study follows a three-stage pipeline — collect raw data from public APIs, aggregate into scored datasets, and publish findings with full reproducibility.
+Each study follows a three-stage pipeline — collect raw data from public sources, aggregate into scored datasets, and publish findings with full reproducibility.
 
 ```
                          ┌─────────────────────────────────────────────┐
                          │           Data Collection                   │
                          │                                             │
   Source APIs ──────────►│  GitHub API · npm · PyPI · Docker Hub       │
-  (or target sites)      │  HTTP HEAD requests · DNS queries           │
+  LLM APIs ────────────►│  OpenRouter · SAST tool scans               │
+  Target sites ────────►│  HTTP HEAD requests · DNS queries            │
                          │                                             │
                          └──────────────────┬──────────────────────────┘
                                             │
@@ -81,7 +94,7 @@ Each study follows a three-stage pipeline — collect raw data from public APIs,
                          │           Aggregation & Scoring             │
                          │                                             │
                          │  Merge datasets · Compute health scores     │
-                         │  Generate distributions · Rank-tier splits  │
+                         │  Validate findings · Generate distributions │
                          │                                             │
                          └──────────────────┬──────────────────────────┘
                                             │

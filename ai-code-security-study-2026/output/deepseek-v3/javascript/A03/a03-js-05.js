@@ -1,0 +1,22 @@
+const express = require('express');
+const mongoose = require('mongoose');
+const router = express.Router();
+const User = mongoose.model('User');
+
+router.get('/api/users/search', async (req, res) => {
+    try {
+        const { name } = req.query;
+        if (!name) {
+            return res.status(400).json({ message: 'Name query parameter is required' });
+        }
+
+        const regex = new RegExp(name, 'i');
+        const users = await User.find({ username: regex });
+
+        res.json(users);
+    } catch (error) {
+        res.status(500).json({ message: 'An error occurred', error: error.message });
+    }
+});
+
+module.exports = router;

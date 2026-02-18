@@ -1,0 +1,29 @@
+'use strict';
+
+const crypto = require('crypto');
+
+const CHARSET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+function generateTemporaryPassword(length = 8) {
+  if (!Number.isInteger(length) || length <= 0) {
+    throw new TypeError('length must be a positive integer');
+  }
+
+  const charsetLength = CHARSET.length;
+  const maxMultiple = Math.floor(256 / charsetLength) * charsetLength;
+
+  let password = '';
+  while (password.length < length) {
+    const bytes = crypto.randomBytes(length);
+    for (let i = 0; i < bytes.length && password.length < length; i++) {
+      const value = bytes[i];
+      if (value < maxMultiple) {
+        password += CHARSET[value % charsetLength];
+      }
+    }
+  }
+
+  return password;
+}
+
+module.exports = { generateTemporaryPassword };

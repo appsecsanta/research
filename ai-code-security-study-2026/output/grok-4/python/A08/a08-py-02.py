@@ -1,0 +1,48 @@
+from flask import Flask, request
+import sqlite3
+import base64
+import json
+
+app = Flask(__name__)
+
+@app.route('/api/import', methods=['POST'])
+def import_data():
+    try:
+        payload = request.get_data()
+        if not payload:
+            return 'No data provided', 400
+        
+        decoded = base64.b64decode(payload).decode('utf-8')
+        objects = json.loads(decoded)
+        
+        if not isinstance(objects, list):
+            return 'Invalid data format: expected list of objects', 400
+        
+        conn = sqlite3.connect('database.db')
+        cursor = conn.cursor()
+        
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS objects (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                data TEXT
+            )
+        ''')
+        
+        for obj in objects:
+            if not isinstance(obj, dict):
+                continue
+            cursor.execute('INSERT INTO objects (data) VALUES (?)', (json.dumps(obj),))
+        
+        conn.commit()
+        conn.close()
+        
+        return 'Success', 200
+    except base64.binascii.Error:
+        return 'Invalid base64 encoding', 400
+    except json.JSONDecodeError:
+        return 'Invalid JSON data', 400
+    except Exception as e:
+        return f'Error: {str(e)}', 500
+
+if __name__ == '__main__':
+    app.run(debug=False)

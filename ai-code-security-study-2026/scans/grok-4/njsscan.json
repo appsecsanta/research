@@ -1,0 +1,117 @@
+{
+  "tool": "njsscan",
+  "model": "grok-4",
+  "scan_timestamp": "2026-02-17T07:22:57Z",
+  "findings": [
+    {
+      "file": "javascript/A07/a07-js-02.js",
+      "line": 23,
+      "rule_id": "cookie_session_default",
+      "severity": "LOW",
+      "confidence": "MEDIUM",
+      "cwe": "CWE-522",
+      "owasp": "A07",
+      "message": "Consider changing the default session cookie name. An attacker can use it to fingerprint the server and target attacks accordingly.",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A07/a07-js-02.js",
+      "line": 23,
+      "rule_id": "cookie_session_no_domain",
+      "severity": "LOW",
+      "confidence": "MEDIUM",
+      "cwe": "CWE-522",
+      "owasp": "A07",
+      "message": "Default session middleware settings: `domain` not set. It indicates the domain of the cookie; use it to compare against the domain of the server in which the URL is being requested. If they match, then check the path attribute next.",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A07/a07-js-02.js",
+      "line": 23,
+      "rule_id": "cookie_session_no_path",
+      "severity": "LOW",
+      "confidence": "MEDIUM",
+      "cwe": "CWE-522",
+      "owasp": "A07",
+      "message": "Default session middleware settings: `path` not set. It indicates the path of the cookie; use it to compare against the request path. If this and domain match, then send the cookie in the request.",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A07/a07-js-02.js",
+      "line": 23,
+      "rule_id": "cookie_session_no_secure",
+      "severity": "MEDIUM",
+      "confidence": "MEDIUM",
+      "cwe": "",
+      "owasp": "A07",
+      "message": "Default session middleware settings: `secure` not set. It ensures the browser only sends the cookie over HTTPS.",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A03/a03-js-04.js",
+      "line": 31,
+      "rule_id": "express_lfr_warning",
+      "severity": "MEDIUM",
+      "confidence": "MEDIUM",
+      "cwe": "CWE-23",
+      "owasp": "A03",
+      "message": "Untrusted user input in express render() function can result in arbitrary file read if hbs templating is used.",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A03/a03-js-04.js",
+      "line": 41,
+      "rule_id": "express_lfr_warning",
+      "severity": "MEDIUM",
+      "confidence": "MEDIUM",
+      "cwe": "CWE-23",
+      "owasp": "A03",
+      "message": "Untrusted user input in express render() function can result in arbitrary file read if hbs templating is used.",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A04/a04-js-03.js",
+      "line": 25,
+      "rule_id": "node_insecure_random_generator",
+      "severity": "MEDIUM",
+      "confidence": "MEDIUM",
+      "cwe": "CWE-327",
+      "owasp": "A04",
+      "message": "crypto.pseudoRandomBytes()/Math.random() is a cryptographically weak random number generator.",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A04/a04-js-04.js",
+      "line": 42,
+      "rule_id": "node_insecure_random_generator",
+      "severity": "MEDIUM",
+      "confidence": "MEDIUM",
+      "cwe": "CWE-327",
+      "owasp": "A04",
+      "message": "crypto.pseudoRandomBytes()/Math.random() is a cryptographically weak random number generator.",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A04/a04-js-01.js",
+      "line": 61,
+      "rule_id": "node_nosqli_injection",
+      "severity": "HIGH",
+      "confidence": "MEDIUM",
+      "cwe": "CWE-943",
+      "owasp": "A04",
+      "message": "Untrusted user input in findOne() function can result in NoSQL Injection.",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A07/a07-js-03.js",
+      "line": 27,
+      "rule_id": "node_nosqli_injection",
+      "severity": "HIGH",
+      "confidence": "MEDIUM",
+      "cwe": "CWE-943",
+      "owasp": "A07",
+      "message": "Untrusted user input in findOne() function can result in NoSQL Injection.",
+      "language": "javascript"
+    }
+  ]
+}

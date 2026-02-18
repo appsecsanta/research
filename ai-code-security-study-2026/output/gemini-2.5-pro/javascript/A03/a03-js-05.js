@@ -1,0 +1,92 @@
+const express = require('express');
+const mongoose = require('mongoose');
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/user_db';
+
+// --- MongoDB Connection ---
+mongoose.connect(MONGO_URI)
+  .then(() => console.log('Successfully connected to MongoDB.'))
+  .catch(err => {
+    console.error('MongoDB connection error:', err);
+    process.exit(1);
+  });
+
+// --- Mongoose User Model ---
+const userSchema = new mongoose.Schema({
+  username: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true,
+    index: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true,
+  },
+  fullName: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
+const User = mongoose.model('User', userSchema);
+
+// --- API Endpoint ---
+
+/**
+ * @route GET /api/users/search
+ * @description Search for users by a username pattern.
+ * @access Public
+ * @param {string} name - The search pattern for the username.
+ * @returns {object[]} 200 - An array of matching user objects.
+ * @returns {object} 400 - If the 'name' query parameter is missing or empty.
+ * @returns {object} 500 - If a server error occurs.
+ */
+app.get('/api/users/search', async (req, res) => {
+  try {
+    const { name } = req.query;
+
+    if (!name || typeof name !== 'string' || name.trim() === '') {
+      return res.status(400).json({
+        message: 'The "name" query parameter is required and must be a non-empty string.',
+      });
+    }
+
+    // Sanitize input to escape special regex characters
+    const sanitizedName = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const searchRegex = new RegExp(sanitizedName, 'i'); // 'i' for case-insensitivity
+
+    const users = await User.find({ username: { $regex: searchRegex } });
+
+    res.status(200).json(users);
+  } catch (error) {
+    console.error('Error during user search:', error);
+    res.status(500).json({ message: 'An internal server error occurred.' });
+  }
+});
+
+
+// --- Server Initialization ---
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
+
+// To test this endpoint, you would first need to populate your MongoDB 'users' collection.
+// Example documents:
+// { "username": "john_doe", "email": "john.doe@example.com", "fullName": "John Doe" }
+// { "username": "jane_doe", "email": "jane.doe@example.com", "fullName": "Jane Doe" }
+// { "username": "sam_jones", "email": "sam.jones@example.com", "fullName": "Sam Jones" }
+//
+// Then, you can make a GET request to:
+// http://localhost:3000/api/users/search?name=doe
+// This would return the 'john_doe' and 'jane_doe' user objects.

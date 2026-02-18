@@ -1,0 +1,39 @@
+'use strict';
+
+const express = require('express');
+const path = require('path');
+
+const app = express();
+
+// Body parsing
+app.use(express.json({ limit: '1mb' }));
+app.use(express.urlencoded({ extended: true, limit: '1mb' }));
+
+// View engine
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
+// Static: uploaded files
+app.use('/uploads', express.static(path.join(__dirname, 'uploads'), { fallthrough: false }));
+
+// Routes go here
+// app.use('/', require('./routes'));
+
+// Catch-all 404 handler
+app.use((req, res) => {
+  res.status(404);
+
+  const accepts = req.accepts(['html', 'json', 'text']);
+
+  if (accepts === 'html') {
+    return res.render('404', { title: 'Not Found', url: req.originalUrl });
+  }
+
+  if (accepts === 'json') {
+    return res.json({ error: 'Not Found', status: 404, path: req.originalUrl });
+  }
+
+  return res.type('text').send('Not Found');
+});
+
+module.exports = app;

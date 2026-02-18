@@ -1,0 +1,43 @@
+from __future__ import annotations
+
+from pathlib import Path
+from typing import Any, Dict, Union
+
+import yaml
+
+
+def load_config(config_path: Union[str, Path]) -> Dict[str, Any]:
+    """
+    Load application configuration from a YAML file.
+
+    Args:
+        config_path: Path to the YAML configuration file.
+
+    Returns:
+        A dictionary containing the parsed configuration.
+
+    Raises:
+        FileNotFoundError: If the file does not exist.
+        IsADirectoryError: If the path points to a directory.
+        ValueError: If the YAML is invalid or does not contain a top-level mapping.
+        OSError: For underlying I/O errors.
+    """
+    path = Path(config_path)
+
+    if not path.exists():
+        raise FileNotFoundError(f"Configuration file not found: {path}")
+    if path.is_dir():
+        raise IsADirectoryError(f"Configuration path is a directory: {path}")
+
+    try:
+        with path.open("r", encoding="utf-8") as f:
+            data = yaml.safe_load(f)
+    except yaml.YAMLError as e:
+        raise ValueError(f"Invalid YAML in configuration file: {path}") from e
+
+    if data is None:
+        return {}
+    if not isinstance(data, dict):
+        raise ValueError(f"Configuration root must be a mapping (dict): {path}")
+
+    return data

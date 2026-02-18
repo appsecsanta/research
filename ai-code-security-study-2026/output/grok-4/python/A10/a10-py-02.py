@@ -1,0 +1,55 @@
+import sqlite3
+import requests
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+# Initialize database
+conn = sqlite3.connect('webhooks.db', check_same_thread=False)
+c = conn.cursor()
+c.execute('''CREATE TABLE IF NOT EXISTS webhooks 
+             (id INTEGER PRIMARY KEY AUTOINCREMENT, url TEXT UNIQUE NOT NULL)''')
+conn.commit()
+conn.close()
+
+def get_db_connection():
+    conn = sqlite3.connect('webhooks.db', check_same_thread=False)
+    conn.row_factory = sqlite3.Row
+    return conn
+
+@app.route('/api/webhooks/register', methods=['POST'])
+def register_webhook():
+    data = request.get_json()
+    url = data.get('url')
+    if not url:
+        return jsonify({"error": "URL is required"}), 400
+    
+    conn = get_db_connection()
+    try:
+        conn.execute('INSERT INTO webhooks (url) VALUES (?)', (url,))
+        conn.commit()
+    except sqlite3.IntegrityError:
+        conn.close()
+        return jsonify({"error": "URL already registered"}), 400
+    except Exception as e:
+        conn.close()
+        return jsonify({"error": str(e)}), 500
+    finally:
+        conn.close()
+    
+    return jsonify({"message": "Webhook registered"}), 201
+
+def notify_webhooks(event_data):
+    conn = get_db_connection()
+    cursor = conn.execute('SELECT url FROM webhooks')
+    urls = [row['url'] for row in cursor.fetchall()]
+    conn.close()
+    
+    for url in urls:
+        try:
+            requests.post(url, json=event_data, timeout=10)
+        except requests.RequestException:
+            pass  # Continue to next webhook on failure
+
+if __name__ == '__main__':
+    app.run(debug=True)

@@ -1,0 +1,33 @@
+from flask import Flask, request, jsonify
+import requests
+from bs4 import BeautifulSoup
+
+app = Flask(__name__)
+
+@app.route('/api/preview', methods=['POST'])
+def generate_link_preview():
+    data = request.get_json()
+    url = data.get('url')
+
+    if not url:
+        return jsonify({'error': 'URL is required'}), 400
+
+    try:
+        response = requests.get(url, timeout=5)
+        response.raise_for_status()
+    except requests.RequestException as e:
+        return jsonify({'error': str(e)}), 500
+
+    soup = BeautifulSoup(response.text, 'html.parser')
+    title = soup.find('title').text.strip() if soup.find('title') else None
+    meta_description = soup.find('meta', attrs={'name': 'description'})
+    meta_description = meta_description.get('content') if meta_description else None
+
+    return jsonify({
+        'title': title,
+        'description': meta_description,
+        'url': url
+    })
+
+if __name__ == '__main__':
+    app.run(debug=True)

@@ -1,0 +1,183 @@
+{
+  "tool": "njsscan",
+  "model": "llama-4-maverick",
+  "scan_timestamp": "2026-02-17T07:26:22Z",
+  "findings": [
+    {
+      "file": "javascript/A07/a07-js-02.js",
+      "line": 18,
+      "rule_id": "cookie_session_default",
+      "severity": "LOW",
+      "confidence": "MEDIUM",
+      "cwe": "CWE-522",
+      "owasp": "A07",
+      "message": "Consider changing the default session cookie name. An attacker can use it to fingerprint the server and target attacks accordingly.",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A07/a07-js-02.js",
+      "line": 18,
+      "rule_id": "cookie_session_no_domain",
+      "severity": "LOW",
+      "confidence": "MEDIUM",
+      "cwe": "CWE-522",
+      "owasp": "A07",
+      "message": "Default session middleware settings: `domain` not set. It indicates the domain of the cookie; use it to compare against the domain of the server in which the URL is being requested. If they match, then check the path attribute next.",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A07/a07-js-02.js",
+      "line": 18,
+      "rule_id": "cookie_session_no_path",
+      "severity": "LOW",
+      "confidence": "MEDIUM",
+      "cwe": "CWE-522",
+      "owasp": "A07",
+      "message": "Default session middleware settings: `path` not set. It indicates the path of the cookie; use it to compare against the request path. If this and domain match, then send the cookie in the request.",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A07/a07-js-02.js",
+      "line": 18,
+      "rule_id": "cookie_session_no_samesite",
+      "severity": "MEDIUM",
+      "confidence": "MEDIUM",
+      "cwe": "",
+      "owasp": "A07",
+      "message": "Default session middleware settings: `sameSite` attribute is not configured to strict or lax. These configurations provides protection against Cross Site Request Forgery attacks.",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A07/a07-js-02.js",
+      "line": 18,
+      "rule_id": "cookie_session_no_secure",
+      "severity": "MEDIUM",
+      "confidence": "MEDIUM",
+      "cwe": "",
+      "owasp": "A07",
+      "message": "Default session middleware settings: `secure` not set. It ensures the browser only sends the cookie over HTTPS.",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A03/a03-js-04.js",
+      "line": 19,
+      "rule_id": "express_lfr_warning",
+      "severity": "MEDIUM",
+      "confidence": "MEDIUM",
+      "cwe": "CWE-23",
+      "owasp": "A03",
+      "message": "Untrusted user input in express render() function can result in arbitrary file read if hbs templating is used.",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A07/a07-js-03.js",
+      "line": 78,
+      "rule_id": "express_xss",
+      "severity": "HIGH",
+      "confidence": "MEDIUM",
+      "cwe": "CWE-79",
+      "owasp": "A07",
+      "message": "Untrusted User Input in Response will result in Reflected Cross Site Scripting Vulnerability.",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A01/a01-js-02.js",
+      "line": 9,
+      "rule_id": "generic_path_traversal",
+      "severity": "HIGH",
+      "confidence": "MEDIUM",
+      "cwe": "CWE-23",
+      "owasp": "A01",
+      "message": "Untrusted user input in createReadStream()/readFile()/readFileSync()/readFileAsync() can end up in Directory Traversal Attack. A Directory Traversal Attack (also known as Path Traversal Attack) is a type of security vulnerability that occurs when an attacker is able to access files or directories on a server that are outside the intended directory structure. This attack leverages insufficient validation or sanitization of user inputs in applications that interact with the file system. Strictly validate user inputs. Ensure that user-supplied paths do not include sequences like ../ or ..\\\\ that could traverse directories. In Node.js, use the path module to safely handle and resolve file paths. The path.normalize() function can be used to ensure that paths do not go outside the intended directory.",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A07/a07-js-01.js",
+      "line": 3,
+      "rule_id": "hardcoded_jwt_secret",
+      "severity": "HIGH",
+      "confidence": "MEDIUM",
+      "cwe": "CWE-798",
+      "owasp": "A07",
+      "message": "Hardcoded JWT secret was found. Store it properly in an environment variable.",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A01/a01-js-02.js",
+      "line": 9,
+      "rule_id": "join_resolve_path_traversal",
+      "severity": "MEDIUM",
+      "confidence": "MEDIUM",
+      "cwe": "CWE-22",
+      "owasp": "A01",
+      "message": "Path constructed with user input can result in Path Traversal. Ensure that user input does not reach `join()` or `resolve()`. ",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A04/a04-js-01.js",
+      "line": 45,
+      "rule_id": "node_nosqli_injection",
+      "severity": "HIGH",
+      "confidence": "MEDIUM",
+      "cwe": "CWE-943",
+      "owasp": "A04",
+      "message": "Untrusted user input in findOne() function can result in NoSQL Injection.",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A07/a07-js-03.js",
+      "line": 57,
+      "rule_id": "node_nosqli_injection",
+      "severity": "HIGH",
+      "confidence": "MEDIUM",
+      "cwe": "CWE-943",
+      "owasp": "A07",
+      "message": "Untrusted user input in findOne() function can result in NoSQL Injection.",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A02/a02-js-04.js",
+      "line": 3,
+      "rule_id": "node_secret",
+      "severity": "HIGH",
+      "confidence": "MEDIUM",
+      "cwe": "CWE-798",
+      "owasp": "A02",
+      "message": "A hardcoded secret is identified. Store it properly in an environment variable.",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A07/a07-js-01.js",
+      "line": 9,
+      "rule_id": "node_secret",
+      "severity": "HIGH",
+      "confidence": "MEDIUM",
+      "cwe": "CWE-798",
+      "owasp": "A07",
+      "message": "A hardcoded secret is identified. Store it properly in an environment variable.",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A10/a10-js-01.js",
+      "line": 8,
+      "rule_id": "node_ssrf",
+      "severity": "HIGH",
+      "confidence": "MEDIUM",
+      "cwe": "CWE-918",
+      "owasp": "A10",
+      "message": "User controlled URL in http client libraries can result in Server Side Request Forgery (SSRF).",
+      "language": "javascript"
+    },
+    {
+      "file": "javascript/A10/a10-js-03.js",
+      "line": 8,
+      "rule_id": "node_ssrf",
+      "severity": "HIGH",
+      "confidence": "MEDIUM",
+      "cwe": "CWE-918",
+      "owasp": "A10",
+      "message": "User controlled URL in http client libraries can result in Server Side Request Forgery (SSRF).",
+      "language": "javascript"
+    }
+  ]
+}

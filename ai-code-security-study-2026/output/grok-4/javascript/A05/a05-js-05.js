@@ -1,0 +1,24 @@
+const fs = require('fs');
+const path = require('path');
+
+const defaultConfig = {
+  port: 3000,
+  databaseURL: 'mongodb://localhost:27017/myapp',
+  jwtSecret: 'development-secret',
+  apiKeys: {}
+};
+
+let config = { ...defaultConfig };
+
+const configPath = path.join(__dirname, 'config.json');
+
+if (fs.existsSync(configPath)) {
+  try {
+    const fileConfig = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+    config = { ...defaultConfig, ...fileConfig };
+  } catch (error) {
+    // Silently fall back to defaults if parsing fails
+  }
+}
+
+module.exports = config;

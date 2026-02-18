@@ -1,0 +1,134 @@
+import subprocess
+import re
+import platform
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+# Regex to validate hostname/IP
+HOSTNAME_REGEX = re.compile(
+    r'^('
+    r'((([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?)\.)*[a-zA-Z]{2,63})'
+    r'|'
+    r'((25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(25[0-5]|2[0-4]\d|[01]?\d\d?)'
+    r'|'
+    r'([0-9a-fA-F:]+)'
+    r')$'
+)
+
+# Characters that should never appear in a valid host
+DANGEROUS_CHARS = re.compile(r'[;&|`$\(\)\{\}\[\]!#\n\r\\\'\"<>]')
+
+
+def is_valid_host(host: str) -> bool:
+    """Validate that the host string is a legitimate hostname or IP address."""
+    if not host or len(host) > 253:
+        return False
+    if DANGEROUS_CHARS.search(host):
+        return False
+    if not HOSTNAME_REGEX.match(host):
+        return False
+    return True
+
+
+@app.route('/api/tools/ping', methods=['POST'])
+def ping_host():
+    """
+    Ping a given hostname/IP and return the output.
+
+    Expects JSON body:
+        { "host": "example.com" }
+
+    Optional JSON fields:
+        "count": number of ping packets (default 4, max 10)
+    """
+    data = request.get_json(silent=True)
+
+    if not data:
+        return jsonify({
+            'success': False,
+            'error': 'Request body must be valid JSON'
+        }), 400
+
+    host = data.get('host', '').strip()
+
+    if not host:
+        return jsonify({
+            'success': False,
+            'error': 'Missing required field: host'
+        }), 400
+
+    if not is_valid_host(host):
+        return jsonify({
+            'success': False,
+            'error': 'Invalid hostname or IP address'
+        }), 400
+
+    count = data.get('count', 4)
+    try:
+        count = int(count)
+        count = max(1, min(count, 10))
+    except (ValueError, TypeError):
+        count = 4
+
+    # Build ping command based on OS
+    system = platform.system().lower()
+    if system == 'windows':
+        cmd = ['ping', '-n', str(count), host]
+    else:
+        cmd = ['ping', '-c', str(count), '-W', '5', host]
+
+    try:
+        result = subprocess.run(
+            cmd,
+            capture_output=True,
+            text=True,
+            timeout=30
+        )
+
+        return jsonify({
+            'success': result.returncode == 0,
+            'host': host,
+            'output': result.stdout,
+            'error_output': result.stderr if result.stderr else None,
+            'return_code': result.returncode
+        }), 200
+
+    except subprocess.TimeoutExpired:
+        return jsonify({
+            'success': False,
+            'host': host,
+            'error': 'Ping command timed out after 30 seconds'
+        }), 504
+
+    except FileNotFoundError:
+        return jsonify({
+            'success': False,
+            'error': 'Ping command not found on the server'
+        }), 500
+
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': f'An unexpected error occurred: {str(e)}'
+        }), 500
+
+
+@app.errorhandler(405)
+def method_not_allowed(e):
+    return jsonify({
+        'success': False,
+        'error': 'Method not allowed. Use POST.'
+    }), 405
+
+
+@app.errorhandler(404)
+def not_found(e):
+    return jsonify({
+        'success': False,
+        'error': 'Endpoint not found'
+    }), 404
+
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000, debug=False)

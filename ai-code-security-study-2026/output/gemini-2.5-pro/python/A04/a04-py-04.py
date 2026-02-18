@@ -1,0 +1,218 @@
+import os
+from datetime import datetime
+from typing import Optional
+
+from email_validator import validate_email, EmailNotValidError
+from flask import Flask, request, jsonify, url_for, render_template_string
+from flask_bcrypt import Bcrypt
+from flask_mail import Mail, Message
+from flask_sqlalchemy import SQLAlchemy
+from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadTimeSignature
+
+# ==============================================================================
+# Configuration
+#
+# For production, use environment variables. Create a .env file with:
+#
+# SECRET_KEY='a_very_secret_and_long_random_string'
+# SECURITY_PASSWORD_SALT='another_very_secret_and_long_random_string'
+# SQLALCHEMY_DATABASE_URI='sqlite:///production.db' # Or your production DB URI
+# MAIL_SERVER='smtp.your-email-provider.com'
+# MAIL_PORT=587
+# MAIL_USE_TLS=True
+# MAIL_USERNAME='your-email@example.com'
+# MAIL_PASSWORD='your-email-app-password'
+# MAIL_DEFAULT_SENDER='Your App Name <your-email@example.com>'
+#
+# ==============================================================================
+
+class Config:
+    """Flask application configuration."""
+    # Flask settings
+    SECRET_KEY = os.environ.get('SECRET_KEY', 'dev-secret-key')
+    
+    # itsdangerous settings for token generation
+    SECURITY_PASSWORD_SALT = os.environ.get('SECURITY_PASSWORD_SALT', 'dev-salt')
+    
+    # SQLAlchemy settings
+    SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI', 'sqlite:///users.db')
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    
+    # Flask-Mail settings
+    MAIL_SERVER = os.environ.get('MAIL_SERVER', 'localhost')
+    MAIL_PORT = int(os.environ.get('MAIL_PORT', 1025)) # Default to mailhog/local smtp server
+    MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS', 'false').lower() in ('true', '1', 't')
+    MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+    MAIL_DEFAULT_SENDER = os.environ.get('MAIL_DEFAULT_SENDER', 'noreply@example.com')
+
+
+# ==============================================================================
+# App Initialization
+# ==============================================================================
+
+app = Flask(__name__)
+app.config.from_object(Config)
+
+db = SQLAlchemy(app)
+bcrypt = Bcrypt(app)
+mail = Mail(app)
+serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+
+
+# ==============================================================================
+# Models
+# ==============================================================================
+
+class User(db.Model):
+    """Represents a user in the database."""
+    __tablename__ = 'users'
+
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password_hash = db.Column(db.String(128), nullable=False)
+    is_verified = db.Column(db.Boolean, nullable=False, default=False)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
+    def __init__(self, username: str, email: str, password: str):
+        self.username = username
+        self.email = email
+        self.password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
+
+    def __repr__(self) -> str:
+        return f'<User {self.username}>'
+
+
+# ==============================================================================
+# Services
+# ==============================================================================
+
+def generate_confirmation_token(email: str) -> str:
+    """Generates a secure, timed token for email confirmation."""
+    return serializer.dumps(email, salt=app.config['SECURITY_PASSWORD_SALT'])
+
+
+def confirm_token(token: str, expiration_seconds: int = 3600) -> Optional[str]:
+    """Confirms a token and returns the email if valid, otherwise None."""
+    try:
+        email = serializer.loads(
+            token,
+            salt=app.config['SECURITY_PASSWORD_SALT'],
+            max_age=expiration_seconds
+        )
+        return email
+    except (SignatureExpired, BadTimeSignature):
+        return None
+
+
+def send_verification_email(user_email: str) -> None:
+    """Sends a verification email to the user."""
+    token = generate_confirmation_token(user_email)
+    confirm_url = url_for('confirm_email', token=token, _external=True)
+    
+    html = render_template_string(
+        """
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Confirm Your Email</title>
+        </head>
+        <body>
+            <h2>Welcome!</h2>
+            <p>Thanks for signing up! Please follow this link to activate your account:</p>
+            <p><a href="{{ confirm_url }}">{{ confirm_url }}</a></p>
+            <br>
+            <p>Cheers!</p>
+        </body>
+        </html>
+        """,
+        confirm_url=confirm_url
+    )
+    
+    subject = "Please confirm your email"
+    msg = Message(subject, recipients=[user_email], html=html)
+    
+    try:
+        mail.send(msg)
+    except Exception as e:
+        # In production, you'd want to log this error.
+        app.logger.error(f"Failed to send email to {user_email}: {e}")
+        # Depending on the app's requirements, you might want to handle this
+        # failure more gracefully, e.g., by re-queueing the email.
+
+
+# ==============================================================================
+# API Endpoints
+# ==============================================================================
+
+@app.route('/register', methods=['POST'])
+def register():
+    """
+    Registers a new user.
+    Accepts a JSON payload with 'username', 'email', and 'password'.
+    """
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "Invalid JSON"}), 400
+
+    username = data.get('username')
+    email = data.get('email')
+    password = data.get('password')
+
+    if not all([username, email, password]):
+        return jsonify({"error": "Missing username, email, or password"}), 400
+
+    if len(password) < 8:
+        return jsonify({"error": "Password must be at least 8 characters long"}), 400
+
+    try:
+        valid_email = validate_email(email).email
+    except EmailNotValidError as e:
+        return jsonify({"error": str(e)}), 400
+
+    if User.query.filter_by(username=username).first():
+        return jsonify({"error": "Username already exists"}), 409
+
+    if User.query.filter_by(email=valid_email).first():
+        return jsonify({"error": "Email already registered"}), 409
+
+    new_user = User(username=username, email=valid_email, password=password)
+    db.session.add(new_user)
+    db.session.commit()
+
+    send_verification_email(new_user.email)
+
+    return jsonify({
+        "message": "User registered successfully. Please check your email to verify your account."
+    }), 201
+
+
+@app.route('/confirm/<token>', methods=['GET'])
+def confirm_email(token: str):
+    """Handles email confirmation from the link sent to the user."""
+    email = confirm_token(token)
+    if not email:
+        return jsonify({"error": "The confirmation link is invalid or has expired."}), 400
+
+    user = User.query.filter_by(email=email).first_or_404()
+
+    if user.is_verified:
+        return jsonify({"message": "Account already confirmed. Please login."}), 200
+    
+    user.is_verified = True
+    db.session.commit()
+    
+    return jsonify({"message": "You have confirmed your account. Thanks!"}), 200
+
+
+# ==============================================================================
+# Main Execution
+# ==============================================================================
+
+if __name__ == '__main__':
+    with app.app_context():
+        # This will create the database and tables if they don't exist.
+        db.create_all()
+    # For development, use debug=True. In production, use a proper WSGI server.
+    app.run(debug=True, port=5001)

@@ -1,0 +1,42 @@
+import secrets
+import datetime
+import sqlite3
+
+def generate_reset_token(email: str, db_conn: sqlite3.Connection) -> str:
+    """
+    Generates a unique token for password reset, stores it in the database with the user's email and expiration.
+    Assumes a table 'reset_tokens' exists with columns: token TEXT PRIMARY KEY, email TEXT, expiration TEXT.
+    """
+    token = secrets.token_urlsafe(32)
+    expiration = (datetime.datetime.now() + datetime.timedelta(hours=1)).isoformat()
+    
+    cursor = db_conn.cursor()
+    cursor.execute(
+        "INSERT INTO reset_tokens (token, email, expiration) VALUES (?, ?, ?)",
+        (token, email, expiration)
+    )
+    db_conn.commit()
+    
+    return token
+
+def validate_reset_token(token: str, db_conn: sqlite3.Connection) -> str | None:
+    """
+    Validates the reset token. Returns the associated email if valid and not expired, otherwise None.
+    Deletes the token after successful validation.
+    """
+    cursor = db_conn.cursor()
+    cursor.execute(
+        "SELECT email, expiration FROM reset_tokens WHERE token = ?",
+        (token,)
+    )
+    result = cursor.fetchone()
+    
+    if result:
+        email, exp_str = result
+        expiration = datetime.datetime.fromisoformat(exp_str)
+        if datetime.datetime.now() < expiration:
+            cursor.execute("DELETE FROM reset_tokens WHERE token = ?", (token,))
+            db_conn.commit()
+            return email
+    
+    return None

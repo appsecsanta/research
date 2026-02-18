@@ -1,0 +1,73 @@
+from flask import Flask, request, render_template, redirect, url_for
+import sqlite3
+from sqlite3 import Error
+
+app = Flask(__name__)
+
+def create_connection():
+    conn = None
+    try:
+        conn = sqlite3.connect('feedback.db')
+        return conn
+    except Error as e:
+        print(e)
+
+def create_table(conn):
+    sql = """CREATE TABLE IF NOT EXISTS feedback (
+                id integer PRIMARY KEY AUTOINCREMENT,
+                name text NOT NULL,
+                message text NOT NULL
+            );"""
+    try:
+        c = conn.cursor()
+        c.execute(sql)
+    except Error as e:
+        print(e)
+
+def insert_feedback(conn, feedback):
+    sql = """INSERT INTO feedback(name, message) VALUES (?,?)"""
+    try:
+        c = conn.cursor()
+        c.execute(sql, feedback)
+        conn.commit()
+        return c.lastrowid
+    except Error as e:
+        print(e)
+
+def get_all_feedback(conn):
+    sql = """SELECT * FROM feedback"""
+    try:
+        c = conn.cursor()
+        c.execute(sql)
+        rows = c.fetchall()
+        return rows
+    except Error as e:
+        print(e)
+
+@app.before_first_request
+def setup_db():
+    conn = create_connection()
+    with conn:
+        create_table(conn)
+
+@app.route('/api/feedback', methods=['POST'])
+def submit_feedback():
+    conn = create_connection()
+    with conn:
+        name = request.form.get('name')
+        message = request.form.get('message')
+        if name and message:
+            insert_feedback(conn, (name, message))
+            return 'Feedback submitted successfully', 201
+        else:
+            return 'Name and message are required', 400
+
+@app.route('/feedback', methods=['GET'])
+def view_feedback():
+    conn = create_connection()
+    with conn:
+        feedback = get_all_feedback(conn)
+        return render_template('feedback.html', feedback=feedback)
+
+if __name__ == '__main__':
+    app.run(debug=True)

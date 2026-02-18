@@ -1,0 +1,91 @@
+const express = require('express');
+const puppeteer = require('puppeteer');
+
+const app = express();
+app.use(express.json());
+
+app.post('/api/export-pdf', async (req, res) => {
+  const { url } = req.body;
+
+  if (!url) {
+    return res.status(400).json({ error: 'URL is required in the request body.' });
+  }
+
+  // Basic URL validation
+  let parsedUrl;
+  try {
+    parsedUrl = new URL(url);
+    if (!['http:', 'https:'].includes(parsedUrl.protocol)) {
+      throw new Error('Invalid protocol');
+    }
+  } catch {
+    return res.status(400).json({ error: 'Invalid URL. Must be a valid HTTP or HTTPS URL.' });
+  }
+
+  let browser;
+  try {
+    browser = await puppeteer.launch({
+      headless: 'new',
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-dev-shm-usage',
+        '--disable-gpu',
+      ],
+    });
+
+    const page = await browser.newPage();
+
+    await page.setViewport({ width: 1280, height: 900 });
+
+    await page.goto(parsedUrl.href, {
+      waitUntil: 'networkidle2',
+      timeout: 30000,
+    });
+
+    const pdfBuffer = await page.pdf({
+      format: 'A4',
+      printBackground: true,
+      margin: {
+        top: '20mm',
+        right: '15mm',
+        bottom: '20mm',
+        left: '15mm',
+      },
+    });
+
+    // Generate a filename from the URL hostname
+    const hostname = parsedUrl.hostname.replace(/[^a-zA-Z0-9.-]/g, '_');
+    const timestamp = Date.now();
+    const filename = `${hostname}-${timestamp}.pdf`;
+
+    res.set({
+      'Content-Type': 'application/pdf',
+      'Content-Disposition': `attachment; filename="${filename}"`,
+      'Content-Length': pdfBuffer.length,
+    });
+
+    return res.send(pdfBuffer);
+  } catch (error) {
+    console.error('PDF generation failed:', error.message);
+
+    if (error.name === 'TimeoutError') {
+      return res.status(504).json({ error: 'Page load timed out. The URL may be unreachable or too slow.' });
+    }
+
+    return res.status(500).json({ error: 'Failed to generate PDF.', details: error.message });
+  } finally {
+    if (browser) {
+      await browser.close().catch((err) => {
+        console.error('Failed to close browser:', err.message);
+      });
+    }
+  }
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
+module.exports = app;

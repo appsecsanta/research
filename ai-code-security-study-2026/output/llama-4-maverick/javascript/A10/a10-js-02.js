@@ -1,0 +1,33 @@
+const express = require('express');
+const axios = require('axios');
+
+const router = express.Router();
+
+router.post('/api/webhooks/send', async (req, res) => {
+  try {
+    const { urls, payload } = req.body;
+
+    if (!Array.isArray(urls) || !urls.length) {
+      return res.status(400).json({ error: 'urls must be a non-empty array' });
+    }
+
+    if (typeof payload !== 'object' || payload === null) {
+      return res.status(400).json({ error: 'payload must be an object' });
+    }
+
+    const deliveryStatus = await Promise.all(urls.map(async (url) => {
+      try {
+        const response = await axios.post(url, payload);
+        return { url, status: response.status, success: true };
+      } catch (error) {
+        return { url, status: error.response?.status || null, success: false, error: error.message };
+      }
+    }));
+
+    res.json(deliveryStatus);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to dispatch webhooks' });
+  }
+});
+
+module.exports = router;

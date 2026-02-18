@@ -1,0 +1,23 @@
+const express = require('express');
+const { User } = require('../models/User');
+const { authenticate, authorizeAdmin } = require('../middleware/auth');
+
+const router = express.Router();
+
+router.use(authenticate);
+router.use(authorizeAdmin);
+
+router.put('/api/users/:id/role', async (req, res) => {
+  const { id } = req.params;
+  const { role } = req.body;
+
+  try {
+    const user = await User.findByIdAndUpdate(id, { role }, { new: true });
+    if (!user) return res.status(404).send({ message: 'User not found' });
+    res.send({ message: 'User role updated successfully', user });
+  } catch (error) {
+    res.status(400).send({ message: 'Failed to update user role', error });
+  }
+});
+
+module.exports = router;

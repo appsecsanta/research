@@ -1,0 +1,24 @@
+/**
+ * Utility function to serialize a user object into a log-safe format.
+ * Masks sensitive fields like passwordHash and tokens.
+ * Returns a sanitized object suitable for debug logging.
+ *
+ * @param {Object} user - The user object to serialize.
+ * @returns {Object} A log-safe representation of the user.
+ */
+function logUser(user) {
+  if (!user) {
+    return { note: 'No user provided' };
+  }
+
+  return {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+    passwordHash: user.passwordHash ? '[REDACTED]' : null,
+    tokens: user.tokens ? '[REDACTED]' : null,
+  };
+}
+
+module.exports = logUser;

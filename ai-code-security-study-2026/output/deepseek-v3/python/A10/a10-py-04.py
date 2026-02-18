@@ -1,0 +1,34 @@
+from flask import Flask, request, send_file
+import pdfkit
+import tempfile
+import os
+
+app = Flask(__name__)
+
+@app.route('/api/export/pdf', methods=['POST'])
+def export_pdf():
+    data = request.get_json()
+    url = data.get('url')
+    
+    if not url:
+        return {'error': 'URL is required'}, 400
+    
+    try:
+        # Create a temporary file to store the PDF
+        with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as temp_pdf:
+            pdfkit.from_url(url, temp_pdf.name)
+            temp_pdf_path = temp_pdf.name
+        
+        # Send the PDF file as a download
+        return send_file(temp_pdf_path, as_attachment=True, download_name='exported.pdf')
+    
+    except Exception as e:
+        return {'error': str(e)}, 500
+    
+    finally:
+        # Clean up the temporary file
+        if 'temp_pdf_path' in locals() and os.path.exists(temp_pdf_path):
+            os.remove(temp_pdf_path)
+
+if __name__ == '__main__':
+    app.run(debug=True)

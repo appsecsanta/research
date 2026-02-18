@@ -1,0 +1,77 @@
+from flask import Flask, request, jsonify
+from werkzeug.security import generate_password_hash
+import sqlite3
+import re
+
+app = Flask(__name__)
+
+# SQLite database connection
+def get_db_connection():
+    conn = sqlite3.connect('users.db')
+    conn.row_factory = sqlite3.Row
+    return conn
+
+# Create users table if not exists
+def create_table():
+    conn = get_db_connection()
+    conn.execute('''
+        CREATE TABLE IF NOT EXISTS users
+        (id INTEGER PRIMARY KEY AUTOINCREMENT, 
+         username TEXT NOT NULL UNIQUE, 
+         email TEXT NOT NULL UNIQUE, 
+         password TEXT NOT NULL)
+    ''')
+    conn.close()
+
+create_table()
+
+# Password validation
+def validate_password(password):
+    if len(password) < 8:
+        return False, "Password must be at least 8 characters long"
+    if not re.search("[a-z]", password):
+        return False, "Password must contain at least one lowercase letter"
+    if not re.search("[A-Z]", password):
+        return False, "Password must contain at least one uppercase letter"
+    if not re.search("[0-9]", password):
+        return False, "Password must contain at least one number"
+    if not re.search("[^A-Za-z0-9]", password):
+        return False, "Password must contain at least one special character"
+    return True, ""
+
+@app.route('/register', methods=['POST'])
+def register():
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "Missing request data"}), 400
+    
+    username = data.get('username')
+    email = data.get('email')
+    password = data.get('password')
+
+    if not all([username, email, password]):
+        return jsonify({"error": "Missing required fields"}), 400
+
+    is_valid, message = validate_password(password)
+    if not is_valid:
+        return jsonify({"error": message}), 400
+
+    conn = get_db_connection()
+    try:
+        conn.execute('INSERT INTO users (username, email, password) VALUES (?, ?, ?)',
+                     (username, email, generate_password_hash(password)))
+        conn.commit()
+    except sqlite3.IntegrityError as e:
+        conn.close()
+        if 'username' in str(e):
+            return jsonify({"error": "Username already exists"}), 400
+        elif 'email' in str(e):
+            return jsonify({"error": "Email already exists"}), 400
+        else:
+            return jsonify({"error": str(e)}), 500
+    conn.close()
+
+    return jsonify({"message": "User created successfully"}), 201
+
+if __name__ == '__main__':
+    app.run(debug=True)

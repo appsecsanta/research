@@ -1,0 +1,16 @@
+import psycopg2
+from psycopg2 import OperationalError
+
+def get_db_connection():
+    try:
+        connection = psycopg2.connect(
+            host="localhost",
+            port="5432",
+            user="your_username",
+            password="your_password",
+            dbname="your_database"
+        )
+        return connection
+    except OperationalError as e:
+        print(f"An error occurred while connecting to the database: {e}")
+        return None

@@ -1,0 +1,507 @@
+{
+  "metadata": {
+    "total_prompts": 89,
+    "total_models": 6,
+    "total_code_samples": 534,
+    "total_findings_raw": 1173,
+    "total_findings_validated_tp": 175,
+    "total_findings_validated_fp": 998,
+    "scan_date": "2026-02-17",
+    "models": [
+      "GPT-5.2",
+      "Claude Opus 4.6",
+      "Gemini 2.5 Pro",
+      "DeepSeek V3",
+      "Llama 4 Maverick",
+      "Grok 4"
+    ],
+    "tools": [
+      "bandit",
+      "codeql",
+      "eslint",
+      "njsscan",
+      "opengrep"
+    ]
+  },
+  "by_model": {
+    "gpt-5.2": {
+      "name": "GPT-5.2",
+      "total_samples": 89,
+      "vulnerable_samples": 17,
+      "vulnerability_rate": 19.1,
+      "total_findings": 20,
+      "by_owasp": {
+        "A01": 2,
+        "A03": 3,
+        "A04": 1,
+        "A05": 2,
+        "A06": 3,
+        "A07": 1,
+        "A08": 3,
+        "A09": 1,
+        "A10": 4
+      },
+      "by_language": {
+        "javascript": {
+          "vuln_rate": 26.7,
+          "total": 45,
+          "vulnerable": 12
+        },
+        "python": {
+          "vuln_rate": 11.4,
+          "total": 44,
+          "vulnerable": 5
+        }
+      },
+      "by_severity": {
+        "HIGH": 4,
+        "LOW": 6,
+        "MEDIUM": 10
+      }
+    },
+    "claude-opus-4.6": {
+      "name": "Claude Opus 4.6",
+      "total_samples": 89,
+      "vulnerable_samples": 26,
+      "vulnerability_rate": 29.2,
+      "total_findings": 32,
+      "by_owasp": {
+        "A01": 3,
+        "A02": 2,
+        "A03": 5,
+        "A04": 1,
+        "A05": 5,
+        "A06": 2,
+        "A07": 1,
+        "A08": 4,
+        "A09": 4,
+        "A10": 5
+      },
+      "by_language": {
+        "javascript": {
+          "vuln_rate": 26.7,
+          "total": 45,
+          "vulnerable": 12
+        },
+        "python": {
+          "vuln_rate": 31.8,
+          "total": 44,
+          "vulnerable": 14
+        }
+      },
+      "by_severity": {
+        "HIGH": 7,
+        "LOW": 8,
+        "MEDIUM": 17
+      }
+    },
+    "gemini-2.5-pro": {
+      "name": "Gemini 2.5 Pro",
+      "total_samples": 89,
+      "vulnerable_samples": 20,
+      "vulnerability_rate": 22.5,
+      "total_findings": 24,
+      "by_owasp": {
+        "A01": 2,
+        "A03": 5,
+        "A04": 1,
+        "A05": 2,
+        "A06": 2,
+        "A07": 2,
+        "A08": 4,
+        "A10": 6
+      },
+      "by_language": {
+        "javascript": {
+          "vuln_rate": 26.7,
+          "total": 45,
+          "vulnerable": 12
+        },
+        "python": {
+          "vuln_rate": 18.2,
+          "total": 44,
+          "vulnerable": 8
+        }
+      },
+      "by_severity": {
+        "HIGH": 5,
+        "LOW": 6,
+        "MEDIUM": 13
+      }
+    },
+    "deepseek-v3": {
+      "name": "DeepSeek V3",
+      "total_samples": 89,
+      "vulnerable_samples": 26,
+      "vulnerability_rate": 29.2,
+      "total_findings": 39,
+      "by_owasp": {
+        "A01": 5,
+        "A02": 1,
+        "A03": 8,
+        "A05": 5,
+        "A06": 2,
+        "A07": 4,
+        "A08": 4,
+        "A09": 4,
+        "A10": 6
+      },
+      "by_language": {
+        "javascript": {
+          "vuln_rate": 31.1,
+          "total": 45,
+          "vulnerable": 14
+        },
+        "python": {
+          "vuln_rate": 27.3,
+          "total": 44,
+          "vulnerable": 12
+        }
+      },
+      "by_severity": {
+        "HIGH": 10,
+        "LOW": 8,
+        "MEDIUM": 21
+      }
+    },
+    "llama-4-maverick": {
+      "name": "Llama 4 Maverick",
+      "total_samples": 89,
+      "vulnerable_samples": 26,
+      "vulnerability_rate": 29.2,
+      "total_findings": 36,
+      "by_owasp": {
+        "A01": 4,
+        "A03": 5,
+        "A04": 1,
+        "A05": 6,
+        "A06": 2,
+        "A07": 5,
+        "A08": 4,
+        "A09": 3,
+        "A10": 6
+      },
+      "by_language": {
+        "javascript": {
+          "vuln_rate": 33.3,
+          "total": 45,
+          "vulnerable": 15
+        },
+        "python": {
+          "vuln_rate": 25.0,
+          "total": 44,
+          "vulnerable": 11
+        }
+      },
+      "by_severity": {
+        "HIGH": 11,
+        "LOW": 7,
+        "MEDIUM": 18
+      }
+    },
+    "grok-4": {
+      "name": "Grok 4",
+      "total_samples": 89,
+      "vulnerable_samples": 19,
+      "vulnerability_rate": 21.3,
+      "total_findings": 24,
+      "by_owasp": {
+        "A01": 2,
+        "A03": 4,
+        "A04": 2,
+        "A05": 5,
+        "A06": 2,
+        "A08": 2,
+        "A09": 2,
+        "A10": 5
+      },
+      "by_language": {
+        "javascript": {
+          "vuln_rate": 22.2,
+          "total": 45,
+          "vulnerable": 10
+        },
+        "python": {
+          "vuln_rate": 20.5,
+          "total": 44,
+          "vulnerable": 9
+        }
+      },
+      "by_severity": {
+        "HIGH": 5,
+        "LOW": 5,
+        "MEDIUM": 14
+      }
+    }
+  },
+  "by_owasp": {
+    "A01": {
+      "name": "Broken Access Control",
+      "total_findings": 18,
+      "by_model": {
+        "claude-opus-4.6": 3,
+        "deepseek-v3": 5,
+        "gemini-2.5-pro": 2,
+        "gpt-5.2": 2,
+        "grok-4": 2,
+        "llama-4-maverick": 4
+      }
+    },
+    "A02": {
+      "name": "Cryptographic Failures",
+      "total_findings": 3,
+      "by_model": {
+        "claude-opus-4.6": 2,
+        "deepseek-v3": 1
+      }
+    },
+    "A03": {
+      "name": "Injection",
+      "total_findings": 30,
+      "by_model": {
+        "claude-opus-4.6": 5,
+        "deepseek-v3": 8,
+        "gemini-2.5-pro": 5,
+        "gpt-5.2": 3,
+        "grok-4": 4,
+        "llama-4-maverick": 5
+      }
+    },
+    "A04": {
+      "name": "Insecure Design",
+      "total_findings": 6,
+      "by_model": {
+        "claude-opus-4.6": 1,
+        "gemini-2.5-pro": 1,
+        "gpt-5.2": 1,
+        "grok-4": 2,
+        "llama-4-maverick": 1
+      }
+    },
+    "A05": {
+      "name": "Security Misconfiguration",
+      "total_findings": 25,
+      "by_model": {
+        "claude-opus-4.6": 5,
+        "deepseek-v3": 5,
+        "gemini-2.5-pro": 2,
+        "gpt-5.2": 2,
+        "grok-4": 5,
+        "llama-4-maverick": 6
+      }
+    },
+    "A06": {
+      "name": "Vulnerable & Outdated Components",
+      "total_findings": 13,
+      "by_model": {
+        "claude-opus-4.6": 2,
+        "deepseek-v3": 2,
+        "gemini-2.5-pro": 2,
+        "gpt-5.2": 3,
+        "grok-4": 2,
+        "llama-4-maverick": 2
+      }
+    },
+    "A07": {
+      "name": "Identification & Authentication Failures",
+      "total_findings": 13,
+      "by_model": {
+        "claude-opus-4.6": 1,
+        "deepseek-v3": 4,
+        "gemini-2.5-pro": 2,
+        "gpt-5.2": 1,
+        "llama-4-maverick": 5
+      }
+    },
+    "A08": {
+      "name": "Software & Data Integrity Failures",
+      "total_findings": 21,
+      "by_model": {
+        "claude-opus-4.6": 4,
+        "deepseek-v3": 4,
+        "gemini-2.5-pro": 4,
+        "gpt-5.2": 3,
+        "grok-4": 2,
+        "llama-4-maverick": 4
+      }
+    },
+    "A09": {
+      "name": "Security Logging & Monitoring Failures",
+      "total_findings": 14,
+      "by_model": {
+        "claude-opus-4.6": 4,
+        "deepseek-v3": 4,
+        "gpt-5.2": 1,
+        "grok-4": 2,
+        "llama-4-maverick": 3
+      }
+    },
+    "A10": {
+      "name": "Server-Side Request Forgery",
+      "total_findings": 32,
+      "by_model": {
+        "claude-opus-4.6": 5,
+        "deepseek-v3": 6,
+        "gemini-2.5-pro": 6,
+        "gpt-5.2": 4,
+        "grok-4": 5,
+        "llama-4-maverick": 6
+      }
+    }
+  },
+  "by_language": {
+    "javascript": {
+      "vuln_rate": 7.4,
+      "by_model": {
+        "claude-opus-4.6": {
+          "vuln_rate": 26.7
+        },
+        "deepseek-v3": {
+          "vuln_rate": 31.1
+        },
+        "gemini-2.5-pro": {
+          "vuln_rate": 26.7
+        },
+        "gpt-5.2": {
+          "vuln_rate": 26.7
+        },
+        "grok-4": {
+          "vuln_rate": 22.2
+        },
+        "llama-4-maverick": {
+          "vuln_rate": 33.3
+        }
+      }
+    },
+    "python": {
+      "vuln_rate": 6.8,
+      "by_model": {
+        "claude-opus-4.6": {
+          "vuln_rate": 31.8
+        },
+        "deepseek-v3": {
+          "vuln_rate": 27.3
+        },
+        "gemini-2.5-pro": {
+          "vuln_rate": 18.2
+        },
+        "gpt-5.2": {
+          "vuln_rate": 11.4
+        },
+        "grok-4": {
+          "vuln_rate": 20.5
+        },
+        "llama-4-maverick": {
+          "vuln_rate": 25.0
+        }
+      }
+    }
+  },
+  "tool_agreement": {
+    "single_tool_only": 137,
+    "two_tools": 35,
+    "three_or_more": 3
+  },
+  "top_cwes": [
+    {
+      "cwe": "CWE-918",
+      "name": "Server-Side Request Forgery (SSRF)",
+      "count": 32
+    },
+    {
+      "cwe": "CWE-215",
+      "name": "CWE-215",
+      "count": 18
+    },
+    {
+      "cwe": "CWE-502",
+      "name": "Deserialization of Untrusted Data",
+      "count": 14
+    },
+    {
+      "cwe": "CWE-943",
+      "name": "Improper Neutralization of Special Elements in Data Query Logic (NoSQL Injection)",
+      "count": 10
+    },
+    {
+      "cwe": "CWE-489",
+      "name": "CWE-489",
+      "count": 9
+    },
+    {
+      "cwe": "CWE-614",
+      "name": "Sensitive Cookie Without Secure Flag",
+      "count": 8
+    },
+    {
+      "cwe": "CWE-22",
+      "name": "Path Traversal",
+      "count": 6
+    },
+    {
+      "cwe": "CWE-1333",
+      "name": "Inefficient Regular Expression Complexity (ReDoS)",
+      "count": 6
+    },
+    {
+      "cwe": "CWE-78",
+      "name": "OS Command Injection",
+      "count": 6
+    },
+    {
+      "cwe": "CWE-798",
+      "name": "Use of Hard-coded Credentials",
+      "count": 5
+    },
+    {
+      "cwe": "CWE-611",
+      "name": "Improper Restriction of XML External Entity Reference (XXE)",
+      "count": 5
+    },
+    {
+      "cwe": "CWE-022",
+      "name": "CWE-022",
+      "count": 4
+    },
+    {
+      "cwe": "CWE-94",
+      "name": "Code Injection",
+      "count": 4
+    },
+    {
+      "cwe": "CWE-352",
+      "name": "Cross-Site Request Forgery (CSRF)",
+      "count": 3
+    },
+    {
+      "cwe": "CWE-209",
+      "name": "Information Exposure Through Error Message",
+      "count": 3
+    },
+    {
+      "cwe": "CWE-259",
+      "name": "Use of Hard-coded Password",
+      "count": 2
+    },
+    {
+      "cwe": "CWE-23",
+      "name": "CWE-23",
+      "count": 2
+    },
+    {
+      "cwe": "CWE-1004",
+      "name": "Sensitive Cookie Without HttpOnly Flag",
+      "count": 2
+    },
+    {
+      "cwe": "CWE-312",
+      "name": "Cleartext Storage of Sensitive Information",
+      "count": 2
+    },
+    {
+      "cwe": "CWE-640",
+      "name": "CWE-640",
+      "count": 2
+    }
+  ]
+}

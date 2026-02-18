@@ -1,0 +1,25 @@
+from flask import Flask, request, jsonify
+import sqlite3
+import json
+
+app = Flask(__name__)
+
+def get_db_connection():
+    conn = sqlite3.connect('database.db')
+    conn.row_factory = sqlite3.Row
+    return conn
+
+@app.route('/api/search', methods=['GET'])
+def search_users():
+    q = request.args.get('q')
+    if not q:
+        return jsonify([]), 200
+    
+    conn = get_db_connection()
+    users = conn.execute('SELECT id, username, email FROM users WHERE username LIKE ?', ('%' + q + '%',)).fetchall()
+    conn.close()
+    
+    return jsonify([dict(user) for user in users]), 200
+
+if __name__ == '__main__':
+    app.run(debug=True)

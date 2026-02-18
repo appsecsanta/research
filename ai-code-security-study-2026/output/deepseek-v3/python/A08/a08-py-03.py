@@ -1,0 +1,61 @@
+import os
+import requests
+import shutil
+import sys
+import tempfile
+import zipfile
+from pathlib import Path
+
+def check_for_updates(current_version, update_url):
+    try:
+        response = requests.get(update_url)
+        response.raise_for_status()
+        latest_version = response.json().get('version')
+        return latest_version != current_version
+    except requests.RequestException:
+        return False
+
+def download_update(update_url, download_path):
+    try:
+        response = requests.get(update_url, stream=True)
+        response.raise_for_status()
+        with open(download_path, 'wb') as file:
+            for chunk in response.iter_content(chunk_size=8192):
+                file.write(chunk)
+        return True
+    except requests.RequestException:
+        return False
+
+def apply_update(update_package_path, executable_path):
+    try:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            with zipfile.ZipFile(update_package_path, 'r') as zip_ref:
+                zip_ref.extractall(temp_dir)
+            
+            for file_name in os.listdir(temp_dir):
+                src_file = os.path.join(temp_dir, file_name)
+                dst_file = os.path.join(executable_path, file_name)
+                if os.path.exists(dst_file):
+                    os.remove(dst_file)
+                shutil.move(src_file, dst_file)
+        return True
+    except Exception:
+        return False
+
+def auto_update(current_version, update_url, executable_path):
+    if not check_for_updates(current_version, update_url):
+        return False
+
+    update_package_path = os.path.join(tempfile.gettempdir(), 'update_package.zip')
+    if not download_update(update_url, update_package_path):
+        return False
+
+    if not apply_update(update_package_path, executable_path):
+        return False
+
+    os.remove(update_package_path)
+    return True
+
+# Example usage:
+# if auto_update("1.0.0", "https://example.com/update", "/path/to/executable"):
+#     os.execv(sys.executable, [sys.executable] + sys.argv)

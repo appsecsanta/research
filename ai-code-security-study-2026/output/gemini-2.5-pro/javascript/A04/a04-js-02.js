@@ -1,0 +1,236 @@
+/*
+ * ----------------------------------------------------------------
+ * Filename: .env
+ * Description: Environment variables for the application.
+ * ----------------------------------------------------------------
+ */
+PORT=5000
+MONGO_URI=mongodb://localhost:27017/e-commerce-app
+
+
+/*
+ * ----------------------------------------------------------------
+ * Filename: package.json
+ * Description: Project dependencies and scripts.
+ * ----------------------------------------------------------------
+ */
+{
+  "name": "coupon-api",
+  "version": "1.0.0",
+  "description": "API for applying coupons",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mongoose": "^7.5.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
+
+
+/*
+ * ----------------------------------------------------------------
+ * Filename: config/db.js
+ * Description: MongoDB connection utility.
+ * ----------------------------------------------------------------
+ */
+const mongoose = require('mongoose');
+
+const connectDB = async () => {
+  try {
+    const conn = await mongoose.connect(process.env.MONGO_URI);
+    console.log(`MongoDB Connected: ${conn.connection.host}`);
+  } catch (error) {
+    console.error(`Error connecting to MongoDB: ${error.message}`);
+    process.exit(1);
+  }
+};
+
+module.exports = connectDB;
+
+
+/*
+ * ----------------------------------------------------------------
+ * Filename: models/Coupon.js
+ * Description: Mongoose schema and model for the Coupon collection.
+ * ----------------------------------------------------------------
+ */
+const mongoose = require('mongoose');
+
+const CouponSchema = new mongoose.Schema({
+  code: {
+    type: String,
+    required: [true, 'Coupon code is required.'],
+    unique: true,
+    trim: true,
+    uppercase: true,
+  },
+  discountType: {
+    type: String,
+    required: [true, 'Discount type is required.'],
+    enum: {
+      values: ['percentage', 'fixed'],
+      message: '{VALUE} is not a supported discount type.',
+    },
+  },
+  discountValue: {
+    type: Number,
+    required: [true, 'Discount value is required.'],
+    min: [0, 'Discount value cannot be negative.'],
+  },
+  minCartValue: {
+    type: Number,
+    default: 0,
+  },
+  isActive: {
+    type: Boolean,
+    default: true,
+  },
+  expiryDate: {
+    type: Date,
+    required: [true, 'Expiry date is required.'],
+  },
+}, {
+  timestamps: true
+});
+
+module.exports = mongoose.model('Coupon', CouponSchema);
+
+
+/*
+ * ----------------------------------------------------------------
+ * Filename: controllers/couponController.js
+ * Description: Controller logic for handling coupon application.
+ * ----------------------------------------------------------------
+ */
+const Coupon = require('../models/Coupon');
+
+const applyCoupon = async (req, res) => {
+  try {
+    const { couponCode, cartTotal } = req.body;
+
+    if (!couponCode || typeof cartTotal !== 'number' || cartTotal <= 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid input. Please provide a couponCode and a valid cartTotal.',
+      });
+    }
+
+    const coupon = await Coupon.findOne({
+      code: couponCode.toUpperCase(),
+      isActive: true,
+      expiryDate: {
+        $gt: new Date()
+      },
+    });
+
+    if (!coupon) {
+      return res.status(404).json({
+        success: false,
+        message: 'Invalid or expired coupon code.',
+      });
+    }
+
+    if (cartTotal < coupon.minCartValue) {
+      return res.status(400).json({
+        success: false,
+        message: `Cart total must be at least $${coupon.minCartValue} to use this coupon.`,
+      });
+    }
+
+    let discountAmount = 0;
+    if (coupon.discountType === 'percentage') {
+      discountAmount = (cartTotal * coupon.discountValue) / 100;
+    } else { // 'fixed'
+      discountAmount = coupon.discountValue;
+    }
+
+    // Ensure the discount doesn't make the total negative
+    const finalTotal = Math.max(0, cartTotal - discountAmount);
+    const actualDiscount = cartTotal - finalTotal;
+
+    res.status(200).json({
+      success: true,
+      message: 'Coupon applied successfully.',
+      data: {
+        originalTotal: parseFloat(cartTotal.toFixed(2)),
+        discountAmount: parseFloat(actualDiscount.toFixed(2)),
+        finalTotal: parseFloat(finalTotal.toFixed(2)),
+      },
+    });
+  } catch (error) {
+    console.error('Error applying coupon:', error);
+    res.status(500).json({
+      success: false,
+      message: 'An internal server error occurred.'
+    });
+  }
+};
+
+module.exports = {
+  applyCoupon
+};
+
+
+/*
+ * ----------------------------------------------------------------
+ * Filename: routes/couponRoutes.js
+ * Description: Express router for coupon-related endpoints.
+ * ----------------------------------------------------------------
+ */
+const express = require('express');
+const {
+  applyCoupon
+} = require('../controllers/couponController');
+
+const router = express.Router();
+
+router.post('/apply-coupon', applyCoupon);
+
+module.exports = router;
+
+
+/*
+ * ----------------------------------------------------------------
+ * Filename: server.js
+ * Description: Main Express application entry point.
+ * ----------------------------------------------------------------
+ */
+require('dotenv').config();
+const express = require('express');
+const connectDB = require('./config/db');
+const couponRoutes = require('./routes/couponRoutes');
+
+// Connect to database
+connectDB();
+
+const app = express();
+
+// Body parser middleware
+app.use(express.json());
+app.use(express.urlencoded({
+  extended: true
+}));
+
+// Mount routers
+app.use('/api', couponRoutes);
+
+// Handle not found routes
+app.use((req, res) => {
+  res.status(404).json({
+    success: false,
+    message: 'Resource not found'
+  });
+});
+
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () =>
+  console.log(`Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`)
+);

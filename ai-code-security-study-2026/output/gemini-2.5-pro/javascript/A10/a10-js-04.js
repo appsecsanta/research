@@ -1,0 +1,91 @@
+const express = require('express');
+const puppeteer = require('puppeteer');
+const { URL } = require('url');
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// Middleware to parse JSON bodies
+app.use(express.json());
+
+/**
+ * POST /api/export-pdf
+ * Generates a PDF from a given URL and returns it as a downloadable file.
+ *
+ * Request body:
+ * {
+ *   "url": "https://example.com"
+ * }
+ *
+ * Responses:
+ * - 200 OK: Returns the generated PDF file.
+ * - 400 Bad Request: If the URL is missing or invalid.
+ * - 500 Internal Server Error: If PDF generation fails.
+ */
+app.post('/api/export-pdf', async (req, res) => {
+  const { url } = req.body;
+
+  // 1. Validate input
+  if (!url) {
+    return res.status(400).json({ error: 'URL is required in the request body.' });
+  }
+
+  let urlObject;
+  try {
+    urlObject = new URL(url);
+  } catch (error) {
+    return res.status(400).json({ error: 'Invalid URL provided.' });
+  }
+
+  let browser = null;
+  try {
+    // 2. Launch Puppeteer
+    // Using --no-sandbox is often necessary for running in containerized environments
+    browser = await puppeteer.launch({
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    });
+
+    const page = await browser.newPage();
+
+    // 3. Navigate to the page and wait for it to be fully loaded
+    await page.goto(url, {
+      waitUntil: 'networkidle0', // Wait until there are no more than 0 network connections for at least 500 ms
+      timeout: 60000, // Increase timeout to 60 seconds
+    });
+
+    // 4. Generate PDF buffer
+    const pdfBuffer = await page.pdf({
+      format: 'A4',
+      printBackground: true,
+      margin: {
+        top: '1cm',
+        right: '1cm',
+        bottom: '1cm',
+        left: '1cm',
+      },
+    });
+
+    // 5. Set response headers for file download
+    const filename = (urlObject.hostname + urlObject.pathname).replace(/[^a-z0-9]/gi, '_') + '.pdf';
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+
+    // 6. Send the PDF buffer as the response
+    res.send(pdfBuffer);
+
+  } catch (error) {
+    console.error(`Error generating PDF for URL: ${url}`, error);
+    res.status(500).json({ error: 'Failed to generate PDF. The page might be inaccessible or too complex.' });
+  } finally {
+    // 7. Ensure the browser is closed to free up resources
+    if (browser) {
+      await browser.close();
+    }
+  }
+});
+
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log('POST to /api/export-pdf with a JSON body like {"url": "https://your-url.com"}');
+});

@@ -1,0 +1,90 @@
+const express = require('express');
+const mongoose = require('mongoose');
+const twilio = require('twilio');
+require('dotenv').config();
+
+const app = express();
+app.use(express.json());
+
+// MongoDB connection
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
+// User model (assuming schema with phone and otp fields)
+const UserSchema = new mongoose.Schema({
+  phone: { type: String, required: true },
+  otp: { type: String },
+});
+const User = mongoose.model('User', UserSchema);
+
+// Twilio client
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+const twilioNumber = process.env.TWILIO_NUMBER;
+const client = new twilio(accountSid, authToken);
+
+// POST /api/send-otp: Generate and send OTP via SMS
+app.post('/api/send-otp', async (req, res) => {
+  const { userId } = req.body;
+
+  if (!userId) {
+    return res.status(400).json({ error: 'userId is required' });
+  }
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    user.otp = otp;
+    await user.save();
+
+    await client.messages.create({
+      body: `Your OTP is ${otp}`,
+      from: twilioNumber,
+      to: user.phone,
+    });
+
+    res.status(200).json({ success: true });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to send OTP' });
+  }
+});
+
+// POST /api/verify-otp: Verify OTP
+app.post('/api/verify-otp', async (req, res) => {
+  const { userId, otp } = req.body;
+
+  if (!userId || !otp) {
+    return res.status(400).json({ error: 'userId and otp are required' });
+  }
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    if (user.otp === otp) {
+      user.otp = null; // Clear OTP after successful verification
+      await user.save();
+      res.status(200).json({ success: true });
+    } else {
+      res.status(200).json({ success: false });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to verify OTP' });
+  }
+});
+
+// Start server (for completeness, can be exported if needed)
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});

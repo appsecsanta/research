@@ -1,0 +1,154 @@
+const express = require('express');
+const multer = require('multer');
+const mongoose = require('mongoose');
+const path = require('path');
+const fs = require('fs');
+
+// Ensure uploads directory exists
+const uploadsDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
+
+// MongoDB connection
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/profile-uploads', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
+// User schema and model
+const userSchema = new mongoose.Schema({
+  username: { type: String, required: true, unique: true },
+  email: { type: String },
+  profilePicture: { type: String, default: null },
+  updatedAt: { type: Date, default: Date.now },
+});
+
+const User = mongoose.model('User', userSchema);
+
+// Multer storage configuration
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, uploadsDir);
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
+    const ext = path.extname(file.originalname);
+    cb(null, `profile-${uniqueSuffix}${ext}`);
+  },
+});
+
+// File filter to allow only image types
+const fileFilter = (req, file, cb) => {
+  const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+  if (allowedMimeTypes.includes(file.mimetype)) {
+    cb(null, true);
+  } else {
+    cb(new Error('Only image files (JPEG, PNG, GIF, WebP) are allowed'), false);
+  }
+};
+
+const upload = multer({
+  storage,
+  fileFilter,
+  limits: {
+    fileSize: 5 * 1024 * 1024, // 5MB max
+  },
+});
+
+// Express app
+const app = express();
+app.use(express.json());
+
+// Serve uploaded files statically
+app.use('/uploads', express.static(uploadsDir));
+
+// POST /api/upload - Upload profile picture
+app.post('/api/upload', upload.single('profilePicture'), async (req, res) => {
+  try {
+    const { userId } = req.body;
+
+    if (!userId) {
+      // Clean up uploaded file if userId is missing
+      if (req.file) {
+        fs.unlinkSync(req.file.path);
+      }
+      return res.status(400).json({ error: 'userId is required' });
+    }
+
+    if (!req.file) {
+      return res.status(400).json({ error: 'No file uploaded. Please provide a profilePicture file.' });
+    }
+
+    // Validate userId is a valid ObjectId
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      fs.unlinkSync(req.file.path);
+      return res.status(400).json({ error: 'Invalid userId format' });
+    }
+
+    const filePath = `/uploads/${req.file.filename}`;
+
+    // Find user and update profile picture path
+    const user = await User.findById(userId);
+
+    if (!user) {
+      fs.unlinkSync(req.file.path);
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Delete old profile picture if it exists
+    if (user.profilePicture) {
+      const oldFilePath = path.join(__dirname, user.profilePicture);
+      if (fs.existsSync(oldFilePath)) {
+        fs.unlinkSync(oldFilePath);
+      }
+    }
+
+    // Update user document with new profile picture path
+    user.profilePicture = filePath;
+    user.updatedAt = new Date();
+    await user.save();
+
+    return res.status(200).json({
+      message: 'Profile picture uploaded successfully',
+      data: {
+        userId: user._id,
+        profilePicture: filePath,
+        filename: req.file.filename,
+        size: req.file.size,
+        mimetype: req.file.mimetype,
+      },
+    });
+  } catch (error) {
+    // Clean up uploaded file on error
+    if (req.file && fs.existsSync(req.file.path)) {
+      fs.unlinkSync(req.file.path);
+    }
+    console.error('Upload error:', error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Multer error handling middleware
+app.use((err, req, res, next) => {
+  if (err instanceof multer.MulterError) {
+    if (err.code === 'LIMIT_FILE_SIZE') {
+      return res.status(400).json({ error: 'File size exceeds the 5MB limit' });
+    }
+    return res.status(400).json({ error: err.message });
+  }
+
+  if (err.message === 'Only image files (JPEG, PNG, GIF, WebP) are allowed') {
+    return res.status(400).json({ error: err.message });
+  }
+
+  console.error('Unhandled error:', err);
+  return res.status(500).json({ error: 'Internal server error' });
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
+module.exports = { app, User };
