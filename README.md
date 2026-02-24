@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://appsecsanta.com">
-    <img src="https://appsecsanta.com/images/appsecsanta-logo.png" width="200" alt="AppSec Santa" />
+    <img src="https://appsecsanta.com/favicon.png" width="200" alt="AppSec Santa" />
   </a>
 </p>
 
