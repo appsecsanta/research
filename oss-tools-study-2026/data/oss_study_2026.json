@@ -1803,34 +1803,6 @@
       "pypi_monthly": null,
       "docker_pulls": null,
       "health_score": 56
-    },
-    {
-      "slug": "invicti-aspm",
-      "name": "Invicti ASPM",
-      "category": "aspm",
-      "license_frontmatter": "Commercial",
-      "stars": 27,
-      "forks": 9,
-      "watchers": 3,
-      "open_issues": 2,
-      "language": "Go",
-      "github_license": "GPL-3.0",
-      "created_at": "2019-10-08T09:47:19Z",
-      "pushed_at": "2026-01-27T12:50:32Z",
-      "archived": false,
-      "contributor_count": 14,
-      "commits_last_year": null,
-      "commits_last_month": null,
-      "releases_last_year": 12,
-      "latest_release": {
-        "tag": "v1.45.0",
-        "date": "2026-01-27T12:54:16Z"
-      },
-      "issue_median_close_days": 1170,
-      "npm_monthly": null,
-      "pypi_monthly": null,
-      "docker_pulls": null,
-      "health_score": 46
     }
   ],
   "by_category": {
@@ -1855,9 +1827,9 @@
       "avg_health": 48.4
     },
     "aspm": {
-      "tools": 3,
-      "total_stars": 10801,
-      "avg_health": 53.3
+      "tools": 2,
+      "total_stars": 10774,
+      "avg_health": 57.0
     },
     "sca": {
       "tools": 9,
@@ -1876,7 +1848,7 @@
     }
   },
   "by_language": {
-    "Go": 20,
+    "Go": 19,
     "Python": 14,
     "Java": 8,
     "TypeScript": 4,
@@ -1900,7 +1872,7 @@
     "Apache-2.0": 28,
     "NOASSERTION": 11,
     "MIT": 9,
-    "GPL-3.0": 6,
+    "GPL-3.0": 5,
     "AGPL-3.0": 3,
     "Unknown": 2,
     "LGPL-2.1": 2,

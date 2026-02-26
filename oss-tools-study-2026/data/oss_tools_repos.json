@@ -240,16 +240,6 @@
     "repo": "horusec"
   },
   {
-    "slug": "invicti-aspm",
-    "name": "Invicti ASPM",
-    "category": "aspm",
-    "license": "Commercial",
-    "status": "active",
-    "github_url": "https://github.com/kondukto-io/kdt",
-    "owner": "kondukto-io",
-    "repo": "kdt"
-  },
-  {
     "slug": "jadx",
     "name": "Jadx",
     "category": "mobile",

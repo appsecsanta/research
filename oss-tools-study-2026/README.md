@@ -1,6 +1,6 @@
 # State of Open-Source AppSec Tools 2026
 
-> Health scores, GitHub metrics, and download statistics for **65 open-source AppSec tools**.
+> Health scores, GitHub metrics, and download statistics for **64 open-source AppSec tools**.
 
 [Published Article](https://appsecsanta.com/research/state-of-open-source-appsec-tools-2026) · [Back to Catalog](../)
 

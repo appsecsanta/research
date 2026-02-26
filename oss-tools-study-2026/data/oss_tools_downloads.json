@@ -1,7 +1,7 @@
 {
   "metadata": {
     "collected_at": "2026-02-15T07:10:46.622Z",
-    "tool_count": 67,
+    "tool_count": 66,
     "tools_with_downloads": 31
   },
   "tools": [
@@ -147,11 +147,6 @@
     {
       "slug": "horusec",
       "name": "Horusec",
-      "downloads": null
-    },
-    {
-      "slug": "invicti-aspm",
-      "name": "Invicti ASPM",
       "downloads": null
     },
     {
