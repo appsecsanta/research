@@ -1,0 +1,2 @@
+finding_group_id,tools,target,cwe,severity,location,description,verdict,confidence,ground_truth_match,tool_count
+GRP-unknown--001,checkov,unknown,,medium,/brokencrystals/Dockerfile:/brokencrystals/Dockerfile.,CKV_DOCKER_2: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/docker-policies/docker-policy-index/ensure-that-healthcheck-instructions-have-been-added-to-container-images,pending,low,no,1

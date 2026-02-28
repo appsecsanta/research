@@ -1,0 +1,11 @@
+tool,avg_precision,avg_recall,avg_f1,total_tp,total_fp,total_fn,targets_scanned,unique_cwes_found
+trivy,1.0,0.554,0.683,217,0,87,6,25
+bearer,1.0,0.49,0.626,175,0,103,6,17
+grype|trivy,1.0,0.425,0.57,36,0,44,2,0
+bandit,1.0,0.294,0.454,5,0,12,1,4
+dep-check,1.0,0.263,0.4,27,0,61,3,10
+npm-audit,1.0,0.237,0.383,18,0,59,2,10
+bandit|bearer,1.0,0.211,0.348,4,0,15,1,2
+zap,1.0,0.15,0.235,18,0,124,5,6
+nuclei|zap,1.0,0.074,0.138,2,0,25,1,0
+npm-audit|nuclei,1.0,0.022,0.043,1,0,44,1,0

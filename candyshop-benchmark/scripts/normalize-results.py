@@ -392,10 +392,18 @@ def parse_zap(filepath, target):
 
 
 def parse_nuclei(filepath, target):
-    """Nuclei outputs JSONL — one JSON object per line."""
-    records = load_jsonl(filepath)
+    """Nuclei outputs JSON array or JSONL — handle both formats."""
+    # Try JSON array first (nuclei -json-export produces an array)
+    data = load_json(filepath)
+    if isinstance(data, list):
+        records = data
+    else:
+        # Fallback to JSONL (one JSON object per line)
+        records = load_jsonl(filepath)
     findings = []
     for rec in records:
+        if not isinstance(rec, dict):
+            continue
         info = rec.get("info", {})
         classification = info.get("classification", {}) or {}
         cwe_ids = classification.get("cwe-id") or []
