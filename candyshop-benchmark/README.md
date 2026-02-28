@@ -1,6 +1,6 @@
 # CandyShop Benchmark
 
-Open-source security tool benchmark that compares 11 scanning tools against 6 intentionally vulnerable applications. All tools are open-source with permissive licenses suitable for benchmarking.
+Open-source security tool benchmark that compares 11 scanning tools against 6 intentionally vulnerable applications. All tools are open-source with licenses that permit benchmarking.
 
 **Full results:** [appsecsanta.com/research/candyshop-devsecops](https://appsecsanta.com/research/candyshop-devsecops)
 
@@ -38,7 +38,7 @@ python3 scripts/calculate-fmeasure.py triage/ ground-truth/ metrics/
 | App | Language | Port | Description |
 |-----|----------|------|-------------|
 | [Juice Shop](https://github.com/juice-shop/juice-shop) | Node.js | 3000 | OWASP flagship, 100+ challenges |
-| [Broken Crystals](https://github.com/NeuraLegion/brokencrystals) | Node.js/TS | 3001 | 22+ vulnerability types |
+| [Broken Crystals](https://github.com/NeuraLegion/brokencrystals) | Node.js/TS | 3001 | 40+ vulnerability types |
 | [Altoro Mutual](https://github.com/HCL-TECH-SOFTWARE/AltoroJ) | Java/J2EE | 8080 | Enterprise banking app |
 | [vulnpy](https://github.com/Contrast-Security-OSS/vulnpy) | Python/Flask | 5050 | 13 vulnerability categories |
 | [DVWA](https://github.com/digininja/DVWA) | PHP | 8081 | Classic web vulnerabilities |
@@ -110,4 +110,3 @@ Ground truth is built from application documentation + multi-tool consensus + va
 
 Data and scripts: [MIT](../LICENSE)
 
-Tool selection excludes products with anti-benchmarking clauses (e.g., Snyk ToS Section 2.2, SonarQube AUP).
