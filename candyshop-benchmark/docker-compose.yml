@@ -2,8 +2,8 @@
 # CandyShop Benchmark — Vulnerable Target Applications
 #
 # Six deliberately-vulnerable web apps used as ground-truth scan targets.
-# All containers run with least-privilege defaults (read_only, no-new-privileges,
-# tmpfs for writable paths).
+# These are intentionally insecure apps — read_only is only used for
+# database sidecars where it doesn't interfere with functionality.
 #
 # Usage:
 #   docker compose up -d            # start all targets
@@ -19,14 +19,12 @@ services:
     image: bkimminich/juice-shop:latest
     ports:
       - "3000:3000"
-    read_only: true
     security_opt:
       - no-new-privileges:true
     tmpfs:
       - /tmp
-      - /app/data
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      test: ["CMD", "/nodejs/bin/node", "-e", "require('http').get('http://localhost:3000', r => process.exit(r.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1))"]
       interval: 10s
       timeout: 5s
       retries: 15
@@ -34,6 +32,7 @@ services:
 
   # ---------------------------------------------------------------------------
   # 2. Broken Crystals — NeuraLegion's vuln app (Node.js + Postgres)
+  #    Note: Root / returns 404; /api/config is the health endpoint
   # ---------------------------------------------------------------------------
   broken-crystals:
     image: neuralegion/brokencrystals:latest
@@ -49,7 +48,7 @@ services:
       DATABASE_USER: bc
       DATABASE_PASSWORD: bc
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/config"]
       interval: 10s
       timeout: 5s
       retries: 15
@@ -83,13 +82,8 @@ services:
     build: ./targets/altoro-mutual
     ports:
       - "8080:8080"
-    read_only: true
     security_opt:
       - no-new-privileges:true
-    tmpfs:
-      - /tmp
-      - /usr/local/tomcat/work
-      - /usr/local/tomcat/logs
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080"]
       interval: 10s
@@ -104,7 +98,6 @@ services:
     build: ./targets/vulnpy
     ports:
       - "5050:5050"
-    read_only: true
     security_opt:
       - no-new-privileges:true
     tmpfs:
@@ -118,6 +111,7 @@ services:
 
   # ---------------------------------------------------------------------------
   # 5. DVWA — Damn Vulnerable Web Application (PHP + MySQL)
+  #    Note: Root / returns 302 redirect to login; use PHP for healthcheck
   # ---------------------------------------------------------------------------
   dvwa:
     image: vulnerables/web-dvwa:latest
@@ -130,14 +124,15 @@ services:
       SECURITY_LEVEL: low
       PHPIDS_ENABLED: "0"
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:80"]
+      test: ["CMD-SHELL", "php -r \"echo file_get_contents('http://localhost:80');\" > /dev/null 2>&1"]
       interval: 10s
       timeout: 5s
       retries: 15
     restart: unless-stopped
 
   dvwa-mysql:
-    image: mysql:5.7
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
     security_opt:
       - no-new-privileges:true
     environment:
@@ -161,14 +156,13 @@ services:
     image: webgoat/webgoat:latest
     ports:
       - "8082:8080"
-    read_only: true
     security_opt:
       - no-new-privileges:true
     tmpfs:
       - /tmp
       - /home/webgoat/.webgoat
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/WebGoat"]
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://localhost:8080/WebGoat"]
       interval: 10s
       timeout: 5s
       retries: 15
