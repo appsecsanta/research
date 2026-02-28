@@ -1,0 +1,18 @@
+vuln_id,cwe,category,description,location,difficulty,source
+DV-001,CWE-307,brute_force,Brute force attack on login form with no rate limiting,/vulnerabilities/brute/,low,readme
+DV-002,CWE-78,cmdi,OS command injection via ping utility with unsanitized input,/vulnerabilities/exec/,low,readme
+DV-003,CWE-352,csrf,Cross-site request forgery on password change functionality,/vulnerabilities/csrf/,medium,readme
+DV-004,CWE-98,file_inclusion_local,Local file inclusion via page parameter loading arbitrary local files,/vulnerabilities/fi/?page=,medium,readme
+DV-005,CWE-98,file_inclusion_remote,Remote file inclusion via page parameter loading external resources,/vulnerabilities/fi/?page=http://,medium,readme
+DV-006,CWE-434,file_upload,Unrestricted file upload allowing PHP webshell execution,/vulnerabilities/upload/,medium,readme
+DV-007,CWE-863,insecure_captcha,CAPTCHA bypass via manipulated step parameter in form submission,/vulnerabilities/captcha/,medium,readme
+DV-008,CWE-89,sqli,SQL injection via numeric ID parameter in user lookup,/vulnerabilities/sqli/?id=,low,readme
+DV-009,CWE-89,sqli_blind,Blind SQL injection via boolean-based and time-based techniques,/vulnerabilities/sqli_blind/?id=,medium,readme
+DV-010,CWE-330,weak_session,Weak session ID generation using predictable sequential values,/vulnerabilities/weak_id/,medium,readme
+DV-011,CWE-79,xss_dom,DOM-based XSS via URL fragment processed by client-side JavaScript,/vulnerabilities/xss_d/,low,readme
+DV-012,CWE-79,xss_reflected,Reflected XSS via name parameter echoed in response,/vulnerabilities/xss_r/?name=,low,readme
+DV-013,CWE-79,xss_stored,Stored XSS via guestbook name and message fields,/vulnerabilities/xss_s/,low,readme
+DV-014,CWE-693,csp_bypass,Content Security Policy bypass via misconfigured or weak CSP directives,/vulnerabilities/csp/,high,readme
+DV-015,CWE-749,javascript_attacks,Client-side JavaScript manipulation to bypass input validation,/vulnerabilities/javascript/,medium,readme
+DV-016,CWE-601,open_redirect,Open HTTP redirect via unsanitized redirect parameter,/vulnerabilities/open_redirect/,low,readme
+DV-017,CWE-639,auth_bypass,Authorisation bypass via insecure direct object references (IDOR),/vulnerabilities/authbypass/,medium,readme

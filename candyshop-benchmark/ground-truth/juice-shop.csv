@@ -1,0 +1,28 @@
+vuln_id,cwe,category,description,location,difficulty,source
+JS-001,CWE-22,path_traversal,Path traversal via directory traversal sequences in file access,/ftp,low,official-docs
+JS-002,CWE-285,broken_access_control,Improper authorization allowing access to other users resources,/rest/basket/:id,medium,official-docs
+JS-003,CWE-639,idor,Insecure direct object references enabling horizontal privilege escalation,/api/Feedbacks,medium,official-docs
+JS-004,CWE-918,ssrf,Server-side request forgery via manipulated URLs in product data,/profile/image/url,high,official-docs
+JS-005,CWE-362,broken_anti_automation,Race conditions in voucher redemption and other operations,/rest/basket/:id/checkout,high,official-docs
+JS-006,CWE-287,broken_auth,Authentication bypass via manipulated tokens and weak credentials,/rest/user/login,medium,official-docs
+JS-007,CWE-352,csrf,Cross-site request forgery due to missing anti-CSRF tokens,/api/Users,medium,official-docs
+JS-008,CWE-79,xss,Reflected and stored cross-site scripting in search and user input fields,/rest/products/search?q=,low,official-docs
+JS-009,CWE-326,weak_crypto,Inadequate encryption strength in data protection mechanisms,/encryptionkeys,medium,official-docs
+JS-010,CWE-327,weak_crypto,Use of broken or risky cryptographic algorithms for password hashing,/rest/user/login,medium,official-docs
+JS-011,CWE-328,weak_hash,Use of weak hash algorithms (MD5) for sensitive data,/rest/user/login,low,official-docs
+JS-012,CWE-20,input_validation,Improper input validation allowing negative quantities and prices,/api/BasketItems,low,official-docs
+JS-013,CWE-74,injection,General injection flaws in various input processing,/rest/products/search?q=,medium,official-docs
+JS-014,CWE-89,sqli,SQL injection via unsanitized input in search and login,/rest/products/search?q=,medium,official-docs
+JS-015,CWE-502,deserialization,Insecure deserialization of user-controlled data,/api/Complaints,high,official-docs
+JS-016,CWE-209,info_disclosure,Detailed error messages exposing internal implementation details,/api/,low,official-docs
+JS-017,CWE-656,security_obscurity,Security through obscurity relying on hidden endpoints and obfuscation,/,medium,official-docs
+JS-018,CWE-200,sensitive_data_exposure,Sensitive data exposure via exposed endpoints and files,/ftp,low,official-docs
+JS-019,CWE-530,sensitive_data_exposure,Exposure of backup files containing sensitive configuration data,/ftp/package.json.bak,low,official-docs
+JS-020,CWE-548,directory_listing,Information exposure through directory listing of sensitive directories,/ftp,low,official-docs
+JS-021,CWE-601,open_redirect,Unvalidated redirect allowing redirection to external sites,/redirect,medium,official-docs
+JS-022,CWE-829,vulnerable_components,Inclusion of vulnerable third-party JavaScript libraries,/,medium,official-docs
+JS-023,CWE-506,vulnerable_components,Embedded malicious code in third-party component,/,high,official-docs
+JS-024,CWE-1104,vulnerable_components,Use of unmaintained third-party components with known vulnerabilities,/,medium,official-docs
+JS-025,CWE-611,xxe,XML external entity injection via crafted XML uploads,/api/Complaints,high,official-docs
+JS-026,CWE-532,log_exposure,Insertion of sensitive information into log files,/support/logs,medium,official-docs
+JS-027,CWE-117,log_injection,Improper output neutralization for logs enabling log forging,/rest/user/login,high,official-docs

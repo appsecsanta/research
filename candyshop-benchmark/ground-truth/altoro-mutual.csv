@@ -1,0 +1,20 @@
+vuln_id,cwe,category,description,location,difficulty,source
+AM-001,CWE-79,xss_reflected,Reflected XSS via search functionality echoing unsanitized input,/search.jsp,low,zaproxy-docs
+AM-002,CWE-79,xss_reflected,Reflected XSS via customize.jsp query parameter,/customize.jsp,low,zaproxy-docs
+AM-003,CWE-79,xss_reflected,Reflected XSS via queryxpath.jsp input parameter,/queryxpath.jsp,low,zaproxy-docs
+AM-004,CWE-79,xss_reflected,Reflected XSS via sendFeedback form input fields,/sendFeedback,medium,zaproxy-docs
+AM-005,CWE-89,sqli,SQL injection via login form username field bypassing authentication,/doLogin,low,zaproxy-docs
+AM-006,CWE-89,sqli,SQL injection via transaction lookup allowing data extraction,/showTransactions,medium,zaproxy-docs
+AM-007,CWE-89,sqli,SQL injection via credit card application form fields,/ccApply,medium,zaproxy-docs
+AM-008,CWE-89,sqli_cookie,SQL injection via amUserId cookie value in SQL queries,/bank/main.jsp,high,writeup
+AM-009,CWE-601,open_redirect,External redirect via manipulated URL parameter in customize endpoint,/customize.jsp,low,zaproxy-docs
+AM-010,CWE-359,pii_disclosure,Personally identifiable information disclosed in account page responses,/bank/main.jsp,low,zaproxy-docs
+AM-011,CWE-352,csrf,Missing anti-CSRF tokens on state-changing form submissions,/bank/,medium,zaproxy-docs
+AM-012,CWE-548,directory_listing,Directory listing enabled exposing application files and structure,/bank/,low,writeup
+AM-013,CWE-521,weak_credentials,Default weak credentials (admin/admin and jsmith/demo1234),/doLogin,low,readme
+AM-014,CWE-22,path_traversal,Path traversal via content parameter loading arbitrary files,/index.jsp?content=,medium,writeup
+AM-015,CWE-209,info_disclosure,Verbose error messages exposing server file paths and stack traces,/,low,writeup
+AM-016,CWE-693,missing_security_headers,Missing Content-Security-Policy header on all responses,/,low,zaproxy-docs
+AM-017,CWE-1021,missing_clickjack_protection,Missing anti-clickjacking header (X-Frame-Options) on responses,/,low,zaproxy-docs
+AM-018,CWE-311,mixed_content,Secure pages including scripts loaded over insecure HTTP,/bank/,medium,zaproxy-docs
+AM-019,CWE-565,weak_cookie,Base64-encoded credentials stored in amUserInfo cookie,/bank/,medium,writeup

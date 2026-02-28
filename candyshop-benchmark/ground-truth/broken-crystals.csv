@@ -1,0 +1,45 @@
+vuln_id,cwe,category,description,location,difficulty,source
+BC-001,CWE-287,broken_auth,JWT no-algorithm bypass allowing authentication without valid signature,/api/auth/login,medium,readme
+BC-002,CWE-327,broken_auth,JWT RSA-to-HMAC algorithm confusion signing with public key,/api/auth/login,high,readme
+BC-003,CWE-347,broken_auth,JWT invalid signature accepted without proper verification,/api/auth/login,low,readme
+BC-004,CWE-287,broken_auth,JWT KID manipulation for key injection attacks,/api/auth/login,high,readme
+BC-005,CWE-521,brute_force,Weak default credentials (admin:admin) on login endpoint,/api/auth/login,low,readme
+BC-006,CWE-287,broken_auth,JWT brute forcing weak secret key (default: 123),/api/auth/login,medium,readme
+BC-007,CWE-287,broken_auth,JWT X5U/X5C/JKU/JWK rogue key injection attacks,/api/auth/login,high,readme
+BC-008,CWE-538,info_disclosure,Common files exposure (.htaccess and nginx.conf publicly accessible),/,low,readme
+BC-009,CWE-614,cookie_security,Missing Secure flag on authentication cookies,/,low,readme
+BC-010,CWE-1004,cookie_security,Missing HttpOnly flag on authentication cookies,/,low,readme
+BC-011,CWE-352,csrf,Missing anti-CSRF tokens on state-changing requests,/api/,medium,readme
+BC-012,CWE-942,cors_misconfig,CORS misconfiguration returning Access-Control-Allow-Origin wildcard,/api/,low,readme
+BC-013,CWE-79,xss_reflected,Reflected XSS via query parameters on landing page,/?__dummy=,low,readme
+BC-014,CWE-79,xss_reflected,Reflected XSS via maptitle parameter on landing page,/?maptitle=,low,readme
+BC-015,CWE-79,xss_reflected,Reflected XSS via count parameter in testimonials endpoint,/api/testimonials/count,medium,readme
+BC-016,CWE-79,xss_reflected,Reflected XSS via XML body in metadata endpoint,POST /api/metadata,medium,readme
+BC-017,CWE-79,xss_stored,Stored XSS via add testimonial form for authenticated users,/api/testimonials,medium,readme
+BC-018,CWE-79,xss_dom,DOM-based XSS via mailing list subscription form,/api/subscriptions?email=,medium,readme
+BC-019,CWE-548,directory_listing,Nginx directory enumeration enabled exposing application structure,/vendor/,low,readme
+BC-020,CWE-434,file_upload,Unrestricted file upload with no type validation or scanning,/api/users/one/{email}/photo,medium,readme
+BC-021,CWE-209,info_disclosure,Full server file paths disclosed in error messages,/api/,low,readme
+BC-022,CWE-693,security_misconfig,Missing security headers bypassed via no-sec-headers query param,/?no-sec-headers,low,readme
+BC-023,CWE-79,html_injection,HTML injection via testimonial and mailing list forms,/api/testimonials,low,readme
+BC-024,CWE-94,css_injection,CSS injection via login page logobgcolor parameter,/userlogin?logobgcolor=,medium,readme
+BC-025,CWE-436,http_method_fuzzing,Insecure HTTP method handling on put.raw endpoint,/put.raw,medium,readme
+BC-026,CWE-90,ldap_injection,LDAP injection via unsanitized query parameter,/api/users/ldap?query=,high,readme
+BC-027,CWE-98,lfi,Local file inclusion via path parameter returning arbitrary files,/api/files?path=,medium,readme
+BC-028,CWE-98,rfi,Remote file inclusion via file endpoint supporting external URLs,/api/file/,medium,readme
+BC-029,CWE-915,mass_assignment,Mass assignment allowing privilege escalation via hidden isAdmin field,/api/users/basic,high,readme
+BC-030,CWE-200,info_disclosure,Configuration endpoint exposing database credentials and API keys,/api/config,low,readme
+BC-031,CWE-200,info_disclosure,Secret tokens endpoint exposing third-party service credentials,/api/secrets,low,readme
+BC-032,CWE-78,cmdi,OS command injection via command query parameter,/api/spawn?command=,medium,readme
+BC-033,CWE-94,ssti,Server-side template injection via doT template engine,POST /api/render,high,readme
+BC-034,CWE-918,ssrf,Server-side request forgery via file path supporting HTTP URLs,/api/file?path=&type=,medium,readme
+BC-035,CWE-918,ssrf,Cloud metadata access via dedicated cloud provider endpoints,/api/file/aws,medium,readme
+BC-036,CWE-611,xxe,XML external entity injection via metadata endpoint with enabled entities,POST /api/metadata,high,readme
+BC-037,CWE-601,open_redirect,Unvalidated redirect via url query parameter in goto endpoint,/api/goto?url=,low,readme
+BC-038,CWE-1321,prototype_pollution,Prototype pollution via __proto__ parameter in marketplace endpoint,/marketplace?__proto__[key]=val,high,readme
+BC-039,CWE-74,email_injection,Email header injection via tampered recipients in support email,/api/email/sendSupportEmail,medium,readme
+BC-040,CWE-400,date_manipulation,Unrestricted date range causing expensive database queries,/api/products?date_from=&date_to=,low,readme
+BC-041,CWE-284,idor,ID enumeration with broken function-level authorization on user endpoints,/users/id/:id,medium,readme
+BC-042,CWE-538,version_control_leak,SVN/GIT/HG source control directories exposed under web root,/.git/,low,readme
+BC-043,CWE-89,sqli,SQL injection via testimonials count parameter,/api/testimonials/count,medium,brightsec-blog
+BC-044,CWE-284,broken_access_control,Broken object property level authorization on user profile endpoints,/api/users/me,medium,readme

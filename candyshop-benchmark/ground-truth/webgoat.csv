@@ -1,0 +1,26 @@
+vuln_id,cwe,category,description,location,difficulty,source
+WG-001,CWE-89,sqli_intro,SQL injection introduction with basic UNION and WHERE clause manipulation,/SqlInjection,low,official-docs
+WG-002,CWE-89,sqli_advanced,Advanced SQL injection with UNION-based data extraction and blind techniques,/SqlInjectionAdvanced,medium,official-docs
+WG-003,CWE-89,sqli_mitigation,SQL injection bypassing prepared statements and input filtering,/SqlInjectionMitigations,high,official-docs
+WG-004,CWE-22,path_traversal,Path traversal via file upload and download endpoints,/PathTraversal,medium,official-docs
+WG-005,CWE-521,weak_passwords,Weak password policy allowing easily guessable credentials,/SecurePasswords,low,official-docs
+WG-006,CWE-640,password_reset,Insecure password reset mechanism via security questions,/PasswordReset,medium,official-docs
+WG-007,CWE-287,auth_bypass,Authentication bypass via hidden input manipulation and spoofing,/AuthBypass,medium,official-docs
+WG-008,CWE-347,jwt_vulnerabilities,JWT token manipulation including signature bypass and key confusion,/JWT,high,official-docs
+WG-009,CWE-319,insecure_login,Sensitive credentials transmitted over insecure HTTP connection,/InsecureLogin,low,official-docs
+WG-010,CWE-611,xxe,XML external entity injection via crafted XML payloads,/XXE,medium,official-docs
+WG-011,CWE-384,session_hijack,Session hijacking via predictable session identifiers,/HijackSession,medium,official-docs
+WG-012,CWE-639,idor,Insecure direct object references allowing access to other users data,/IDOR,medium,official-docs
+WG-013,CWE-285,missing_access_control,Missing function level access control on admin endpoints,/MissingFunctionAC,medium,official-docs
+WG-014,CWE-565,auth_cookie_spoof,Spoofing authentication cookie to bypass access controls,/SpoofCookie,high,official-docs
+WG-015,CWE-79,xss,Cross-site scripting via reflected and stored input injection,/CrossSiteScripting,low,official-docs
+WG-016,CWE-79,xss_stored,Stored cross-site scripting with persistent payload execution,/StoredCrossSiteScripting,medium,official-docs
+WG-017,CWE-79,xss_mitigation,XSS filter bypass techniques and mitigation circumvention,/CrossSiteScriptingMitigation,high,official-docs
+WG-018,CWE-502,deserialization,Insecure deserialization of Java objects enabling remote code execution,/InsecureDeserialization,high,official-docs
+WG-019,CWE-1104,vulnerable_components,Exploitation of known vulnerabilities in outdated third-party libraries,/VulnerableComponents,medium,official-docs
+WG-020,CWE-352,csrf,Cross-site request forgery via forged requests against authenticated sessions,/CSRF,medium,official-docs
+WG-021,CWE-918,ssrf,Server-side request forgery via manipulated URLs in server requests,/SSRF,medium,official-docs
+WG-022,CWE-116,bypass_restrictions,Bypassing front-end restrictions and client-side validation,/BypassRestrictions,low,official-docs
+WG-023,CWE-472,html_tampering,HTML tampering via modified hidden form fields and disabled elements,/HtmlTampering,low,official-docs
+WG-024,CWE-602,client_filtering,Client-side filtering bypass exposing hidden data,/ClientSideFiltering,medium,official-docs
+WG-025,CWE-311,crypto_failures,Cryptographic failures including weak encoding and insecure defaults,/Crypto,medium,official-docs

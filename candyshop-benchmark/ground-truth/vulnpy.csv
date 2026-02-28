@@ -1,0 +1,21 @@
+vuln_id,cwe,category,description,location,difficulty,source
+VP-001,CWE-78,cmdi,OS command injection via unsanitized input passed to system shell,/vulnpy/cmdi,low,readme
+VP-002,CWE-78,cmdi,Command injection via subprocess with shell=True,/vulnpy/cmdi/subprocess,low,readme
+VP-003,CWE-78,cmdi,Command injection via os.system call,/vulnpy/cmdi/os-system,low,readme
+VP-004,CWE-502,deserialization,Insecure deserialization via Python pickle module,/vulnpy/deserialization/pickle,medium,readme
+VP-005,CWE-502,deserialization,Insecure deserialization via Python yaml.load without SafeLoader,/vulnpy/deserialization/yaml,medium,readme
+VP-006,CWE-328,weak_hash,Use of weak hashing algorithm MD5 for data integrity,/vulnpy/hash/md5,low,source-code
+VP-007,CWE-328,weak_hash,Use of weak hashing algorithm SHA1 for data integrity,/vulnpy/hash/sha1,low,source-code
+VP-008,CWE-235,hpp,HTTP parameter pollution via duplicate parameters,/vulnpy/hpp,low,source-code
+VP-009,CWE-22,path_traversal,Path traversal via unsanitized file path input,/vulnpy/path-traversal,low,readme
+VP-010,CWE-22,path_traversal,Path traversal using os.path.join with user input,/vulnpy/path-traversal/os-path-join,low,source-code
+VP-011,CWE-330,weak_random,Use of insufficiently random values from Python random module,/vulnpy/random,low,source-code
+VP-012,CWE-1333,redos,Regular expression denial of service via catastrophic backtracking,/vulnpy/redos,medium,readme
+VP-013,CWE-89,sqli,SQL injection via string concatenation in SQL queries,/vulnpy/sqli,low,readme
+VP-014,CWE-89,sqli,SQL injection via raw parameterized query misuse,/vulnpy/sqli/raw,low,source-code
+VP-015,CWE-918,ssrf,Server-side request forgery via user-controlled URL in HTTP request,/vulnpy/ssrf,medium,readme
+VP-016,CWE-94,unsafe_code_exec,Arbitrary code execution via eval() with user input,/vulnpy/unsafe-code-exec/eval,low,readme
+VP-017,CWE-94,unsafe_code_exec,Arbitrary code execution via exec() with user input,/vulnpy/unsafe-code-exec/exec,low,readme
+VP-018,CWE-643,xpath_injection,XPath injection via unsanitized input in XPath queries,/vulnpy/xpath,medium,readme
+VP-019,CWE-79,xss,Cross-site scripting via reflected user input in response,/vulnpy/xss,low,readme
+VP-020,CWE-611,xxe,XML external entity injection via XML parsing with entities enabled,/vulnpy/xxe,medium,readme
