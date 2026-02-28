@@ -1,0 +1,179 @@
+################################################################################
+# CandyShop Benchmark — Vulnerable Target Applications
+#
+# Six deliberately-vulnerable web apps used as ground-truth scan targets.
+# All containers run with least-privilege defaults (read_only, no-new-privileges,
+# tmpfs for writable paths).
+#
+# Usage:
+#   docker compose up -d            # start all targets
+#   docker compose ps               # check health status
+#   docker compose down -v          # tear down (including volumes)
+################################################################################
+
+services:
+  # ---------------------------------------------------------------------------
+  # 1. OWASP Juice Shop — Modern JS app with 100+ challenges
+  # ---------------------------------------------------------------------------
+  juice-shop:
+    image: bkimminich/juice-shop:latest
+    ports:
+      - "3000:3000"
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    tmpfs:
+      - /tmp
+      - /app/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 10s
+      timeout: 5s
+      retries: 15
+    restart: unless-stopped
+
+  # ---------------------------------------------------------------------------
+  # 2. Broken Crystals — NeuraLegion's vuln app (Node.js + Postgres)
+  # ---------------------------------------------------------------------------
+  broken-crystals:
+    image: neuralegion/brokencrystals:latest
+    ports:
+      - "3001:3000"
+    depends_on:
+      bc-postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_HOST: bc-postgres
+      DATABASE_PORT: "5432"
+      DATABASE_NAME: bc
+      DATABASE_USER: bc
+      DATABASE_PASSWORD: bc
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 10s
+      timeout: 5s
+      retries: 15
+    restart: unless-stopped
+
+  bc-postgres:
+    image: postgres:15
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    tmpfs:
+      - /tmp
+      - /run/postgresql
+    environment:
+      POSTGRES_DB: bc
+      POSTGRES_USER: bc
+      POSTGRES_PASSWORD: bc
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U bc"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+    volumes:
+      - bc-pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  # ---------------------------------------------------------------------------
+  # 3. Altoro Mutual — Classic Java/Tomcat banking app
+  # ---------------------------------------------------------------------------
+  altoro-mutual:
+    build: ./targets/altoro-mutual
+    ports:
+      - "8080:8080"
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    tmpfs:
+      - /tmp
+      - /usr/local/tomcat/work
+      - /usr/local/tomcat/logs
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080"]
+      interval: 10s
+      timeout: 5s
+      retries: 15
+    restart: unless-stopped
+
+  # ---------------------------------------------------------------------------
+  # 4. VulnPy — Minimal Python/Flask app with common vulns
+  # ---------------------------------------------------------------------------
+  vulnpy:
+    build: ./targets/vulnpy
+    ports:
+      - "5050:5050"
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    tmpfs:
+      - /tmp
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5050"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+    restart: unless-stopped
+
+  # ---------------------------------------------------------------------------
+  # 5. DVWA — Damn Vulnerable Web Application (PHP + MySQL)
+  # ---------------------------------------------------------------------------
+  dvwa:
+    image: vulnerables/web-dvwa:latest
+    ports:
+      - "8081:80"
+    depends_on:
+      dvwa-mysql:
+        condition: service_healthy
+    environment:
+      SECURITY_LEVEL: low
+      PHPIDS_ENABLED: "0"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80"]
+      interval: 10s
+      timeout: 5s
+      retries: 15
+    restart: unless-stopped
+
+  dvwa-mysql:
+    image: mysql:5.7
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      MYSQL_ROOT_PASSWORD: dvwa
+      MYSQL_DATABASE: dvwa
+      MYSQL_USER: dvwa
+      MYSQL_PASSWORD: "p@ssw0rd"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+    volumes:
+      - dvwa-mysqldata:/var/lib/mysql
+    restart: unless-stopped
+
+  # ---------------------------------------------------------------------------
+  # 6. WebGoat — OWASP's teaching-focused vulnerable app
+  # ---------------------------------------------------------------------------
+  webgoat:
+    image: webgoat/webgoat:latest
+    ports:
+      - "8082:8080"
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    tmpfs:
+      - /tmp
+      - /home/webgoat/.webgoat
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/WebGoat"]
+      interval: 10s
+      timeout: 5s
+      retries: 15
+    restart: unless-stopped
+
+volumes:
+  bc-pgdata:
+  dvwa-mysqldata:
