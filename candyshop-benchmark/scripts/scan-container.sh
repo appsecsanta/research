@@ -14,17 +14,16 @@ RESULTS_DIR="${1:?Usage: $0 <RESULTS_DIR>}"
 CONTAINER_DIR="${RESULTS_DIR}/container"
 mkdir -p "$CONTAINER_DIR"
 
-# Target images — keys are target names, values are Docker image references
-declare -A IMAGES=(
-  [juice-shop]="bkimminich/juice-shop:latest"
-  [broken-crystals]="neuralegion/brokencrystals:latest"
-  [altoro-mutual]="candyshop-benchmark-altoro-mutual:latest"
-  [vulnpy]="candyshop-benchmark-vulnpy:latest"
-  [dvwa]="vulnerables/web-dvwa:latest"
-  [webgoat]="webgoat/webgoat:latest"
-)
-
+# Target images — parallel arrays (bash 3.2 compatible)
 TARGETS=(juice-shop broken-crystals altoro-mutual vulnpy dvwa webgoat)
+IMAGES=(
+  "bkimminich/juice-shop:latest"
+  "neuralegion/brokencrystals:latest"
+  "candyshop-benchmark-altoro-mutual:latest"
+  "candyshop-benchmark-vulnpy:latest"
+  "vulnerables/web-dvwa:latest"
+  "webgoat/webgoat:latest"
+)
 
 echo "============================================"
 echo "  Container Image Scanning (Trivy + Grype)"
@@ -33,8 +32,9 @@ echo ""
 
 # ---- Trivy scans ----
 echo "--- Trivy scans ---"
-for target in "${TARGETS[@]}"; do
-  image="${IMAGES[$target]}"
+for i in $(seq 0 $((${#TARGETS[@]} - 1))); do
+  target="${TARGETS[$i]}"
+  image="${IMAGES[$i]}"
   outfile="${CONTAINER_DIR}/trivy-${target}.json"
 
   echo "[Trivy] Scanning ${target} (${image})..."
@@ -53,8 +53,9 @@ done
 
 # ---- Grype scans ----
 echo "--- Grype scans ---"
-for target in "${TARGETS[@]}"; do
-  image="${IMAGES[$target]}"
+for i in $(seq 0 $((${#TARGETS[@]} - 1))); do
+  target="${TARGETS[$i]}"
+  image="${IMAGES[$i]}"
   outfile="${CONTAINER_DIR}/grype-${target}.json"
 
   echo "[Grype] Scanning ${target} (${image})..."

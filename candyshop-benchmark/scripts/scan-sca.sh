@@ -100,7 +100,7 @@ for target in "${TARGETS[@]}"; do
   echo "[Dep-Check] Scanning ${target}..."
   start_ts=$(date +%s)
 
-  dependency-check.sh \
+  dependency-check \
     --project "$target" \
     --scan "$src" \
     --format JSON \

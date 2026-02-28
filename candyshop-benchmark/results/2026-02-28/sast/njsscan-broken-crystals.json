@@ -1,0 +1,220 @@
+{
+  "errors": [
+    {
+      "code": 2,
+      "level": "warn",
+      "message": "Timeout when running node_ssrf on sources/broken-crystals/client/public/assets/vendor/bootstrap/js/bootstrap.bundle.js:\n ",
+      "path": "sources/broken-crystals/client/public/assets/vendor/bootstrap/js/bootstrap.bundle.js",
+      "rule_id": "node_ssrf",
+      "type": "Timeout"
+    },
+    {
+      "code": 2,
+      "level": "warn",
+      "message": "Timeout when running regex_dos on sources/broken-crystals/client/public/assets/vendor/bootstrap/js/bootstrap.bundle.js:\n ",
+      "path": "sources/broken-crystals/client/public/assets/vendor/bootstrap/js/bootstrap.bundle.js",
+      "rule_id": "regex_dos",
+      "type": "Timeout"
+    }
+  ],
+  "njsscan_version": "0.4.3",
+  "nodejs": {
+    "eval_nodejs": {
+      "files": [
+        {
+          "file_path": "sources/broken-crystals/client/public/assets/vendor/bootstrap/js/bootstrap.bundle.js",
+          "match_lines": [
+            5939,
+            5967
+          ],
+          "match_position": [
+            7,
+            37
+          ],
+          "match_string": "      context = context || $(event.currentTarget).data(dataKey);\n\n      if (!context) {\n        context = new this.constructor(event.currentTarget, this._getDelegateConfig());\n        $(event.currentTarget).data(dataKey, context);\n      }\n\n      if (event) {\n        context._activeTrigger[event.type === 'focusin' ? Trigger.FOCUS : Trigger.HOVER] = true;\n      }\n\n      if ($(context.getTipElement()).hasClass(ClassName$6.SHOW) || context._hoverState === HoverState.SHOW) {\n        context._hoverState = HoverState.SHOW;\n        return;\n      }\n\n      clearTimeout(context._timeout);\n      context._hoverState = HoverState.SHOW;\n\n      if (!context.config.delay || !context.config.delay.show) {\n        context.show();\n        return;\n      }\n\n      context._timeout = setTimeout(function () {\n        if (context._hoverState === HoverState.SHOW) {\n          context.show();\n        }\n      }, context.config.delay.show);"
+        },
+        {
+          "file_path": "sources/broken-crystals/client/public/assets/vendor/bootstrap/js/bootstrap.bundle.js",
+          "match_lines": [
+            5972,
+            5999
+          ],
+          "match_position": [
+            7,
+            37
+          ],
+          "match_string": "      context = context || $(event.currentTarget).data(dataKey);\n\n      if (!context) {\n        context = new this.constructor(event.currentTarget, this._getDelegateConfig());\n        $(event.currentTarget).data(dataKey, context);\n      }\n\n      if (event) {\n        context._activeTrigger[event.type === 'focusout' ? Trigger.FOCUS : Trigger.HOVER] = false;\n      }\n\n      if (context._isWithActiveTrigger()) {\n        return;\n      }\n\n      clearTimeout(context._timeout);\n      context._hoverState = HoverState.OUT;\n\n      if (!context.config.delay || !context.config.delay.hide) {\n        context.hide();\n        return;\n      }\n\n      context._timeout = setTimeout(function () {\n        if (context._hoverState === HoverState.OUT) {\n          context.hide();\n        }\n      }, context.config.delay.hide);"
+        }
+      ],
+      "metadata": {
+        "cwe": "CWE-95: Improper Neutralization of Directives in Dynamically Evaluated Code ('Eval Injection')",
+        "description": "User controlled data in eval() or similar functions may result in Server Side Injection or Remote Code Injection",
+        "owasp-web": "A1: Injection",
+        "severity": "ERROR"
+      }
+    },
+    "node_api_key": {
+      "files": [
+        {
+          "file_path": "sources/broken-crystals/client/public/assets/vendor/bootstrap/js/bootstrap.bundle.js",
+          "match_lines": [
+            267,
+            267
+          ],
+          "match_position": [
+            7,
+            33
+          ],
+          "match_string": "  var DATA_API_KEY = '.data-api';"
+        },
+        {
+          "file_path": "sources/broken-crystals/client/public/assets/vendor/bootstrap/js/bootstrap.bundle.js",
+          "match_lines": [
+            431,
+            431
+          ],
+          "match_position": [
+            7,
+            35
+          ],
+          "match_string": "  var DATA_API_KEY$1 = '.data-api';"
+        },
+        {
+          "file_path": "sources/broken-crystals/client/public/assets/vendor/bootstrap/js/bootstrap.bundle.js",
+          "match_lines": [
+            632,
+            632
+          ],
+          "match_position": [
+            7,
+            35
+          ],
+          "match_string": "  var DATA_API_KEY$2 = '.data-api';"
+        },
+        {
+          "file_path": "sources/broken-crystals/client/public/assets/vendor/bootstrap/js/bootstrap.bundle.js",
+          "match_lines": [
+            1230,
+            1230
+          ],
+          "match_position": [
+            7,
+            35
+          ],
+          "match_string": "  var DATA_API_KEY$3 = '.data-api';"
+        },
+        {
+          "file_path": "sources/broken-crystals/client/public/assets/vendor/bootstrap/js/bootstrap.bundle.js",
+          "match_lines": [
+            4203,
+            4203
+          ],
+          "match_position": [
+            7,
+            35
+          ],
+          "match_string": "  var DATA_API_KEY$4 = '.data-api';"
+        },
+        {
+          "file_path": "sources/broken-crystals/client/public/assets/vendor/bootstrap/js/bootstrap.bundle.js",
+          "match_lines": [
+            4735,
+            4735
+          ],
+          "match_position": [
+            7,
+            35
+          ],
+          "match_string": "  var DATA_API_KEY$5 = '.data-api';"
+        },
+        {
+          "file_path": "sources/broken-crystals/client/public/assets/vendor/bootstrap/js/bootstrap.bundle.js",
+          "match_lines": [
+            6368,
+            6368
+          ],
+          "match_position": [
+            7,
+            35
+          ],
+          "match_string": "  var DATA_API_KEY$6 = '.data-api';"
+        },
+        {
+          "file_path": "sources/broken-crystals/client/public/assets/vendor/bootstrap/js/bootstrap.bundle.js",
+          "match_lines": [
+            6674,
+            6674
+          ],
+          "match_position": [
+            7,
+            35
+          ],
+          "match_string": "  var DATA_API_KEY$7 = '.data-api';"
+        }
+      ],
+      "metadata": {
+        "cwe": "CWE-798: Use of Hard-coded Credentials",
+        "description": "A hardcoded API Key is identified. Store it properly in an environment variable.",
+        "owasp-web": "A3: Sensitive Data Exposure",
+        "severity": "ERROR"
+      }
+    },
+    "node_insecure_random_generator": {
+      "files": [
+        {
+          "file_path": "sources/broken-crystals/client/public/assets/vendor/bootstrap/js/bootstrap.bundle.js",
+          "match_lines": [
+            150,
+            150
+          ],
+          "match_position": [
+            22,
+            35
+          ],
+          "match_string": "        prefix += ~~(Math.random() * MAX_UID); // \"~~\" acts like a faster Math.floor() here"
+        }
+      ],
+      "metadata": {
+        "cwe": "CWE-327: Use of a Broken or Risky Cryptographic Algorithm",
+        "description": "crypto.pseudoRandomBytes()/Math.random() is a cryptographically weak random number generator.",
+        "owasp-web": "A9: Using Components with Known Vulnerabilities",
+        "severity": "WARNING"
+      }
+    },
+    "sequelize_tls": {
+      "files": [
+        {
+          "file_path": "sources/broken-crystals/client/public/config.js",
+          "match_lines": [
+            26,
+            32
+          ],
+          "match_position": [
+            9,
+            4
+          ],
+          "match_string": "  test: {\n    username: 'bcuname',\n    password: password,\n    database: 'nameofdb',\n    host: '127.0.0.1',\n    dialect: 'mysql'\n  },"
+        },
+        {
+          "file_path": "sources/broken-crystals/client/public/config.js",
+          "match_lines": [
+            33,
+            44
+          ],
+          "match_position": [
+            15,
+            4
+          ],
+          "match_string": "  production: {\n    username: process.env.DB_USER,\n    password: process.env.DB_PASS,\n    database: process.env.DB_NAME,\n    host: process.env.DB_HOST,\n    dialect: 'mysql',\n    // dialectOptions: {\n    //   ssl: {\n    //     ca: fs.readFileSync(__dirname + '/mysql-ca-master.crt')\n    //   }\n    // }\n  },"
+        }
+      ],
+      "metadata": {
+        "cwe": "CWE-319: Cleartext Transmission of Sensitive Information",
+        "description": "The Sequelize connection string indicates that database server does not use TLS. Non TLS connections are susceptible to man in the middle (MITM) attacks.\n",
+        "owasp-web": "A6: Security Misconfiguration",
+        "severity": "WARNING"
+      }
+    }
+  },
+  "templates": {}
+}

@@ -72,7 +72,7 @@ META_FILE="${RESULTS_DIR}/metadata.txt"
   echo "--- SCA Tools ---"
   npm --version 2>/dev/null && echo "(npm audit available)" || echo "npm: not found"
   pip-audit --version 2>/dev/null || echo "pip-audit: not found"
-  dependency-check.sh --version 2>/dev/null || echo "dependency-check: not found"
+  dependency-check --version 2>/dev/null || echo "dependency-check: not found"
 
   echo ""
   echo "--- DAST Tools ---"

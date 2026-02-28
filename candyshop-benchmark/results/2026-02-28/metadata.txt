@@ -1,0 +1,24 @@
+CandyShop Benchmark — Scan Metadata
+====================================
+Date:     2026-02-28T20:10:20Z
+Hostname: Suphis-MacBook-Air-8715.local
+OS:       Darwin 25.3.0 arm64
+
+--- Tool Versions ---
+Version: 0.69.1
+Application:         grype
+Version:             0.109.0
+BuildDate:           2026-02-19T16:23:56Z
+GitCommit:           fe186c3e986dda3cb4c5e90798f82c52aefcb4b8
+GitDescription:      v0.109.0
+Platform:            darwin/arm64
+GoVersion:           go1.25.7
+Compiler:            gc
+Syft Version:        v1.42.1
+Supported DB Schema: 6
+bandit 1.9.3
+  python version = 3.13.11 (main, Dec  5 2025, 16:06:33) [Clang 17.0.0 (clang-1700.4.4.1)]
+11.5.1
+pip-audit 2.10.0
+Dependency-Check Core version 12.2.0
+3.2.506

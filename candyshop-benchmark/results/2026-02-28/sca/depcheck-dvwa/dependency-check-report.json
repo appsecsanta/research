@@ -1,0 +1,553 @@
+{
+    "reportSchema": "1.1",
+    "scanInfo": {
+        "engineVersion": "12.2.0",
+        "dataSource": [
+{
+                "name": "NVD API Last Checked",
+                "timestamp": "2026-02-28T23:06:26+02"
+            }
+,{
+                "name": "NVD API Last Modified",
+                "timestamp": "2026-02-28T18:16:01Z"
+            }
+        ]
+
+
+    },
+    "projectInfo": {
+        "name": "dvwa",
+        "reportDate": "2026-02-28T21:06:49.439114Z",
+        "credits": {
+            "NVD": "This product uses the NVD API but is not endorsed or certified by the NVD. This report contains data retrieved from the National Vulnerability Database: https://nvd.nist.gov",
+            "CISA": "This report may contain data retrieved from the CISA Known Exploited Vulnerability Catalog: https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
+            "NPM": "This report may contain data retrieved from the Github Advisory Database (via NPM Audit API): https://github.com/advisories/",
+            "RETIREJS": "This report may contain data retrieved from the RetireJS community: https://retirejs.github.io/retire.js/",
+            "OSSINDEX": "This report may contain data retrieved from the Sonatype OSS Index: https://ossindex.sonatype.org"
+        }
+    },
+    "dependencies": [
+{
+            "isVirtual": false,
+            "fileName": "add_event_listeners.js",
+            "filePath": "\/Users\/suphi\/appsecsanta-research\/candyshop-benchmark\/sources\/dvwa\/dvwa\/js\/add_event_listeners.js"
+,"md5": "957b8886269aa7eead6c411f91a60ce1",
+            "sha1": "c6b2c579fa0e2cca397e259177e0d863f0034507",
+            "sha256": "07d557fafc8d3c2b7fb0f3819cc967e9748631f0c66921a3d6a5115d2acb899f"            ,"evidenceCollected": {
+                "vendorEvidence": [
+                ],
+                "productEvidence": [
+                ],
+                "versionEvidence": [
+                ]
+            }
+
+        },{
+            "isVirtual": false,
+            "fileName": "authbypass.js",
+            "filePath": "\/Users\/suphi\/appsecsanta-research\/candyshop-benchmark\/sources\/dvwa\/vulnerabilities\/authbypass\/authbypass.js"
+,"md5": "500454c8a8c8494aed049fa4330849e5",
+            "sha1": "dfbb7099071ad5de20429ea2a7bb72903fc87fcb",
+            "sha256": "4e5a493f5688bd8dff72e260742ad74a9cdb51e4a00bd223acf531094ffeb578"            ,"evidenceCollected": {
+                "vendorEvidence": [
+                ],
+                "productEvidence": [
+                ],
+                "versionEvidence": [
+                ]
+            }
+
+        },{
+            "isVirtual": true,
+            "fileName": "deprecation-contracts:3.5.1",
+            "filePath": "\/Users\/suphi\/appsecsanta-research\/candyshop-benchmark\/sources\/dvwa\/vulnerabilities\/api\/composer.lock:symfony\/deprecation-contracts\/3.5.1"
+            ,"evidenceCollected": {
+                "vendorEvidence": [
+{
+                            "type": "vendor",
+                            "confidence": "HIGH",
+                            "source": "composer.lock",
+                            "name": "product",
+                            "value": "deprecation-contracts"
+                        }
+,{
+                            "type": "vendor",
+                            "confidence": "HIGHEST",
+                            "source": "composer.lock",
+                            "name": "vendor",
+                            "value": "symfony"
+                        }
+,{
+                            "type": "vendor",
+                            "confidence": "HIGHEST",
+                            "source": "hint analyzer",
+                            "name": "vendor",
+                            "value": "sensiolabs"
+                        }
+                ],
+                "productEvidence": [
+{
+                            "type": "product",
+                            "confidence": "HIGHEST",
+                            "source": "composer.lock",
+                            "name": "product",
+                            "value": "deprecation-contracts"
+                    }
+,{
+                            "type": "product",
+                            "confidence": "MEDIUM",
+                            "source": "composer.lock",
+                            "name": "vendor",
+                            "value": "symfony"
+                    }
+                ],
+                "versionEvidence": [
+                    {
+                        "type": "version",
+                        "confidence": "HIGHEST",
+                        "source": "composer.lock",
+                        "name": "version",
+                        "value": "3.5.1"
+                    }
+                ]
+            }
+                ,"packages": [
+                    {
+                        "id": "pkg:composer\/symfony\/deprecation-contracts@3.5.1"
+,"confidence": "HIGHEST"                    }
+            ]
+        },{
+            "isVirtual": false,
+            "fileName": "dvwaPage.js",
+            "filePath": "\/Users\/suphi\/appsecsanta-research\/candyshop-benchmark\/sources\/dvwa\/dvwa\/js\/dvwaPage.js"
+,"md5": "6bfa5ac411a1def32cfdc470ac05d24e",
+            "sha1": "48a5e3086f9e73b73d1534041a71ababfcc36a26",
+            "sha256": "5ede6ee0896c28b86391973d18ee0b742fc169973a2f0ad5f83a6cd738a401cf"            ,"evidenceCollected": {
+                "vendorEvidence": [
+                ],
+                "productEvidence": [
+                ],
+                "versionEvidence": [
+                ]
+            }
+
+        },{
+            "isVirtual": true,
+            "fileName": "finder:7.2.2",
+            "filePath": "\/Users\/suphi\/appsecsanta-research\/candyshop-benchmark\/sources\/dvwa\/vulnerabilities\/api\/composer.lock:symfony\/finder\/7.2.2"
+            ,"evidenceCollected": {
+                "vendorEvidence": [
+{
+                            "type": "vendor",
+                            "confidence": "HIGH",
+                            "source": "composer.lock",
+                            "name": "product",
+                            "value": "finder"
+                        }
+,{
+                            "type": "vendor",
+                            "confidence": "HIGHEST",
+                            "source": "composer.lock",
+                            "name": "vendor",
+                            "value": "symfony"
+                        }
+,{
+                            "type": "vendor",
+                            "confidence": "HIGHEST",
+                            "source": "hint analyzer",
+                            "name": "vendor",
+                            "value": "sensiolabs"
+                        }
+                ],
+                "productEvidence": [
+{
+                            "type": "product",
+                            "confidence": "HIGHEST",
+                            "source": "composer.lock",
+                            "name": "product",
+                            "value": "finder"
+                    }
+,{
+                            "type": "product",
+                            "confidence": "MEDIUM",
+                            "source": "composer.lock",
+                            "name": "vendor",
+                            "value": "symfony"
+                    }
+                ],
+                "versionEvidence": [
+                    {
+                        "type": "version",
+                        "confidence": "HIGHEST",
+                        "source": "composer.lock",
+                        "name": "version",
+                        "value": "7.2.2"
+                    }
+                ]
+            }
+                ,"packages": [
+                    {
+                        "id": "pkg:composer\/symfony\/finder@7.2.2"
+,"confidence": "HIGHEST"                    }
+            ]                ,"vulnerabilityIds": [
+                {
+                    "id": "cpe:2.3:a:finder_project:finder:7.2.2:*:*:*:*:*:*:*"
+,"confidence": "HIGH","url": "https:\/\/nvd.nist.gov\/vuln\/search#\/nvd\/home?sortOrder=3&sortDirection=2&cpeFilterMode=applicability&resultType=records&cpeName=cpe%3A2.3%3Aa%3Afinder_project%3Afinder%3A7.2.2%3A%2A%3A%2A%3A%2A%3A%2A%3A%2A%3A%2A%3A%2A"                }
+            ]
+            ,"vulnerabilities": [
+ {
+                "source": "NVD",
+                "name": "CVE-2015-4363",
+                    "severity" : "MEDIUM",
+                    "cvssv2": {
+                        "score": 5.8
+                        ,"accessVector": "NETWORK"
+                        ,"accessComplexity": "MEDIUM"
+                        ,"authenticationr": "NONE"
+                        ,"confidentialityImpact": "PARTIAL"
+                        ,"integrityImpact": "PARTIAL"
+                        ,"availabilityImpact": "NONE"
+                        ,"severity": "MEDIUM"
+,"version": "2.0","exploitabilityScore": "8.6","impactScore": "4.9","userInteractionRequired": "true"                    },
+                    "cwes": [
+                        "NVD-CWE-Other"                    ],
+                "description": "Open redirect vulnerability in the finder_form_goto function in the Finder module for Drupal allows remote attackers to redirect users to arbitrary web sites and conduct phishing attacks via unspecified vectors.",
+                "notes": "",
+                "references": [
+ {
+                        "source": "cve@mitre.org"
+,"url": "https:\/\/www.drupal.org\/node\/2445967","name": "VENDOR_ADVISORY"                    }, {
+                        "source": "af854a3a-2127-422b-91ae-364da2661108"
+,"url": "https:\/\/www.drupal.org\/node\/2445967","name": "VENDOR_ADVISORY"                    }, {
+                        "source": "af854a3a-2127-422b-91ae-364da2661108"
+,"url": "http:\/\/www.openwall.com\/lists\/oss-security\/2015\/04\/25\/6"                    }, {
+                        "source": "af854a3a-2127-422b-91ae-364da2661108"
+,"url": "http:\/\/www.securityfocus.com\/bid\/72959"                    }, {
+                        "source": "cve@mitre.org"
+,"url": "http:\/\/www.openwall.com\/lists\/oss-security\/2015\/04\/25\/6"                    }, {
+                        "source": "cve@mitre.org"
+,"url": "http:\/\/www.securityfocus.com\/bid\/72959"                    }                ],
+                "vulnerableSoftware": [
+ {
+                        "software": { 
+                            "id":"cpe:2.3:a:finder_project:finder:*:*:*:*:*:drupal:*:*"
+,"vulnerabilityIdMatched":"true"                        }
+                    }                ]
+                }            ]        },{
+            "isVirtual": false,
+            "fileName": "help.js",
+            "filePath": "\/Users\/suphi\/appsecsanta-research\/candyshop-benchmark\/sources\/dvwa\/vulnerabilities\/help.js"
+,"md5": "0c2e63a6443e93b5c7076495813213f1",
+            "sha1": "e9e78be446788c38ad98c80ba72e375f1fc6a690",
+            "sha256": "7df3b3ddcb016569e5c1dfbeaa531c069b23f48dec5ce94d68a7f8150fc5fa17"            ,"evidenceCollected": {
+                "vendorEvidence": [
+                ],
+                "productEvidence": [
+                ],
+                "versionEvidence": [
+                ]
+            }
+
+        },{
+            "isVirtual": false,
+            "fileName": "high.js",
+            "filePath": "\/Users\/suphi\/appsecsanta-research\/candyshop-benchmark\/sources\/dvwa\/vulnerabilities\/csp\/source\/high.js"
+,"md5": "505c0ab7c850b3bb0e7382b641cf67b2",
+            "sha1": "9df5af3394d8bf06346fc0bae18aa731b09b5bbd",
+            "sha256": "74b8ad93bd24bf134ee8ec85f3f452a749d0f5880c968acb971d524f0bb7c850"            ,"evidenceCollected": {
+                "vendorEvidence": [
+                ],
+                "productEvidence": [
+                ],
+                "versionEvidence": [
+                ]
+            }
+
+        },{
+            "isVirtual": false,
+            "fileName": "high.js",
+            "filePath": "\/Users\/suphi\/appsecsanta-research\/candyshop-benchmark\/sources\/dvwa\/vulnerabilities\/javascript\/source\/high.js"
+,"md5": "b2fd53413a71f0fef5b557d113207163",
+            "sha1": "535fb4587fe024e0ad97e5a59384d93c9f46318a",
+            "sha256": "d5056bba3dc9a842c4a2b385c7e6a4e7bc64e2acf850f60db8dfcd1784ef0164"            ,"evidenceCollected": {
+                "vendorEvidence": [
+                ],
+                "productEvidence": [
+                ],
+                "versionEvidence": [
+                ]
+            }
+
+        },{
+            "isVirtual": false,
+            "fileName": "high_unobfuscated.js",
+            "filePath": "\/Users\/suphi\/appsecsanta-research\/candyshop-benchmark\/sources\/dvwa\/vulnerabilities\/javascript\/source\/high_unobfuscated.js"
+,"md5": "d80f63cbc54b786dd8f41515ceb42c4e",
+            "sha1": "7728c3c518569dd0029074b367094fc4cf49f354",
+            "sha256": "0f9a4c4a7ace15bde8f79d208d1d7c79cf554fc7da2ac7f82a31029ae3f261c0"            ,"evidenceCollected": {
+                "vendorEvidence": [
+                ],
+                "productEvidence": [
+                ],
+                "versionEvidence": [
+                ]
+            }
+
+        },{
+            "isVirtual": false,
+            "fileName": "impossible.js",
+            "filePath": "\/Users\/suphi\/appsecsanta-research\/candyshop-benchmark\/sources\/dvwa\/vulnerabilities\/csp\/source\/impossible.js"
+,"md5": "66fc1da1576785be1df90b1c09bbe09e",
+            "sha1": "6d14d847d0aeb3c4b29a37d76008b697597ceed2",
+            "sha256": "7d722f08d6651180147474405e1e6c32a933844df283626f37acb2e6e4ef1627"            ,"evidenceCollected": {
+                "vendorEvidence": [
+                ],
+                "productEvidence": [
+                ],
+                "versionEvidence": [
+                ]
+            }
+
+        },{
+            "isVirtual": true,
+            "fileName": "log:3.0.2",
+            "filePath": "\/Users\/suphi\/appsecsanta-research\/candyshop-benchmark\/sources\/dvwa\/vulnerabilities\/api\/composer.lock:psr\/log\/3.0.2"
+            ,"evidenceCollected": {
+                "vendorEvidence": [
+{
+                            "type": "vendor",
+                            "confidence": "HIGH",
+                            "source": "composer.lock",
+                            "name": "product",
+                            "value": "log"
+                        }
+,{
+                            "type": "vendor",
+                            "confidence": "HIGHEST",
+                            "source": "composer.lock",
+                            "name": "vendor",
+                            "value": "psr"
+                        }
+                ],
+                "productEvidence": [
+{
+                            "type": "product",
+                            "confidence": "HIGHEST",
+                            "source": "composer.lock",
+                            "name": "product",
+                            "value": "log"
+                    }
+,{
+                            "type": "product",
+                            "confidence": "MEDIUM",
+                            "source": "composer.lock",
+                            "name": "vendor",
+                            "value": "psr"
+                    }
+                ],
+                "versionEvidence": [
+                    {
+                        "type": "version",
+                        "confidence": "HIGHEST",
+                        "source": "composer.lock",
+                        "name": "version",
+                        "value": "3.0.2"
+                    }
+                ]
+            }
+                ,"packages": [
+                    {
+                        "id": "pkg:composer\/psr\/log@3.0.2"
+,"confidence": "HIGHEST"                    }
+            ]
+        },{
+            "isVirtual": false,
+            "fileName": "medium.js",
+            "filePath": "\/Users\/suphi\/appsecsanta-research\/candyshop-benchmark\/sources\/dvwa\/vulnerabilities\/javascript\/source\/medium.js"
+,"md5": "20c115b61344b11979b3e7593411ec7e",
+            "sha1": "a094a0943955dd271ce301f201d40f121fdc1d52",
+            "sha256": "6dab92dddb8516f532ac948964c2cd01bda494056a19e22550628e9870bebacb"            ,"evidenceCollected": {
+                "vendorEvidence": [
+                ],
+                "productEvidence": [
+                ],
+                "versionEvidence": [
+                ]
+            }
+
+        },{
+            "isVirtual": true,
+            "fileName": "polyfill-ctype:1.31.0",
+            "filePath": "\/Users\/suphi\/appsecsanta-research\/candyshop-benchmark\/sources\/dvwa\/vulnerabilities\/api\/composer.lock:symfony\/polyfill-ctype\/1.31.0"
+            ,"evidenceCollected": {
+                "vendorEvidence": [
+{
+                            "type": "vendor",
+                            "confidence": "HIGH",
+                            "source": "composer.lock",
+                            "name": "product",
+                            "value": "polyfill-ctype"
+                        }
+,{
+                            "type": "vendor",
+                            "confidence": "HIGHEST",
+                            "source": "composer.lock",
+                            "name": "vendor",
+                            "value": "symfony"
+                        }
+,{
+                            "type": "vendor",
+                            "confidence": "HIGHEST",
+                            "source": "hint analyzer",
+                            "name": "vendor",
+                            "value": "sensiolabs"
+                        }
+                ],
+                "productEvidence": [
+{
+                            "type": "product",
+                            "confidence": "HIGHEST",
+                            "source": "composer.lock",
+                            "name": "product",
+                            "value": "polyfill-ctype"
+                    }
+,{
+                            "type": "product",
+                            "confidence": "MEDIUM",
+                            "source": "composer.lock",
+                            "name": "vendor",
+                            "value": "symfony"
+                    }
+                ],
+                "versionEvidence": [
+                    {
+                        "type": "version",
+                        "confidence": "HIGHEST",
+                        "source": "composer.lock",
+                        "name": "version",
+                        "value": "1.31.0"
+                    }
+                ]
+            }
+                ,"packages": [
+                    {
+                        "id": "pkg:composer\/symfony\/polyfill-ctype@1.31.0"
+,"confidence": "HIGHEST"                    }
+            ]
+        },{
+            "isVirtual": true,
+            "fileName": "swagger-php:4.11.1",
+            "filePath": "\/Users\/suphi\/appsecsanta-research\/candyshop-benchmark\/sources\/dvwa\/vulnerabilities\/api\/composer.lock:zircote\/swagger-php\/4.11.1"
+            ,"evidenceCollected": {
+                "vendorEvidence": [
+{
+                            "type": "vendor",
+                            "confidence": "HIGH",
+                            "source": "composer.lock",
+                            "name": "product",
+                            "value": "swagger-php"
+                        }
+,{
+                            "type": "vendor",
+                            "confidence": "HIGHEST",
+                            "source": "composer.lock",
+                            "name": "vendor",
+                            "value": "zircote"
+                        }
+                ],
+                "productEvidence": [
+{
+                            "type": "product",
+                            "confidence": "HIGHEST",
+                            "source": "composer.lock",
+                            "name": "product",
+                            "value": "swagger-php"
+                    }
+,{
+                            "type": "product",
+                            "confidence": "MEDIUM",
+                            "source": "composer.lock",
+                            "name": "vendor",
+                            "value": "zircote"
+                    }
+                ],
+                "versionEvidence": [
+                    {
+                        "type": "version",
+                        "confidence": "HIGHEST",
+                        "source": "composer.lock",
+                        "name": "version",
+                        "value": "4.11.1"
+                    }
+                ]
+            }
+                ,"packages": [
+                    {
+                        "id": "pkg:composer\/zircote\/swagger-php@4.11.1"
+,"confidence": "HIGHEST"                    }
+            ]
+        },{
+            "isVirtual": true,
+            "fileName": "yaml:7.2.3",
+            "filePath": "\/Users\/suphi\/appsecsanta-research\/candyshop-benchmark\/sources\/dvwa\/vulnerabilities\/api\/composer.lock:symfony\/yaml\/7.2.3"
+            ,"evidenceCollected": {
+                "vendorEvidence": [
+{
+                            "type": "vendor",
+                            "confidence": "HIGH",
+                            "source": "composer.lock",
+                            "name": "product",
+                            "value": "yaml"
+                        }
+,{
+                            "type": "vendor",
+                            "confidence": "HIGHEST",
+                            "source": "composer.lock",
+                            "name": "vendor",
+                            "value": "symfony"
+                        }
+,{
+                            "type": "vendor",
+                            "confidence": "HIGHEST",
+                            "source": "hint analyzer",
+                            "name": "vendor",
+                            "value": "sensiolabs"
+                        }
+                ],
+                "productEvidence": [
+{
+                            "type": "product",
+                            "confidence": "HIGHEST",
+                            "source": "composer.lock",
+                            "name": "product",
+                            "value": "yaml"
+                    }
+,{
+                            "type": "product",
+                            "confidence": "MEDIUM",
+                            "source": "composer.lock",
+                            "name": "vendor",
+                            "value": "symfony"
+                    }
+                ],
+                "versionEvidence": [
+                    {
+                        "type": "version",
+                        "confidence": "HIGHEST",
+                        "source": "composer.lock",
+                        "name": "version",
+                        "value": "7.2.3"
+                    }
+                ]
+            }
+                ,"packages": [
+                    {
+                        "id": "pkg:composer\/symfony\/yaml@7.2.3"
+,"confidence": "HIGHEST"                    }
+            ]                ,"vulnerabilityIds": [
+                {
+                    "id": "cpe:2.3:a:yaml_project:yaml:7.2.3:*:*:*:*:*:*:*"
+,"confidence": "HIGH","url": "https:\/\/nvd.nist.gov\/vuln\/search#\/nvd\/home?sortOrder=3&sortDirection=2&cpeFilterMode=applicability&resultType=records&cpeName=cpe%3A2.3%3Aa%3Ayaml_project%3Ayaml%3A7.2.3%3A%2A%3A%2A%3A%2A%3A%2A%3A%2A%3A%2A%3A%2A"                }
+            ]
+        }    ]
+}

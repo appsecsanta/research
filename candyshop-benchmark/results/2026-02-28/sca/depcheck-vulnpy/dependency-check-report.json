@@ -1,0 +1,741 @@
+{
+    "reportSchema": "1.1",
+    "scanInfo": {
+        "engineVersion": "12.2.0",
+        "dataSource": [
+{
+                "name": "NVD API Last Checked",
+                "timestamp": "2026-02-28T23:06:26+02"
+            }
+,{
+                "name": "NVD API Last Modified",
+                "timestamp": "2026-02-28T18:16:01Z"
+            }
+        ]
+
+
+    },
+    "projectInfo": {
+        "name": "vulnpy",
+        "reportDate": "2026-02-28T21:06:46.758761Z",
+        "credits": {
+            "NVD": "This product uses the NVD API but is not endorsed or certified by the NVD. This report contains data retrieved from the National Vulnerability Database: https://nvd.nist.gov",
+            "CISA": "This report may contain data retrieved from the CISA Known Exploited Vulnerability Catalog: https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
+            "NPM": "This report may contain data retrieved from the Github Advisory Database (via NPM Audit API): https://github.com/advisories/",
+            "RETIREJS": "This report may contain data retrieved from the RetireJS community: https://retirejs.github.io/retire.js/",
+            "OSSINDEX": "This report may contain data retrieved from the Sonatype OSS Index: https://ossindex.sonatype.org"
+        }
+    },
+    "dependencies": [
+{
+            "isVirtual": true,
+            "fileName": "Werkzeug:2.2.*",
+            "filePath": "\/Users\/suphi\/appsecsanta-research\/candyshop-benchmark\/sources\/vulnpy\/tests\/requirements.txt:Werkzeug\/2.2.*"
+            ,"evidenceCollected": {
+                "vendorEvidence": [
+{
+                            "type": "vendor",
+                            "confidence": "HIGHEST",
+                            "source": "requirements.txt",
+                            "name": "vendor",
+                            "value": "Werkzeug"
+                        }
+                ],
+                "productEvidence": [
+{
+                            "type": "product",
+                            "confidence": "HIGHEST",
+                            "source": "requirements.txt",
+                            "name": "product",
+                            "value": "Werkzeug"
+                    }
+                ],
+                "versionEvidence": [
+                    {
+                        "type": "version",
+                        "confidence": "HIGHEST",
+                        "source": "requirements.txt",
+                        "name": "version",
+                        "value": "2.2.*"
+                    }
+                ]
+            }
+                ,"packages": [
+                    {
+                        "id": "pkg:pypi\/werkzeug@2.2.%2A"
+,"confidence": "HIGHEST"                    }
+            ]
+        },{
+            "isVirtual": false,
+            "fileName": "__init__.py",
+            "filePath": "\/Users\/suphi\/appsecsanta-research\/candyshop-benchmark\/sources\/vulnpy\/apps\/__init__.py"
+,"md5": "d41d8cd98f00b204e9800998ecf8427e",
+            "sha1": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"            ,"relatedDependencies": [
+  {
+                    "isVirtual": false,
+                    "fileName": "__init__.py",
+                    "filePath": "\/Users\/suphi\/appsecsanta-research\/candyshop-benchmark\/sources\/vulnpy\/src\/vulnpy\/__init__.py"
+,"sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                    "sha1": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+                    "md5": "d41d8cd98f00b204e9800998ecf8427e"
+                }
+ , {
+                    "isVirtual": false,
+                    "fileName": "__init__.py",
+                    "filePath": "\/Users\/suphi\/appsecsanta-research\/candyshop-benchmark\/sources\/vulnpy\/src\/vulnpy\/pyramid\/__init__.py"
+,"sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                    "sha1": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+                    "md5": "d41d8cd98f00b204e9800998ecf8427e"
+                }
+ , {
+                    "isVirtual": false,
+                    "fileName": "__init__.py",
+                    "filePath": "\/Users\/suphi\/appsecsanta-research\/candyshop-benchmark\/sources\/vulnpy\/src\/vulnpy\/vendor\/__init__.py"
+,"sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                    "sha1": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+                    "md5": "d41d8cd98f00b204e9800998ecf8427e"
+                }
+ , {
+                    "isVirtual": false,
+                    "fileName": "__init__.py",
+                    "filePath": "\/Users\/suphi\/appsecsanta-research\/candyshop-benchmark\/sources\/vulnpy\/tests\/aiohttp\/__init__.py"
+,"sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                    "sha1": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+                    "md5": "d41d8cd98f00b204e9800998ecf8427e"
+                }
+ , {
+                    "isVirtual": false,
+                    "fileName": "__init__.py",
+                    "filePath": "\/Users\/suphi\/appsecsanta-research\/candyshop-benchmark\/sources\/vulnpy\/tests\/bottle\/__init__.py"
+,"sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                    "sha1": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+                    "md5": "d41d8cd98f00b204e9800998ecf8427e"
+                }
+ , {
+                    "isVirtual": false,
+                    "fileName": "__init__.py",
+                    "filePath": "\/Users\/suphi\/appsecsanta-research\/candyshop-benchmark\/sources\/vulnpy\/tests\/django\/__init__.py"
+,"sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                    "sha1": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+                    "md5": "d41d8cd98f00b204e9800998ecf8427e"
+                }
+ , {
+                    "isVirtual": false,
+                    "fileName": "__init__.py",
+                    "filePath": "\/Users\/suphi\/appsecsanta-research\/candyshop-benchmark\/sources\/vulnpy\/tests\/falcon\/__init__.py"
+,"sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                    "sha1": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+                    "md5": "d41d8cd98f00b204e9800998ecf8427e"
+                }
+ , {
+                    "isVirtual": false,
+                    "fileName": "__init__.py",
+                    "filePath": "\/Users\/suphi\/appsecsanta-research\/candyshop-benchmark\/sources\/vulnpy\/tests\/fastapi\/__init__.py"
+,"sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                    "sha1": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+                    "md5": "d41d8cd98f00b204e9800998ecf8427e"
+                }
+ , {
+                    "isVirtual": false,
+                    "fileName": "__init__.py",
+                    "filePath": "\/Users\/suphi\/appsecsanta-research\/candyshop-benchmark\/sources\/vulnpy\/tests\/flask\/__init__.py"
+,"sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                    "sha1": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+                    "md5": "d41d8cd98f00b204e9800998ecf8427e"
+                }
+ , {
+                    "isVirtual": false,
+                    "fileName": "__init__.py",
+                    "filePath": "\/Users\/suphi\/appsecsanta-research\/candyshop-benchmark\/sources\/vulnpy\/tests\/pyramid\/__init__.py"
+,"sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                    "sha1": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+                    "md5": "d41d8cd98f00b204e9800998ecf8427e"
+                }
+ , {
+                    "isVirtual": false,
+                    "fileName": "__init__.py",
+                    "filePath": "\/Users\/suphi\/appsecsanta-research\/candyshop-benchmark\/sources\/vulnpy\/tests\/quart\/__init__.py"
+,"sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                    "sha1": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+                    "md5": "d41d8cd98f00b204e9800998ecf8427e"
+                }
+ , {
+                    "isVirtual": false,
+                    "fileName": "__init__.py",
+                    "filePath": "\/Users\/suphi\/appsecsanta-research\/candyshop-benchmark\/sources\/vulnpy\/tests\/trigger\/__init__.py"
+,"sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                    "sha1": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+                    "md5": "d41d8cd98f00b204e9800998ecf8427e"
+                }
+ , {
+                    "isVirtual": false,
+                    "fileName": "__init__.py",
+                    "filePath": "\/Users\/suphi\/appsecsanta-research\/candyshop-benchmark\/sources\/vulnpy\/tests\/utils\/__init__.py"
+,"sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                    "sha1": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+                    "md5": "d41d8cd98f00b204e9800998ecf8427e"
+                }
+ , {
+                    "isVirtual": false,
+                    "fileName": "__init__.py",
+                    "filePath": "\/Users\/suphi\/appsecsanta-research\/candyshop-benchmark\/sources\/vulnpy\/tests\/wsgi\/__init__.py"
+,"sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                    "sha1": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+                    "md5": "d41d8cd98f00b204e9800998ecf8427e"
+                }
+            ]
+            ,"evidenceCollected": {
+                "vendorEvidence": [
+{
+                            "type": "vendor",
+                            "confidence": "MEDIUM",
+                            "source": "__init__.py",
+                            "name": "PackageName",
+                            "value": "apps"
+                        }
+                ],
+                "productEvidence": [
+{
+                            "type": "product",
+                            "confidence": "HIGHEST",
+                            "source": "__init__.py",
+                            "name": "PackageName",
+                            "value": "apps"
+                    }
+                ],
+                "versionEvidence": [
+                ]
+            }
+                ,"packages": [
+                    {
+                        "id": "pkg:pypi\/apps"
+,"confidence": "HIGHEST"                    }
+            ]
+        },{
+            "isVirtual": false,
+            "fileName": "__init__.py",
+            "filePath": "\/Users\/suphi\/appsecsanta-research\/candyshop-benchmark\/sources\/vulnpy\/src\/vulnpy\/aiohttp\/__init__.py"
+,"md5": "661ef16bd8b014f2ad160847e3a52b19",
+            "sha1": "d16868e0f2dcb5459bf9ff27d3bc902d85fca9b5",
+            "sha256": "e5b636e013f443c870661108419cd430f57e43116cb3613c1caa17cd99bbcce6"            ,"evidenceCollected": {
+                "vendorEvidence": [
+{
+                            "type": "vendor",
+                            "confidence": "MEDIUM",
+                            "source": "__init__.py",
+                            "name": "PackageName",
+                            "value": "aiohttp"
+                        }
+                ],
+                "productEvidence": [
+{
+                            "type": "product",
+                            "confidence": "HIGHEST",
+                            "source": "__init__.py",
+                            "name": "PackageName",
+                            "value": "aiohttp"
+                    }
+                ],
+                "versionEvidence": [
+                ]
+            }
+                ,"packages": [
+                    {
+                        "id": "pkg:pypi\/aiohttp"
+,"confidence": "HIGHEST"                    }
+            ]
+        },{
+            "isVirtual": false,
+            "fileName": "__init__.py",
+            "filePath": "\/Users\/suphi\/appsecsanta-research\/candyshop-benchmark\/sources\/vulnpy\/src\/vulnpy\/bottle\/__init__.py"
+,"md5": "878bc6370fcd39984edcdea3566a56bd",
+            "sha1": "3d6483da1bc3e61b2f0fc70cbdc11c5d1ca6ac59",
+            "sha256": "102269e51f8053d7596bd3a0d338302d2f635d3928a1e80f342ab98407761ab8"            ,"evidenceCollected": {
+                "vendorEvidence": [
+{
+                            "type": "vendor",
+                            "confidence": "MEDIUM",
+                            "source": "__init__.py",
+                            "name": "PackageName",
+                            "value": "bottle"
+                        }
+                ],
+                "productEvidence": [
+{
+                            "type": "product",
+                            "confidence": "HIGHEST",
+                            "source": "__init__.py",
+                            "name": "PackageName",
+                            "value": "bottle"
+                    }
+                ],
+                "versionEvidence": [
+                ]
+            }
+                ,"packages": [
+                    {
+                        "id": "pkg:pypi\/bottle"
+,"confidence": "HIGHEST"                    }
+            ]
+        },{
+            "isVirtual": false,
+            "fileName": "__init__.py",
+            "filePath": "\/Users\/suphi\/appsecsanta-research\/candyshop-benchmark\/sources\/vulnpy\/src\/vulnpy\/common\/__init__.py"
+,"md5": "2dc7dea4f9c48b02f50106a9642ea428",
+            "sha1": "8b0c7e3952fbe0b96306c62ba08e8a9bc8817332",
+            "sha256": "c10110f33a046ac5f067e4eb3b9803121a3504d57aba4b2eda63cd1a5d611ef1"            ,"evidenceCollected": {
+                "vendorEvidence": [
+{
+                            "type": "vendor",
+                            "confidence": "MEDIUM",
+                            "source": "__init__.py",
+                            "name": "PackageName",
+                            "value": "common"
+                        }
+                ],
+                "productEvidence": [
+{
+                            "type": "product",
+                            "confidence": "HIGHEST",
+                            "source": "__init__.py",
+                            "name": "PackageName",
+                            "value": "common"
+                    }
+                ],
+                "versionEvidence": [
+                ]
+            }
+                ,"packages": [
+                    {
+                        "id": "pkg:pypi\/common"
+,"confidence": "HIGHEST"                    }
+            ]
+        },{
+            "isVirtual": false,
+            "fileName": "__init__.py",
+            "filePath": "\/Users\/suphi\/appsecsanta-research\/candyshop-benchmark\/sources\/vulnpy\/src\/vulnpy\/django\/__init__.py"
+,"md5": "42ba694913cf49c4a3c1a12b77bcf912",
+            "sha1": "d49d414f0ad03434c43d74657cca53f6668ddd74",
+            "sha256": "4b67db3b8ffbf03748b0d9c5249aaac0dadb0c856779609d22a4e6df85985bdd"            ,"evidenceCollected": {
+                "vendorEvidence": [
+{
+                            "type": "vendor",
+                            "confidence": "MEDIUM",
+                            "source": "__init__.py",
+                            "name": "PackageName",
+                            "value": "django"
+                        }
+                ],
+                "productEvidence": [
+{
+                            "type": "product",
+                            "confidence": "HIGHEST",
+                            "source": "__init__.py",
+                            "name": "PackageName",
+                            "value": "django"
+                    }
+                ],
+                "versionEvidence": [
+                ]
+            }
+                ,"packages": [
+                    {
+                        "id": "pkg:pypi\/django"
+,"confidence": "HIGHEST"                    }
+            ]
+        },{
+            "isVirtual": false,
+            "fileName": "__init__.py",
+            "filePath": "\/Users\/suphi\/appsecsanta-research\/candyshop-benchmark\/sources\/vulnpy\/src\/vulnpy\/falcon\/__init__.py"
+,"md5": "15d8e769da499de9a371f114ccfeba46",
+            "sha1": "04e18e4aa024edbb5f7cdf274a97528b163a42c2",
+            "sha256": "47084b3c61562859165f03cf98b3663925366889b160c1b68185e9cdfd5e72f2"            ,"evidenceCollected": {
+                "vendorEvidence": [
+{
+                            "type": "vendor",
+                            "confidence": "MEDIUM",
+                            "source": "__init__.py",
+                            "name": "PackageName",
+                            "value": "falcon"
+                        }
+                ],
+                "productEvidence": [
+{
+                            "type": "product",
+                            "confidence": "HIGHEST",
+                            "source": "__init__.py",
+                            "name": "PackageName",
+                            "value": "falcon"
+                    }
+                ],
+                "versionEvidence": [
+                ]
+            }
+                ,"packages": [
+                    {
+                        "id": "pkg:pypi\/falcon"
+,"confidence": "HIGHEST"                    }
+            ]
+        },{
+            "isVirtual": false,
+            "fileName": "__init__.py",
+            "filePath": "\/Users\/suphi\/appsecsanta-research\/candyshop-benchmark\/sources\/vulnpy\/src\/vulnpy\/fastapi\/__init__.py"
+,"md5": "dd4226487c91f91e7fb3b6dc70479871",
+            "sha1": "7071a46475e855359c9301040346abc277801cff",
+            "sha256": "cd2ed76a36f1212ef93762e4b953046992cf1cb4742ef5288a1649bbad614499"            ,"evidenceCollected": {
+                "vendorEvidence": [
+{
+                            "type": "vendor",
+                            "confidence": "MEDIUM",
+                            "source": "__init__.py",
+                            "name": "PackageName",
+                            "value": "fastapi"
+                        }
+                ],
+                "productEvidence": [
+{
+                            "type": "product",
+                            "confidence": "HIGHEST",
+                            "source": "__init__.py",
+                            "name": "PackageName",
+                            "value": "fastapi"
+                    }
+                ],
+                "versionEvidence": [
+                ]
+            }
+                ,"packages": [
+                    {
+                        "id": "pkg:pypi\/fastapi"
+,"confidence": "HIGHEST"                    }
+            ]
+        },{
+            "isVirtual": false,
+            "fileName": "__init__.py",
+            "filePath": "\/Users\/suphi\/appsecsanta-research\/candyshop-benchmark\/sources\/vulnpy\/src\/vulnpy\/flask\/__init__.py"
+,"md5": "443ac3917b90f99ea98a9b0352f3ac05",
+            "sha1": "732a1bc96e3bfc0ac2659a92a97f8f76425d2fdc",
+            "sha256": "291781a21562f13690fc53d2949016bde07d1886a5e318a47fc48850951693af"            ,"relatedDependencies": [
+  {
+                    "isVirtual": false,
+                    "fileName": "__init__.py",
+                    "filePath": "\/Users\/suphi\/appsecsanta-research\/candyshop-benchmark\/sources\/vulnpy\/src\/vulnpy\/quart\/__init__.py"
+,"sha256": "291781a21562f13690fc53d2949016bde07d1886a5e318a47fc48850951693af",
+                    "sha1": "732a1bc96e3bfc0ac2659a92a97f8f76425d2fdc",
+                    "md5": "443ac3917b90f99ea98a9b0352f3ac05"
+                }
+            ]
+            ,"evidenceCollected": {
+                "vendorEvidence": [
+{
+                            "type": "vendor",
+                            "confidence": "MEDIUM",
+                            "source": "__init__.py",
+                            "name": "PackageName",
+                            "value": "flask"
+                        }
+                ],
+                "productEvidence": [
+{
+                            "type": "product",
+                            "confidence": "HIGHEST",
+                            "source": "__init__.py",
+                            "name": "PackageName",
+                            "value": "flask"
+                    }
+                ],
+                "versionEvidence": [
+                ]
+            }
+                ,"packages": [
+                    {
+                        "id": "pkg:pypi\/flask"
+,"confidence": "HIGHEST"                    }
+            ]
+        },{
+            "isVirtual": false,
+            "fileName": "__init__.py",
+            "filePath": "\/Users\/suphi\/appsecsanta-research\/candyshop-benchmark\/sources\/vulnpy\/src\/vulnpy\/trigger\/__init__.py"
+,"md5": "ed8a486c9aefcb1af9189b9f12820889",
+            "sha1": "4c8b5bbae22c429b6bf7d890427b3a8929a4bbb1",
+            "sha256": "16167b079a1606c7826f0aa0728ebc4991eb8d8c8249e40b39c38a465d2f24e1"            ,"evidenceCollected": {
+                "vendorEvidence": [
+{
+                            "type": "vendor",
+                            "confidence": "MEDIUM",
+                            "source": "__init__.py",
+                            "name": "PackageName",
+                            "value": "trigger"
+                        }
+                ],
+                "productEvidence": [
+{
+                            "type": "product",
+                            "confidence": "HIGHEST",
+                            "source": "__init__.py",
+                            "name": "PackageName",
+                            "value": "trigger"
+                    }
+                ],
+                "versionEvidence": [
+                ]
+            }
+                ,"packages": [
+                    {
+                        "id": "pkg:pypi\/trigger"
+,"confidence": "HIGHEST"                    }
+            ]
+        },{
+            "isVirtual": false,
+            "fileName": "__init__.py",
+            "filePath": "\/Users\/suphi\/appsecsanta-research\/candyshop-benchmark\/sources\/vulnpy\/src\/vulnpy\/utils\/__init__.py"
+,"md5": "7374b8f5554d854f90828147b5c8dfaf",
+            "sha1": "38e9e3b277fdaa6332d7a7142ccfdef0fcb40d9a",
+            "sha256": "d9c75ce2116aa00e72a4ded2c2c86bb3f9f7bcd92a9953ee7c924fad72b26ab7"            ,"evidenceCollected": {
+                "vendorEvidence": [
+{
+                            "type": "vendor",
+                            "confidence": "MEDIUM",
+                            "source": "__init__.py",
+                            "name": "PackageName",
+                            "value": "utils"
+                        }
+                ],
+                "productEvidence": [
+{
+                            "type": "product",
+                            "confidence": "HIGHEST",
+                            "source": "__init__.py",
+                            "name": "PackageName",
+                            "value": "utils"
+                    }
+                ],
+                "versionEvidence": [
+                ]
+            }
+                ,"packages": [
+                    {
+                        "id": "pkg:pypi\/utils"
+,"confidence": "HIGHEST"                    }
+            ]
+        },{
+            "isVirtual": false,
+            "fileName": "__init__.py",
+            "filePath": "\/Users\/suphi\/appsecsanta-research\/candyshop-benchmark\/sources\/vulnpy\/src\/vulnpy\/wsgi\/__init__.py"
+,"md5": "d68bb887585225b6e2056a3d1fa06434",
+            "sha1": "f63115f8cef6036a8cd6dbb98ae5c7dfc0236239",
+            "sha256": "76ab465b67df344adae4cf2d1ec3ac9c2012d55e85920fff12763dd1aeeda5ca"            ,"evidenceCollected": {
+                "vendorEvidence": [
+{
+                            "type": "vendor",
+                            "confidence": "MEDIUM",
+                            "source": "__init__.py",
+                            "name": "PackageName",
+                            "value": "wsgi"
+                        }
+                ],
+                "productEvidence": [
+{
+                            "type": "product",
+                            "confidence": "HIGHEST",
+                            "source": "__init__.py",
+                            "name": "PackageName",
+                            "value": "wsgi"
+                    }
+                ],
+                "versionEvidence": [
+                ]
+            }
+                ,"packages": [
+                    {
+                        "id": "pkg:pypi\/wsgi"
+,"confidence": "HIGHEST"                    }
+            ]
+        },{
+            "isVirtual": false,
+            "fileName": "__init__.py",
+            "filePath": "\/Users\/suphi\/appsecsanta-research\/candyshop-benchmark\/sources\/vulnpy\/tests\/__init__.py"
+,"md5": "9e29325becde66b7a92c5d7d698c60b3",
+            "sha1": "6fd57e8cf4475d481ec1e9778c8f63eefb7497df",
+            "sha256": "a9505e87247894955820c94ed4aa087f9b5a4459226609faa49672d33587caf2"            ,"evidenceCollected": {
+                "vendorEvidence": [
+{
+                            "type": "vendor",
+                            "confidence": "MEDIUM",
+                            "source": "__init__.py",
+                            "name": "PackageName",
+                            "value": "tests"
+                        }
+                ],
+                "productEvidence": [
+{
+                            "type": "product",
+                            "confidence": "HIGHEST",
+                            "source": "__init__.py",
+                            "name": "PackageName",
+                            "value": "tests"
+                    }
+                ],
+                "versionEvidence": [
+                ]
+            }
+                ,"packages": [
+                    {
+                        "id": "pkg:pypi\/tests"
+,"confidence": "HIGHEST"                    }
+            ]
+        },{
+            "isVirtual": true,
+            "fileName": "pytest-asyncio; python_version >='3.7'",
+            "filePath": "\/Users\/suphi\/appsecsanta-research\/candyshop-benchmark\/sources\/vulnpy\/tests\/requirements.txt:pytest-asyncio; python_version >='3.7'\/null"
+            ,"evidenceCollected": {
+                "vendorEvidence": [
+{
+                            "type": "vendor",
+                            "confidence": "HIGHEST",
+                            "source": "requirements.txt",
+                            "name": "vendor",
+                            "value": "pytest-asyncio; python_version >='3.7'"
+                        }
+                ],
+                "productEvidence": [
+{
+                            "type": "product",
+                            "confidence": "HIGHEST",
+                            "source": "requirements.txt",
+                            "name": "product",
+                            "value": "pytest-asyncio; python_version >='3.7'"
+                    }
+                ],
+                "versionEvidence": [
+                    {
+                        "type": "version",
+                        "confidence": "HIGHEST",
+                        "source": "requirements.txt",
+                        "name": "version",
+                        "value": "$enc.json($evidence.getValue().trim())"
+                    }
+                ]
+            }
+                ,"packages": [
+                    {
+                        "id": "pkg:pypi\/pytest-asyncio%3B%20python-version%20%3E%3D%273.7%27"
+,"confidence": "HIGHEST"                    }
+            ]
+        },{
+            "isVirtual": true,
+            "fileName": "pytest-cov",
+            "filePath": "\/Users\/suphi\/appsecsanta-research\/candyshop-benchmark\/sources\/vulnpy\/tests\/requirements.txt:pytest-cov\/null"
+            ,"evidenceCollected": {
+                "vendorEvidence": [
+{
+                            "type": "vendor",
+                            "confidence": "HIGHEST",
+                            "source": "requirements.txt",
+                            "name": "vendor",
+                            "value": "pytest-cov"
+                        }
+                ],
+                "productEvidence": [
+{
+                            "type": "product",
+                            "confidence": "HIGHEST",
+                            "source": "requirements.txt",
+                            "name": "product",
+                            "value": "pytest-cov"
+                    }
+                ],
+                "versionEvidence": [
+                    {
+                        "type": "version",
+                        "confidence": "HIGHEST",
+                        "source": "requirements.txt",
+                        "name": "version",
+                        "value": "$enc.json($evidence.getValue().trim())"
+                    }
+                ]
+            }
+                ,"packages": [
+                    {
+                        "id": "pkg:pypi\/pytest-cov"
+,"confidence": "HIGHEST"                    }
+            ]
+        },{
+            "isVirtual": true,
+            "fileName": "requests",
+            "filePath": "\/Users\/suphi\/appsecsanta-research\/candyshop-benchmark\/sources\/vulnpy\/tests\/requirements.txt:requests\/null"
+            ,"evidenceCollected": {
+                "vendorEvidence": [
+{
+                            "type": "vendor",
+                            "confidence": "HIGHEST",
+                            "source": "requirements.txt",
+                            "name": "vendor",
+                            "value": "requests"
+                        }
+                ],
+                "productEvidence": [
+{
+                            "type": "product",
+                            "confidence": "HIGHEST",
+                            "source": "requirements.txt",
+                            "name": "product",
+                            "value": "requests"
+                    }
+                ],
+                "versionEvidence": [
+                    {
+                        "type": "version",
+                        "confidence": "HIGHEST",
+                        "source": "requirements.txt",
+                        "name": "version",
+                        "value": "$enc.json($evidence.getValue().trim())"
+                    }
+                ]
+            }
+                ,"packages": [
+                    {
+                        "id": "pkg:pypi\/requests"
+,"confidence": "HIGHEST"                    }
+            ]
+        },{
+            "isVirtual": true,
+            "fileName": "tox",
+            "filePath": "\/Users\/suphi\/appsecsanta-research\/candyshop-benchmark\/sources\/vulnpy\/tests\/requirements.txt:tox\/null"
+            ,"evidenceCollected": {
+                "vendorEvidence": [
+{
+                            "type": "vendor",
+                            "confidence": "HIGHEST",
+                            "source": "requirements.txt",
+                            "name": "vendor",
+                            "value": "tox"
+                        }
+                ],
+                "productEvidence": [
+{
+                            "type": "product",
+                            "confidence": "HIGHEST",
+                            "source": "requirements.txt",
+                            "name": "product",
+                            "value": "tox"
+                    }
+                ],
+                "versionEvidence": [
+                    {
+                        "type": "version",
+                        "confidence": "HIGHEST",
+                        "source": "requirements.txt",
+                        "name": "version",
+                        "value": "$enc.json($evidence.getValue().trim())"
+                    }
+                ]
+            }
+                ,"packages": [
+                    {
+                        "id": "pkg:pypi\/tox"
+,"confidence": "HIGHEST"                    }
+            ]
+        }    ]
+}
