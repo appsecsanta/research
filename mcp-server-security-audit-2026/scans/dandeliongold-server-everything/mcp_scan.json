@@ -1,0 +1,29 @@
+{
+  "scanner": "mcp-scan",
+  "server": "@dandeliongold/server-everything",
+  "findings": [
+    {
+      "type": "unverified-source",
+      "severity": "HIGH",
+      "description": "Server '@dandeliongold/server-everything' is from an unverified source outside @modelcontextprotocol.",
+      "tool_name": "mcp",
+      "details": "",
+      "fixable": false
+    },
+    {
+      "type": "typosquat-detection",
+      "severity": "HIGH",
+      "description": "Package '@dandeliongold/server-everything' looks suspiciously like trusted server '@modelcontextprotocol/server-everything' (homoglyph substitution).",
+      "tool_name": "mcp",
+      "details": "Verify you meant to install this package and not '@modelcontextprotocol/server-everything'.",
+      "fixable": false
+    }
+  ],
+  "raw_count": 2,
+  "summary": {
+    "critical": 0,
+    "high": 2,
+    "medium": 0,
+    "low": 0
+  }
+}

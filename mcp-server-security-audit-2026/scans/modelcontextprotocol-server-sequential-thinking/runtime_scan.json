@@ -1,0 +1,12 @@
+{
+  "server": "@modelcontextprotocol/server-sequential-thinking",
+  "category": "other",
+  "tools_count": 1,
+  "tools": [
+    {
+      "name": "sequentialthinking",
+      "description": "A detailed tool for dynamic and reflective problem-solving through thoughts.\nThis tool helps analyze problems through a flexible thinking process that can adapt and evolve.\nEach thought can build on, question, or revise previous insights as understanding deepens.\n\nWhen to use this tool:\n- Breaking down complex problems into steps\n- Planning and design with room for revision\n- Analysis that might need course correction\n- Problems where the full scope might not be clear initially\n- Problems that r"
+    }
+  ],
+  "findings": []
+}

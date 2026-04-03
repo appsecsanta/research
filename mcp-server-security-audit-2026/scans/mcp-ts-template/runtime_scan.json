@@ -1,0 +1,45 @@
+{
+  "server": "mcp-ts-template",
+  "category": "devtools",
+  "tools_count": 7,
+  "tools": [
+    {
+      "name": "template_cat_fact",
+      "description": "Fetches a random cat fact from a public API with an optional maximum length."
+    },
+    {
+      "name": "template_code_review_sampling",
+      "description": "Demonstrates MCP sampling by requesting an LLM to review code snippets. The tool uses the client's LLM to generate a code review summary."
+    },
+    {
+      "name": "template_echo_message",
+      "description": "Echoes a message back with optional formatting and repetition."
+    },
+    {
+      "name": "template_image_test",
+      "description": "Fetches a random cat image and returns it base64-encoded with the MIME type. Useful for testing image handling."
+    },
+    {
+      "name": "template_madlibs_elicitation",
+      "description": "Plays a game of Mad Libs. If any parts of speech (noun, verb, adjective) are missing, it will use elicitation to ask the user for them."
+    },
+    {
+      "name": "template_data_explorer",
+      "description": "Generates sample sales data and renders an interactive explorer. Users can sort columns, filter rows, and select entries directly in the UI. Hosts without MCP Apps support receive a text table."
+    },
+    {
+      "name": "template_async_countdown",
+      "description": "Demonstrates the MCP Tasks API with a countdown timer. When the client supports tasks, returns immediately with a task handle for polling. Otherwise, runs synchronously and returns the result directly."
+    }
+  ],
+  "findings": [
+    {
+      "type": "dangerous-input-parameter",
+      "severity": "HIGH",
+      "description": "Parameter 'code' accepts arbitrary string input for execution",
+      "parameter": "code",
+      "tool_name": "template_code_review_sampling",
+      "context": "input-schema"
+    }
+  ]
+}

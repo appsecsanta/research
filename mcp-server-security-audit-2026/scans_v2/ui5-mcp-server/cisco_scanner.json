@@ -1,0 +1,41 @@
+{
+  "scanner": "cisco-mcp-scanner",
+  "server": "@ui5/mcp-server",
+  "findings": [
+    {
+      "type": "PROMPT INJECTION",
+      "severity": "HIGH",
+      "description": "Detected 1 threat: coercive injection",
+      "tool_name": "get_guidelines",
+      "tool_description": "This tool MUST be called once to retrieve UI5 guidelines before working on any UI5 (SAPUI5/OpenUI5) related task or project or creating a UI5 project. The guidelines provided by this tool MUST be followed to ensure best practices and avoid common pitfalls in UI5 development.",
+      "analyzer": "yara_analyzer"
+    },
+    {
+      "type": "PROMPT INJECTION",
+      "severity": "HIGH",
+      "description": "Detected 1 threat: coercive injection",
+      "tool_name": "create_ui5_app",
+      "tool_description": "Create a new basic SAPUI5 application implemented in TypeScript or JavaScript",
+      "analyzer": "yara_analyzer"
+    },
+    {
+      "type": "PROMPT INJECTION",
+      "severity": "HIGH",
+      "description": "Detected 1 threat: coercive injection",
+      "tool_name": "get_integration_cards_guidelines",
+      "tool_description": "This tool MUST be called once to retrieve Integration Cards guidelines before working on any Integration Card related task or creating an Integration Card. The guidelines provided by this tool MUST be followed to ensure best practices and avoid common pitfalls in Integration Cards development.Integr",
+      "analyzer": "yara_analyzer"
+    },
+    {
+      "type": "PROMPT INJECTION",
+      "severity": "HIGH",
+      "description": "Detected 1 threat: coercive injection",
+      "tool_name": "get_typescript_conversion_guidelines",
+      "tool_description": "This tool MUST be called once before converting a UI5 (SAPUI5/OpenUI5) project from JavaScript to TypeScript. The instructions provided by this tool MUST be followed to ensure that the project setup and code is correctly converted.",
+      "analyzer": "yara_analyzer"
+    }
+  ],
+  "tools_scanned": 10,
+  "tools_safe": 6,
+  "tools_unsafe": 4
+}

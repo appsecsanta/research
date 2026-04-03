@@ -1,0 +1,8 @@
+{
+  "scanner": "cisco-mcp-scanner",
+  "server": "@tsmztech/mcp-server-salesforce",
+  "findings": [],
+  "tools_scanned": 15,
+  "tools_safe": 15,
+  "tools_unsafe": 0
+}

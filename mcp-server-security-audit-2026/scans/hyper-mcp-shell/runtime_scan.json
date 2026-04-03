@@ -1,0 +1,21 @@
+{
+  "server": "hyper-mcp-shell",
+  "category": "system",
+  "tools_count": 1,
+  "tools": [
+    {
+      "name": "execute-command",
+      "description": "The current OS is darwin. Executing command"
+    }
+  ],
+  "findings": [
+    {
+      "type": "dangerous-input-parameter",
+      "severity": "HIGH",
+      "description": "Parameter 'command' accepts arbitrary string input for execution",
+      "parameter": "command",
+      "tool_name": "execute-command",
+      "context": "input-schema"
+    }
+  ]
+}

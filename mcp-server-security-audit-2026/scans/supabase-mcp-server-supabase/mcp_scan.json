@@ -1,0 +1,21 @@
+{
+  "scanner": "mcp-scan",
+  "server": "@supabase/mcp-server-supabase",
+  "findings": [
+    {
+      "type": "unverified-source",
+      "severity": "HIGH",
+      "description": "Server '@supabase/mcp-server-supabase' is from an unverified source outside @modelcontextprotocol.",
+      "tool_name": "mcp",
+      "details": "",
+      "fixable": false
+    }
+  ],
+  "raw_count": 1,
+  "summary": {
+    "critical": 0,
+    "high": 1,
+    "medium": 0,
+    "low": 0
+  }
+}

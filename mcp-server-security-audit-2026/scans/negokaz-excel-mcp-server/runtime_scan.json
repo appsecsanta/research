@@ -1,0 +1,32 @@
+{
+  "server": "@negokaz/excel-mcp-server",
+  "category": "data-processing",
+  "tools_count": 6,
+  "tools": [
+    {
+      "name": "excel_copy_sheet",
+      "description": "Copy existing sheet to a new sheet"
+    },
+    {
+      "name": "excel_create_table",
+      "description": "Create a table in the Excel sheet"
+    },
+    {
+      "name": "excel_describe_sheets",
+      "description": "List all sheet information of specified Excel file"
+    },
+    {
+      "name": "excel_format_range",
+      "description": "Format cells in the Excel sheet with style information"
+    },
+    {
+      "name": "excel_read_sheet",
+      "description": "Read values from Excel sheet with pagination."
+    },
+    {
+      "name": "excel_write_to_sheet",
+      "description": "Write values to the Excel sheet"
+    }
+  ],
+  "findings": []
+}

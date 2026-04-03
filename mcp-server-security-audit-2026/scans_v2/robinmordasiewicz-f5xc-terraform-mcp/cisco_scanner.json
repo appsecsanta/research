@@ -1,0 +1,8 @@
+{
+  "scanner": "cisco-mcp-scanner",
+  "server": "@robinmordasiewicz/f5xc-terraform-mcp",
+  "findings": [],
+  "tools_scanned": 8,
+  "tools_safe": 8,
+  "tools_unsafe": 0
+}

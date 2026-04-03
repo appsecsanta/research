@@ -1,0 +1,33 @@
+{
+  "scanner": "cisco-mcp-scanner",
+  "server": "@henkey/postgres-mcp-server",
+  "findings": [
+    {
+      "type": "INJECTION ATTACK",
+      "severity": "HIGH",
+      "description": "Detected 2 threats: script injection, code execution",
+      "tool_name": "pg_manage_functions",
+      "tool_description": "Manage PostgreSQL functions - get, create, or drop functions with a single tool. Examples: operation=\"get\" to list functions, operation=\"create\" with functionName=\"test_func\", parameters=\"\" (empty for no params), returnType=\"TEXT\", functionBody=\"SELECT 'Hello'\"",
+      "analyzer": "yara_analyzer"
+    },
+    {
+      "type": "CODE EXECUTION",
+      "severity": "HIGH",
+      "description": "Detected 2 threats: script injection, code execution",
+      "tool_name": "pg_manage_functions",
+      "tool_description": "Manage PostgreSQL functions - get, create, or drop functions with a single tool. Examples: operation=\"get\" to list functions, operation=\"create\" with functionName=\"test_func\", parameters=\"\" (empty for no params), returnType=\"TEXT\", functionBody=\"SELECT 'Hello'\"",
+      "analyzer": "yara_analyzer"
+    },
+    {
+      "type": "TOOL POISONING",
+      "severity": "HIGH",
+      "description": "Detected 1 threat: tool poisoning",
+      "tool_name": "pg_manage_query",
+      "tool_description": "Manage PostgreSQL query analysis and performance - operation=\"explain\" for EXPLAIN plans, operation=\"get_slow_queries\" for slow query analysis, operation=\"get_stats\" for query statistics, operation=\"reset_stats\" for clearing statistics",
+      "analyzer": "yara_analyzer"
+    }
+  ],
+  "tools_scanned": 19,
+  "tools_safe": 17,
+  "tools_unsafe": 2
+}

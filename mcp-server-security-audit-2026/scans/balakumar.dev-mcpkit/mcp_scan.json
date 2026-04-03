@@ -1,0 +1,29 @@
+{
+  "scanner": "mcp-scan",
+  "server": "@balakumar.dev/mcpkit",
+  "findings": [
+    {
+      "type": "unverified-source",
+      "severity": "HIGH",
+      "description": "Server '@balakumar.dev/mcpkit' is from an unverified source outside @modelcontextprotocol.",
+      "tool_name": "mcp",
+      "details": "",
+      "fixable": false
+    },
+    {
+      "type": "exfiltration-vector",
+      "severity": "MEDIUM",
+      "description": "Tool argument contains a potential external network endpoint: '@balakumar.dev/mcpkit'.",
+      "tool_name": "mcp",
+      "details": "Review if this tool should be making outbound network calls to this endpoint.",
+      "fixable": false
+    }
+  ],
+  "raw_count": 2,
+  "summary": {
+    "critical": 0,
+    "high": 1,
+    "medium": 1,
+    "low": 0
+  }
+}

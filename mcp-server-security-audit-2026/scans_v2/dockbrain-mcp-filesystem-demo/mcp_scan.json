@@ -1,0 +1,20 @@
+{
+  "scanner": "mcp-scan",
+  "server": "@dockbrain/mcp-filesystem-demo",
+  "findings": [
+    {
+      "type": "tool-name-shadow",
+      "severity": "MEDIUM",
+      "description": "Potential tool name shadowing detected: \"system\".",
+      "recommendation": "Ensure tool names are not mimicked or used in a misleading way in descriptions or arguments."
+    },
+    {
+      "type": "server-mutation",
+      "severity": "LOW",
+      "description": "Server configuration has changed since the last scan.",
+      "recommendation": "Review the changes to ensure they are intentional and secure."
+    }
+  ],
+  "trust_score": null,
+  "metadata": {}
+}

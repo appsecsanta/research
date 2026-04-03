@@ -1,0 +1,21 @@
+{
+  "scanner": "mcp-scan",
+  "server": "youtube-data-mcp-server",
+  "findings": [
+    {
+      "type": "unverified-source",
+      "severity": "HIGH",
+      "description": "Server 'youtube-data-mcp-server' is from an unverified source outside @modelcontextprotocol.",
+      "tool_name": "mcp",
+      "details": "",
+      "fixable": false
+    }
+  ],
+  "raw_count": 1,
+  "summary": {
+    "critical": 0,
+    "high": 1,
+    "medium": 0,
+    "low": 0
+  }
+}

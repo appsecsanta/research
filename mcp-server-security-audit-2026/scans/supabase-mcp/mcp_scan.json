@@ -1,0 +1,12 @@
+{
+  "scanner": "mcp-scan",
+  "server": "supabase-mcp",
+  "findings": [],
+  "raw_count": 0,
+  "summary": {
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  }
+}

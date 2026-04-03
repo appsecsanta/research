@@ -1,0 +1,8 @@
+{
+  "scanner": "cisco-mcp-scanner",
+  "server": "@modelcontextprotocol/server-everything",
+  "findings": [],
+  "tools_scanned": 13,
+  "tools_safe": 13,
+  "tools_unsafe": 0
+}

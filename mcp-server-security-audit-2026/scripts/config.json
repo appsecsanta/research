@@ -1,0 +1,76 @@
+{
+  "registries": {
+    "official": {
+      "base_url": "https://registry.modelcontextprotocol.io/v0.1",
+      "endpoints": {
+        "list": "/servers",
+        "detail": "/servers/{id}"
+      },
+      "page_size": 100
+    },
+    "smithery": {
+      "base_url": "https://registry.smithery.ai",
+      "endpoints": {
+        "search": "/servers"
+      }
+    },
+    "npm": {
+      "base_url": "https://registry.npmjs.org",
+      "search_url": "https://registry.npmjs.org/-/v1/search",
+      "scopes": ["@modelcontextprotocol"],
+      "keywords": ["mcp-server", "model-context-protocol"]
+    },
+    "github": {
+      "topic": "mcp-server",
+      "api_url": "https://api.github.com/search/repositories",
+      "sort": "stars",
+      "min_stars": 10
+    }
+  },
+  "scanners": {
+    "snyk_agent_scan": {
+      "command": "snyk-agent-scan",
+      "license": "Apache-2.0",
+      "timeout": 120
+    },
+    "defenseclaw": {
+      "command": "defenseclaw",
+      "license": "Apache-2.0",
+      "timeout": 120
+    },
+    "mcpsafetyscanner": {
+      "command": "python3 -m mcpsafetyscanner",
+      "license": "MPL-2.0",
+      "timeout": 120
+    }
+  },
+  "categories": [
+    "filesystem",
+    "database",
+    "api-integration",
+    "code-execution",
+    "web-browsing",
+    "devtools",
+    "data-processing",
+    "ai-ml",
+    "system",
+    "other"
+  ],
+  "validation": {
+    "tp_criteria": [
+      "Prompt injection in tool description",
+      "No authentication for sensitive operations",
+      "User input reaches shell/exec without validation",
+      "Hardcoded credentials",
+      "Path traversal possible",
+      "Data exfiltration via tool calls",
+      "Excessive permissions requested"
+    ],
+    "fp_criteria": [
+      "Scanner false alarm (pattern match, no real risk)",
+      "Safe in context (sandbox, read-only)",
+      "Test/example code only",
+      "User configuration responsibility"
+    ]
+  }
+}

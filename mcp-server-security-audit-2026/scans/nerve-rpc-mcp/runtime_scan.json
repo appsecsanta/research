@@ -1,0 +1,73 @@
+{
+  "server": "nerve-rpc-mcp",
+  "category": "data-processing",
+  "tools_count": 14,
+  "tools": [
+    {
+      "name": "nerve_info",
+      "description": "Get Nerve chain info (chainId, assetId, symbol, addressPrefix, consensus assets, etc.)"
+    },
+    {
+      "name": "nerve_get_latest_height",
+      "description": "Get the latest main chain block height for a chain"
+    },
+    {
+      "name": "nerve_get_best_block_header",
+      "description": "Get the latest block header (hash, height, txCount, packingAddress, etc.)"
+    },
+    {
+      "name": "nerve_validate_address",
+      "description": "Validate if a Nerve address is correct for the given chain"
+    },
+    {
+      "name": "nerve_get_account_balance",
+      "description": "Query account balance for a specific asset (chainId, assetChainId, assetId, address)"
+    },
+    {
+      "name": "nerve_get_balance_list",
+      "description": "Query balance list for an address and optional asset IDs"
+    },
+    {
+      "name": "nerve_get_block_by_height",
+      "description": "Get block (header + transactions) by block height"
+    },
+    {
+      "name": "nerve_get_block_by_hash",
+      "description": "Get block (header + transactions) by block hash"
+    },
+    {
+      "name": "nerve_get_header_by_height",
+      "description": "Get block header only by height"
+    },
+    {
+      "name": "nerve_get_tx",
+      "description": "Get transaction by transaction hash"
+    },
+    {
+      "name": "nerve_get_agent_list",
+      "description": "Get list of consensus nodes (agents) for the chain"
+    },
+    {
+      "name": "nerve_get_deposit_list",
+      "description": "Get delegation list for a consensus node (by agent creation tx hash)"
+    },
+    {
+      "name": "nerve_jsonrpc",
+      "description": "Call any Nerve JSON-RPC method by name with params array. Use for methods not covered by dedicated tools (e.g. getRandomSeedByCount, getProposalInfo, swap/farm APIs)."
+    },
+    {
+      "name": "nerve_rest",
+      "description": "Call Nerve REST API by path. Method GET by default; pass body for POST. Base URL is from NERVE_API_BASE_URL (default https://api.nerve.network). Example paths: api/info, api/block/header/height/1000, api/tx/{hash}"
+    }
+  ],
+  "findings": [
+    {
+      "type": "unvalidated-path-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'path' accepts arbitrary file paths without validation",
+      "parameter": "path",
+      "tool_name": "nerve_rest",
+      "context": "input-schema"
+    }
+  ]
+}

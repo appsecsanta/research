@@ -1,0 +1,26 @@
+{
+  "scanner": "mcp-scan",
+  "server": "modelcontextprotocol-eval",
+  "findings": [
+    {
+      "type": "tool-name-shadow",
+      "severity": "MEDIUM",
+      "description": "Potential tool name shadowing detected: \"eval\".",
+      "recommendation": "Ensure tool names are not mimicked or used in a misleading way in descriptions or arguments."
+    },
+    {
+      "type": "suspicious-execution",
+      "severity": "HIGH",
+      "description": "Command contains suspicious execution patterns (e.g., bash -c, eval, exec).",
+      "recommendation": ""
+    },
+    {
+      "type": "server-mutation",
+      "severity": "LOW",
+      "description": "Server configuration has changed since the last scan.",
+      "recommendation": "Review the changes to ensure they are intentional and secure."
+    }
+  ],
+  "trust_score": null,
+  "metadata": {}
+}

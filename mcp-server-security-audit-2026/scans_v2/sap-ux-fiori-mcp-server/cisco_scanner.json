@@ -1,0 +1,25 @@
+{
+  "scanner": "cisco-mcp-scanner",
+  "server": "@sap-ux/fiori-mcp-server",
+  "findings": [
+    {
+      "type": "PROMPT INJECTION",
+      "severity": "HIGH",
+      "description": "Detected 1 threat: coercive injection",
+      "tool_name": "search_docs",
+      "tool_description": "Searches code snippets of Fiori Elements, Annotations, SAPUI5, Fiori tools documentation for the given query. You MUST use this tool if you're unsure about Fiori APIs. Optionally returns only code blocks.",
+      "analyzer": "yara_analyzer"
+    },
+    {
+      "type": "PROMPT INJECTION",
+      "severity": "HIGH",
+      "description": "Detected 1 threat: coercive injection",
+      "tool_name": "list_functionality",
+      "tool_description": "**(Step 1 of 3)**\n                    Gets the complete and exclusive list of supported functionalities to create a new or modify an existing SAP Fiori application.\n                    This is the **first mandatory step** to begin the workflow and requires a valid absolute path to a SAP Fiori applic",
+      "analyzer": "yara_analyzer"
+    }
+  ],
+  "tools_scanned": 5,
+  "tools_safe": 3,
+  "tools_unsafe": 2
+}

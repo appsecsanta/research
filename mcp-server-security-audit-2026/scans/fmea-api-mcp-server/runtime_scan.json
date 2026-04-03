@@ -1,0 +1,53 @@
+{
+  "server": "fmea-api-mcp-server",
+  "category": "filesystem",
+  "tools_count": 5,
+  "tools": [
+    {
+      "name": "search_apis",
+      "description": "Search for API endpoints by keyword across all documentation files. Returns summarized results."
+    },
+    {
+      "name": "list_all_apis",
+      "description": "List all available API endpoints (method + path). No parameters required. Use this to get a complete overview of the API surface."
+    },
+    {
+      "name": "get_api_details",
+      "description": "Get full details including schema and parameters for a specific API endpoint."
+    },
+    {
+      "name": "get_changes",
+      "description": "Get API endpoint changelog. Shows what endpoints/parameters were added, removed, or modified across versions. Includes enum changes when available."
+    },
+    {
+      "name": "get_enums",
+      "description": "Get all Java enum definitions from the API codebase. Returns enum names and their constant values."
+    }
+  ],
+  "findings": [
+    {
+      "type": "dangerous-input-parameter",
+      "severity": "HIGH",
+      "description": "Parameter 'query' accepts arbitrary string input for execution",
+      "parameter": "query",
+      "tool_name": "search_apis",
+      "context": "input-schema"
+    },
+    {
+      "type": "unvalidated-path-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'path' accepts arbitrary file paths without validation",
+      "parameter": "path",
+      "tool_name": "search_apis",
+      "context": "input-schema"
+    },
+    {
+      "type": "unvalidated-path-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'path' accepts arbitrary file paths without validation",
+      "parameter": "path",
+      "tool_name": "get_api_details",
+      "context": "input-schema"
+    }
+  ]
+}

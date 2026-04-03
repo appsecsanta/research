@@ -1,0 +1,37 @@
+{
+  "scanner": "mcp-scan",
+  "server": "modelcontextprotocol-eval",
+  "findings": [
+    {
+      "type": "tool-name-shadow",
+      "severity": "MEDIUM",
+      "description": "Potential tool name shadowing detected: \"eval\".",
+      "tool_name": "mcp",
+      "details": "Ensure tool names are not mimicked or used in a misleading way in descriptions or arguments.",
+      "fixable": false
+    },
+    {
+      "type": "unverified-source",
+      "severity": "HIGH",
+      "description": "Server 'modelcontextprotocol-eval' is from an unverified source outside @modelcontextprotocol.",
+      "tool_name": "mcp",
+      "details": "",
+      "fixable": false
+    },
+    {
+      "type": "suspicious-execution",
+      "severity": "HIGH",
+      "description": "Command contains suspicious execution patterns (e.g., bash -c, eval, exec).",
+      "tool_name": "mcp",
+      "details": "",
+      "fixable": false
+    }
+  ],
+  "raw_count": 3,
+  "summary": {
+    "critical": 0,
+    "high": 2,
+    "medium": 1,
+    "low": 0
+  }
+}

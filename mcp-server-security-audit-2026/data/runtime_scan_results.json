@@ -1,0 +1,3197 @@
+{
+  "scan_date": "2026-04-03",
+  "total_servers": 96,
+  "servers_connected": 34,
+  "connection_errors": 62,
+  "total_tools": 408,
+  "total_findings": 103,
+  "servers_with_findings": 24,
+  "results": [
+    {
+      "server": "@modelcontextprotocol/server-filesystem",
+      "category": "filesystem",
+      "tools_count": 14,
+      "tools": [
+        {
+          "name": "read_file",
+          "description": "Read the complete contents of a file as text. DEPRECATED: Use read_text_file instead."
+        },
+        {
+          "name": "read_text_file",
+          "description": "Read the complete contents of a file from the file system as text. Handles various text encodings and provides detailed error messages if the file cannot be read. Use this tool when you need to examine the contents of a single file. Use the 'head' parameter to read only the first N lines of a file, or the 'tail' parameter to read only the last N lines of a file. Operates on the file as text regardless of extension. Only works within allowed directories."
+        },
+        {
+          "name": "read_media_file",
+          "description": "Read an image or audio file. Returns the base64 encoded data and MIME type. Only works within allowed directories."
+        },
+        {
+          "name": "read_multiple_files",
+          "description": "Read the contents of multiple files simultaneously. This is more efficient than reading files one by one when you need to analyze or compare multiple files. Each file's content is returned with its path as a reference. Failed reads for individual files won't stop the entire operation. Only works within allowed directories."
+        },
+        {
+          "name": "write_file",
+          "description": "Create a new file or completely overwrite an existing file with new content. Use with caution as it will overwrite existing files without warning. Handles text content with proper encoding. Only works within allowed directories."
+        },
+        {
+          "name": "edit_file",
+          "description": "Make line-based edits to a text file. Each edit replaces exact line sequences with new content. Returns a git-style diff showing the changes made. Only works within allowed directories."
+        },
+        {
+          "name": "create_directory",
+          "description": "Create a new directory or ensure a directory exists. Can create multiple nested directories in one operation. If the directory already exists, this operation will succeed silently. Perfect for setting up directory structures for projects or ensuring required paths exist. Only works within allowed directories."
+        },
+        {
+          "name": "list_directory",
+          "description": "Get a detailed listing of all files and directories in a specified path. Results clearly distinguish between files and directories with [FILE] and [DIR] prefixes. This tool is essential for understanding directory structure and finding specific files within a directory. Only works within allowed directories."
+        },
+        {
+          "name": "list_directory_with_sizes",
+          "description": "Get a detailed listing of all files and directories in a specified path, including sizes. Results clearly distinguish between files and directories with [FILE] and [DIR] prefixes. This tool is useful for understanding directory structure and finding specific files within a directory. Only works within allowed directories."
+        },
+        {
+          "name": "directory_tree",
+          "description": "Get a recursive tree view of files and directories as a JSON structure. Each entry includes 'name', 'type' (file/directory), and 'children' for directories. Files have no children array, while directories always have a children array (which may be empty). The output is formatted with 2-space indentation for readability. Only works within allowed directories."
+        },
+        {
+          "name": "move_file",
+          "description": "Move or rename files and directories. Can move files between directories and rename them in a single operation. If the destination exists, the operation will fail. Works across different directories and can be used for simple renaming within the same directory. Both source and destination must be within allowed directories."
+        },
+        {
+          "name": "search_files",
+          "description": "Recursively search for files and directories matching a pattern. The patterns should be glob-style patterns that match paths relative to the working directory. Use pattern like '*.ext' to match files in current directory, and '**/*.ext' to match files in all subdirectories. Returns full paths to all matching items. Great for finding files when you don't know their exact location. Only searches within allowed directories."
+        },
+        {
+          "name": "get_file_info",
+          "description": "Retrieve detailed metadata about a file or directory. Returns comprehensive information including size, creation time, last modified time, permissions, and type. This tool is perfect for understanding file characteristics without reading the actual content. Only works within allowed directories."
+        },
+        {
+          "name": "list_allowed_directories",
+          "description": "Returns the list of directories that this server is allowed to access. Subdirectories within these allowed directories are also accessible. Use this to understand which directories and their nested paths are available before trying to access files."
+        }
+      ],
+      "findings": [
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "read_file",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "read_text_file",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "read_media_file",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "write_file",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "edit_file",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "create_directory",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "list_directory",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "list_directory_with_sizes",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "directory_tree",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "search_files",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "get_file_info",
+          "context": "input-schema"
+        }
+      ]
+    },
+    {
+      "server": "@modelcontextprotocol/server-everything",
+      "category": "code-execution",
+      "tools_count": 13,
+      "tools": [
+        {
+          "name": "echo",
+          "description": "Echoes back the input string"
+        },
+        {
+          "name": "get-annotated-message",
+          "description": "Demonstrates how annotations can be used to provide metadata about content."
+        },
+        {
+          "name": "get-env",
+          "description": "Returns all environment variables, helpful for debugging MCP server configuration"
+        },
+        {
+          "name": "get-resource-links",
+          "description": "Returns up to ten resource links that reference different types of resources"
+        },
+        {
+          "name": "get-resource-reference",
+          "description": "Returns a resource reference that can be used by MCP clients"
+        },
+        {
+          "name": "get-structured-content",
+          "description": "Returns structured content along with an output schema for client data validation"
+        },
+        {
+          "name": "get-sum",
+          "description": "Returns the sum of two numbers"
+        },
+        {
+          "name": "get-tiny-image",
+          "description": "Returns a tiny MCP logo image."
+        },
+        {
+          "name": "gzip-file-as-resource",
+          "description": "Compresses a single file using gzip compression. Depending upon the selected output type, returns either the compressed data as a gzipped resource or a resource link, allowing it to be downloaded in a subsequent request during the current session."
+        },
+        {
+          "name": "toggle-simulated-logging",
+          "description": "Toggles simulated, random-leveled logging on or off."
+        },
+        {
+          "name": "toggle-subscriber-updates",
+          "description": "Toggles simulated resource subscription updates on or off."
+        },
+        {
+          "name": "trigger-long-running-operation",
+          "description": "Demonstrates a long running operation with progress updates."
+        },
+        {
+          "name": "simulate-research-query",
+          "description": "Simulates a deep research operation that gathers, analyzes, and synthesizes information. Demonstrates MCP task-based operations with progress through multiple stages. If 'ambiguous' is true and client supports elicitation, sends an elicitation request for clarification."
+        }
+      ],
+      "findings": []
+    },
+    {
+      "server": "@modelcontextprotocol/server-memory",
+      "category": "other",
+      "tools_count": 9,
+      "tools": [
+        {
+          "name": "create_entities",
+          "description": "Create multiple new entities in the knowledge graph"
+        },
+        {
+          "name": "create_relations",
+          "description": "Create multiple new relations between entities in the knowledge graph. Relations should be in active voice"
+        },
+        {
+          "name": "add_observations",
+          "description": "Add new observations to existing entities in the knowledge graph"
+        },
+        {
+          "name": "delete_entities",
+          "description": "Delete multiple entities and their associated relations from the knowledge graph"
+        },
+        {
+          "name": "delete_observations",
+          "description": "Delete specific observations from entities in the knowledge graph"
+        },
+        {
+          "name": "delete_relations",
+          "description": "Delete multiple relations from the knowledge graph"
+        },
+        {
+          "name": "read_graph",
+          "description": "Read the entire knowledge graph"
+        },
+        {
+          "name": "search_nodes",
+          "description": "Search for nodes in the knowledge graph based on a query"
+        },
+        {
+          "name": "open_nodes",
+          "description": "Open specific nodes in the knowledge graph by their names"
+        }
+      ],
+      "findings": [
+        {
+          "type": "dangerous-input-parameter",
+          "severity": "HIGH",
+          "description": "Parameter 'query' accepts arbitrary string input for execution",
+          "parameter": "query",
+          "tool_name": "search_nodes",
+          "context": "input-schema"
+        }
+      ]
+    },
+    {
+      "server": "@modelcontextprotocol/server-sequential-thinking",
+      "category": "other",
+      "tools_count": 1,
+      "tools": [
+        {
+          "name": "sequentialthinking",
+          "description": "A detailed tool for dynamic and reflective problem-solving through thoughts.\nThis tool helps analyze problems through a flexible thinking process that can adapt and evolve.\nEach thought can build on, question, or revise previous insights as understanding deepens.\n\nWhen to use this tool:\n- Breaking down complex problems into steps\n- Planning and design with room for revision\n- Analysis that might need course correction\n- Problems where the full scope might not be clear initially\n- Problems that r"
+        }
+      ],
+      "findings": []
+    },
+    {
+      "server": "@upstash/context7-mcp",
+      "category": "other",
+      "tools_count": 2,
+      "tools": [
+        {
+          "name": "resolve-library-id",
+          "description": "Resolves a package/product name to a Context7-compatible library ID and returns matching libraries.\n\nYou MUST call this function before 'Query Documentation' tool to obtain a valid Context7-compatible library ID UNLESS the user explicitly provides a library ID in the format '/org/project' or '/org/project/version' in their query.\n\nEach result includes:\n- Library ID: Context7-compatible identifier (format: /org/project)\n- Name: Library or package name\n- Description: Short summary\n- Code Snippets:"
+        },
+        {
+          "name": "query-docs",
+          "description": "Retrieves and queries up-to-date documentation and code examples from Context7 for any programming library or framework.\n\nYou must call 'Resolve Context7 Library ID' tool first to obtain the exact Context7-compatible library ID required to use this tool, UNLESS the user explicitly provides a library ID in the format '/org/project' or '/org/project/version' in their query.\n\nIMPORTANT: Do not call this tool more than 3 times per question. If you cannot find what you need after 3 calls, use the bes"
+        }
+      ],
+      "findings": [
+        {
+          "type": "dangerous-input-parameter",
+          "severity": "HIGH",
+          "description": "Parameter 'query' accepts arbitrary string input for execution",
+          "parameter": "query",
+          "tool_name": "resolve-library-id",
+          "context": "input-schema"
+        },
+        {
+          "type": "dangerous-input-parameter",
+          "severity": "HIGH",
+          "description": "Parameter 'query' accepts arbitrary string input for execution",
+          "parameter": "query",
+          "tool_name": "query-docs",
+          "context": "input-schema"
+        }
+      ]
+    },
+    {
+      "server": "@apify/actors-mcp-server",
+      "category": "other",
+      "tools_count": 0,
+      "findings": [],
+      "error": "npm warn deprecated lodash.isequal@4.5.0: This package is deprecated. Use require('node:util').isDeepStrictEqual instead.\n\u001b[31mERROR\u001b[39m APIFY_TOKEN is required but not set in the environment variabl"
+    },
+    {
+      "server": "@notionhq/notion-mcp-server",
+      "category": "api-integration",
+      "tools_count": 22,
+      "tools": [
+        {
+          "name": "API-get-user",
+          "description": "Notion | Retrieve a user\nError Responses:\n400: 400"
+        },
+        {
+          "name": "API-get-users",
+          "description": "Notion | List all users\nError Responses:\n400: 400"
+        },
+        {
+          "name": "API-get-self",
+          "description": "Notion | Retrieve your token's bot user\nError Responses:\n400: Bad request"
+        },
+        {
+          "name": "API-post-search",
+          "description": "Notion | Search by title\nError Responses:\n400: Bad request"
+        },
+        {
+          "name": "API-get-block-children",
+          "description": "Notion | Retrieve block children\nError Responses:\n400: Bad request"
+        },
+        {
+          "name": "API-patch-block-children",
+          "description": "Notion | Append block children\nError Responses:\n400: Bad request"
+        },
+        {
+          "name": "API-retrieve-a-block",
+          "description": "Notion | Retrieve a block\nError Responses:\n400: Bad request"
+        },
+        {
+          "name": "API-update-a-block",
+          "description": "Notion | Update a block\nError Responses:\n400: Bad request"
+        },
+        {
+          "name": "API-delete-a-block",
+          "description": "Notion | Delete a block\nError Responses:\n400: Bad request"
+        },
+        {
+          "name": "API-retrieve-a-page",
+          "description": "Notion | Retrieve a page\nError Responses:\n400: Bad request"
+        },
+        {
+          "name": "API-patch-page",
+          "description": "Notion | Update page properties\nError Responses:\n400: Bad request"
+        },
+        {
+          "name": "API-post-page",
+          "description": "Notion | Create a page\nError Responses:\n400: Bad request"
+        },
+        {
+          "name": "API-retrieve-a-page-property",
+          "description": "Notion | Retrieve a page property item\nError Responses:\n400: Bad request"
+        },
+        {
+          "name": "API-retrieve-a-comment",
+          "description": "Notion | Retrieve comments\nError Responses:\n400: Bad request"
+        },
+        {
+          "name": "API-create-a-comment",
+          "description": "Notion | Create comment\nError Responses:\n400: Bad request"
+        },
+        {
+          "name": "API-query-data-source",
+          "description": "Notion | Query a data source\nError Responses:\n400: Bad request"
+        },
+        {
+          "name": "API-retrieve-a-data-source",
+          "description": "Notion | Retrieve a data source\nError Responses:\n400: Bad request"
+        },
+        {
+          "name": "API-update-a-data-source",
+          "description": "Notion | Update a data source\nError Responses:\n400: Bad request"
+        },
+        {
+          "name": "API-create-a-data-source",
+          "description": "Notion | Create a data source\nError Responses:\n400: Bad request"
+        },
+        {
+          "name": "API-list-data-source-templates",
+          "description": "Notion | List templates in a data source\nError Responses:\n400: Bad request"
+        },
+        {
+          "name": "API-retrieve-a-database",
+          "description": "Notion | Retrieve a database\nError Responses:\n400: Bad request"
+        },
+        {
+          "name": "API-move-page",
+          "description": "Notion | Move a page\nError Responses:\n400: Bad request"
+        }
+      ],
+      "findings": [
+        {
+          "type": "dangerous-input-parameter",
+          "severity": "HIGH",
+          "description": "Parameter 'query' accepts arbitrary string input for execution",
+          "parameter": "query",
+          "tool_name": "API-post-search",
+          "context": "input-schema"
+        }
+      ]
+    },
+    {
+      "server": "@ui5/mcp-server",
+      "category": "other",
+      "tools_count": 10,
+      "tools": [
+        {
+          "name": "get_guidelines",
+          "description": "This tool MUST be called once to retrieve UI5 guidelines before working on any UI5 (SAPUI5/OpenUI5) related task or project or creating a UI5 project. The guidelines provided by this tool MUST be followed to ensure best practices and avoid common pitfalls in UI5 development."
+        },
+        {
+          "name": "run_ui5_linter",
+          "description": "Run UI5 linter on a UI5 project to find and optionally fix UI5 related problems like the usage of deprecated API. After making changes, you should always run the linter again to verify that no new problems have been introduced."
+        },
+        {
+          "name": "get_api_reference",
+          "description": "Search the UI5 API reference for module names and symbols"
+        },
+        {
+          "name": "get_project_info",
+          "description": "Get general information about a local UI5 project."
+        },
+        {
+          "name": "create_ui5_app",
+          "description": "Create a new basic SAPUI5 application implemented in TypeScript or JavaScript"
+        },
+        {
+          "name": "get_version_info",
+          "description": "Get version information for UI5 (OpenUI5 or SAPUI5)"
+        },
+        {
+          "name": "get_integration_cards_guidelines",
+          "description": "This tool MUST be called once to retrieve Integration Cards guidelines before working on any Integration Card related task or creating an Integration Card. The guidelines provided by this tool MUST be followed to ensure best practices and avoid common pitfalls in Integration Cards development.Integration Cards are also called 'UI Integration Cards' or 'UI5 Integration Cards'."
+        },
+        {
+          "name": "create_integration_card",
+          "description": "Create a new Integration Card, UI Integration Card, or UI5 Integration Card"
+        },
+        {
+          "name": "run_manifest_validation",
+          "description": "Validates UI5 manifest file. After making changes, you should always run the validation again to verify that no new problems have been introduced."
+        },
+        {
+          "name": "get_typescript_conversion_guidelines",
+          "description": "This tool MUST be called once before converting a UI5 (SAPUI5/OpenUI5) project from JavaScript to TypeScript. The instructions provided by this tool MUST be followed to ensure that the project setup and code is correctly converted."
+        }
+      ],
+      "findings": [
+        {
+          "type": "prompt-injection-directive",
+          "severity": "HIGH",
+          "description": "Tool description contains coercive directive to the LLM",
+          "match": "('should', 'always')",
+          "tool_name": "run_ui5_linter",
+          "context": "tool-description"
+        },
+        {
+          "type": "dangerous-input-parameter",
+          "severity": "HIGH",
+          "description": "Parameter 'query' accepts arbitrary string input for execution",
+          "parameter": "query",
+          "tool_name": "get_api_reference",
+          "context": "input-schema"
+        },
+        {
+          "type": "prompt-injection-directive",
+          "severity": "HIGH",
+          "description": "Tool description contains coercive directive to the LLM",
+          "match": "('should', 'always')",
+          "tool_name": "run_manifest_validation",
+          "context": "tool-description"
+        }
+      ]
+    },
+    {
+      "server": "@sentry/mcp-server",
+      "category": "other",
+      "tools_count": 0,
+      "findings": [],
+      "error": "Error: No access token was provided.\nRun `sentry-mcp auth login` interactively first, or pass `--access-token` / `SENTRY_ACCESS_TOKEN`.\nUsage: @sentry/mcp-server [--access-token=<token>] [--host=<host"
+    },
+    {
+      "server": "@dynatrace-oss/dynatrace-mcp-server",
+      "category": "other",
+      "tools_count": 0,
+      "findings": [],
+      "error": "Initializing Dynatrace MCP Server v1.7.5...\nPlease set DT_ENVIRONMENT environment variable to your Dynatrace Platform Environment\n{\"error\": \"unhandled errors in a TaskGroup (1 sub-exception)\"}"
+    },
+    {
+      "server": "@mapbox/mcp-server",
+      "category": "other",
+      "tools_count": 0,
+      "findings": [],
+      "error": "Connection timeout (30s)"
+    },
+    {
+      "server": "@sap-ux/fiori-mcp-server",
+      "category": "other",
+      "tools_count": 5,
+      "tools": [
+        {
+          "name": "search_docs",
+          "description": "Searches code snippets of Fiori Elements, Annotations, SAPUI5, Fiori tools documentation for the given query. You MUST use this tool if you're unsure about Fiori APIs. Optionally returns only code blocks."
+        },
+        {
+          "name": "list_fiori_apps",
+          "description": "Scans a specified directory to find existing SAP Fiori applications that can be modified.\n                    This is an optional, preliminary tool.\n                    **Use this first ONLY if the target application's name or path is not already known.**\n                    The output can be used to ask the user for clarification before starting the main 3-step workflow."
+        },
+        {
+          "name": "list_functionality",
+          "description": "**(Step 1 of 3)**\n                    Gets the complete and exclusive list of supported functionalities to create a new or modify an existing SAP Fiori application.\n                    This is the **first mandatory step** to begin the workflow and requires a valid absolute path to a SAP Fiori application as input.\n                    You MUST use a functionalityId from this tool's output to request details to the functionality in 'get_functionality_details' (Step 2).\n                    You MUST"
+        },
+        {
+          "name": "get_functionality_details",
+          "description": "**(Step 2 of 3)**\n                    Gets the required parameters and detailed information for a specific functionality to create a new or modify an existing SAP Fiori application.\n                    You MUST provide a functionalityId obtained from 'list_functionality' (Step 1).\n                    The output of this tool is required for the final step 'execute_functionality' (Step 3)."
+        },
+        {
+          "name": "execute_functionality",
+          "description": "**(Step 3 of 3)**\n                    Executes a specific functionality to create a new or modify an existing SAP Fiori application with provided parameters.\n                    This is the **final step** of the workflow and performs the actual creation or modification.\n                    You MUST provide the exact parameter information obtained from get_functionality_details (Step 2)."
+        }
+      ],
+      "findings": [
+        {
+          "type": "dangerous-input-parameter",
+          "severity": "HIGH",
+          "description": "Parameter 'query' accepts arbitrary string input for execution",
+          "parameter": "query",
+          "tool_name": "search_docs",
+          "context": "input-schema"
+        }
+      ]
+    },
+    {
+      "server": "@hubspot/mcp-server",
+      "category": "api-integration",
+      "tools_count": 0,
+      "findings": [],
+      "error": "file:///Users/suphi/.npm/_npx/e954c1e63b44fb9b/node_modules/@hubspot/mcp-server/dist/utils/client.js:12\n            throw new Error('HubSpot access token is required. Set PRIVATE_APP_ACCESS_TOKEN in y"
+    },
+    {
+      "server": "@fast-kit/spec-kit",
+      "category": "other",
+      "tools_count": 0,
+      "findings": [],
+      "error": "sh: fast-kit-spec-server: command not found\n{\"error\": \"unhandled errors in a TaskGroup (1 sub-exception)\"}"
+    },
+    {
+      "server": "@supabase/mcp-server-supabase",
+      "category": "database",
+      "tools_count": 0,
+      "findings": [],
+      "error": "Please provide a personal access token (PAT) with the --access-token flag or set the SUPABASE_ACCESS_TOKEN environment variable\n{\"error\": \"unhandled errors in a TaskGroup (1 sub-exception)\"}"
+    },
+    {
+      "server": "@browserstack/mcp-server",
+      "category": "web-browsing",
+      "tools_count": 0,
+      "findings": [],
+      "error": "npm warn deprecated whatwg-encoding@3.1.1: Use @exodus/bytes instead for a more spec-conformant and faster implementation\nnpm warn deprecated @types/form-data@2.5.2: This is a stub types definition. f"
+    },
+    {
+      "server": "@roychri/mcp-server-asana",
+      "category": "api-integration",
+      "tools_count": 0,
+      "findings": [],
+      "error": "Connection timeout (30s)"
+    },
+    {
+      "server": "serper-search-scrape-mcp-server",
+      "category": "web-browsing",
+      "tools_count": 0,
+      "findings": [],
+      "error": "file:///Users/suphi/.npm/_npx/109efb2ce6006f16/node_modules/serper-search-scrape-mcp-server/build/index.js:14\n    throw new Error(\"SERPER_API_KEY environment variable is required\");\n          ^\n\nError"
+    },
+    {
+      "server": "@zereight/mcp-gitlab",
+      "category": "api-integration",
+      "tools_count": 0,
+      "findings": [],
+      "error": "npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead\n\u001b[31mERROR\u001b[39m [13:10:26.434] (91461): \u001b[36mGITLAB_PERSONAL_ACCESS_TOKEN environment variable is not set\u001b["
+    },
+    {
+      "server": "@agent-infra/mcp-server-filesystem",
+      "category": "filesystem",
+      "tools_count": 0,
+      "findings": [],
+      "error": "Usage: mcp-server-filesystem --allowed-directories <allowed-directories>\n{\"error\": \"unhandled errors in a TaskGroup (1 sub-exception)\"}"
+    },
+    {
+      "server": "kubernetes-mcp-server",
+      "category": "devtools",
+      "tools_count": 0,
+      "findings": [],
+      "error": "Error: unable to create kubernetes target provider: failed to create kubernetes rest config from kubeconfig: invalid configuration: no configuration has been provided, try setting KUBERNETES_MASTER en"
+    },
+    {
+      "server": "polaris-mcp-server",
+      "category": "api-integration",
+      "tools_count": 0,
+      "findings": [],
+      "error": "npm warn deprecated lodash.pick@4.4.0: This package is deprecated. Use destructuring assignment syntax instead.\nCreating MCP Server: polaris-mcp v1.0.0\nRegistered tool: search_polaris_components\nRegis"
+    },
+    {
+      "server": "@salesforce/mcp",
+      "category": "api-integration",
+      "tools_count": 0,
+      "findings": [],
+      "error": "Connection timeout (30s)"
+    },
+    {
+      "server": "@benborla29/mcp-server-mysql",
+      "category": "database",
+      "tools_count": 0,
+      "findings": [],
+      "error": "npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead\n{\"error\": \"unhandled errors in a TaskGroup (1 sub-exception)\"}"
+    },
+    {
+      "server": "playwright-mcp-server",
+      "category": "web-browsing",
+      "tools_count": 0,
+      "findings": [],
+      "error": "npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead\nnpm warn deprecated glob@10.5.0: Old versions of glob are not supported, and contain widely publicized secu"
+    },
+    {
+      "server": "@cloudflare/mcp-server-cloudflare",
+      "category": "devtools",
+      "tools_count": 0,
+      "findings": [],
+      "error": "[DEBUG 2026-04-03T10:11:49.650Z] Uncaught exception: Error: Unknown command: undefined. Expected 'init' or 'run'.\n{\"error\": \"unhandled errors in a TaskGroup (1 sub-exception)\"}"
+    },
+    {
+      "server": "chrome-local-mcp",
+      "category": "web-browsing",
+      "tools_count": 25,
+      "tools": [
+        {
+          "name": "launch",
+          "description": "Launch Chrome browser"
+        },
+        {
+          "name": "close_browser",
+          "description": "Close the browser"
+        },
+        {
+          "name": "new_tab",
+          "description": "Open a new tab"
+        },
+        {
+          "name": "list_pages",
+          "description": "List all open pages/tabs"
+        },
+        {
+          "name": "navigate",
+          "description": "Navigate to a URL"
+        },
+        {
+          "name": "go_back",
+          "description": "Go back in browser history"
+        },
+        {
+          "name": "snapshot",
+          "description": "PREFERRED: Use this FIRST to understand page content. Returns accessibility tree with interactive element refs. Much cheaper than screenshots (text only, no vision tokens). Use refs with click_ref/type_ref. Only use screenshot if you need visual/layout context that the snapshot cannot provide."
+        },
+        {
+          "name": "click_ref",
+          "description": "Click an element by its ref from a snapshot (e.g. \"e3\"). More reliable than CSS selectors."
+        },
+        {
+          "name": "type_ref",
+          "description": "Type text into an element by its ref from a snapshot. More reliable than CSS selectors."
+        },
+        {
+          "name": "click",
+          "description": "Click an element by ref (from snapshot), selector, text, or coordinates"
+        },
+        {
+          "name": "type",
+          "description": "Type text into an element"
+        },
+        {
+          "name": "press_key",
+          "description": "Press a keyboard key"
+        },
+        {
+          "name": "select",
+          "description": "Select a dropdown option"
+        },
+        {
+          "name": "scroll",
+          "description": "Scroll the page"
+        },
+        {
+          "name": "wait_for",
+          "description": "Wait for an element to appear"
+        },
+        {
+          "name": "get_text",
+          "description": "Get text content of the page or a specific element"
+        },
+        {
+          "name": "eval",
+          "description": "Execute JavaScript on the page"
+        },
+        {
+          "name": "get_links",
+          "description": "Get all links on the page"
+        },
+        {
+          "name": "get_inputs",
+          "description": "Get all form inputs on the page"
+        },
+        {
+          "name": "screenshot",
+          "description": "Take a screenshot. IMPORTANT: Prefer snapshot tool first \u2014 it is cheaper (no vision tokens). Only use screenshot when you need visual context (layout, images, colors) that snapshot cannot provide. Use ocr=true to extract text locally instead of sending the image."
+        },
+        {
+          "name": "ocr",
+          "description": "Extract text from an image file using local Apple Vision OCR (no tokens sent to cloud)"
+        },
+        {
+          "name": "fill_form",
+          "description": "Fill multiple form fields at once (instant, no keystroke delay) and optionally submit. Much faster than calling type for each field individually."
+        },
+        {
+          "name": "network_monitor",
+          "description": "Start or stop monitoring network requests on a page. Start monitoring BEFORE performing actions to capture requests."
+        },
+        {
+          "name": "get_network_requests",
+          "description": "Get captured network requests. Must call network_monitor(enable=true) first."
+        },
+        {
+          "name": "batch",
+          "description": "Run multiple actions sequentially in one call. Saves round trips. Use snapshot first to get refs, then batch actions using those refs."
+        }
+      ],
+      "findings": [
+        {
+          "type": "url-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'url' accepts arbitrary URLs \u2014 potential SSRF vector",
+          "parameter": "url",
+          "tool_name": "navigate",
+          "context": "input-schema"
+        },
+        {
+          "type": "dangerous-input-parameter",
+          "severity": "HIGH",
+          "description": "Parameter 'script' accepts arbitrary string input for execution",
+          "parameter": "script",
+          "tool_name": "eval",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "screenshot",
+          "context": "input-schema"
+        }
+      ]
+    },
+    {
+      "server": "browser-devtools-mcp",
+      "category": "web-browsing",
+      "tools_count": 51,
+      "tools": [
+        {
+          "name": "a11y_take-aria-snapshot",
+          "description": "ARIA snapshot of the page or a scoped element. Returns a tree with refs (e1, e2, ...) and a refs map.\nUse refs in interaction tools: selector \"e1\" or \"@e1\" to click/fill that element. Output includes URL, title, and YAML tree.\nRefs are valid until next snapshot or navigation. interactiveOnly: only interactive elements get refs; omit for content roles (headings, etc.) too.\ncursorInteractive: true adds refs for clickable elements without ARIA (e.g. div with cursor:pointer/onclick).\nUse with a11y_t"
+        },
+        {
+          "name": "a11y_take-ax-tree-snapshot",
+          "description": "Combines Chromium AX tree with runtime visual diagnostics (bounding box, visibility, viewport).\nUse to detect: elements with role/name but hidden or off-screen; layout/geometry issues; overlap/occlusion (enable checkOcclusion).\nWhen investigating UI/layout or when clicks fail on seemingly visible elements, set checkOcclusion:true\u2014it uses elementFromPoint()\nat center+corners to find what is actually on top. boundingBox is from getBoundingClientRect() (viewport coords; layout box only).\nselectorHi"
+        },
+        {
+          "name": "content_get-as-html",
+          "description": "\nGets the HTML content of the current page. \nBy default, all <script> tags are removed from the output unless \"removeScripts\" is explicitly set to \"false\".\n        "
+        },
+        {
+          "name": "content_get-as-text",
+          "description": "Gets the visible text content of the current page."
+        },
+        {
+          "name": "content_save-as-pdf",
+          "description": "Saves the current page as a PDF file."
+        },
+        {
+          "name": "content_start-recording",
+          "description": "Starts video recording of the browser page.\nRecording captures all page interactions until content_stop-recording is called.\nUses CDP screencast \u2014 works in all modes (headless, headed, persistent, CDP attach).\nOnly supported on Chromium-based browsers."
+        },
+        {
+          "name": "content_stop-recording",
+          "description": "Stops video recording of the browser page and saves the video file.\nMust be called after content_start-recording. The video is saved as a WebM file."
+        },
+        {
+          "name": "content_take-screenshot",
+          "description": "Takes a screenshot of the current page or a specific element.\nDo NOT use for page structure\u2014use ARIA/AX snapshots instead.\nUse only for visual verification (design check, visual bug, contrast, layout).\nScreenshot is saved to disk; use includeBase64 only when the file cannot be read from the returned path (e.g. remote, container)."
+        },
+        {
+          "name": "debug_status",
+          "description": "\nReturns the current debugging status including:\n- Whether debugging is enabled\n- Source map status\n- Exceptionpoint state\n- Count of tracepoints, logpoints, and watches\n- Snapshot statistics\n        "
+        },
+        {
+          "name": "debug_resolve-source-location",
+          "description": "\nResolves a generated/bundled code location to its original source via source maps.\nUseful for translating minified stack traces or bundle line numbers to original TypeScript/JavaScript source.\n\nRequires a page with debugging context (debugging is auto-enabled on first use).\nInput: generated script URL, line, column (1-based).\nOutput: original source path, line, column when a source map is available.\n        "
+        },
+        {
+          "name": "debug_put-tracepoint",
+          "description": "\nPuts a non-blocking tracepoint at the specified location.\nWhen hit, a snapshot of the call stack and local variables is captured \nautomatically without pausing execution.\n\nThe urlPattern matches script URLs. Special characters are auto-escaped.\nExamples:\n- \"app.js\" matches scripts containing \"app.js\"\n- \"bundle.min.js\" matches scripts containing \"bundle.min.js\"\n\nDO NOT escape characters yourself (e.g., don't use \"app\\.js\").\n\nReturns resolvedLocations: number of scripts where the tracepoint was s"
+        },
+        {
+          "name": "debug_remove-probe",
+          "description": "Removes a tracepoint, logpoint, or watch expression by ID.\n`type`: `tracepoint`, `logpoint`, or `watch`. `id`: the probe or watch ID (from list-probes)."
+        },
+        {
+          "name": "debug_list-probes",
+          "description": "Lists tracepoints, logpoints, and/or watch expressions. Optional `types`: array of `tracepoint`, `logpoint`, `watch`. If omitted or empty, returns all."
+        },
+        {
+          "name": "debug_clear-probes",
+          "description": "Removes tracepoints, logpoints, and/or watch expressions. Optional `types`: array of `tracepoint`, `logpoint`, `watches`. If omitted or empty, clears all."
+        },
+        {
+          "name": "debug_put-logpoint",
+          "description": "\nPuts a logpoint at the specified location.\nWhen the logpoint is hit, the logExpression is evaluated and the result \nis captured in the snapshot's logResult field.\n\nLogpoints are lightweight - they only capture the log expression result,\nNOT call stack or watch expressions. Use tracepoints for full debug context.\n\nurlPattern matches script URLs (e.g., \"app.js\"). Auto-escaped, do not add backslashes.\n\nlogExpression: a single JavaScript expression (e.g. \"user.name\", \"JSON.stringify({ a, b })\", or "
+        },
+        {
+          "name": "debug_put-exceptionpoint",
+          "description": "\nSets the exception tracepoint state:\n- \"none\": Don't capture on exceptions\n- \"uncaught\": Capture only on uncaught exceptions\n- \"all\": Capture on all exceptions (caught and uncaught)\n\nWhen an exception occurs, a snapshot is captured with exception details.\n        "
+        },
+        {
+          "name": "debug_get-probe-snapshots",
+          "description": "Retrieves snapshots captured by tracepoints, logpoints, and/or exceptionpoints.\nOptional `types`: array of `tracepoint`, `logpoint`, `exceptionpoint`. If omitted or empty, returns all.\nResponse fields: `tracepointSnapshots`, `logpointSnapshots`, `exceptionpointSnapshots`.\nOptional `probeId` filters tracepoint or logpoint snapshots; `fromSequence` and `limit` apply per type.\nOutput trimming: by default only the top 5 call stack frames are returned, only `local` scope(s) are included, and variable"
+        },
+        {
+          "name": "debug_clear-probe-snapshots",
+          "description": "Clears snapshots captured by tracepoints, logpoints, and/or exceptionpoints.\nOptional `types`: array of `tracepoint`, `logpoint`, `exceptionpoint`. If omitted or empty, clears all.\nOptional `probeId`: clear only snapshots for this probe (for tracepoint/logpoint)."
+        },
+        {
+          "name": "debug_add-watch",
+          "description": "\nAdds a watch expression to be evaluated at every breakpoint hit.\nWatch expression results are included in the snapshot's watchResults field.\n\nExamples:\n- \"user.name\"\n- \"this.state\"\n- \"items.length\"\n- \"JSON.stringify(config)\"\n\nWatch expressions are evaluated in the context of the paused frame.\n        "
+        },
+        {
+          "name": "interaction_click",
+          "description": "Clicks an element. Accepts selector or ref (e.g. e1, @e1). Set waitForNavigation: true when the click opens a new page \u2014 waits for navigation then for network idle so snapshot/screenshot see full content."
+        },
+        {
+          "name": "interaction_drag",
+          "description": "Drags an element to a target location. Accepts CSS selectors or refs (e.g. e1, @e1) from the last ARIA snapshot."
+        },
+        {
+          "name": "interaction_fill",
+          "description": "Fills out an input field. Accepts a CSS selector or a ref from the last ARIA snapshot (e.g. e1, @e1)."
+        },
+        {
+          "name": "interaction_hover",
+          "description": "Hovers an element on the page. Accepts a CSS selector or a ref from the last ARIA snapshot (e.g. e1, @e1)."
+        },
+        {
+          "name": "interaction_press-key",
+          "description": "Presses a keyboard key with optional \"hold\" and auto-repeat behavior.\n\nKey facts:\n- keyboard.press(key, { delay }) does NOT trigger OS-style auto-repeat.\n- Some UI behaviors (especially scrolling) require repeated keydown events.\n- Use repeat=true + holdMs to approximate real keyboard holding.\n\nExecution logic:\n- If selector is provided, the element is focused first.\n- If holdMs is omitted or repeat=false:\n  \u2192 a single keyboard.press() is executed.\n- If holdMs is provided AND repeat=true:\n  \u2192 ke"
+        },
+        {
+          "name": "interaction_resize-viewport",
+          "description": "Resizes the PAGE VIEWPORT using Playwright viewport emulation (page.setViewportSize).\n\nThis affects:\n- window.innerWidth / window.innerHeight\n- CSS media queries (responsive layouts)\n- Layout, rendering and screenshots\n\nNotes:\n- This does NOT resize the OS-level browser window.\n- Runtime switching to viewport=null (binding to real window size) is not supported by Playwright.\n  If you need real window-driven responsive behavior, start the BrowserContext with viewport: null\n  and use the window re"
+        },
+        {
+          "name": "interaction_resize-window",
+          "description": "Resizes the REAL BROWSER WINDOW (OS-level window) for the current page using Chrome DevTools Protocol (CDP).\n\nThis tool works best on Chromium-based browsers (Chromium/Chrome/Edge).\nIt is especially useful in headful sessions when you run with viewport emulation disabled (viewport: null),\nso the page layout follows the OS window size.\n\nImportant:\n- If Playwright viewport emulation is enabled (viewport is NOT null), resizing the OS window may not change page layout.\n- On non-Chromium browsers (Fi"
+        },
+        {
+          "name": "interaction_select",
+          "description": "Select an option in a dropdown. Accepts a CSS selector or a ref from the last ARIA snapshot (e.g. e1, @e1)."
+        },
+        {
+          "name": "interaction_scroll",
+          "description": "Scrolls the page viewport or a specific scrollable element.\n\nModes:\n- 'by': Scrolls by a relative delta (dx/dy) from the current scroll position.\n- 'to': Scrolls to an absolute scroll position (x/y).\n- 'top': Scrolls to the very top.\n- 'bottom': Scrolls to the very bottom.\n- 'left': Scrolls to the far left.\n- 'right': Scrolls to the far right.\n\nUse this tool to:\n- Reveal content below the fold\n- Jump to the top/bottom without knowing exact positions\n- Bring elements into view before clicking\n- I"
+        },
+        {
+          "name": "navigation_go-back-or-forward",
+          "description": "\nNavigates to the previous or next page in history.\n- `direction: \"back\"` \u2014 previous page in history.\n- `direction: \"forward\"` \u2014 next page in history.\n\nIn case of multiple redirects, the navigation will resolve with the response of the last redirect.\nIf cannot go back/forward, returns empty response.\n\nBy default (includeSnapshot: true), an ARIA snapshot with refs is returned. Use `snapshotOptions` for `interactiveOnly` (default false) and `cursorInteractive` (default false), same as a11y_take-ar"
+        },
+        {
+          "name": "navigation_go-to",
+          "description": "\nNavigates to the given URL.\n**NOTE**: The tool either throws an error or returns a main resource response. \nThe only exceptions are navigation to `about:blank` or navigation to the same URL with a different hash, \nwhich would succeed and return empty response.\n\n**By default** (`includeSnapshot: true`), an ARIA snapshot with refs is taken after navigation and returned in `output` and `refs`; you can use refs (e1, e2, ...) in interaction tools without calling a11y_take-aria-snapshot separately. U"
+        },
+        {
+          "name": "navigation_reload",
+          "description": "\nReloads the current page.\nIn case of multiple redirects, the navigation resolves with the response of the last redirect.\nIf the reload does not produce a response, returns empty response.\n\nBy default (includeSnapshot: true), an ARIA snapshot with refs is returned. Use `snapshotOptions` for `interactiveOnly` (default false) and `cursorInteractive` (default false), same as a11y_take-aria-snapshot.\n\nWhen `includeScreenshot: true`, the screenshot is saved to disk; `screenshotFilePath` is returned. "
+        },
+        {
+          "name": "o11y_get-console-messages",
+          "description": "Retrieves console messages/logs from the browser with filtering options."
+        },
+        {
+          "name": "o11y_get-http-requests",
+          "description": "Retrieves HTTP requests from the browser with filtering options."
+        },
+        {
+          "name": "o11y_get-trace-context",
+          "description": "Gets the OpenTelemetry trace context (trace id and tracestate) from the live browser page when OTEL is enabled."
+        },
+        {
+          "name": "o11y_get-web-vitals",
+          "description": "Collects Web Vitals (LCP, INP, CLS, TTFB, FCP) with Google thresholds and recommendations.\nCall after navigation or user actions; use waitMs for more stable LCP/CLS/INP.\nSome metrics may be unavailable depending on browser and interactions."
+        },
+        {
+          "name": "o11y_new-trace-id",
+          "description": "Generates new OpenTelemetry compatible trace id and sets it to the current session."
+        },
+        {
+          "name": "o11y_set-trace-context",
+          "description": "Sets or clears the OpenTelemetry trace context. Empty traceId clears the MCP-pinned trace id (new browser traces get random ids). Empty traceState clears tracestate. Non-empty traceState must be valid W3C tracestate (comma-separated key=value list)."
+        },
+        {
+          "name": "react_get-component-for-element",
+          "description": "Finds React component(s) for a DOM element via React Fiber (best-effort). Give selector or (x,y); we resolve the element,\nfind __reactFiber$ on it or ancestors, then build the component stack from the host fiber that owns that node.\nFiber is not a public API\u2014results vary by dev/prod build; names can be displayName, wrappers, or minified.\nwrappersDetected/wrapperFrames help with memo/forwardRef/context. If hostMapping.strategy is ancestor-fallback,\nuse a more specific selector or deeper node for "
+        },
+        {
+          "name": "react_get-element-for-component",
+          "description": "Maps a React component instance to the DOM elements it renders (DOM footprint) by traversing the Fiber graph.\nPrefer an anchor (anchorSelector or anchorX/anchorY) to target the instance; optionally add a query\n(componentName, fileNameHint, lineNumber) to search Fiber. With both, we rank candidates and pick the best match near the anchor.\nReact DevTools hook gives reliable root discovery (getFiberRoots); without it we fall back to DOM scan for __reactFiber$ (best-effort).\nFor more reliable roots "
+        },
+        {
+          "name": "scenario-add",
+          "description": "Adds a new scenario. A scenario is a reusable JS script (like execute) that can call tools via callTool().\nScenarios are stored in .browser-devtools-mcp/scenarios.json (project-level by default, or global with scope=\"global\")."
+        },
+        {
+          "name": "scenario-update",
+          "description": "Updates an existing scenario's description and/or script."
+        },
+        {
+          "name": "scenario-delete",
+          "description": "Deletes a scenario by name."
+        },
+        {
+          "name": "scenario-list",
+          "description": "Lists all available scenarios. When scope is omitted, returns scenarios from both project and global scopes (project overrides global for same name)."
+        },
+        {
+          "name": "scenario-search",
+          "description": "Searches scenarios by query across both project and global scopes.\nUses configurable search strategy (SEARCH_STRATEGY or SCENARIO_SEARCH_STRATEGY env var).\nReturns matching scenarios ranked by relevance."
+        },
+        {
+          "name": "stub_clear",
+          "description": "Clears stubs installed.\n\n- If stubId is provided, clears only that stub.\n- If stubId is omitted, clears all stubs for the current session/context."
+        },
+        {
+          "name": "stub_intercept-http-request",
+          "description": "Installs a request interceptor stub that can modify outgoing requests before they are sent.\n\nUse cases:\n- A/B testing / feature flags (inject headers)\n- Security testing (inject malformed headers / payload)\n- Edge cases (special characters, large payload)\n- Auth simulation (add API keys / tokens in headers)\n\nNotes:\n- pattern is a glob matched against the full request URL (picomatch).\n- This modifies requests; it does not change responses.\n- times limits how many times the interceptor applies (-1"
+        },
+        {
+          "name": "stub_list",
+          "description": "Lists currently installed stubs for the active browser context/session.\nUseful to debug why certain calls are being mocked/intercepted."
+        },
+        {
+          "name": "stub_mock-http-response",
+          "description": "Installs a response stub for matching requests using glob patterns (picomatch).\n\nUse cases:\n- Offline testing (return 200 with local JSON)\n- Error scenarios (force 500/404 or abort with timedout)\n- Edge cases (empty data / huge payload / special characters)\n- Flaky API testing (chance < 1.0)\n- Performance testing (delayMs)\n\nNotes:\n- pattern is a glob matched against the full request URL.\n- stubs are evaluated in insertion order; first match wins.\n- times limits how many times the stub applies (-"
+        },
+        {
+          "name": "sync_wait-for-network-idle",
+          "description": "Waits until the page is network-idle: in-flight requests <= maxConnections for at least idleTimeMs (server-side tracking, no page globals).\nUse before SPAs, screenshots, or AX snapshots for stable results. With long-polling, increase maxConnections or use shorter idleTimeMs."
+        },
+        {
+          "name": "execute",
+          "description": "Batch-execute multiple tool calls in a single request via custom JavaScript. Reduces round-trips and token usage.\n\n**IMPORTANT** \n- The code is already run inside an async function. Pass only the body (statements). \n  Do NOT wrap in `async function() { ... }` or `async () => { ... }` \u2014 that causes a syntax error. \n  Write `await callTool(...); return x;` directly.\n\n**IMPORTANT:** \n- `page` (Playwright Page) is available in the VM \u2014 use it for navigation or `page.evaluate()`. \n- Prefer interactio"
+        },
+        {
+          "name": "scenario-run",
+          "description": "Runs a saved scenario by name. Looks up the scenario in project scope first, then global.\nThe scenario's JS script runs in the same sandbox as execute: callTool(), console, sleep are available.\nScenarios can compose other scenarios via callTool('scenario-run', { name: '...' }).\nMax recursion depth: 5."
+        }
+      ],
+      "findings": [
+        {
+          "type": "data-exfiltration-generic",
+          "severity": "HIGH",
+          "description": "Tool description instructs data movement to external destination",
+          "match": "moved from the output unless \"removeScripts\" is explicitly set to \"false\".",
+          "tool_name": "content_get-as-html",
+          "context": "tool-description"
+        },
+        {
+          "type": "url-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'url' accepts arbitrary URLs \u2014 potential SSRF vector",
+          "parameter": "url",
+          "tool_name": "debug_resolve-source-location",
+          "context": "input-schema"
+        },
+        {
+          "type": "url-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'url' accepts arbitrary URLs \u2014 potential SSRF vector",
+          "parameter": "url",
+          "tool_name": "navigation_go-to",
+          "context": "input-schema"
+        },
+        {
+          "type": "dangerous-input-parameter",
+          "severity": "HIGH",
+          "description": "Parameter 'script' accepts arbitrary string input for execution",
+          "parameter": "script",
+          "tool_name": "scenario-add",
+          "context": "input-schema"
+        },
+        {
+          "type": "dangerous-input-parameter",
+          "severity": "HIGH",
+          "description": "Parameter 'script' accepts arbitrary string input for execution",
+          "parameter": "script",
+          "tool_name": "scenario-update",
+          "context": "input-schema"
+        },
+        {
+          "type": "dangerous-input-parameter",
+          "severity": "HIGH",
+          "description": "Parameter 'query' accepts arbitrary string input for execution",
+          "parameter": "query",
+          "tool_name": "scenario-search",
+          "context": "input-schema"
+        },
+        {
+          "type": "dangerous-input-parameter",
+          "severity": "HIGH",
+          "description": "Parameter 'code' accepts arbitrary string input for execution",
+          "parameter": "code",
+          "tool_name": "execute",
+          "context": "input-schema"
+        }
+      ]
+    },
+    {
+      "server": "@supabase/mcp-server-postgrest",
+      "category": "database",
+      "tools_count": 0,
+      "findings": [],
+      "error": "Please provide a base URL with the --apiUrl flag\n{\"error\": \"unhandled errors in a TaskGroup (1 sub-exception)\"}"
+    },
+    {
+      "server": "@tsmztech/mcp-server-salesforce",
+      "category": "api-integration",
+      "tools_count": 15,
+      "tools": [
+        {
+          "name": "salesforce_search_objects",
+          "description": "Search for Salesforce standard and custom objects by name pattern. Examples: 'Account' will find Account, AccountHistory; 'Order' will find WorkOrder, ServiceOrder__c etc."
+        },
+        {
+          "name": "salesforce_describe_object",
+          "description": "Get detailed schema metadata including all fields, relationships, and field properties of any Salesforce object. Examples: 'Account' shows all Account fields including custom fields; 'Case' shows all Case fields including relationships to Account, Contact etc."
+        },
+        {
+          "name": "salesforce_query_records",
+          "description": "Query records from any Salesforce object using SOQL, including relationship queries.\n\nNOTE: For queries with GROUP BY, aggregate functions (COUNT, SUM, AVG, etc.), or HAVING clauses, use salesforce_aggregate_query instead.\n\nExamples:\n1. Parent-to-child query (e.g., Account with Contacts):\n   - objectName: \"Account\"\n   - fields: [\"Name\", \"(SELECT Id, FirstName, LastName FROM Contacts)\"]\n\n2. Child-to-parent query (e.g., Contact with Account details):\n   - objectName: \"Contact\"\n   - fields: [\"First"
+        },
+        {
+          "name": "salesforce_aggregate_query",
+          "description": "Execute SOQL queries with GROUP BY, aggregate functions, and statistical analysis. Use this tool for queries that summarize and group data rather than returning individual records.\n\nNOTE: For regular queries without GROUP BY or aggregates, use salesforce_query_records instead.\n\nThis tool handles:\n1. GROUP BY queries (single/multiple fields, related objects, date functions)\n2. Aggregate functions: COUNT(), COUNT_DISTINCT(), SUM(), AVG(), MIN(), MAX()\n3. HAVING clauses for filtering grouped result"
+        },
+        {
+          "name": "salesforce_dml_records",
+          "description": "Perform data manipulation operations on Salesforce records:\n  - insert: Create new records\n  - update: Modify existing records (requires Id)\n  - delete: Remove records (requires Id)\n  - upsert: Insert or update based on external ID field\n  Examples: Insert new Accounts, Update Case status, Delete old records, Upsert based on custom external ID"
+        },
+        {
+          "name": "salesforce_manage_object",
+          "description": "Create new custom objects or modify existing ones in Salesforce:\n  - Create: New custom objects with fields, relationships, and settings\n  - Update: Modify existing object settings, labels, sharing model\n  Examples: Create Customer_Feedback__c object, Update object sharing settings\n  Note: Changes affect metadata and require proper permissions"
+        },
+        {
+          "name": "salesforce_manage_field",
+          "description": "Create new custom fields or modify existing fields on any Salesforce object:\n  - Field Types: Text, Number, Date, Lookup, Master-Detail, Picklist etc.\n  - Properties: Required, Unique, External ID, Length, Scale etc.\n  - Relationships: Create lookups and master-detail relationships\n  - Automatically grants Field Level Security to System Administrator (or specified profiles)\n  Examples: Add Rating__c picklist to Account, Create Account lookup on Custom Object\n  Note: Use grantAccessTo parameter t"
+        },
+        {
+          "name": "salesforce_manage_field_permissions",
+          "description": "Manage Field Level Security (Field Permissions) for custom and standard fields.\n  - Grant or revoke read/edit access to fields for specific profiles or permission sets\n  - View current field permissions\n  - Bulk update permissions for multiple profiles\n  \n  Examples:\n  1. Grant System Administrator access to a field\n  2. Give read-only access to a field for specific profiles\n  3. Check which profiles have access to a field"
+        },
+        {
+          "name": "salesforce_search_all",
+          "description": "Search across multiple Salesforce objects using SOSL (Salesforce Object Search Language).\n  \nExamples:\n1. Basic search across all objects:\n   {\n     \"searchTerm\": \"John\",\n     \"objects\": [\n       { \"name\": \"Account\", \"fields\": [\"Name\"], \"limit\": 10 },\n       { \"name\": \"Contact\", \"fields\": [\"FirstName\", \"LastName\", \"Email\"] }\n     ]\n   }\n\n2. Advanced search with filters:\n   {\n     \"searchTerm\": \"Cloud*\",\n     \"searchIn\": \"NAME FIELDS\",\n     \"objects\": [\n       { \n         \"name\": \"Account\", \n    "
+        },
+        {
+          "name": "salesforce_read_apex",
+          "description": "Read Apex classes from Salesforce.\n  \nExamples:\n1. Read a specific Apex class by name:\n   {\n     \"className\": \"AccountController\"\n   }\n\n2. List all Apex classes with an optional name pattern:\n   {\n     \"namePattern\": \"Controller\"\n   }\n\n3. Get metadata about Apex classes:\n   {\n     \"includeMetadata\": true,\n     \"namePattern\": \"Trigger\"\n   }\n\n4. Use wildcards in name patterns:\n   {\n     \"namePattern\": \"Account*Cont*\"\n   }\n\nNotes:\n- When className is provided, the full body of that specific class i"
+        },
+        {
+          "name": "salesforce_write_apex",
+          "description": "Create or update Apex classes in Salesforce.\n  \nExamples:\n1. Create a new Apex class:\n   {\n     \"operation\": \"create\",\n     \"className\": \"AccountService\",\n     \"apiVersion\": \"58.0\",\n     \"body\": \"public class AccountService { public static void updateAccounts() { /* implementation */ } }\"\n   }\n\n2. Update an existing Apex class:\n   {\n     \"operation\": \"update\",\n     \"className\": \"AccountService\",\n     \"body\": \"public class AccountService { public static void updateAccounts() { /* updated implemen"
+        },
+        {
+          "name": "salesforce_read_apex_trigger",
+          "description": "Read Apex triggers from Salesforce.\n  \nExamples:\n1. Read a specific Apex trigger by name:\n   {\n     \"triggerName\": \"AccountTrigger\"\n   }\n\n2. List all Apex triggers with an optional name pattern:\n   {\n     \"namePattern\": \"Account\"\n   }\n\n3. Get metadata about Apex triggers:\n   {\n     \"includeMetadata\": true,\n     \"namePattern\": \"Contact\"\n   }\n\n4. Use wildcards in name patterns:\n   {\n     \"namePattern\": \"Account*\"\n   }\n\nNotes:\n- When triggerName is provided, the full body of that specific trigger i"
+        },
+        {
+          "name": "salesforce_write_apex_trigger",
+          "description": "Create or update Apex triggers in Salesforce.\n  \nExamples:\n1. Create a new Apex trigger:\n   {\n     \"operation\": \"create\",\n     \"triggerName\": \"AccountTrigger\",\n     \"objectName\": \"Account\",\n     \"apiVersion\": \"58.0\",\n     \"body\": \"trigger AccountTrigger on Account (before insert, before update) { /* implementation */ }\"\n   }\n\n2. Update an existing Apex trigger:\n   {\n     \"operation\": \"update\",\n     \"triggerName\": \"AccountTrigger\",\n     \"body\": \"trigger AccountTrigger on Account (before insert, b"
+        },
+        {
+          "name": "salesforce_execute_anonymous",
+          "description": "Execute anonymous Apex code in Salesforce.\n  \nExamples:\n1. Execute simple Apex code:\n   {\n     \"apexCode\": \"System.debug('Hello World');\"\n   }\n\n2. Execute Apex code with variables:\n   {\n     \"apexCode\": \"List<Account> accounts = [SELECT Id, Name FROM Account LIMIT 5]; for(Account a : accounts) { System.debug(a.Name); }\"\n   }\n\n3. Execute Apex with debug logs:\n   {\n     \"apexCode\": \"System.debug(LoggingLevel.INFO, 'Processing accounts...'); List<Account> accounts = [SELECT Id FROM Account LIMIT 10"
+        },
+        {
+          "name": "salesforce_manage_debug_logs",
+          "description": "Manage debug logs for Salesforce users - enable, disable, or retrieve logs.\n  \nExamples:\n1. Enable debug logs for a user:\n   {\n     \"operation\": \"enable\",\n     \"username\": \"user@example.com\",\n     \"logLevel\": \"DEBUG\",\n     \"expirationTime\": 30\n   }\n\n2. Disable debug logs for a user:\n   {\n     \"operation\": \"disable\",\n     \"username\": \"user@example.com\"\n   }\n\n3. Retrieve debug logs for a user:\n   {\n     \"operation\": \"retrieve\",\n     \"username\": \"user@example.com\",\n     \"limit\": 5\n   }\n\n4. Retrieve"
+        }
+      ],
+      "findings": []
+    },
+    {
+      "server": "@negokaz/excel-mcp-server",
+      "category": "data-processing",
+      "tools_count": 6,
+      "tools": [
+        {
+          "name": "excel_copy_sheet",
+          "description": "Copy existing sheet to a new sheet"
+        },
+        {
+          "name": "excel_create_table",
+          "description": "Create a table in the Excel sheet"
+        },
+        {
+          "name": "excel_describe_sheets",
+          "description": "List all sheet information of specified Excel file"
+        },
+        {
+          "name": "excel_format_range",
+          "description": "Format cells in the Excel sheet with style information"
+        },
+        {
+          "name": "excel_read_sheet",
+          "description": "Read values from Excel sheet with pagination."
+        },
+        {
+          "name": "excel_write_to_sheet",
+          "description": "Write values to the Excel sheet"
+        }
+      ],
+      "findings": []
+    },
+    {
+      "server": "jira-mcp-server",
+      "category": "api-integration",
+      "tools_count": 0,
+      "findings": [],
+      "error": "/Users/suphi/.npm/_npx/d14dbf7ba352e13b/node_modules/.bin/jira-mcp-server: line 1: import: command not found\n/Users/suphi/.npm/_npx/d14dbf7ba352e13b/node_modules/.bin/jira-mcp-server: line 2: syntax e"
+    },
+    {
+      "server": "@preply/ds-mcp",
+      "category": "code-execution",
+      "tools_count": 0,
+      "findings": [],
+      "error": "Usage: ds-mcp <command>\n\nMCP server for the Preply Design System\n\nOptions:\n  -v, --version    Output the version number\n  -h, --help       display help for command\n\nCommands:\n  start [options]  Start "
+    },
+    {
+      "server": "@automatalabs/mcp-server-playwright",
+      "category": "web-browsing",
+      "tools_count": 10,
+      "tools": [
+        {
+          "name": "browser_navigate",
+          "description": "Navigate to a URL"
+        },
+        {
+          "name": "browser_screenshot",
+          "description": "Take a screenshot of the current page or a specific element"
+        },
+        {
+          "name": "browser_click",
+          "description": "Click an element on the page using CSS selector"
+        },
+        {
+          "name": "browser_click_text",
+          "description": "Click an element on the page by its text content"
+        },
+        {
+          "name": "browser_fill",
+          "description": "Fill out an input field"
+        },
+        {
+          "name": "browser_select",
+          "description": "Select an element on the page with Select tag using CSS selector"
+        },
+        {
+          "name": "browser_select_text",
+          "description": "Select an element on the page with Select tag by its text content"
+        },
+        {
+          "name": "browser_hover",
+          "description": "Hover an element on the page using CSS selector"
+        },
+        {
+          "name": "browser_hover_text",
+          "description": "Hover an element on the page by its text content"
+        },
+        {
+          "name": "browser_evaluate",
+          "description": "Execute JavaScript in the browser console"
+        }
+      ],
+      "findings": [
+        {
+          "type": "url-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'url' accepts arbitrary URLs \u2014 potential SSRF vector",
+          "parameter": "url",
+          "tool_name": "browser_navigate",
+          "context": "input-schema"
+        },
+        {
+          "type": "dangerous-input-parameter",
+          "severity": "HIGH",
+          "description": "Parameter 'script' accepts arbitrary string input for execution",
+          "parameter": "script",
+          "tool_name": "browser_evaluate",
+          "context": "input-schema"
+        }
+      ]
+    },
+    {
+      "server": "@agent-infra/mcp-server-browser",
+      "category": "web-browsing",
+      "tools_count": 21,
+      "tools": [
+        {
+          "name": "browser_navigate",
+          "description": "Navigate to a URL"
+        },
+        {
+          "name": "browser_go_back",
+          "description": "Go back to the previous page"
+        },
+        {
+          "name": "browser_go_forward",
+          "description": "Go forward to the next page"
+        },
+        {
+          "name": "browser_form_input_fill",
+          "description": "Fill out an input field, before using the tool, Either 'index' or 'selector' must be provided"
+        },
+        {
+          "name": "browser_get_markdown",
+          "description": "Get the markdown content of the current page"
+        },
+        {
+          "name": "browser_get_text",
+          "description": "Get the text content of the current page"
+        },
+        {
+          "name": "browser_read_links",
+          "description": "Get all links on the current page"
+        },
+        {
+          "name": "browser_new_tab",
+          "description": "Open a new tab"
+        },
+        {
+          "name": "browser_tab_list",
+          "description": "Get the list of tabs"
+        },
+        {
+          "name": "browser_switch_tab",
+          "description": "Switch to a specific tab"
+        },
+        {
+          "name": "browser_close_tab",
+          "description": "Close the current tab"
+        },
+        {
+          "name": "browser_evaluate",
+          "description": "Execute JavaScript in the browser console"
+        },
+        {
+          "name": "browser_get_download_list",
+          "description": "Get the list of downloaded files"
+        },
+        {
+          "name": "browser_screenshot",
+          "description": "Take a screenshot of the current page or a specific element"
+        },
+        {
+          "name": "browser_click",
+          "description": "Click an element on the page, before using the tool, use `browser_get_clickable_elements` to get the index of the element, but not call `browser_get_clickable_elements` multiple times"
+        },
+        {
+          "name": "browser_select",
+          "description": "Select an element on the page with index, Either 'index' or 'selector' must be provided"
+        },
+        {
+          "name": "browser_hover",
+          "description": "Hover an element on the page, Either 'index' or 'selector' must be provided"
+        },
+        {
+          "name": "browser_get_clickable_elements",
+          "description": "Get the clickable or hoverable or selectable elements on the current page, don't call this tool multiple times"
+        },
+        {
+          "name": "browser_scroll",
+          "description": "Scroll the page"
+        },
+        {
+          "name": "browser_close",
+          "description": "Close the browser when the task is done and the browser is not needed anymore"
+        },
+        {
+          "name": "browser_press_key",
+          "description": "Press a key on the keyboard"
+        }
+      ],
+      "findings": [
+        {
+          "type": "url-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'url' accepts arbitrary URLs \u2014 potential SSRF vector",
+          "parameter": "url",
+          "tool_name": "browser_navigate",
+          "context": "input-schema"
+        },
+        {
+          "type": "url-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'url' accepts arbitrary URLs \u2014 potential SSRF vector",
+          "parameter": "url",
+          "tool_name": "browser_new_tab",
+          "context": "input-schema"
+        },
+        {
+          "type": "dangerous-input-parameter",
+          "severity": "HIGH",
+          "description": "Parameter 'script' accepts arbitrary string input for execution",
+          "parameter": "script",
+          "tool_name": "browser_evaluate",
+          "context": "input-schema"
+        }
+      ]
+    },
+    {
+      "server": "@nexus2520/jira-mcp-server",
+      "category": "api-integration",
+      "tools_count": 0,
+      "findings": [],
+      "error": "Error: JIRA_EMAIL and JIRA_API_TOKEN are required\nPlease set these in your MCP settings configuration\n\nExample:\n  JIRA_EMAIL=your-email@company.com\n  JIRA_API_TOKEN=your-api-token\n  JIRA_BASE_URL=http"
+    },
+    {
+      "server": "@mcp-apps/kusto-mcp-server",
+      "category": "database",
+      "tools_count": 3,
+      "tools": [
+        {
+          "name": "list_tables",
+          "description": "This tool lists all tables in the Kusto database.\n  The result is a list of table names in a string format separated by commas.\n  Inputs: clusterUrl, database."
+        },
+        {
+          "name": "get_table_schema",
+          "description": "This tool retrieves the schema for a specific table in the Kusto database.\n  The result is a detailed schema information.\n  Inputs: clusterUrl, database, tableName."
+        },
+        {
+          "name": "execute_query",
+          "description": "This tool executes a Kusto query against the database and returns the results.\n  The query must be a valid KQL query without administrative commands.\n  The result is a JSON object containing the query results.\n  Inputs: clusterUrl, database, query, maxRows (optional, default is 100).\n  Note: When querying external tables make sure to use apppropriate syntax (e.g. 'external_table(<table_name>)').\n  Note: The query *must* not contain any administrative commands or control commands.\n  Note: For lis"
+        }
+      ],
+      "findings": [
+        {
+          "type": "dangerous-input-parameter",
+          "severity": "HIGH",
+          "description": "Parameter 'query' accepts arbitrary string input for execution",
+          "parameter": "query",
+          "tool_name": "execute_query",
+          "context": "input-schema"
+        }
+      ]
+    },
+    {
+      "server": "@wonderwhy-er/desktop-commander",
+      "category": "system",
+      "tools_count": 26,
+      "tools": [
+        {
+          "name": "get_config",
+          "description": "\n                        Get the complete server configuration as JSON. Config includes fields for:\n                        - blockedCommands (array of blocked shell commands)\n                        - defaultShell (shell to use for commands)\n                        - allowedDirectories (paths the server can access)\n                        - fileReadLineLimit (max lines for read_file, default 1000)\n                        - fileWriteLineLimit (max lines per write_file call, default 50)\n         "
+        },
+        {
+          "name": "set_config_value",
+          "description": "\n                        Set a specific configuration value by key.\n                        \n                        WARNING: Should be used in a separate chat from file operations and \n                        command execution to prevent security issues.\n                        \n                        Config keys include:\n                        - blockedCommands (array)\n                        - defaultShell (string)\n                        - allowedDirectories (array of paths)\n              "
+        },
+        {
+          "name": "read_file",
+          "description": "\n                        Read contents from files and URLs.\n                        Read PDF files and extract content as markdown and images.\n                        \n                        Prefer this over 'execute_command' with cat/type for viewing files.\n                        \n                        Supports partial file reading with:\n                        - 'offset' (start line, default: 0)\n                          * Positive: Start from line N (0-based indexing)\n                    "
+        },
+        {
+          "name": "read_multiple_files",
+          "description": "\n                        Read the contents of multiple files simultaneously.\n                        \n                        Each file's content is returned with its path as a reference.\n                        Handles text files normally and renders images as viewable content.\n                        Recognized image types: PNG, JPEG, GIF, WebP.\n                        \n                        Failed reads for individual files won't stop the entire operation.\n                        Only works"
+        },
+        {
+          "name": "write_file",
+          "description": "\n                        Write or append to file contents.\n\n                        IMPORTANT: DO NOT use this tool to create PDF files. Use 'write_pdf' for all PDF creation tasks.\n                        DO NOT use this tool to edit DOCX files. Use 'edit_block' with old_string/new_string instead.\n                        To CREATE a new DOCX, use write_file with .docx extension \u2014 text content with markdown headings (#, ##, ###) is converted to styled DOCX paragraphs.\n\n                        CHU"
+        },
+        {
+          "name": "write_pdf",
+          "description": "\n                        Create a new PDF file or modify an existing one.\n\n                        THIS IS THE ONLY TOOL FOR CREATING AND MODIFYING PDF FILES.\n\n                        RULES ABOUT FILENAMES:\n                        - When creating a new PDF, 'outputPath' MUST be provided and MUST use a new unique filename (e.g., \"result_01.pdf\", \"analysis_2025_01.pdf\", etc.).\n\n                        MODES:\n                        1. CREATE NEW PDF:\n                           - Pass a markdown st"
+        },
+        {
+          "name": "create_directory",
+          "description": "\n                        Create a new directory or ensure a directory exists.\n                        \n                        Can create multiple nested directories in one operation.\n                        Only works within allowed directories.\n                        \n                        IMPORTANT: Always use absolute paths for reliability. Paths are automatically normalized regardless of slash direction. Relative paths may fail as they depend on the current working directory. Tilde paths"
+        },
+        {
+          "name": "list_directory",
+          "description": "\n                        Get a detailed listing of all files and directories in a specified path.\n                        \n                        Use this instead of 'execute_command' with ls/dir commands.\n                        Results distinguish between files and directories with [FILE] and [DIR] prefixes.\n                        \n                        Supports recursive listing with the 'depth' parameter (default: 2):\n                        - depth=1: Only direct contents of the directo"
+        },
+        {
+          "name": "move_file",
+          "description": "\n                        Move or rename files and directories.\n                        \n                        Can move files between directories and rename them in a single operation.\n                        Both source and destination must be within allowed directories.\n                        \n                        IMPORTANT: Always use absolute paths for reliability. Paths are automatically normalized regardless of slash direction. Relative paths may fail as they depend on the current wor"
+        },
+        {
+          "name": "start_search",
+          "description": "\n                        Start a streaming search that can return results progressively.\n                        \n                        SEARCH STRATEGY GUIDE:\n                        Choose the right search type based on what the user is looking for:\n                        \n                        USE searchType=\"files\" WHEN:\n                        - User asks for specific files: \"find package.json\", \"locate config files\"\n                        - Pattern looks like a filename: \"*.js\", \"READ"
+        },
+        {
+          "name": "get_more_search_results",
+          "description": "\n                        Get more results from an active search with offset-based pagination.\n                        \n                        Supports partial result reading with:\n                        - 'offset' (start result index, default: 0)\n                          * Positive: Start from result N (0-based indexing)\n                          * Negative: Read last N results from end (tail behavior)\n                        - 'length' (max results to read, default: 100)\n                    "
+        },
+        {
+          "name": "stop_search",
+          "description": "\n                        Stop an active search.\n                        \n                        Stops the background search process gracefully. Use this when you've found\n                        what you need or if a search is taking too long. Similar to force_terminate\n                        for terminal processes.\n                        \n                        The search will still be available for reading final results until it's\n                        automatically cleaned up after 5 mi"
+        },
+        {
+          "name": "list_searches",
+          "description": "\n                        List all active searches.\n                        \n                        Shows search IDs, search types, patterns, status, and runtime.\n                        Similar to list_sessions for terminal processes. Useful for managing\n                        multiple concurrent searches.\n                        \n                        This command can be referenced as \"DC: ...\" or \"use Desktop Commander to ...\" in your instructions."
+        },
+        {
+          "name": "get_file_info",
+          "description": "\n                        Retrieve detailed metadata about a file or directory including:\n                        - size\n                        - creation time\n                        - last modified time\n                        - permissions\n                        - type\n                        - lineCount (for text files)\n                        - lastLine (zero-indexed number of last line, for text files)\n                        - appendPosition (line number for appending, for text files)\n  "
+        },
+        {
+          "name": "edit_block",
+          "description": "\n                        Apply surgical edits to files.\n\n                        BEST PRACTICE: Make multiple small, focused edits rather than one large edit.\n                        Each edit_block call should change only what needs to be changed - include just enough\n                        context to uniquely identify the text being modified.\n\n                        FORMAT HANDLING (by extension):\n\n                        EXCEL FILES (.xlsx, .xls, .xlsm) - Range Update mode:\n                "
+        },
+        {
+          "name": "start_process",
+          "description": "\n                        Start a new terminal process with intelligent state detection.\n                        \n                        PRIMARY TOOL FOR FILE ANALYSIS AND DATA PROCESSING\n                        This is the ONLY correct tool for analyzing local files (CSV, JSON, logs, etc.).\n                        The analysis tool CANNOT access local files and WILL FAIL - always use processes for file-based work.\n                        \n                        CRITICAL RULE: For ANY local fil"
+        },
+        {
+          "name": "read_process_output",
+          "description": "\n                        Read output from a running process with file-like pagination support.\n                        \n                        Supports partial output reading with offset and length parameters (like read_file):\n                        - 'offset' (start line, default: 0)\n                          * offset=0: Read NEW output since last read (default, like old behavior)\n                          * Positive: Read from absolute line position\n                          * Negative: Read"
+        },
+        {
+          "name": "interact_with_process",
+          "description": "\n                        Send input to a running process and automatically receive the response.\n                        \n                        CRITICAL: THIS IS THE PRIMARY TOOL FOR ALL LOCAL FILE ANALYSIS\n                        For ANY local file analysis (CSV, JSON, data processing), ALWAYS use this instead of the analysis tool.\n                        The analysis tool CANNOT access local files and WILL FAIL - use processes for ALL file-based work.\n                        \n               "
+        },
+        {
+          "name": "force_terminate",
+          "description": "\n                        Force terminate a running terminal session.\n                        \n                        This command can be referenced as \"DC: ...\" or \"use Desktop Commander to ...\" in your instructions."
+        },
+        {
+          "name": "list_sessions",
+          "description": "\n                        List all active terminal sessions.\n                        \n                        Shows session status including:\n                        - PID: Process identifier  \n                        - Blocked: Whether session is waiting for input\n                        - Runtime: How long the session has been running\n                        \n                        DEBUGGING REPLs:\n                        - \"Blocked: true\" often means REPL is waiting for input\n                "
+        },
+        {
+          "name": "list_processes",
+          "description": "\n                        List all running processes.\n                        \n                        Returns process information including PID, command name, CPU usage, and memory usage.\n                        \n                        This command can be referenced as \"DC: ...\" or \"use Desktop Commander to ...\" in your instructions."
+        },
+        {
+          "name": "kill_process",
+          "description": "\n                        Terminate a running process by PID.\n\n                        Use with caution as this will forcefully terminate the specified process.\n\n                        This command can be referenced as \"DC: ...\" or \"use Desktop Commander to ...\" in your instructions."
+        },
+        {
+          "name": "get_usage_stats",
+          "description": "\n                        Get usage statistics for debugging and analysis.\n                        \n                        Returns summary of tool usage, success/failure rates, and performance metrics.\n                        \n                        This command can be referenced as \"DC: ...\" or \"use Desktop Commander to ...\" in your instructions."
+        },
+        {
+          "name": "get_recent_tool_calls",
+          "description": "\n                        Get recent tool call history with their arguments and outputs.\n                        Returns chronological list of tool calls made during this session.\n                        \n                        Useful for:\n                        - Onboarding new chats about work already done\n                        - Recovering context after chat history loss\n                        - Debugging tool call sequences\n                        \n                        Note: Does not "
+        },
+        {
+          "name": "give_feedback_to_desktop_commander",
+          "description": "\n                        Open feedback form in browser to provide feedback about Desktop Commander.\n                        \n                        IMPORTANT: This tool simply opens the feedback form - no pre-filling available.\n                        The user will fill out the form manually in their browser.\n                        \n                        WORKFLOW:\n                        1. When user agrees to give feedback, just call this tool immediately\n                        2. No need "
+        },
+        {
+          "name": "get_prompts",
+          "description": "\n                        Retrieve a specific Desktop Commander onboarding prompt by ID and execute it.\n                        \n                        SIMPLIFIED ONBOARDING V2: This tool only supports direct prompt retrieval.\n                        The onboarding system presents 5 options as a simple numbered list:\n                        \n                        1. Organize my Downloads folder (promptId: 'onb2_01')\n                        2. Explain a codebase or repository (promptId: 'onb2_0"
+        }
+      ],
+      "findings": [
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "read_file",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "write_file",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "write_pdf",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "create_directory",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "list_directory",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "start_search",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "get_file_info",
+          "context": "input-schema"
+        },
+        {
+          "type": "dangerous-input-parameter",
+          "severity": "HIGH",
+          "description": "Parameter 'command' accepts arbitrary string input for execution",
+          "parameter": "command",
+          "tool_name": "start_process",
+          "context": "input-schema"
+        }
+      ]
+    },
+    {
+      "server": "fmea-api-mcp-server",
+      "category": "filesystem",
+      "tools_count": 5,
+      "tools": [
+        {
+          "name": "search_apis",
+          "description": "Search for API endpoints by keyword across all documentation files. Returns summarized results."
+        },
+        {
+          "name": "list_all_apis",
+          "description": "List all available API endpoints (method + path). No parameters required. Use this to get a complete overview of the API surface."
+        },
+        {
+          "name": "get_api_details",
+          "description": "Get full details including schema and parameters for a specific API endpoint."
+        },
+        {
+          "name": "get_changes",
+          "description": "Get API endpoint changelog. Shows what endpoints/parameters were added, removed, or modified across versions. Includes enum changes when available."
+        },
+        {
+          "name": "get_enums",
+          "description": "Get all Java enum definitions from the API codebase. Returns enum names and their constant values."
+        }
+      ],
+      "findings": [
+        {
+          "type": "dangerous-input-parameter",
+          "severity": "HIGH",
+          "description": "Parameter 'query' accepts arbitrary string input for execution",
+          "parameter": "query",
+          "tool_name": "search_apis",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "search_apis",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "get_api_details",
+          "context": "input-schema"
+        }
+      ]
+    },
+    {
+      "server": "@metamask/client-mcp-core",
+      "category": "ai-ml",
+      "tools_count": 0,
+      "findings": [],
+      "error": "npm error could not determine executable to run\nnpm error A complete log of this run can be found in: /Users/suphi/.npm/_logs/2026-04-03T10_14_58_459Z-debug-0.log\n{\"error\": \"unhandled errors in a Task"
+    },
+    {
+      "server": "youtube-data-mcp-server",
+      "category": "data-processing",
+      "tools_count": 0,
+      "findings": [],
+      "error": "Error: YOUTUBE_API_KEY environment variable is not set.\n{\"error\": \"unhandled errors in a TaskGroup (1 sub-exception)\"}"
+    },
+    {
+      "server": "@arabold/docs-mcp-server",
+      "category": "web-browsing",
+      "tools_count": 0,
+      "findings": [],
+      "error": "Connection timeout (30s)"
+    },
+    {
+      "server": "secondbrainos-mcp-server",
+      "category": "system",
+      "tools_count": 0,
+      "findings": [],
+      "error": "Usage: secondbrainos-mcp USER_ID:USER_SECRET\n   or: secondbrainos-mcp USER_ID USER_SECRET\n   or: secondbrainos-mcp serve\n{\"error\": \"unhandled errors in a TaskGroup (1 sub-exception)\"}"
+    },
+    {
+      "server": "mcp-server-docker",
+      "category": "devtools",
+      "tools_count": 1,
+      "tools": [
+        {
+          "name": "run_command",
+          "description": "Execute a command inside a Docker container service"
+        }
+      ],
+      "findings": [
+        {
+          "type": "dangerous-input-parameter",
+          "severity": "HIGH",
+          "description": "Parameter 'command' accepts arbitrary string input for execution",
+          "parameter": "command",
+          "tool_name": "run_command",
+          "context": "input-schema"
+        }
+      ]
+    },
+    {
+      "server": "@browsermcp/mcp",
+      "category": "web-browsing",
+      "tools_count": 12,
+      "tools": [
+        {
+          "name": "browser_navigate",
+          "description": "Navigate to a URL"
+        },
+        {
+          "name": "browser_go_back",
+          "description": "Go back to the previous page"
+        },
+        {
+          "name": "browser_go_forward",
+          "description": "Go forward to the next page"
+        },
+        {
+          "name": "browser_snapshot",
+          "description": "Capture accessibility snapshot of the current page. Use this for getting references to elements to interact with."
+        },
+        {
+          "name": "browser_click",
+          "description": "Perform click on a web page"
+        },
+        {
+          "name": "browser_hover",
+          "description": "Hover over element on page"
+        },
+        {
+          "name": "browser_type",
+          "description": "Type text into editable element"
+        },
+        {
+          "name": "browser_select_option",
+          "description": "Select an option in a dropdown"
+        },
+        {
+          "name": "browser_press_key",
+          "description": "Press a key on the keyboard"
+        },
+        {
+          "name": "browser_wait",
+          "description": "Wait for a specified time in seconds"
+        },
+        {
+          "name": "browser_get_console_logs",
+          "description": "Get the console logs from the browser"
+        },
+        {
+          "name": "browser_screenshot",
+          "description": "Take a screenshot of the current page"
+        }
+      ],
+      "findings": [
+        {
+          "type": "url-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'url' accepts arbitrary URLs \u2014 potential SSRF vector",
+          "parameter": "url",
+          "tool_name": "browser_navigate",
+          "context": "input-schema"
+        }
+      ]
+    },
+    {
+      "server": "@drawio/mcp",
+      "category": "ai-ml",
+      "tools_count": 3,
+      "tools": [
+        {
+          "name": "open_drawio_xml",
+          "description": "Opens the draw.io editor with a diagram from XML content. Use this to view, edit, or create diagrams in draw.io format. The XML should be valid draw.io/mxGraph XML format.\n\n# draw.io XML Reference\n\nDetailed reference for styles, edge routing, containers, layers, tags, metadata, and dark mode. Consult this when generating draw.io XML diagrams.\n\n## General principles\n\n- **Use proper draw.io shapes and connectors** \u2014 choose the semantically correct shape for each element (e.g., `shape=cylinder3` fo"
+        },
+        {
+          "name": "open_drawio_csv",
+          "description": "Opens the draw.io editor with a diagram generated from CSV data. The CSV format should follow draw.io's CSV import specification which allows creating org charts, flowcharts, and other diagrams from tabular data."
+        },
+        {
+          "name": "open_drawio_mermaid",
+          "description": "Opens the draw.io editor with a diagram generated from Mermaid.js syntax. Supports flowcharts, sequence diagrams, class diagrams, state diagrams, entity relationship diagrams, and more using Mermaid.js syntax."
+        }
+      ],
+      "findings": []
+    },
+    {
+      "server": "@gatling.io/gatling-mcp-server",
+      "category": "devtools",
+      "tools_count": 4,
+      "tools": [
+        {
+          "name": "list_gatling_enterprise_teams",
+          "description": "List all existing teams in Gatling Enterprise"
+        },
+        {
+          "name": "list_gatling_enterprise_packages",
+          "description": "List all packages deployed in Gatling Enterprise. Managed packages are stored on Gatling Enterprise, private packages are stored on the infrastructure of the user's organization."
+        },
+        {
+          "name": "list_gatling_enterprise_tests",
+          "description": "List all tests (aka simulations) deployed in Gatling Enterprise"
+        },
+        {
+          "name": "list_gatling_enterprise_locations",
+          "description": "List all managed and private locations where tests can be run on Gatling Enterprise. Group managed location IDs by region, private location IDs by type."
+        }
+      ],
+      "findings": []
+    },
+    {
+      "server": "@cyanheads/git-mcp-server",
+      "category": "devtools",
+      "tools_count": 28,
+      "tools": [
+        {
+          "name": "git_add",
+          "description": "Stage files for commit. Add file contents to the staging area (index) to prepare for the next commit."
+        },
+        {
+          "name": "git_blame",
+          "description": "Show line-by-line authorship information for a file, displaying who last modified each line and when. For large files, use startLine/endLine to limit output."
+        },
+        {
+          "name": "git_branch",
+          "description": "Manage branches: list all branches, show current branch, create a new branch, delete a branch, or rename a branch."
+        },
+        {
+          "name": "git_changelog_analyze",
+          "description": "Gather git history context (commits, tags) and structured review instructions to support LLM-driven changelog analysis. Changelog file should be read separately; this tool provides the supporting git data and analysis framework. Pass one or more review types to control what kind of analysis to perform."
+        },
+        {
+          "name": "git_checkout",
+          "description": "Switch branches or restore working tree files. Can checkout an existing branch, create a new branch, or restore specific files."
+        },
+        {
+          "name": "git_cherry_pick",
+          "description": "Cherry-pick commits from other branches. Apply specific commits to the current branch without merging entire branches."
+        },
+        {
+          "name": "git_clean",
+          "description": "Remove untracked files from the working directory. Requires force flag for safety. Use dry-run to preview files that would be removed."
+        },
+        {
+          "name": "git_clear_working_dir",
+          "description": "Clear the session working directory setting. This resets the context without restarting the server. Subsequent git operations will require an explicit path parameter unless git_set_working_dir is called again."
+        },
+        {
+          "name": "git_clone",
+          "description": "Clone a repository from a remote URL to a local path. Supports HTTP/HTTPS and SSH URLs, with optional shallow cloning."
+        },
+        {
+          "name": "git_commit",
+          "description": "Create a new commit with staged changes in the repository. Records a snapshot of the staging area with a commit message.\n\n**Commit Message Format:**\nPass commit messages as JSON string parameters. Multi-line messages are supported using standard JSON string escaping.\n\n**Examples:**\n- Single line: { \"message\": \"feat: add user authentication\" }\n- Multi-line: { \"message\": \"feat: add user authentication\\n\\nImplemented OAuth2 flow with JWT tokens.\\nAdded tests for login and logout.\" }\n\nNote: Do not u"
+        },
+        {
+          "name": "git_diff",
+          "description": "View differences between commits, branches, or working tree. Shows changes in unified diff format."
+        },
+        {
+          "name": "git_fetch",
+          "description": "Fetch updates from a remote repository. Downloads objects and refs without merging them."
+        },
+        {
+          "name": "git_init",
+          "description": "Initialize a new Git repository at the specified path. Creates a .git directory and sets up the initial branch."
+        },
+        {
+          "name": "git_log",
+          "description": "View commit history with optional filtering by author, date range, file path, or commit message pattern."
+        },
+        {
+          "name": "git_merge",
+          "description": "Merge branches together. Integrates changes from another branch into the current branch with optional merge strategies."
+        },
+        {
+          "name": "git_pull",
+          "description": "Pull changes from a remote repository. Fetches and integrates changes into the current branch."
+        },
+        {
+          "name": "git_push",
+          "description": "Push changes to a remote repository. Uploads local commits to the remote branch."
+        },
+        {
+          "name": "git_rebase",
+          "description": "Rebase commits onto another branch. Reapplies commits on top of another base tip for a cleaner history."
+        },
+        {
+          "name": "git_reflog",
+          "description": "View the reference logs (reflog) to track when branch tips and other references were updated. Useful for recovering lost commits."
+        },
+        {
+          "name": "git_remote",
+          "description": "Manage remote repositories: list remotes, add new remotes, remove remotes, rename remotes, or get/set remote URLs."
+        },
+        {
+          "name": "git_reset",
+          "description": "Reset current HEAD to specified state. Can be used to unstage files (soft), discard commits (mixed), or discard all changes (hard)."
+        },
+        {
+          "name": "git_set_working_dir",
+          "description": "Set the session working directory for all git operations. This allows subsequent git commands to omit the path parameter and use this directory as the default."
+        },
+        {
+          "name": "git_show",
+          "description": "Show details of a git object (commit, tree, blob, or tag). Displays commit information and the diff of changes introduced."
+        },
+        {
+          "name": "git_stash",
+          "description": "Manage stashes: list stashes, save current changes (push), restore changes (pop/apply), or remove stashes (drop/clear)."
+        },
+        {
+          "name": "git_status",
+          "description": "Show the working tree status including staged, unstaged, and untracked files."
+        },
+        {
+          "name": "git_tag",
+          "description": "Manage tags: list all tags, create a new tag, or delete a tag. Tags are used to mark specific points in history (releases, milestones)."
+        },
+        {
+          "name": "git_worktree",
+          "description": "Manage multiple working trees: list worktrees, add new worktrees for parallel work, remove worktrees, or move worktrees to new locations."
+        },
+        {
+          "name": "git_wrapup_instructions",
+          "description": "Provides the user's desired Git wrap-up workflow and instructions. Returns custom workflow steps (if configured) or default best practices for reviewing, documenting, and committing changes. Includes current repository status to guide next actions."
+        }
+      ],
+      "findings": [
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "git_add",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "git_blame",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'file' accepts arbitrary file paths without validation",
+          "parameter": "file",
+          "tool_name": "git_blame",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "git_branch",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "git_changelog_analyze",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "git_checkout",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "git_cherry_pick",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "git_clean",
+          "context": "input-schema"
+        },
+        {
+          "type": "url-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'url' accepts arbitrary URLs \u2014 potential SSRF vector",
+          "parameter": "url",
+          "tool_name": "git_clone",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "git_commit",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "git_diff",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "git_fetch",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "git_init",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "git_log",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "git_merge",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "git_pull",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "git_push",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "git_rebase",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "git_reflog",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "git_remote",
+          "context": "input-schema"
+        },
+        {
+          "type": "url-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'url' accepts arbitrary URLs \u2014 potential SSRF vector",
+          "parameter": "url",
+          "tool_name": "git_remote",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "git_reset",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "git_set_working_dir",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "git_show",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "git_stash",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "git_status",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "git_tag",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "git_worktree",
+          "context": "input-schema"
+        }
+      ]
+    },
+    {
+      "server": "supabase-mcp",
+      "category": "database",
+      "tools_count": 0,
+      "findings": [],
+      "error": "file:///Users/suphi/.npm/_npx/8d28d5614fbc87a2/node_modules/@supabase/supabase-js/dist/index.mjs:150\n\tif (!trimmedUrl) throw new Error(\"supabaseUrl is required.\");\n\t                       ^\n\nError: su"
+    },
+    {
+      "server": "@fangjunjie/ssh-mcp-server",
+      "category": "system",
+      "tools_count": 0,
+      "findings": [],
+      "error": "[2026-04-03T10:16:36.092Z] [ERROR] \u3010SSH MCP Server Error\u3011: Missing required parameters, need to provide host, port, username and password, private key or agent\n{\"error\": \"unhandled errors in a TaskGro"
+    },
+    {
+      "server": "@henkey/postgres-mcp-server",
+      "category": "database",
+      "tools_count": 19,
+      "tools": [
+        {
+          "name": "pg_analyze_database",
+          "description": "Analyze PostgreSQL database configuration and performance"
+        },
+        {
+          "name": "pg_manage_functions",
+          "description": "Manage PostgreSQL functions - get, create, or drop functions with a single tool. Examples: operation=\"get\" to list functions, operation=\"create\" with functionName=\"test_func\", parameters=\"\" (empty for no params), returnType=\"TEXT\", functionBody=\"SELECT 'Hello'\""
+        },
+        {
+          "name": "pg_manage_rls",
+          "description": "Manage PostgreSQL Row-Level Security - enable/disable RLS and manage policies. Examples: operation=\"enable\" with tableName=\"users\", operation=\"create_policy\" with tableName, policyName, using, check"
+        },
+        {
+          "name": "pg_debug_database",
+          "description": "Debug common PostgreSQL issues"
+        },
+        {
+          "name": "pg_manage_schema",
+          "description": "Manage PostgreSQL schema - get schema info, create/alter tables, manage enums. Examples: operation=\"get_info\" for table lists, operation=\"create_table\" with tableName and columns, operation=\"get_enums\" to list enums, operation=\"create_enum\" with enumName and values"
+        },
+        {
+          "name": "pg_export_table_data",
+          "description": "Export table data to JSON or CSV format"
+        },
+        {
+          "name": "pg_import_table_data",
+          "description": "Import data from JSON or CSV file into a table"
+        },
+        {
+          "name": "pg_copy_between_databases",
+          "description": "Copy data between two databases"
+        },
+        {
+          "name": "pg_monitor_database",
+          "description": "Get real-time monitoring information for a PostgreSQL database"
+        },
+        {
+          "name": "pg_get_setup_instructions",
+          "description": "Get step-by-step PostgreSQL setup instructions"
+        },
+        {
+          "name": "pg_manage_triggers",
+          "description": "Manage PostgreSQL triggers - get, create, drop, and enable/disable triggers. Examples: operation=\"get\" to list triggers, operation=\"create\" with triggerName, tableName, functionName, operation=\"drop\" with triggerName and tableName, operation=\"set_state\" with triggerName, tableName, enable"
+        },
+        {
+          "name": "pg_manage_indexes",
+          "description": "Manage PostgreSQL indexes - get, create, drop, reindex, and analyze usage with a single tool. Examples: operation=\"get\" to list indexes, operation=\"create\" with indexName, tableName, columns, operation=\"analyze_usage\" for performance analysis"
+        },
+        {
+          "name": "pg_manage_query",
+          "description": "Manage PostgreSQL query analysis and performance - operation=\"explain\" for EXPLAIN plans, operation=\"get_slow_queries\" for slow query analysis, operation=\"get_stats\" for query statistics, operation=\"reset_stats\" for clearing statistics"
+        },
+        {
+          "name": "pg_manage_users",
+          "description": "Manage PostgreSQL users and permissions - create, drop, alter users, grant/revoke permissions. Examples: operation=\"create\" with username=\"testuser\", operation=\"grant\" with username, permissions, target, targetType"
+        },
+        {
+          "name": "pg_manage_constraints",
+          "description": "Manage PostgreSQL constraints - get, create foreign keys, drop foreign keys, create constraints, drop constraints. Examples: operation=\"get\" to list constraints, operation=\"create_fk\" with constraintName, tableName, columnNames, referencedTable, referencedColumns"
+        },
+        {
+          "name": "pg_execute_query",
+          "description": "Execute SELECT queries and data retrieval operations - operation=\"select/count/exists\" with query and optional parameters. Examples: operation=\"select\", query=\"SELECT * FROM users WHERE created_at > $1\", parameters=[\"2024-01-01\"]"
+        },
+        {
+          "name": "pg_execute_mutation",
+          "description": "Execute data modification operations (INSERT/UPDATE/DELETE/UPSERT) - operation=\"insert/update/delete/upsert\" with table and data. Examples: operation=\"insert\", table=\"users\", data={\"name\":\"John\",\"email\":\"john@example.com\"}"
+        },
+        {
+          "name": "pg_execute_sql",
+          "description": "Execute arbitrary SQL statements - sql=\"ANY_VALID_SQL\" with optional parameters and transaction support. Examples: sql=\"CREATE INDEX ...\", sql=\"WITH complex_cte AS (...) SELECT ...\", transactional=true"
+        },
+        {
+          "name": "pg_manage_comments",
+          "description": "Manage PostgreSQL object comments - get, set, remove comments on tables, columns, functions, and other database objects. Examples: operation=\"get\" with objectType=\"table\", objectName=\"users\", operation=\"set\" with comment text, operation=\"bulk_get\" for discovery"
+        }
+      ],
+      "findings": [
+        {
+          "type": "dangerous-input-parameter",
+          "severity": "HIGH",
+          "description": "Parameter 'command' accepts arbitrary string input for execution",
+          "parameter": "command",
+          "tool_name": "pg_manage_rls",
+          "context": "input-schema"
+        },
+        {
+          "type": "dangerous-input-parameter",
+          "severity": "HIGH",
+          "description": "Parameter 'query' accepts arbitrary string input for execution",
+          "parameter": "query",
+          "tool_name": "pg_manage_query",
+          "context": "input-schema"
+        },
+        {
+          "type": "dangerous-input-parameter",
+          "severity": "HIGH",
+          "description": "Parameter 'query' accepts arbitrary string input for execution",
+          "parameter": "query",
+          "tool_name": "pg_execute_query",
+          "context": "input-schema"
+        },
+        {
+          "type": "arbitrary-execution",
+          "severity": "CRITICAL",
+          "description": "Tool allows arbitrary code/command execution",
+          "match": "Execute arbitrary SQL",
+          "tool_name": "pg_execute_sql",
+          "context": "tool-description"
+        },
+        {
+          "type": "dangerous-input-parameter",
+          "severity": "HIGH",
+          "description": "Parameter 'sql' accepts arbitrary string input for execution",
+          "parameter": "sql",
+          "tool_name": "pg_execute_sql",
+          "context": "input-schema"
+        }
+      ]
+    },
+    {
+      "server": "vercel-mcp-server",
+      "category": "devtools",
+      "tools_count": 0,
+      "findings": [],
+      "error": "sh: vercel-mcp: command not found\n{\"error\": \"unhandled errors in a TaskGroup (1 sub-exception)\"}"
+    },
+    {
+      "server": "@ergut/mcp-bigquery-server",
+      "category": "database",
+      "tools_count": 0,
+      "findings": [],
+      "error": "Initialization error: Error: Missing required argument: --project-id\nUsage: mcp-server-bigquery --project-id <project-id> [--location <location>] [--key-file <path-to-key-file>]\n    at parseArgs (file"
+    },
+    {
+      "server": "mcp-server-filesystem",
+      "category": "filesystem",
+      "tools_count": 0,
+      "findings": [],
+      "error": "npm warn deprecated glob@10.5.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support fo"
+    },
+    {
+      "server": "mcp-server-sqlite-npx",
+      "category": "database",
+      "tools_count": 0,
+      "findings": [],
+      "error": "npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, whic"
+    },
+    {
+      "server": "mysql-mcp-server",
+      "category": "database",
+      "tools_count": 0,
+      "findings": [],
+      "error": "[Fatal] Failed to initialize MySQL connection: Error: MYSQL_HOST environment variable is required\n    at getConfigFromEnv (file:///Users/suphi/.npm/_npx/58eed5751e5ff699/node_modules/mysql-mcp-server/"
+    },
+    {
+      "server": "targetprocess-mcp-server",
+      "category": "system",
+      "tools_count": 16,
+      "tools": [
+        {
+          "name": "get_user_story_content",
+          "description": "Get tp card (user story) content by specified id, e.g. 145789"
+        },
+        {
+          "name": "get_current_releases",
+          "description": "Get current releases"
+        },
+        {
+          "name": "get_release_user_stories",
+          "description": "Get release user stories"
+        },
+        {
+          "name": "get_release_bugs",
+          "description": "Get release bugs"
+        },
+        {
+          "name": "get_release_features",
+          "description": "Get release features"
+        },
+        {
+          "name": "get_release_user_stories_with_description",
+          "description": "Get release user stories with description in the response.\n      Note: this is slower than \"get_release_user_stories_names\" tool,\n      but if user wants to get descriptions, then this tool is the way to go.\n    "
+        },
+        {
+          "name": "get_release_open_bugs",
+          "description": "Get release active bugs (bugs that are not closed, done, passed, ready to deploy)"
+        },
+        {
+          "name": "get_release_open_user_stories",
+          "description": "Get release active user stories (user stories that are not closed, done, passed, ready to deploy)"
+        },
+        {
+          "name": "search_all_cards_by_keyword",
+          "description": "Searches tp cards (user stories, bugs, features) by keyword or partial name or partial keyphrase e.g. \"Text Element\""
+        },
+        {
+          "name": "get_bug_content",
+          "description": "Get tp card (bug) content by specified id, e.g. 145789"
+        },
+        {
+          "name": "add_comment",
+          "description": "Adds provided content as a comment to the specified tp card by id, e.g. 145789"
+        },
+        {
+          "name": "get_user_story_comments",
+          "description": "Get comments for a TP user story by its ID"
+        },
+        {
+          "name": "get_bug_comments",
+          "description": "Get comments for a TP bug by its ID"
+        },
+        {
+          "name": "create_bug",
+          "description": "Create a new bug card based on provided card id that summarizes the problem in concise,\n      descriptive manner answering questions What? Where? When?,\n      and content explaining what happened in detail.\n      CRITICAL WORKFLOW: Before calling this tool, you MUST follow these steps: \n        1) IF you already have user story or bug card content, proceed to step 3 skipping step 2;\n        2) ELSE call \"get_user_story_content\" tool or \"get_bug_content\" tool to get user story or bug card content"
+        },
+        {
+          "name": "create_test_plan",
+          "description": "Create a new test plan with provided title and user story id"
+        },
+        {
+          "name": "get_logged_in_user",
+          "description": "Get logged in user"
+        }
+      ],
+      "findings": []
+    },
+    {
+      "server": "user-postgresql-mcp",
+      "category": "database",
+      "tools_count": 0,
+      "findings": [],
+      "error": "[postgresql-mcp] Database configuration is required. Set PG_CONNECTION_STRING or all of PGHOST, PGPORT, PGDATABASE, PGUSER, PGPASSWORD.\n{\"error\": \"unhandled errors in a TaskGroup (1 sub-exception)\"}"
+    },
+    {
+      "server": "@laskarks/mcp-rag-node",
+      "category": "ai-ml",
+      "tools_count": 0,
+      "findings": [],
+      "error": "Server error: Error: Invalid PROVIDER: \"undefined\". Must be one of: openai, openrouter\n    at parseProvider (file:///Users/suphi/.npm/_npx/da6407c9367a59b0/node_modules/@laskarks/mcp-rag-node/dist/ind"
+    },
+    {
+      "server": "@jsonresume/mcp",
+      "category": "data-processing",
+      "tools_count": 0,
+      "findings": [],
+      "error": "npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead\n/Users/suphi/.npm/_npx/3d28d32c40f6888d/node_modules/@jsonresume/mcp/dist/index.cjs:58592\n    var origSlowB"
+    },
+    {
+      "server": "hyper-mcp-shell",
+      "category": "system",
+      "tools_count": 1,
+      "tools": [
+        {
+          "name": "execute-command",
+          "description": "The current OS is darwin. Executing command"
+        }
+      ],
+      "findings": [
+        {
+          "type": "dangerous-input-parameter",
+          "severity": "HIGH",
+          "description": "Parameter 'command' accepts arbitrary string input for execution",
+          "parameter": "command",
+          "tool_name": "execute-command",
+          "context": "input-schema"
+        }
+      ]
+    },
+    {
+      "server": "@jsonresume/jsonresume-mcp",
+      "category": "data-processing",
+      "tools_count": 0,
+      "findings": [],
+      "error": "npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead\n/Users/suphi/.npm/_npx/579c0e8091a78b92/node_modules/@jsonresume/jsonresume-mcp/dist/index.cjs:6710\n    var"
+    },
+    {
+      "server": "@mcpflow.io/mcp",
+      "category": "data-processing",
+      "tools_count": 0,
+      "findings": [],
+      "error": "npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead\nTraceback (most recent call last):\n  File \"/Library/Frameworks/Python.framework/Versions/3.10/bin/mcp\", lin"
+    },
+    {
+      "server": "mcp-demo-example",
+      "category": "filesystem",
+      "tools_count": 0,
+      "findings": [],
+      "error": "npm error could not determine executable to run\nnpm error A complete log of this run can be found in: /Users/suphi/.npm/_logs/2026-04-03T10_18_25_613Z-debug-0.log\n{\"error\": \"unhandled errors in a Task"
+    },
+    {
+      "server": "valjs-mcp-beta",
+      "category": "data-processing",
+      "tools_count": 0,
+      "findings": [],
+      "error": "npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead\nvaljs MCP Server running on stdio\n{\"error\": \"unhandled errors in a TaskGroup (1 sub-exception)\"}"
+    },
+    {
+      "server": "@adisuryanathanael/mcp-server-filesystem2",
+      "category": "filesystem",
+      "tools_count": 0,
+      "findings": [],
+      "error": "npm warn deprecated glob@10.5.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support fo"
+    },
+    {
+      "server": "@iflow-mcp/openai-gpt-image-mcp",
+      "category": "ai-ml",
+      "tools_count": 2,
+      "tools": [
+        {
+          "name": "create-image",
+          "description": ""
+        },
+        {
+          "name": "edit-image",
+          "description": ""
+        }
+      ],
+      "findings": []
+    },
+    {
+      "server": "@modelcontextprotocol/server-system-monitor",
+      "category": "system",
+      "tools_count": 0,
+      "findings": [],
+      "error": "Connection timeout (30s)"
+    },
+    {
+      "server": "@dockbrain/mcp-filesystem-demo",
+      "category": "filesystem",
+      "tools_count": 0,
+      "findings": [],
+      "error": "npm error could not determine executable to run\nnpm error A complete log of this run can be found in: /Users/suphi/.npm/_logs/2026-04-03T10_19_19_826Z-debug-0.log\n{\"error\": \"unhandled errors in a Task"
+    },
+    {
+      "server": "@dandeliongold/server-everything",
+      "category": "code-execution",
+      "tools_count": 0,
+      "findings": [],
+      "error": "Server error: Error: Server does not support completions (required for completion/complete)\n    at Server.assertRequestHandlerCapability (file:///Users/suphi/.npm/_npx/a2cb1fb9ce096d0a/node_modules/@m"
+    },
+    {
+      "server": "@dennisk2025/text-alternating-case",
+      "category": "data-processing",
+      "tools_count": 0,
+      "findings": [],
+      "error": "node:internal/modules/esm/resolve:271\n    throw new ERR_MODULE_NOT_FOUND(\n          ^\n\nError [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/suphi/.npm/_npx/f22efa9c20da935c/node_modules/@modelcont"
+    },
+    {
+      "server": "modelcontextprotocol-eval",
+      "category": "code-execution",
+      "tools_count": 0,
+      "findings": [],
+      "error": "node:internal/modules/package_json_reader:301\n  throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);\n        ^\n\nError [ERR_MODULE_NOT_FOUND]: Cannot find package 'dotenv' imported f"
+    },
+    {
+      "server": "@ouedyan/modelcontextprotocol-server-filesystem",
+      "category": "filesystem",
+      "tools_count": 0,
+      "findings": [],
+      "error": "npm warn deprecated glob@10.5.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support fo"
+    },
+    {
+      "server": "@balakumar.dev/mcpkit",
+      "category": "system",
+      "tools_count": 0,
+      "findings": [],
+      "error": "Usage: mcpkit [options] [command]\n\nTurn any MCP server into CLI commands + lightweight agent skills\n\nOptions:\n  -V, --version                            output the version number\n  -h, --help         "
+    },
+    {
+      "server": "@cyanheads/mcp-ts-core",
+      "category": "ai-ml",
+      "tools_count": 0,
+      "findings": [],
+      "error": "Failed to parse JSONRPC message from server\nTraceback (most recent call last):\n  File \"/Users/suphi/appsecsanta-research/mcp-server-security-audit-2026/venv312/lib/python3.12/site-packages/mcp/client/"
+    },
+    {
+      "server": "containerization-assist-mcp",
+      "category": "devtools",
+      "tools_count": 0,
+      "findings": [],
+      "error": "npm warn deprecated glob@11.1.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support fo"
+    },
+    {
+      "server": "mcp-ts-template",
+      "category": "devtools",
+      "tools_count": 7,
+      "tools": [
+        {
+          "name": "template_cat_fact",
+          "description": "Fetches a random cat fact from a public API with an optional maximum length."
+        },
+        {
+          "name": "template_code_review_sampling",
+          "description": "Demonstrates MCP sampling by requesting an LLM to review code snippets. The tool uses the client's LLM to generate a code review summary."
+        },
+        {
+          "name": "template_echo_message",
+          "description": "Echoes a message back with optional formatting and repetition."
+        },
+        {
+          "name": "template_image_test",
+          "description": "Fetches a random cat image and returns it base64-encoded with the MIME type. Useful for testing image handling."
+        },
+        {
+          "name": "template_madlibs_elicitation",
+          "description": "Plays a game of Mad Libs. If any parts of speech (noun, verb, adjective) are missing, it will use elicitation to ask the user for them."
+        },
+        {
+          "name": "template_data_explorer",
+          "description": "Generates sample sales data and renders an interactive explorer. Users can sort columns, filter rows, and select entries directly in the UI. Hosts without MCP Apps support receive a text table."
+        },
+        {
+          "name": "template_async_countdown",
+          "description": "Demonstrates the MCP Tasks API with a countdown timer. When the client supports tasks, returns immediately with a task handle for polling. Otherwise, runs synchronously and returns the result directly."
+        }
+      ],
+      "findings": [
+        {
+          "type": "dangerous-input-parameter",
+          "severity": "HIGH",
+          "description": "Parameter 'code' accepts arbitrary string input for execution",
+          "parameter": "code",
+          "tool_name": "template_code_review_sampling",
+          "context": "input-schema"
+        }
+      ]
+    },
+    {
+      "server": "@robinmordasiewicz/f5xc-terraform-mcp",
+      "category": "devtools",
+      "tools_count": 8,
+      "tools": [
+        {
+          "name": "f5xc_terraform_discover",
+          "description": "Discover available F5XC Terraform MCP tools with optional schema details"
+        },
+        {
+          "name": "f5xc_terraform_docs",
+          "description": "F5XC Terraform docs - search, get, or list resources/data-sources/functions/guides"
+        },
+        {
+          "name": "f5xc_terraform_api",
+          "description": "Query 270+ F5XC OpenAPI specs - search, get, find endpoints, schema definitions"
+        },
+        {
+          "name": "f5xc_terraform_subscription",
+          "description": "Check F5XC resource subscription tiers and advanced feature requirements"
+        },
+        {
+          "name": "f5xc_terraform_addon",
+          "description": "List, check activation, and get workflows for F5XC addon services"
+        },
+        {
+          "name": "f5xc_terraform_metadata",
+          "description": "Query resource metadata for deterministic Terraform configuration generation. Operations: minimum_config (minimal required fields with recommended values), oneof (mutually exclusive fields), validation (regex/range patterns), defaults, enums, attribute (full metadata), requires_replace, tier (subscription requirements), dependencies (creation order), troubleshoot (error remediation), syntax (correct Terraform block vs attribute syntax), validate (check config for syntax errors), example (generat"
+        },
+        {
+          "name": "f5xc_terraform_get_summary",
+          "description": "Get provider documentation and API specs summary"
+        },
+        {
+          "name": "f5xc_terraform_auth",
+          "description": "Check authentication status, list/switch profiles, validate credentials"
+        }
+      ],
+      "findings": [
+        {
+          "type": "dangerous-input-parameter",
+          "severity": "HIGH",
+          "description": "Parameter 'query' accepts arbitrary string input for execution",
+          "parameter": "query",
+          "tool_name": "f5xc_terraform_docs",
+          "context": "input-schema"
+        },
+        {
+          "type": "dangerous-input-parameter",
+          "severity": "HIGH",
+          "description": "Parameter 'query' accepts arbitrary string input for execution",
+          "parameter": "query",
+          "tool_name": "f5xc_terraform_api",
+          "context": "input-schema"
+        }
+      ]
+    },
+    {
+      "server": "@vurb/cloudflare",
+      "category": "devtools",
+      "tools_count": 0,
+      "findings": [],
+      "error": "npm error could not determine executable to run\nnpm error A complete log of this run can be found in: /Users/suphi/.npm/_logs/2026-04-03T10_20_39_457Z-debug-0.log\n{\"error\": \"unhandled errors in a Task"
+    },
+    {
+      "server": "@commercetools/commerce-mcp",
+      "category": "system",
+      "tools_count": 0,
+      "findings": [],
+      "error": "npm warn deprecated boolean@3.2.0: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.\nnpm warn deprecated tar@6.2.1: Old versions of tar are not supported, an"
+    },
+    {
+      "server": "@neonlightdev/mcp-server-filesystem-ignore",
+      "category": "filesystem",
+      "tools_count": 14,
+      "tools": [
+        {
+          "name": "read_file",
+          "description": "Read the complete contents of a file as text. DEPRECATED: Use read_text_file instead."
+        },
+        {
+          "name": "read_text_file",
+          "description": "Read the complete contents of a file from the file system as text. Use head or tail to read only part of the file. Only works within allowed directories."
+        },
+        {
+          "name": "read_media_file",
+          "description": "Read an image or audio file and return base64 data plus MIME type."
+        },
+        {
+          "name": "read_multiple_files",
+          "description": "Read multiple files in one operation. Individual failures do not stop the whole request."
+        },
+        {
+          "name": "write_file",
+          "description": "Create a new file or overwrite an existing file."
+        },
+        {
+          "name": "edit_file",
+          "description": "Apply exact text replacements to a file and return a unified diff."
+        },
+        {
+          "name": "create_directory",
+          "description": "Create a directory, including any missing parents."
+        },
+        {
+          "name": "list_directory",
+          "description": "List files and directories within a path. Ignore-file filtering is opt-in at startup."
+        },
+        {
+          "name": "list_directory_with_sizes",
+          "description": "List files and directories within a path, including file sizes."
+        },
+        {
+          "name": "directory_tree",
+          "description": "Return a recursive JSON tree of files and directories. Ignore-file filtering is opt-in at startup."
+        },
+        {
+          "name": "move_file",
+          "description": "Move or rename a file or directory within the allowed directories."
+        },
+        {
+          "name": "search_files",
+          "description": "Recursively search for files and directories matching a glob-style pattern relative to the starting path."
+        },
+        {
+          "name": "get_file_info",
+          "description": "Return size, timestamps, permissions, and type info for a file or directory."
+        },
+        {
+          "name": "list_allowed_directories",
+          "description": "Return the directories that the server is allowed to access."
+        }
+      ],
+      "findings": [
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "read_file",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "read_text_file",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "read_media_file",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "write_file",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "edit_file",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "create_directory",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "list_directory",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "list_directory_with_sizes",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "directory_tree",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "search_files",
+          "context": "input-schema"
+        },
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "get_file_info",
+          "context": "input-schema"
+        }
+      ]
+    },
+    {
+      "server": "nerve-rpc-mcp",
+      "category": "data-processing",
+      "tools_count": 14,
+      "tools": [
+        {
+          "name": "nerve_info",
+          "description": "Get Nerve chain info (chainId, assetId, symbol, addressPrefix, consensus assets, etc.)"
+        },
+        {
+          "name": "nerve_get_latest_height",
+          "description": "Get the latest main chain block height for a chain"
+        },
+        {
+          "name": "nerve_get_best_block_header",
+          "description": "Get the latest block header (hash, height, txCount, packingAddress, etc.)"
+        },
+        {
+          "name": "nerve_validate_address",
+          "description": "Validate if a Nerve address is correct for the given chain"
+        },
+        {
+          "name": "nerve_get_account_balance",
+          "description": "Query account balance for a specific asset (chainId, assetChainId, assetId, address)"
+        },
+        {
+          "name": "nerve_get_balance_list",
+          "description": "Query balance list for an address and optional asset IDs"
+        },
+        {
+          "name": "nerve_get_block_by_height",
+          "description": "Get block (header + transactions) by block height"
+        },
+        {
+          "name": "nerve_get_block_by_hash",
+          "description": "Get block (header + transactions) by block hash"
+        },
+        {
+          "name": "nerve_get_header_by_height",
+          "description": "Get block header only by height"
+        },
+        {
+          "name": "nerve_get_tx",
+          "description": "Get transaction by transaction hash"
+        },
+        {
+          "name": "nerve_get_agent_list",
+          "description": "Get list of consensus nodes (agents) for the chain"
+        },
+        {
+          "name": "nerve_get_deposit_list",
+          "description": "Get delegation list for a consensus node (by agent creation tx hash)"
+        },
+        {
+          "name": "nerve_jsonrpc",
+          "description": "Call any Nerve JSON-RPC method by name with params array. Use for methods not covered by dedicated tools (e.g. getRandomSeedByCount, getProposalInfo, swap/farm APIs)."
+        },
+        {
+          "name": "nerve_rest",
+          "description": "Call Nerve REST API by path. Method GET by default; pass body for POST. Base URL is from NERVE_API_BASE_URL (default https://api.nerve.network). Example paths: api/info, api/block/header/height/1000, api/tx/{hash}"
+        }
+      ],
+      "findings": [
+        {
+          "type": "unvalidated-path-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'path' accepts arbitrary file paths without validation",
+          "parameter": "path",
+          "tool_name": "nerve_rest",
+          "context": "input-schema"
+        }
+      ]
+    },
+    {
+      "server": "llm-advisor-mcp",
+      "category": "ai-ml",
+      "tools_count": 4,
+      "tools": [
+        {
+          "name": "get_model_info",
+          "description": "Get detailed information about a specific LLM/VLM model: pricing, benchmarks, capabilities, and ready-to-use API code example. Returns structured Markdown (~300 tokens)."
+        },
+        {
+          "name": "list_top_models",
+          "description": "List top-ranked LLM/VLM models for a category. Categories: coding, math, vision, general, cost-effective, open-source, speed, context-window, reasoning. Returns a compact Markdown table (~250 tokens)."
+        },
+        {
+          "name": "compare_models",
+          "description": "Compare 2-5 LLM/VLM models side-by-side: pricing, benchmarks, capabilities. Returns a compact Markdown comparison table (~400 tokens)."
+        },
+        {
+          "name": "recommend_model",
+          "description": "Get personalized model recommendations based on use case, budget, and requirements. Returns top 3 picks with reasoning (~350 tokens)."
+        }
+      ],
+      "findings": []
+    },
+    {
+      "server": "@json-render/mcp",
+      "category": "data-processing",
+      "tools_count": 0,
+      "findings": [],
+      "error": "npm error could not determine executable to run\nnpm error A complete log of this run can be found in: /Users/suphi/.npm/_logs/2026-04-03T10_21_26_234Z-debug-0.log\n{\"error\": \"unhandled errors in a Task"
+    },
+    {
+      "server": "@sysid/sandbox-runtime-improved",
+      "category": "code-execution",
+      "tools_count": 0,
+      "findings": [],
+      "error": "Error: No command specified. Use -c <command> or provide command arguments.\n{\"error\": \"unhandled errors in a TaskGroup (1 sub-exception)\"}"
+    },
+    {
+      "server": "@ctxprotocol/sdk",
+      "category": "code-execution",
+      "tools_count": 0,
+      "findings": [],
+      "error": "npm error could not determine executable to run\nnpm error A complete log of this run can be found in: /Users/suphi/.npm/_logs/2026-04-03T10_21_46_562Z-debug-0.log\n{\"error\": \"unhandled errors in a Task"
+    },
+    {
+      "server": "@winor30/mcp-server-datadog",
+      "category": "other",
+      "tools_count": 0,
+      "findings": [],
+      "error": "file:///Users/suphi/.npm/_npx/9c62c66c6702adf2/node_modules/@winor30/mcp-server-datadog/build/index.js:1110\n  throw new Error(\"DATADOG_API_KEY and DATADOG_APP_KEY must be set\");\n        ^\n\nError: DATA"
+    },
+    {
+      "server": "@shortcut/mcp",
+      "category": "other",
+      "tools_count": 0,
+      "findings": [],
+      "error": "A Shortcut api token is required.\n{\"error\": \"unhandled errors in a TaskGroup (1 sub-exception)\"}"
+    },
+    {
+      "server": "@ivotoby/openapi-mcp-server",
+      "category": "other",
+      "tools_count": 0,
+      "findings": [],
+      "error": "Failed to start server: Error: OpenAPI spec is required. Use one of: --openapi-spec, --spec-from-stdin, or --spec-inline\n    at loadConfig (file:///Users/suphi/.npm/_npx/e736e327047e2908/node_modules/"
+    },
+    {
+      "server": "@z_ai/mcp-server",
+      "category": "other",
+      "tools_count": 0,
+      "findings": [],
+      "error": "[2026-04-03T10:22:15.402Z] ERROR: Application startup failed: [{\"message\":\"Z_AI_API_KEY environment variable is required, please set your actual API key\"}]\n{\"error\": \"unhandled errors in a TaskGroup ("
+    },
+    {
+      "server": "@gongrzhe/server-gmail-autoauth-mcp",
+      "category": "other",
+      "tools_count": 0,
+      "findings": [],
+      "error": "npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead\nError: OAuth keys file not found. Please place gcp-oauth.keys.json in current directory or /Users/suphi/.gm"
+    },
+    {
+      "server": "tavily-mcp",
+      "category": "other",
+      "tools_count": 5,
+      "tools": [
+        {
+          "name": "tavily_search",
+          "description": "Search the web for current information on any topic. Use for news, facts, or data beyond your knowledge cutoff. Returns snippets and source URLs."
+        },
+        {
+          "name": "tavily_extract",
+          "description": "Extract content from URLs. Returns raw page content in markdown or text format."
+        },
+        {
+          "name": "tavily_crawl",
+          "description": "Crawl a website starting from a URL. Extracts content from pages with configurable depth and breadth."
+        },
+        {
+          "name": "tavily_map",
+          "description": "Map a website's structure. Returns a list of URLs found starting from the base URL."
+        },
+        {
+          "name": "tavily_research",
+          "description": "Perform comprehensive research on a given topic or question. Use this tool when you need to gather information from multiple sources to answer a question or complete a task. Returns a detailed response based on the research findings. Rate limit: 20 requests per minute."
+        }
+      ],
+      "findings": [
+        {
+          "type": "dangerous-input-parameter",
+          "severity": "HIGH",
+          "description": "Parameter 'query' accepts arbitrary string input for execution",
+          "parameter": "query",
+          "tool_name": "tavily_search",
+          "context": "input-schema"
+        },
+        {
+          "type": "dangerous-input-parameter",
+          "severity": "HIGH",
+          "description": "Parameter 'query' accepts arbitrary string input for execution",
+          "parameter": "query",
+          "tool_name": "tavily_extract",
+          "context": "input-schema"
+        },
+        {
+          "type": "url-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'url' accepts arbitrary URLs \u2014 potential SSRF vector",
+          "parameter": "url",
+          "tool_name": "tavily_crawl",
+          "context": "input-schema"
+        },
+        {
+          "type": "url-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'url' accepts arbitrary URLs \u2014 potential SSRF vector",
+          "parameter": "url",
+          "tool_name": "tavily_map",
+          "context": "input-schema"
+        }
+      ]
+    },
+    {
+      "server": "@theia/ai-mcp-server",
+      "category": "other",
+      "tools_count": 0,
+      "findings": [],
+      "error": "npm error could not determine executable to run\nnpm error A complete log of this run can be found in: /Users/suphi/.npm/_logs/2026-04-03T10_22_28_010Z-debug-0.log\n{\"error\": \"unhandled errors in a Task"
+    },
+    {
+      "server": "@transcend-io/mcp-server-core",
+      "category": "other",
+      "tools_count": 0,
+      "findings": [],
+      "error": "npm error could not determine executable to run\nnpm error A complete log of this run can be found in: /Users/suphi/.npm/_logs/2026-04-03T10_22_33_396Z-debug-0.log\n{\"error\": \"unhandled errors in a Task"
+    },
+    {
+      "server": "@currents/mcp",
+      "category": "other",
+      "tools_count": 31,
+      "tools": [
+        {
+          "name": "currents-list-actions",
+          "description": "List all actions for a project with optional filtering. Actions are rules that automatically modify test behavior (skip, quarantine, tag). Supports filtering by status (active/disabled/archived/expired) and search by name. Requires a projectId."
+        },
+        {
+          "name": "currents-create-action",
+          "description": "Create a new action for a project. Actions define rules that automatically skip, quarantine, or tag tests based on conditions like test title, file path, git branch, etc. Requires projectId, name, action array, and matcher object."
+        },
+        {
+          "name": "currents-get-action",
+          "description": "Get a single action by ID. The actionId is globally unique, so projectId is not required. Returns full action details including matcher conditions and current status."
+        },
+        {
+          "name": "currents-update-action",
+          "description": "Update an existing action. The actionId is globally unique. You can update name, description, action array, matcher, or expiration date. All fields are optional."
+        },
+        {
+          "name": "currents-delete-action",
+          "description": "Delete (archive) an action. This is a soft delete - the action will be marked as archived but not permanently removed. The actionId is globally unique."
+        },
+        {
+          "name": "currents-enable-action",
+          "description": "Enable a disabled action. Changes the action status from disabled to active, making it apply to matching tests again. The actionId is globally unique."
+        },
+        {
+          "name": "currents-disable-action",
+          "description": "Disable an active action. Changes the action status to disabled, temporarily preventing it from applying to tests. The actionId is globally unique."
+        },
+        {
+          "name": "currents-list-affected-tests",
+          "description": "List tests affected by actions (quarantine, skip, tag) for a project within a date range. Returns aggregated data grouped by test signature. Supports filtering by action types, action ID, status, and search. Requires projectId, date_start, and date_end. (Preview endpoint: fields and path may change.)"
+        },
+        {
+          "name": "currents-get-affected-test-executions",
+          "description": "Get execution details for a specific affected test (by signature) within a date range. Returns individual test execution records with action info. Uses cursor-based pagination. Requires projectId, signature, date_start, and date_end."
+        },
+        {
+          "name": "currents-get-affected-test-executions-by-action",
+          "description": "List test executions where a specific action/rule was applied, within a date range. Uses cursor-based pagination. Requires actionId, date_start, and date_end."
+        },
+        {
+          "name": "currents-get-projects",
+          "description": "Retrieves projects available in the Currents platform. Supports cursor-based pagination with limit, starting_after, ending_before parameters, or set fetchAll=true for automatic pagination. This is a prerequisite for using any other tools that require project-specific information."
+        },
+        {
+          "name": "currents-get-project",
+          "description": "Get a single project by ID. Returns project details including name, creation date, failFast setting, inactivity timeout, and default branch name."
+        },
+        {
+          "name": "currents-get-project-insights",
+          "description": "Get aggregated run and test metrics for a project within a date range. Returns overall metrics and timeline data with configurable resolution (1h/1d/1w). Supports filtering by tags, branches, groups, and authors. Requires projectId, date_start, and date_end."
+        },
+        {
+          "name": "currents-get-runs",
+          "description": "Retrieves a list of runs for a specific project with optional filtering. Supports filtering by branch, tags (with AND/OR operators), status (PASSED/FAILED/RUNNING/FAILING), completion state, date range, commit author, and search by ciBuildId or commit message. Requires a projectId. If the projectId is not known, first call 'currents-get-projects' and ask the user to select the project."
+        },
+        {
+          "name": "currents-get-run-details",
+          "description": "Retrieves details of a specific test run. Requires a user-provided runId."
+        },
+        {
+          "name": "currents-find-run",
+          "description": "Find a run by query parameters. Returns the most recent completed run matching the criteria. Can search by ciBuildId (exact match) or by branch/tags. Supports pwLastRun flag for Playwright last run info. Requires projectId."
+        },
+        {
+          "name": "currents-cancel-run",
+          "description": "Cancel a run in progress. This will stop the run and mark it as cancelled. Requires runId."
+        },
+        {
+          "name": "currents-reset-run",
+          "description": "Reset failed spec files in a run to allow re-execution. Requires runId and machineId array (1-63 machine IDs). Optionally supports batched orchestration."
+        },
+        {
+          "name": "currents-delete-run",
+          "description": "Delete a run and all associated data. This is a permanent deletion. Requires runId."
+        },
+        {
+          "name": "currents-cancel-run-github-ci",
+          "description": "Cancel a run by GitHub Actions workflow run ID and attempt number. Optionally scope by projectId or ciBuildId. Requires githubRunId and githubRunAttempt."
+        },
+        {
+          "name": "currents-get-spec-instance",
+          "description": "Retrieves debugging data from a specific execution of a test spec file by instanceId."
+        },
+        {
+          "name": "currents-get-spec-files-performance",
+          "description": "Retrieves spec files performance metrics for a specific project within a date range. Supports ordering by avgDuration, failedExecutions, failureRate, flakeRate, flakyExecutions, fullyReported, overallExecutions, suiteSize, timeoutExecutions, or timeoutRate. Supports filtering by tags, branches, groups, and authors. Requires a projectId. If the projectId is not known, first call 'currents-get-projects' and ask the user to select the project."
+        },
+        {
+          "name": "currents-get-tests-performance",
+          "description": "Retrieves aggregated test metrics for a specific project within a date range. Supports ordering by failures, passes, flakiness, duration, executions, title, and various delta metrics. Supports filtering by spec name, test title, tags, branches, groups, authors, minimum executions, test state, and annotations. Requires a projectId. If the projectId is not known, first call 'currents-get-projects' and ask the user to select the project."
+        },
+        {
+          "name": "currents-get-tests-signatures",
+          "description": "Generates a unique test signature based on project, spec file path, and test title. The test title can be a string or array of strings (for nested describe blocks). Requires a projectId. If the projectId is not known, first call 'currents-get-projects' and ask the user to select the project."
+        },
+        {
+          "name": "currents-get-test-results",
+          "description": "Retrieves historical test execution results for a specific test signature. Supports filtering by date range, branch, tags, git author, test status (passed/failed/pending/skipped), run group, flaky status, and annotations. Requires the test signature. If the signature is not known, first call 'currents-get-tests-signatures'."
+        },
+        {
+          "name": "currents-get-errors-explorer",
+          "description": "Get aggregated error metrics for a project within a date range. Supports filtering by error_target, error_message, error_category, error_action, tags, branches, authors, and groups. Supports grouping by target, action, category, or message. Returns error counts, affected tests and branches, with timeline data. Requires projectId, date_start, and date_end."
+        },
+        {
+          "name": "currents-list-webhooks",
+          "description": "List all webhooks for a project. Webhooks allow you to receive HTTP POST notifications when certain events occur in your test runs: RUN_FINISH (run completed), RUN_START (run started), RUN_TIMEOUT (run timed out), RUN_CANCELED (run was cancelled). Requires a projectId."
+        },
+        {
+          "name": "currents-create-webhook",
+          "description": "Create a new webhook for a project. Specify the URL to receive POST notifications, optional custom headers (as JSON string), events to trigger on (RUN_FINISH, RUN_START, RUN_TIMEOUT, RUN_CANCELED), and an optional label. Requires projectId and url."
+        },
+        {
+          "name": "currents-get-webhook",
+          "description": "Get a single webhook by ID. The hookId is a UUID. Returns full webhook details including url, headers, events, label, and timestamps."
+        },
+        {
+          "name": "currents-update-webhook",
+          "description": "Update an existing webhook. You can update the url, headers (as JSON string), hookEvents array, or label. All fields are optional. The hookId is a UUID."
+        },
+        {
+          "name": "currents-delete-webhook",
+          "description": "Delete a webhook. This permanently removes the webhook. The hookId is a UUID."
+        }
+      ],
+      "findings": [
+        {
+          "type": "url-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'url' accepts arbitrary URLs \u2014 potential SSRF vector",
+          "parameter": "url",
+          "tool_name": "currents-create-webhook",
+          "context": "input-schema"
+        },
+        {
+          "type": "url-parameter",
+          "severity": "MEDIUM",
+          "description": "Parameter 'url' accepts arbitrary URLs \u2014 potential SSRF vector",
+          "parameter": "url",
+          "tool_name": "currents-update-webhook",
+          "context": "input-schema"
+        }
+      ]
+    },
+    {
+      "server": "@eslint/mcp",
+      "category": "other",
+      "tools_count": 1,
+      "tools": [
+        {
+          "name": "lint-files",
+          "description": "Lint files using ESLint. You must provide a list of absolute file paths to the files you want to lint. The absolute file paths should be in the correct format for your operating system (e.g., forward slashes on Unix-like systems, backslashes on Windows)."
+        }
+      ],
+      "findings": []
+    }
+  ]
+}

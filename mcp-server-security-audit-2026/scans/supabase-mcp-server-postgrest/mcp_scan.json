@@ -1,0 +1,37 @@
+{
+  "scanner": "mcp-scan",
+  "server": "@supabase/mcp-server-postgrest",
+  "findings": [
+    {
+      "type": "tool-exfiltration-risk",
+      "severity": "HIGH",
+      "description": "Potential exfiltration instructions detected in tool description.",
+      "tool_name": "mcp",
+      "details": "Review tool descriptions for phrases that instruct the model to move data outside the intended scope.",
+      "fixable": false
+    },
+    {
+      "type": "unverified-source",
+      "severity": "HIGH",
+      "description": "Server '@supabase/mcp-server-postgrest' is from an unverified source outside @modelcontextprotocol.",
+      "tool_name": "mcp",
+      "details": "",
+      "fixable": false
+    },
+    {
+      "type": "typosquat-detection",
+      "severity": "HIGH",
+      "description": "Package '@supabase/mcp-server-postgrest' looks suspiciously like trusted server 'mcp-server-postgresql' (character substitution/omission).",
+      "tool_name": "mcp",
+      "details": "Verify you meant to install this package and not 'mcp-server-postgresql'.",
+      "fixable": false
+    }
+  ],
+  "raw_count": 3,
+  "summary": {
+    "critical": 0,
+    "high": 3,
+    "medium": 0,
+    "low": 0
+  }
+}

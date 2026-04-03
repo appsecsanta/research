@@ -1,0 +1,345 @@
+{
+  "server": "@cyanheads/git-mcp-server",
+  "category": "devtools",
+  "tools_count": 28,
+  "tools": [
+    {
+      "name": "git_add",
+      "description": "Stage files for commit. Add file contents to the staging area (index) to prepare for the next commit."
+    },
+    {
+      "name": "git_blame",
+      "description": "Show line-by-line authorship information for a file, displaying who last modified each line and when. For large files, use startLine/endLine to limit output."
+    },
+    {
+      "name": "git_branch",
+      "description": "Manage branches: list all branches, show current branch, create a new branch, delete a branch, or rename a branch."
+    },
+    {
+      "name": "git_changelog_analyze",
+      "description": "Gather git history context (commits, tags) and structured review instructions to support LLM-driven changelog analysis. Changelog file should be read separately; this tool provides the supporting git data and analysis framework. Pass one or more review types to control what kind of analysis to perform."
+    },
+    {
+      "name": "git_checkout",
+      "description": "Switch branches or restore working tree files. Can checkout an existing branch, create a new branch, or restore specific files."
+    },
+    {
+      "name": "git_cherry_pick",
+      "description": "Cherry-pick commits from other branches. Apply specific commits to the current branch without merging entire branches."
+    },
+    {
+      "name": "git_clean",
+      "description": "Remove untracked files from the working directory. Requires force flag for safety. Use dry-run to preview files that would be removed."
+    },
+    {
+      "name": "git_clear_working_dir",
+      "description": "Clear the session working directory setting. This resets the context without restarting the server. Subsequent git operations will require an explicit path parameter unless git_set_working_dir is called again."
+    },
+    {
+      "name": "git_clone",
+      "description": "Clone a repository from a remote URL to a local path. Supports HTTP/HTTPS and SSH URLs, with optional shallow cloning."
+    },
+    {
+      "name": "git_commit",
+      "description": "Create a new commit with staged changes in the repository. Records a snapshot of the staging area with a commit message.\n\n**Commit Message Format:**\nPass commit messages as JSON string parameters. Multi-line messages are supported using standard JSON string escaping.\n\n**Examples:**\n- Single line: { \"message\": \"feat: add user authentication\" }\n- Multi-line: { \"message\": \"feat: add user authentication\\n\\nImplemented OAuth2 flow with JWT tokens.\\nAdded tests for login and logout.\" }\n\nNote: Do not u"
+    },
+    {
+      "name": "git_diff",
+      "description": "View differences between commits, branches, or working tree. Shows changes in unified diff format."
+    },
+    {
+      "name": "git_fetch",
+      "description": "Fetch updates from a remote repository. Downloads objects and refs without merging them."
+    },
+    {
+      "name": "git_init",
+      "description": "Initialize a new Git repository at the specified path. Creates a .git directory and sets up the initial branch."
+    },
+    {
+      "name": "git_log",
+      "description": "View commit history with optional filtering by author, date range, file path, or commit message pattern."
+    },
+    {
+      "name": "git_merge",
+      "description": "Merge branches together. Integrates changes from another branch into the current branch with optional merge strategies."
+    },
+    {
+      "name": "git_pull",
+      "description": "Pull changes from a remote repository. Fetches and integrates changes into the current branch."
+    },
+    {
+      "name": "git_push",
+      "description": "Push changes to a remote repository. Uploads local commits to the remote branch."
+    },
+    {
+      "name": "git_rebase",
+      "description": "Rebase commits onto another branch. Reapplies commits on top of another base tip for a cleaner history."
+    },
+    {
+      "name": "git_reflog",
+      "description": "View the reference logs (reflog) to track when branch tips and other references were updated. Useful for recovering lost commits."
+    },
+    {
+      "name": "git_remote",
+      "description": "Manage remote repositories: list remotes, add new remotes, remove remotes, rename remotes, or get/set remote URLs."
+    },
+    {
+      "name": "git_reset",
+      "description": "Reset current HEAD to specified state. Can be used to unstage files (soft), discard commits (mixed), or discard all changes (hard)."
+    },
+    {
+      "name": "git_set_working_dir",
+      "description": "Set the session working directory for all git operations. This allows subsequent git commands to omit the path parameter and use this directory as the default."
+    },
+    {
+      "name": "git_show",
+      "description": "Show details of a git object (commit, tree, blob, or tag). Displays commit information and the diff of changes introduced."
+    },
+    {
+      "name": "git_stash",
+      "description": "Manage stashes: list stashes, save current changes (push), restore changes (pop/apply), or remove stashes (drop/clear)."
+    },
+    {
+      "name": "git_status",
+      "description": "Show the working tree status including staged, unstaged, and untracked files."
+    },
+    {
+      "name": "git_tag",
+      "description": "Manage tags: list all tags, create a new tag, or delete a tag. Tags are used to mark specific points in history (releases, milestones)."
+    },
+    {
+      "name": "git_worktree",
+      "description": "Manage multiple working trees: list worktrees, add new worktrees for parallel work, remove worktrees, or move worktrees to new locations."
+    },
+    {
+      "name": "git_wrapup_instructions",
+      "description": "Provides the user's desired Git wrap-up workflow and instructions. Returns custom workflow steps (if configured) or default best practices for reviewing, documenting, and committing changes. Includes current repository status to guide next actions."
+    }
+  ],
+  "findings": [
+    {
+      "type": "unvalidated-path-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'path' accepts arbitrary file paths without validation",
+      "parameter": "path",
+      "tool_name": "git_add",
+      "context": "input-schema"
+    },
+    {
+      "type": "unvalidated-path-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'path' accepts arbitrary file paths without validation",
+      "parameter": "path",
+      "tool_name": "git_blame",
+      "context": "input-schema"
+    },
+    {
+      "type": "unvalidated-path-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'file' accepts arbitrary file paths without validation",
+      "parameter": "file",
+      "tool_name": "git_blame",
+      "context": "input-schema"
+    },
+    {
+      "type": "unvalidated-path-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'path' accepts arbitrary file paths without validation",
+      "parameter": "path",
+      "tool_name": "git_branch",
+      "context": "input-schema"
+    },
+    {
+      "type": "unvalidated-path-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'path' accepts arbitrary file paths without validation",
+      "parameter": "path",
+      "tool_name": "git_changelog_analyze",
+      "context": "input-schema"
+    },
+    {
+      "type": "unvalidated-path-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'path' accepts arbitrary file paths without validation",
+      "parameter": "path",
+      "tool_name": "git_checkout",
+      "context": "input-schema"
+    },
+    {
+      "type": "unvalidated-path-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'path' accepts arbitrary file paths without validation",
+      "parameter": "path",
+      "tool_name": "git_cherry_pick",
+      "context": "input-schema"
+    },
+    {
+      "type": "unvalidated-path-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'path' accepts arbitrary file paths without validation",
+      "parameter": "path",
+      "tool_name": "git_clean",
+      "context": "input-schema"
+    },
+    {
+      "type": "url-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'url' accepts arbitrary URLs \u2014 potential SSRF vector",
+      "parameter": "url",
+      "tool_name": "git_clone",
+      "context": "input-schema"
+    },
+    {
+      "type": "unvalidated-path-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'path' accepts arbitrary file paths without validation",
+      "parameter": "path",
+      "tool_name": "git_commit",
+      "context": "input-schema"
+    },
+    {
+      "type": "unvalidated-path-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'path' accepts arbitrary file paths without validation",
+      "parameter": "path",
+      "tool_name": "git_diff",
+      "context": "input-schema"
+    },
+    {
+      "type": "unvalidated-path-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'path' accepts arbitrary file paths without validation",
+      "parameter": "path",
+      "tool_name": "git_fetch",
+      "context": "input-schema"
+    },
+    {
+      "type": "unvalidated-path-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'path' accepts arbitrary file paths without validation",
+      "parameter": "path",
+      "tool_name": "git_init",
+      "context": "input-schema"
+    },
+    {
+      "type": "unvalidated-path-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'path' accepts arbitrary file paths without validation",
+      "parameter": "path",
+      "tool_name": "git_log",
+      "context": "input-schema"
+    },
+    {
+      "type": "unvalidated-path-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'path' accepts arbitrary file paths without validation",
+      "parameter": "path",
+      "tool_name": "git_merge",
+      "context": "input-schema"
+    },
+    {
+      "type": "unvalidated-path-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'path' accepts arbitrary file paths without validation",
+      "parameter": "path",
+      "tool_name": "git_pull",
+      "context": "input-schema"
+    },
+    {
+      "type": "unvalidated-path-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'path' accepts arbitrary file paths without validation",
+      "parameter": "path",
+      "tool_name": "git_push",
+      "context": "input-schema"
+    },
+    {
+      "type": "unvalidated-path-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'path' accepts arbitrary file paths without validation",
+      "parameter": "path",
+      "tool_name": "git_rebase",
+      "context": "input-schema"
+    },
+    {
+      "type": "unvalidated-path-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'path' accepts arbitrary file paths without validation",
+      "parameter": "path",
+      "tool_name": "git_reflog",
+      "context": "input-schema"
+    },
+    {
+      "type": "unvalidated-path-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'path' accepts arbitrary file paths without validation",
+      "parameter": "path",
+      "tool_name": "git_remote",
+      "context": "input-schema"
+    },
+    {
+      "type": "url-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'url' accepts arbitrary URLs \u2014 potential SSRF vector",
+      "parameter": "url",
+      "tool_name": "git_remote",
+      "context": "input-schema"
+    },
+    {
+      "type": "unvalidated-path-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'path' accepts arbitrary file paths without validation",
+      "parameter": "path",
+      "tool_name": "git_reset",
+      "context": "input-schema"
+    },
+    {
+      "type": "unvalidated-path-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'path' accepts arbitrary file paths without validation",
+      "parameter": "path",
+      "tool_name": "git_set_working_dir",
+      "context": "input-schema"
+    },
+    {
+      "type": "unvalidated-path-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'path' accepts arbitrary file paths without validation",
+      "parameter": "path",
+      "tool_name": "git_show",
+      "context": "input-schema"
+    },
+    {
+      "type": "unvalidated-path-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'path' accepts arbitrary file paths without validation",
+      "parameter": "path",
+      "tool_name": "git_stash",
+      "context": "input-schema"
+    },
+    {
+      "type": "unvalidated-path-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'path' accepts arbitrary file paths without validation",
+      "parameter": "path",
+      "tool_name": "git_status",
+      "context": "input-schema"
+    },
+    {
+      "type": "unvalidated-path-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'path' accepts arbitrary file paths without validation",
+      "parameter": "path",
+      "tool_name": "git_tag",
+      "context": "input-schema"
+    },
+    {
+      "type": "unvalidated-path-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'path' accepts arbitrary file paths without validation",
+      "parameter": "path",
+      "tool_name": "git_worktree",
+      "context": "input-schema"
+    }
+  ]
+}

@@ -1,0 +1,177 @@
+{
+  "server": "@wonderwhy-er/desktop-commander",
+  "category": "system",
+  "tools_count": 26,
+  "tools": [
+    {
+      "name": "get_config",
+      "description": "\n                        Get the complete server configuration as JSON. Config includes fields for:\n                        - blockedCommands (array of blocked shell commands)\n                        - defaultShell (shell to use for commands)\n                        - allowedDirectories (paths the server can access)\n                        - fileReadLineLimit (max lines for read_file, default 1000)\n                        - fileWriteLineLimit (max lines per write_file call, default 50)\n         "
+    },
+    {
+      "name": "set_config_value",
+      "description": "\n                        Set a specific configuration value by key.\n                        \n                        WARNING: Should be used in a separate chat from file operations and \n                        command execution to prevent security issues.\n                        \n                        Config keys include:\n                        - blockedCommands (array)\n                        - defaultShell (string)\n                        - allowedDirectories (array of paths)\n              "
+    },
+    {
+      "name": "read_file",
+      "description": "\n                        Read contents from files and URLs.\n                        Read PDF files and extract content as markdown and images.\n                        \n                        Prefer this over 'execute_command' with cat/type for viewing files.\n                        \n                        Supports partial file reading with:\n                        - 'offset' (start line, default: 0)\n                          * Positive: Start from line N (0-based indexing)\n                    "
+    },
+    {
+      "name": "read_multiple_files",
+      "description": "\n                        Read the contents of multiple files simultaneously.\n                        \n                        Each file's content is returned with its path as a reference.\n                        Handles text files normally and renders images as viewable content.\n                        Recognized image types: PNG, JPEG, GIF, WebP.\n                        \n                        Failed reads for individual files won't stop the entire operation.\n                        Only works"
+    },
+    {
+      "name": "write_file",
+      "description": "\n                        Write or append to file contents.\n\n                        IMPORTANT: DO NOT use this tool to create PDF files. Use 'write_pdf' for all PDF creation tasks.\n                        DO NOT use this tool to edit DOCX files. Use 'edit_block' with old_string/new_string instead.\n                        To CREATE a new DOCX, use write_file with .docx extension \u2014 text content with markdown headings (#, ##, ###) is converted to styled DOCX paragraphs.\n\n                        CHU"
+    },
+    {
+      "name": "write_pdf",
+      "description": "\n                        Create a new PDF file or modify an existing one.\n\n                        THIS IS THE ONLY TOOL FOR CREATING AND MODIFYING PDF FILES.\n\n                        RULES ABOUT FILENAMES:\n                        - When creating a new PDF, 'outputPath' MUST be provided and MUST use a new unique filename (e.g., \"result_01.pdf\", \"analysis_2025_01.pdf\", etc.).\n\n                        MODES:\n                        1. CREATE NEW PDF:\n                           - Pass a markdown st"
+    },
+    {
+      "name": "create_directory",
+      "description": "\n                        Create a new directory or ensure a directory exists.\n                        \n                        Can create multiple nested directories in one operation.\n                        Only works within allowed directories.\n                        \n                        IMPORTANT: Always use absolute paths for reliability. Paths are automatically normalized regardless of slash direction. Relative paths may fail as they depend on the current working directory. Tilde paths"
+    },
+    {
+      "name": "list_directory",
+      "description": "\n                        Get a detailed listing of all files and directories in a specified path.\n                        \n                        Use this instead of 'execute_command' with ls/dir commands.\n                        Results distinguish between files and directories with [FILE] and [DIR] prefixes.\n                        \n                        Supports recursive listing with the 'depth' parameter (default: 2):\n                        - depth=1: Only direct contents of the directo"
+    },
+    {
+      "name": "move_file",
+      "description": "\n                        Move or rename files and directories.\n                        \n                        Can move files between directories and rename them in a single operation.\n                        Both source and destination must be within allowed directories.\n                        \n                        IMPORTANT: Always use absolute paths for reliability. Paths are automatically normalized regardless of slash direction. Relative paths may fail as they depend on the current wor"
+    },
+    {
+      "name": "start_search",
+      "description": "\n                        Start a streaming search that can return results progressively.\n                        \n                        SEARCH STRATEGY GUIDE:\n                        Choose the right search type based on what the user is looking for:\n                        \n                        USE searchType=\"files\" WHEN:\n                        - User asks for specific files: \"find package.json\", \"locate config files\"\n                        - Pattern looks like a filename: \"*.js\", \"READ"
+    },
+    {
+      "name": "get_more_search_results",
+      "description": "\n                        Get more results from an active search with offset-based pagination.\n                        \n                        Supports partial result reading with:\n                        - 'offset' (start result index, default: 0)\n                          * Positive: Start from result N (0-based indexing)\n                          * Negative: Read last N results from end (tail behavior)\n                        - 'length' (max results to read, default: 100)\n                    "
+    },
+    {
+      "name": "stop_search",
+      "description": "\n                        Stop an active search.\n                        \n                        Stops the background search process gracefully. Use this when you've found\n                        what you need or if a search is taking too long. Similar to force_terminate\n                        for terminal processes.\n                        \n                        The search will still be available for reading final results until it's\n                        automatically cleaned up after 5 mi"
+    },
+    {
+      "name": "list_searches",
+      "description": "\n                        List all active searches.\n                        \n                        Shows search IDs, search types, patterns, status, and runtime.\n                        Similar to list_sessions for terminal processes. Useful for managing\n                        multiple concurrent searches.\n                        \n                        This command can be referenced as \"DC: ...\" or \"use Desktop Commander to ...\" in your instructions."
+    },
+    {
+      "name": "get_file_info",
+      "description": "\n                        Retrieve detailed metadata about a file or directory including:\n                        - size\n                        - creation time\n                        - last modified time\n                        - permissions\n                        - type\n                        - lineCount (for text files)\n                        - lastLine (zero-indexed number of last line, for text files)\n                        - appendPosition (line number for appending, for text files)\n  "
+    },
+    {
+      "name": "edit_block",
+      "description": "\n                        Apply surgical edits to files.\n\n                        BEST PRACTICE: Make multiple small, focused edits rather than one large edit.\n                        Each edit_block call should change only what needs to be changed - include just enough\n                        context to uniquely identify the text being modified.\n\n                        FORMAT HANDLING (by extension):\n\n                        EXCEL FILES (.xlsx, .xls, .xlsm) - Range Update mode:\n                "
+    },
+    {
+      "name": "start_process",
+      "description": "\n                        Start a new terminal process with intelligent state detection.\n                        \n                        PRIMARY TOOL FOR FILE ANALYSIS AND DATA PROCESSING\n                        This is the ONLY correct tool for analyzing local files (CSV, JSON, logs, etc.).\n                        The analysis tool CANNOT access local files and WILL FAIL - always use processes for file-based work.\n                        \n                        CRITICAL RULE: For ANY local fil"
+    },
+    {
+      "name": "read_process_output",
+      "description": "\n                        Read output from a running process with file-like pagination support.\n                        \n                        Supports partial output reading with offset and length parameters (like read_file):\n                        - 'offset' (start line, default: 0)\n                          * offset=0: Read NEW output since last read (default, like old behavior)\n                          * Positive: Read from absolute line position\n                          * Negative: Read"
+    },
+    {
+      "name": "interact_with_process",
+      "description": "\n                        Send input to a running process and automatically receive the response.\n                        \n                        CRITICAL: THIS IS THE PRIMARY TOOL FOR ALL LOCAL FILE ANALYSIS\n                        For ANY local file analysis (CSV, JSON, data processing), ALWAYS use this instead of the analysis tool.\n                        The analysis tool CANNOT access local files and WILL FAIL - use processes for ALL file-based work.\n                        \n               "
+    },
+    {
+      "name": "force_terminate",
+      "description": "\n                        Force terminate a running terminal session.\n                        \n                        This command can be referenced as \"DC: ...\" or \"use Desktop Commander to ...\" in your instructions."
+    },
+    {
+      "name": "list_sessions",
+      "description": "\n                        List all active terminal sessions.\n                        \n                        Shows session status including:\n                        - PID: Process identifier  \n                        - Blocked: Whether session is waiting for input\n                        - Runtime: How long the session has been running\n                        \n                        DEBUGGING REPLs:\n                        - \"Blocked: true\" often means REPL is waiting for input\n                "
+    },
+    {
+      "name": "list_processes",
+      "description": "\n                        List all running processes.\n                        \n                        Returns process information including PID, command name, CPU usage, and memory usage.\n                        \n                        This command can be referenced as \"DC: ...\" or \"use Desktop Commander to ...\" in your instructions."
+    },
+    {
+      "name": "kill_process",
+      "description": "\n                        Terminate a running process by PID.\n\n                        Use with caution as this will forcefully terminate the specified process.\n\n                        This command can be referenced as \"DC: ...\" or \"use Desktop Commander to ...\" in your instructions."
+    },
+    {
+      "name": "get_usage_stats",
+      "description": "\n                        Get usage statistics for debugging and analysis.\n                        \n                        Returns summary of tool usage, success/failure rates, and performance metrics.\n                        \n                        This command can be referenced as \"DC: ...\" or \"use Desktop Commander to ...\" in your instructions."
+    },
+    {
+      "name": "get_recent_tool_calls",
+      "description": "\n                        Get recent tool call history with their arguments and outputs.\n                        Returns chronological list of tool calls made during this session.\n                        \n                        Useful for:\n                        - Onboarding new chats about work already done\n                        - Recovering context after chat history loss\n                        - Debugging tool call sequences\n                        \n                        Note: Does not "
+    },
+    {
+      "name": "give_feedback_to_desktop_commander",
+      "description": "\n                        Open feedback form in browser to provide feedback about Desktop Commander.\n                        \n                        IMPORTANT: This tool simply opens the feedback form - no pre-filling available.\n                        The user will fill out the form manually in their browser.\n                        \n                        WORKFLOW:\n                        1. When user agrees to give feedback, just call this tool immediately\n                        2. No need "
+    },
+    {
+      "name": "get_prompts",
+      "description": "\n                        Retrieve a specific Desktop Commander onboarding prompt by ID and execute it.\n                        \n                        SIMPLIFIED ONBOARDING V2: This tool only supports direct prompt retrieval.\n                        The onboarding system presents 5 options as a simple numbered list:\n                        \n                        1. Organize my Downloads folder (promptId: 'onb2_01')\n                        2. Explain a codebase or repository (promptId: 'onb2_0"
+    }
+  ],
+  "findings": [
+    {
+      "type": "unvalidated-path-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'path' accepts arbitrary file paths without validation",
+      "parameter": "path",
+      "tool_name": "read_file",
+      "context": "input-schema"
+    },
+    {
+      "type": "unvalidated-path-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'path' accepts arbitrary file paths without validation",
+      "parameter": "path",
+      "tool_name": "write_file",
+      "context": "input-schema"
+    },
+    {
+      "type": "unvalidated-path-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'path' accepts arbitrary file paths without validation",
+      "parameter": "path",
+      "tool_name": "write_pdf",
+      "context": "input-schema"
+    },
+    {
+      "type": "unvalidated-path-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'path' accepts arbitrary file paths without validation",
+      "parameter": "path",
+      "tool_name": "create_directory",
+      "context": "input-schema"
+    },
+    {
+      "type": "unvalidated-path-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'path' accepts arbitrary file paths without validation",
+      "parameter": "path",
+      "tool_name": "list_directory",
+      "context": "input-schema"
+    },
+    {
+      "type": "unvalidated-path-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'path' accepts arbitrary file paths without validation",
+      "parameter": "path",
+      "tool_name": "start_search",
+      "context": "input-schema"
+    },
+    {
+      "type": "unvalidated-path-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'path' accepts arbitrary file paths without validation",
+      "parameter": "path",
+      "tool_name": "get_file_info",
+      "context": "input-schema"
+    },
+    {
+      "type": "dangerous-input-parameter",
+      "severity": "HIGH",
+      "description": "Parameter 'command' accepts arbitrary string input for execution",
+      "parameter": "command",
+      "tool_name": "start_process",
+      "context": "input-schema"
+    }
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "scanner": "cisco-mcp-scanner",
+  "server": "browser-devtools-mcp",
+  "findings": [
+    {
+      "type": "INJECTION ATTACK",
+      "severity": "HIGH",
+      "description": "Detected 1 threat: script injection",
+      "tool_name": "content_get-as-html",
+      "tool_description": "\nGets the HTML content of the current page. \nBy default, all <script> tags are removed from the output unless \"removeScripts\" is explicitly set to \"false\".\n        ",
+      "analyzer": "yara_analyzer"
+    },
+    {
+      "type": "SYSTEM MANIPULATION",
+      "severity": "HIGH",
+      "description": "Detected 1 threat: system manipulation",
+      "tool_name": "content_save-as-pdf",
+      "tool_description": "Saves the current page as a PDF file.",
+      "analyzer": "yara_analyzer"
+    },
+    {
+      "type": "SYSTEM MANIPULATION",
+      "severity": "HIGH",
+      "description": "Detected 1 threat: system manipulation",
+      "tool_name": "content_start-recording",
+      "tool_description": "Starts video recording of the browser page.\nRecording captures all page interactions until content_stop-recording is called.\nUses CDP screencast \u2014 works in all modes (headless, headed, persistent, CDP attach).\nOnly supported on Chromium-based browsers.",
+      "analyzer": "yara_analyzer"
+    },
+    {
+      "type": "SYSTEM MANIPULATION",
+      "severity": "HIGH",
+      "description": "Detected 1 threat: system manipulation",
+      "tool_name": "content_take-screenshot",
+      "tool_description": "Takes a screenshot of the current page or a specific element.\nDo NOT use for page structure\u2014use ARIA/AX snapshots instead.\nUse only for visual verification (design check, visual bug, contrast, layout).\nScreenshot is saved to disk; use includeBase64 only when the file cannot be read from the returned",
+      "analyzer": "yara_analyzer"
+    },
+    {
+      "type": "SYSTEM MANIPULATION",
+      "severity": "HIGH",
+      "description": "Detected 1 threat: system manipulation",
+      "tool_name": "navigation_go-back-or-forward",
+      "tool_description": "\nNavigates to the previous or next page in history.\n- `direction: \"back\"` \u2014 previous page in history.\n- `direction: \"forward\"` \u2014 next page in history.\n\nIn case of multiple redirects, the navigation will resolve with the response of the last redirect.\nIf cannot go back/forward, returns empty response",
+      "analyzer": "yara_analyzer"
+    },
+    {
+      "type": "SYSTEM MANIPULATION",
+      "severity": "HIGH",
+      "description": "Detected 1 threat: system manipulation",
+      "tool_name": "navigation_go-to",
+      "tool_description": "\nNavigates to the given URL.\n**NOTE**: The tool either throws an error or returns a main resource response. \nThe only exceptions are navigation to `about:blank` or navigation to the same URL with a different hash, \nwhich would succeed and return empty response.\n\n**By default** (`includeSnapshot: tru",
+      "analyzer": "yara_analyzer"
+    },
+    {
+      "type": "SYSTEM MANIPULATION",
+      "severity": "HIGH",
+      "description": "Detected 1 threat: system manipulation",
+      "tool_name": "navigation_reload",
+      "tool_description": "\nReloads the current page.\nIn case of multiple redirects, the navigation resolves with the response of the last redirect.\nIf the reload does not produce a response, returns empty response.\n\nBy default (includeSnapshot: true), an ARIA snapshot with refs is returned. Use `snapshotOptions` for `interac",
+      "analyzer": "yara_analyzer"
+    },
+    {
+      "type": "INJECTION ATTACK",
+      "severity": "HIGH",
+      "description": "Detected 3 threats: sql injection, script injection, code execution",
+      "tool_name": "execute",
+      "tool_description": "Batch-execute multiple tool calls in a single request via custom JavaScript. Reduces round-trips and token usage.\n\n**IMPORTANT** \n- The code is already run inside an async function. Pass only the body (statements). \n  Do NOT wrap in `async function() { ... }` or `async () => { ... }` \u2014 that causes a",
+      "analyzer": "yara_analyzer"
+    },
+    {
+      "type": "CODE EXECUTION",
+      "severity": "HIGH",
+      "description": "Detected 3 threats: sql injection, script injection, code execution",
+      "tool_name": "execute",
+      "tool_description": "Batch-execute multiple tool calls in a single request via custom JavaScript. Reduces round-trips and token usage.\n\n**IMPORTANT** \n- The code is already run inside an async function. Pass only the body (statements). \n  Do NOT wrap in `async function() { ... }` or `async () => { ... }` \u2014 that causes a",
+      "analyzer": "yara_analyzer"
+    }
+  ],
+  "tools_scanned": 51,
+  "tools_safe": 43,
+  "tools_unsafe": 8
+}

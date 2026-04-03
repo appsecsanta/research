@@ -1,0 +1,53 @@
+{
+  "server": "@modelcontextprotocol/server-memory",
+  "category": "other",
+  "tools_count": 9,
+  "tools": [
+    {
+      "name": "create_entities",
+      "description": "Create multiple new entities in the knowledge graph"
+    },
+    {
+      "name": "create_relations",
+      "description": "Create multiple new relations between entities in the knowledge graph. Relations should be in active voice"
+    },
+    {
+      "name": "add_observations",
+      "description": "Add new observations to existing entities in the knowledge graph"
+    },
+    {
+      "name": "delete_entities",
+      "description": "Delete multiple entities and their associated relations from the knowledge graph"
+    },
+    {
+      "name": "delete_observations",
+      "description": "Delete specific observations from entities in the knowledge graph"
+    },
+    {
+      "name": "delete_relations",
+      "description": "Delete multiple relations from the knowledge graph"
+    },
+    {
+      "name": "read_graph",
+      "description": "Read the entire knowledge graph"
+    },
+    {
+      "name": "search_nodes",
+      "description": "Search for nodes in the knowledge graph based on a query"
+    },
+    {
+      "name": "open_nodes",
+      "description": "Open specific nodes in the knowledge graph by their names"
+    }
+  ],
+  "findings": [
+    {
+      "type": "dangerous-input-parameter",
+      "severity": "HIGH",
+      "description": "Parameter 'query' accepts arbitrary string input for execution",
+      "parameter": "query",
+      "tool_name": "search_nodes",
+      "context": "input-schema"
+    }
+  ]
+}

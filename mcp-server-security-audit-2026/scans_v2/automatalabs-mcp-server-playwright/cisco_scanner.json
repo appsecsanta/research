@@ -1,0 +1,8 @@
+{
+  "scanner": "cisco-mcp-scanner",
+  "server": "@automatalabs/mcp-server-playwright",
+  "findings": [],
+  "tools_scanned": 10,
+  "tools_safe": 10,
+  "tools_unsafe": 0
+}

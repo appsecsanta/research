@@ -1,0 +1,12 @@
+{
+  "other": 910,
+  "system": 37,
+  "ai-ml": 96,
+  "code-execution": 37,
+  "web-browsing": 68,
+  "api-integration": 71,
+  "devtools": 32,
+  "data-processing": 21,
+  "database": 42,
+  "filesystem": 15
+}

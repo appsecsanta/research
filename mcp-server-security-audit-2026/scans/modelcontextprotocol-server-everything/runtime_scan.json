@@ -1,0 +1,60 @@
+{
+  "server": "@modelcontextprotocol/server-everything",
+  "category": "code-execution",
+  "tools_count": 13,
+  "tools": [
+    {
+      "name": "echo",
+      "description": "Echoes back the input string"
+    },
+    {
+      "name": "get-annotated-message",
+      "description": "Demonstrates how annotations can be used to provide metadata about content."
+    },
+    {
+      "name": "get-env",
+      "description": "Returns all environment variables, helpful for debugging MCP server configuration"
+    },
+    {
+      "name": "get-resource-links",
+      "description": "Returns up to ten resource links that reference different types of resources"
+    },
+    {
+      "name": "get-resource-reference",
+      "description": "Returns a resource reference that can be used by MCP clients"
+    },
+    {
+      "name": "get-structured-content",
+      "description": "Returns structured content along with an output schema for client data validation"
+    },
+    {
+      "name": "get-sum",
+      "description": "Returns the sum of two numbers"
+    },
+    {
+      "name": "get-tiny-image",
+      "description": "Returns a tiny MCP logo image."
+    },
+    {
+      "name": "gzip-file-as-resource",
+      "description": "Compresses a single file using gzip compression. Depending upon the selected output type, returns either the compressed data as a gzipped resource or a resource link, allowing it to be downloaded in a subsequent request during the current session."
+    },
+    {
+      "name": "toggle-simulated-logging",
+      "description": "Toggles simulated, random-leveled logging on or off."
+    },
+    {
+      "name": "toggle-subscriber-updates",
+      "description": "Toggles simulated resource subscription updates on or off."
+    },
+    {
+      "name": "trigger-long-running-operation",
+      "description": "Demonstrates a long running operation with progress updates."
+    },
+    {
+      "name": "simulate-research-query",
+      "description": "Simulates a deep research operation that gathers, analyzes, and synthesizes information. Demonstrates MCP task-based operations with progress through multiple stages. If 'ambiguous' is true and client supports elicitation, sends an elicitation request for clarification."
+    }
+  ],
+  "findings": []
+}

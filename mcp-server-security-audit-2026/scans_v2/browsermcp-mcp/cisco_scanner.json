@@ -1,0 +1,8 @@
+{
+  "scanner": "cisco-mcp-scanner",
+  "server": "@browsermcp/mcp",
+  "findings": [],
+  "tools_scanned": 12,
+  "tools_safe": 12,
+  "tools_unsafe": 0
+}

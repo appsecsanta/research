@@ -1,0 +1,133 @@
+{
+  "server": "chrome-local-mcp",
+  "category": "web-browsing",
+  "tools_count": 25,
+  "tools": [
+    {
+      "name": "launch",
+      "description": "Launch Chrome browser"
+    },
+    {
+      "name": "close_browser",
+      "description": "Close the browser"
+    },
+    {
+      "name": "new_tab",
+      "description": "Open a new tab"
+    },
+    {
+      "name": "list_pages",
+      "description": "List all open pages/tabs"
+    },
+    {
+      "name": "navigate",
+      "description": "Navigate to a URL"
+    },
+    {
+      "name": "go_back",
+      "description": "Go back in browser history"
+    },
+    {
+      "name": "snapshot",
+      "description": "PREFERRED: Use this FIRST to understand page content. Returns accessibility tree with interactive element refs. Much cheaper than screenshots (text only, no vision tokens). Use refs with click_ref/type_ref. Only use screenshot if you need visual/layout context that the snapshot cannot provide."
+    },
+    {
+      "name": "click_ref",
+      "description": "Click an element by its ref from a snapshot (e.g. \"e3\"). More reliable than CSS selectors."
+    },
+    {
+      "name": "type_ref",
+      "description": "Type text into an element by its ref from a snapshot. More reliable than CSS selectors."
+    },
+    {
+      "name": "click",
+      "description": "Click an element by ref (from snapshot), selector, text, or coordinates"
+    },
+    {
+      "name": "type",
+      "description": "Type text into an element"
+    },
+    {
+      "name": "press_key",
+      "description": "Press a keyboard key"
+    },
+    {
+      "name": "select",
+      "description": "Select a dropdown option"
+    },
+    {
+      "name": "scroll",
+      "description": "Scroll the page"
+    },
+    {
+      "name": "wait_for",
+      "description": "Wait for an element to appear"
+    },
+    {
+      "name": "get_text",
+      "description": "Get text content of the page or a specific element"
+    },
+    {
+      "name": "eval",
+      "description": "Execute JavaScript on the page"
+    },
+    {
+      "name": "get_links",
+      "description": "Get all links on the page"
+    },
+    {
+      "name": "get_inputs",
+      "description": "Get all form inputs on the page"
+    },
+    {
+      "name": "screenshot",
+      "description": "Take a screenshot. IMPORTANT: Prefer snapshot tool first \u2014 it is cheaper (no vision tokens). Only use screenshot when you need visual context (layout, images, colors) that snapshot cannot provide. Use ocr=true to extract text locally instead of sending the image."
+    },
+    {
+      "name": "ocr",
+      "description": "Extract text from an image file using local Apple Vision OCR (no tokens sent to cloud)"
+    },
+    {
+      "name": "fill_form",
+      "description": "Fill multiple form fields at once (instant, no keystroke delay) and optionally submit. Much faster than calling type for each field individually."
+    },
+    {
+      "name": "network_monitor",
+      "description": "Start or stop monitoring network requests on a page. Start monitoring BEFORE performing actions to capture requests."
+    },
+    {
+      "name": "get_network_requests",
+      "description": "Get captured network requests. Must call network_monitor(enable=true) first."
+    },
+    {
+      "name": "batch",
+      "description": "Run multiple actions sequentially in one call. Saves round trips. Use snapshot first to get refs, then batch actions using those refs."
+    }
+  ],
+  "findings": [
+    {
+      "type": "url-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'url' accepts arbitrary URLs \u2014 potential SSRF vector",
+      "parameter": "url",
+      "tool_name": "navigate",
+      "context": "input-schema"
+    },
+    {
+      "type": "dangerous-input-parameter",
+      "severity": "HIGH",
+      "description": "Parameter 'script' accepts arbitrary string input for execution",
+      "parameter": "script",
+      "tool_name": "eval",
+      "context": "input-schema"
+    },
+    {
+      "type": "unvalidated-path-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'path' accepts arbitrary file paths without validation",
+      "parameter": "path",
+      "tool_name": "screenshot",
+      "context": "input-schema"
+    }
+  ]
+}

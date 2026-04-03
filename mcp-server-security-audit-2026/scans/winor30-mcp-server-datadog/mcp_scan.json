@@ -1,0 +1,21 @@
+{
+  "scanner": "mcp-scan",
+  "server": "@winor30/mcp-server-datadog",
+  "findings": [
+    {
+      "type": "unverified-source",
+      "severity": "HIGH",
+      "description": "Server '@winor30/mcp-server-datadog' is from an unverified source outside @modelcontextprotocol.",
+      "tool_name": "mcp",
+      "details": "",
+      "fixable": false
+    }
+  ],
+  "raw_count": 1,
+  "summary": {
+    "critical": 0,
+    "high": 1,
+    "medium": 0,
+    "low": 0
+  }
+}

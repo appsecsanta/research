@@ -1,0 +1,73 @@
+{
+  "server": "@ui5/mcp-server",
+  "category": "other",
+  "tools_count": 10,
+  "tools": [
+    {
+      "name": "get_guidelines",
+      "description": "This tool MUST be called once to retrieve UI5 guidelines before working on any UI5 (SAPUI5/OpenUI5) related task or project or creating a UI5 project. The guidelines provided by this tool MUST be followed to ensure best practices and avoid common pitfalls in UI5 development."
+    },
+    {
+      "name": "run_ui5_linter",
+      "description": "Run UI5 linter on a UI5 project to find and optionally fix UI5 related problems like the usage of deprecated API. After making changes, you should always run the linter again to verify that no new problems have been introduced."
+    },
+    {
+      "name": "get_api_reference",
+      "description": "Search the UI5 API reference for module names and symbols"
+    },
+    {
+      "name": "get_project_info",
+      "description": "Get general information about a local UI5 project."
+    },
+    {
+      "name": "create_ui5_app",
+      "description": "Create a new basic SAPUI5 application implemented in TypeScript or JavaScript"
+    },
+    {
+      "name": "get_version_info",
+      "description": "Get version information for UI5 (OpenUI5 or SAPUI5)"
+    },
+    {
+      "name": "get_integration_cards_guidelines",
+      "description": "This tool MUST be called once to retrieve Integration Cards guidelines before working on any Integration Card related task or creating an Integration Card. The guidelines provided by this tool MUST be followed to ensure best practices and avoid common pitfalls in Integration Cards development.Integration Cards are also called 'UI Integration Cards' or 'UI5 Integration Cards'."
+    },
+    {
+      "name": "create_integration_card",
+      "description": "Create a new Integration Card, UI Integration Card, or UI5 Integration Card"
+    },
+    {
+      "name": "run_manifest_validation",
+      "description": "Validates UI5 manifest file. After making changes, you should always run the validation again to verify that no new problems have been introduced."
+    },
+    {
+      "name": "get_typescript_conversion_guidelines",
+      "description": "This tool MUST be called once before converting a UI5 (SAPUI5/OpenUI5) project from JavaScript to TypeScript. The instructions provided by this tool MUST be followed to ensure that the project setup and code is correctly converted."
+    }
+  ],
+  "findings": [
+    {
+      "type": "prompt-injection-directive",
+      "severity": "HIGH",
+      "description": "Tool description contains coercive directive to the LLM",
+      "match": "('should', 'always')",
+      "tool_name": "run_ui5_linter",
+      "context": "tool-description"
+    },
+    {
+      "type": "dangerous-input-parameter",
+      "severity": "HIGH",
+      "description": "Parameter 'query' accepts arbitrary string input for execution",
+      "parameter": "query",
+      "tool_name": "get_api_reference",
+      "context": "input-schema"
+    },
+    {
+      "type": "prompt-injection-directive",
+      "severity": "HIGH",
+      "description": "Tool description contains coercive directive to the LLM",
+      "match": "('should', 'always')",
+      "tool_name": "run_manifest_validation",
+      "context": "tool-description"
+    }
+  ]
+}

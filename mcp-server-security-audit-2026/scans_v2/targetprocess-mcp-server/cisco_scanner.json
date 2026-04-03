@@ -1,0 +1,8 @@
+{
+  "scanner": "cisco-mcp-scanner",
+  "server": "targetprocess-mcp-server",
+  "findings": [],
+  "tools_scanned": 16,
+  "tools_safe": 16,
+  "tools_unsafe": 0
+}

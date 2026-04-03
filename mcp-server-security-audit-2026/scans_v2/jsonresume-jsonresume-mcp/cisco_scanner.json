@@ -1,0 +1,7 @@
+{
+  "scanner": "cisco-mcp-scanner",
+  "server": "@jsonresume/jsonresume-mcp",
+  "findings": [],
+  "tools_scanned": 0,
+  "error": "Extra data: line 1 column 5 (char 4)"
+}

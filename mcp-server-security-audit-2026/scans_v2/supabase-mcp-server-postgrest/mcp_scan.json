@@ -1,0 +1,26 @@
+{
+  "scanner": "mcp-scan",
+  "server": "@supabase/mcp-server-postgrest",
+  "findings": [
+    {
+      "type": "tool-exfiltration-risk",
+      "severity": "HIGH",
+      "description": "Potential exfiltration instructions detected in tool description.",
+      "recommendation": "Review tool descriptions for phrases that instruct the model to move data outside the intended scope."
+    },
+    {
+      "type": "typosquat-detection",
+      "severity": "HIGH",
+      "description": "Package '@supabase/mcp-server-postgrest' looks suspiciously like trusted server 'mcp-server-postgresql' (character substitution/omission).",
+      "recommendation": "Verify you meant to install this package and not 'mcp-server-postgresql'."
+    },
+    {
+      "type": "server-mutation",
+      "severity": "LOW",
+      "description": "Server configuration has changed since the last scan.",
+      "recommendation": "Review the changes to ensure they are intentional and secure."
+    }
+  ],
+  "trust_score": null,
+  "metadata": {}
+}
