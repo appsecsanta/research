@@ -1,0 +1,153 @@
+{
+  "server": "@neonlightdev/mcp-server-filesystem-ignore",
+  "category": "filesystem",
+  "tools_count": 14,
+  "tools": [
+    {
+      "name": "read_file",
+      "description": "Read the complete contents of a file as text. DEPRECATED: Use read_text_file instead."
+    },
+    {
+      "name": "read_text_file",
+      "description": "Read the complete contents of a file from the file system as text. Use head or tail to read only part of the file. Only works within allowed directories."
+    },
+    {
+      "name": "read_media_file",
+      "description": "Read an image or audio file and return base64 data plus MIME type."
+    },
+    {
+      "name": "read_multiple_files",
+      "description": "Read multiple files in one operation. Individual failures do not stop the whole request."
+    },
+    {
+      "name": "write_file",
+      "description": "Create a new file or overwrite an existing file."
+    },
+    {
+      "name": "edit_file",
+      "description": "Apply exact text replacements to a file and return a unified diff."
+    },
+    {
+      "name": "create_directory",
+      "description": "Create a directory, including any missing parents."
+    },
+    {
+      "name": "list_directory",
+      "description": "List files and directories within a path. Ignore-file filtering is opt-in at startup."
+    },
+    {
+      "name": "list_directory_with_sizes",
+      "description": "List files and directories within a path, including file sizes."
+    },
+    {
+      "name": "directory_tree",
+      "description": "Return a recursive JSON tree of files and directories. Ignore-file filtering is opt-in at startup."
+    },
+    {
+      "name": "move_file",
+      "description": "Move or rename a file or directory within the allowed directories."
+    },
+    {
+      "name": "search_files",
+      "description": "Recursively search for files and directories matching a glob-style pattern relative to the starting path."
+    },
+    {
+      "name": "get_file_info",
+      "description": "Return size, timestamps, permissions, and type info for a file or directory."
+    },
+    {
+      "name": "list_allowed_directories",
+      "description": "Return the directories that the server is allowed to access."
+    }
+  ],
+  "findings": [
+    {
+      "type": "unvalidated-path-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'path' accepts arbitrary file paths without validation",
+      "parameter": "path",
+      "tool_name": "read_file",
+      "context": "input-schema"
+    },
+    {
+      "type": "unvalidated-path-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'path' accepts arbitrary file paths without validation",
+      "parameter": "path",
+      "tool_name": "read_text_file",
+      "context": "input-schema"
+    },
+    {
+      "type": "unvalidated-path-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'path' accepts arbitrary file paths without validation",
+      "parameter": "path",
+      "tool_name": "read_media_file",
+      "context": "input-schema"
+    },
+    {
+      "type": "unvalidated-path-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'path' accepts arbitrary file paths without validation",
+      "parameter": "path",
+      "tool_name": "write_file",
+      "context": "input-schema"
+    },
+    {
+      "type": "unvalidated-path-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'path' accepts arbitrary file paths without validation",
+      "parameter": "path",
+      "tool_name": "edit_file",
+      "context": "input-schema"
+    },
+    {
+      "type": "unvalidated-path-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'path' accepts arbitrary file paths without validation",
+      "parameter": "path",
+      "tool_name": "create_directory",
+      "context": "input-schema"
+    },
+    {
+      "type": "unvalidated-path-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'path' accepts arbitrary file paths without validation",
+      "parameter": "path",
+      "tool_name": "list_directory",
+      "context": "input-schema"
+    },
+    {
+      "type": "unvalidated-path-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'path' accepts arbitrary file paths without validation",
+      "parameter": "path",
+      "tool_name": "list_directory_with_sizes",
+      "context": "input-schema"
+    },
+    {
+      "type": "unvalidated-path-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'path' accepts arbitrary file paths without validation",
+      "parameter": "path",
+      "tool_name": "directory_tree",
+      "context": "input-schema"
+    },
+    {
+      "type": "unvalidated-path-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'path' accepts arbitrary file paths without validation",
+      "parameter": "path",
+      "tool_name": "search_files",
+      "context": "input-schema"
+    },
+    {
+      "type": "unvalidated-path-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'path' accepts arbitrary file paths without validation",
+      "parameter": "path",
+      "tool_name": "get_file_info",
+      "context": "input-schema"
+    }
+  ]
+}

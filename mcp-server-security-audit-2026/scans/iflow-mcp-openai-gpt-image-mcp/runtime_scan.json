@@ -1,0 +1,16 @@
+{
+  "server": "@iflow-mcp/openai-gpt-image-mcp",
+  "category": "ai-ml",
+  "tools_count": 2,
+  "tools": [
+    {
+      "name": "create-image",
+      "description": ""
+    },
+    {
+      "name": "edit-image",
+      "description": ""
+    }
+  ],
+  "findings": []
+}

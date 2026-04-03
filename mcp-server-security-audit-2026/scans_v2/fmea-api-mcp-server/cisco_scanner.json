@@ -1,0 +1,8 @@
+{
+  "scanner": "cisco-mcp-scanner",
+  "server": "fmea-api-mcp-server",
+  "findings": [],
+  "tools_scanned": 5,
+  "tools_safe": 5,
+  "tools_unsafe": 0
+}

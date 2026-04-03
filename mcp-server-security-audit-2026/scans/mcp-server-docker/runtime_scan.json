@@ -1,0 +1,21 @@
+{
+  "server": "mcp-server-docker",
+  "category": "devtools",
+  "tools_count": 1,
+  "tools": [
+    {
+      "name": "run_command",
+      "description": "Execute a command inside a Docker container service"
+    }
+  ],
+  "findings": [
+    {
+      "type": "dangerous-input-parameter",
+      "severity": "HIGH",
+      "description": "Parameter 'command' accepts arbitrary string input for execution",
+      "parameter": "command",
+      "tool_name": "run_command",
+      "context": "input-schema"
+    }
+  ]
+}

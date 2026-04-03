@@ -1,0 +1,6 @@
+{
+  "scanner": "defenseclaw",
+  "server": "@modelcontextprotocol/server-everything",
+  "findings": [],
+  "error": "Error: MCP server 'modelcontextprotocol-server-everything' not found in openclaw.json.\n  No MCP servers configured."
+}

@@ -1,0 +1,8 @@
+{
+  "scanner": "cisco-mcp-scanner",
+  "server": "@agent-infra/mcp-server-browser",
+  "findings": [],
+  "tools_scanned": 21,
+  "tools_safe": 21,
+  "tools_unsafe": 0
+}

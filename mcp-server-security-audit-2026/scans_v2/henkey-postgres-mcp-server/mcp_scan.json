@@ -1,0 +1,20 @@
+{
+  "scanner": "mcp-scan",
+  "server": "@henkey/postgres-mcp-server",
+  "findings": [
+    {
+      "type": "tool-exfiltration-risk",
+      "severity": "HIGH",
+      "description": "Potential exfiltration instructions detected in tool description.",
+      "recommendation": "Review tool descriptions for phrases that instruct the model to move data outside the intended scope."
+    },
+    {
+      "type": "server-mutation",
+      "severity": "LOW",
+      "description": "Server configuration has changed since the last scan.",
+      "recommendation": "Review the changes to ensure they are intentional and secure."
+    }
+  ],
+  "trust_score": null,
+  "metadata": {}
+}

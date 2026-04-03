@@ -1,0 +1,24 @@
+{
+  "server": "llm-advisor-mcp",
+  "category": "ai-ml",
+  "tools_count": 4,
+  "tools": [
+    {
+      "name": "get_model_info",
+      "description": "Get detailed information about a specific LLM/VLM model: pricing, benchmarks, capabilities, and ready-to-use API code example. Returns structured Markdown (~300 tokens)."
+    },
+    {
+      "name": "list_top_models",
+      "description": "List top-ranked LLM/VLM models for a category. Categories: coding, math, vision, general, cost-effective, open-source, speed, context-window, reasoning. Returns a compact Markdown table (~250 tokens)."
+    },
+    {
+      "name": "compare_models",
+      "description": "Compare 2-5 LLM/VLM models side-by-side: pricing, benchmarks, capabilities. Returns a compact Markdown comparison table (~400 tokens)."
+    },
+    {
+      "name": "recommend_model",
+      "description": "Get personalized model recommendations based on use case, budget, and requirements. Returns top 3 picks with reasoning (~350 tokens)."
+    }
+  ],
+  "findings": []
+}

@@ -1,0 +1,6 @@
+{
+  "scanner": "defenseclaw",
+  "server": "@modelcontextprotocol/server-memory",
+  "findings": [],
+  "error": "Error: MCP server 'modelcontextprotocol-server-memory' not found in openclaw.json.\n  No MCP servers configured."
+}

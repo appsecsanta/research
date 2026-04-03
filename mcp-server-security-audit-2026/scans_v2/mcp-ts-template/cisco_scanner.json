@@ -1,0 +1,8 @@
+{
+  "scanner": "cisco-mcp-scanner",
+  "server": "mcp-ts-template",
+  "findings": [],
+  "tools_scanned": 7,
+  "tools_safe": 7,
+  "tools_unsafe": 0
+}

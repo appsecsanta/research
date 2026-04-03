@@ -1,0 +1,7 @@
+{
+  "scanner": "cisco-mcp-scanner",
+  "server": "@dennisk2025/text-alternating-case",
+  "findings": [],
+  "tools_scanned": 0,
+  "error": "Extra data: line 1 column 5 (char 4)"
+}

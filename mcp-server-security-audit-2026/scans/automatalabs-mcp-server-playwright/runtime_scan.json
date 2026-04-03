@@ -1,0 +1,65 @@
+{
+  "server": "@automatalabs/mcp-server-playwright",
+  "category": "web-browsing",
+  "tools_count": 10,
+  "tools": [
+    {
+      "name": "browser_navigate",
+      "description": "Navigate to a URL"
+    },
+    {
+      "name": "browser_screenshot",
+      "description": "Take a screenshot of the current page or a specific element"
+    },
+    {
+      "name": "browser_click",
+      "description": "Click an element on the page using CSS selector"
+    },
+    {
+      "name": "browser_click_text",
+      "description": "Click an element on the page by its text content"
+    },
+    {
+      "name": "browser_fill",
+      "description": "Fill out an input field"
+    },
+    {
+      "name": "browser_select",
+      "description": "Select an element on the page with Select tag using CSS selector"
+    },
+    {
+      "name": "browser_select_text",
+      "description": "Select an element on the page with Select tag by its text content"
+    },
+    {
+      "name": "browser_hover",
+      "description": "Hover an element on the page using CSS selector"
+    },
+    {
+      "name": "browser_hover_text",
+      "description": "Hover an element on the page by its text content"
+    },
+    {
+      "name": "browser_evaluate",
+      "description": "Execute JavaScript in the browser console"
+    }
+  ],
+  "findings": [
+    {
+      "type": "url-parameter",
+      "severity": "MEDIUM",
+      "description": "Parameter 'url' accepts arbitrary URLs \u2014 potential SSRF vector",
+      "parameter": "url",
+      "tool_name": "browser_navigate",
+      "context": "input-schema"
+    },
+    {
+      "type": "dangerous-input-parameter",
+      "severity": "HIGH",
+      "description": "Parameter 'script' accepts arbitrary string input for execution",
+      "parameter": "script",
+      "tool_name": "browser_evaluate",
+      "context": "input-schema"
+    }
+  ]
+}

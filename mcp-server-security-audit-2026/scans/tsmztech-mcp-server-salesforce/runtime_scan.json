@@ -1,0 +1,68 @@
+{
+  "server": "@tsmztech/mcp-server-salesforce",
+  "category": "api-integration",
+  "tools_count": 15,
+  "tools": [
+    {
+      "name": "salesforce_search_objects",
+      "description": "Search for Salesforce standard and custom objects by name pattern. Examples: 'Account' will find Account, AccountHistory; 'Order' will find WorkOrder, ServiceOrder__c etc."
+    },
+    {
+      "name": "salesforce_describe_object",
+      "description": "Get detailed schema metadata including all fields, relationships, and field properties of any Salesforce object. Examples: 'Account' shows all Account fields including custom fields; 'Case' shows all Case fields including relationships to Account, Contact etc."
+    },
+    {
+      "name": "salesforce_query_records",
+      "description": "Query records from any Salesforce object using SOQL, including relationship queries.\n\nNOTE: For queries with GROUP BY, aggregate functions (COUNT, SUM, AVG, etc.), or HAVING clauses, use salesforce_aggregate_query instead.\n\nExamples:\n1. Parent-to-child query (e.g., Account with Contacts):\n   - objectName: \"Account\"\n   - fields: [\"Name\", \"(SELECT Id, FirstName, LastName FROM Contacts)\"]\n\n2. Child-to-parent query (e.g., Contact with Account details):\n   - objectName: \"Contact\"\n   - fields: [\"First"
+    },
+    {
+      "name": "salesforce_aggregate_query",
+      "description": "Execute SOQL queries with GROUP BY, aggregate functions, and statistical analysis. Use this tool for queries that summarize and group data rather than returning individual records.\n\nNOTE: For regular queries without GROUP BY or aggregates, use salesforce_query_records instead.\n\nThis tool handles:\n1. GROUP BY queries (single/multiple fields, related objects, date functions)\n2. Aggregate functions: COUNT(), COUNT_DISTINCT(), SUM(), AVG(), MIN(), MAX()\n3. HAVING clauses for filtering grouped result"
+    },
+    {
+      "name": "salesforce_dml_records",
+      "description": "Perform data manipulation operations on Salesforce records:\n  - insert: Create new records\n  - update: Modify existing records (requires Id)\n  - delete: Remove records (requires Id)\n  - upsert: Insert or update based on external ID field\n  Examples: Insert new Accounts, Update Case status, Delete old records, Upsert based on custom external ID"
+    },
+    {
+      "name": "salesforce_manage_object",
+      "description": "Create new custom objects or modify existing ones in Salesforce:\n  - Create: New custom objects with fields, relationships, and settings\n  - Update: Modify existing object settings, labels, sharing model\n  Examples: Create Customer_Feedback__c object, Update object sharing settings\n  Note: Changes affect metadata and require proper permissions"
+    },
+    {
+      "name": "salesforce_manage_field",
+      "description": "Create new custom fields or modify existing fields on any Salesforce object:\n  - Field Types: Text, Number, Date, Lookup, Master-Detail, Picklist etc.\n  - Properties: Required, Unique, External ID, Length, Scale etc.\n  - Relationships: Create lookups and master-detail relationships\n  - Automatically grants Field Level Security to System Administrator (or specified profiles)\n  Examples: Add Rating__c picklist to Account, Create Account lookup on Custom Object\n  Note: Use grantAccessTo parameter t"
+    },
+    {
+      "name": "salesforce_manage_field_permissions",
+      "description": "Manage Field Level Security (Field Permissions) for custom and standard fields.\n  - Grant or revoke read/edit access to fields for specific profiles or permission sets\n  - View current field permissions\n  - Bulk update permissions for multiple profiles\n  \n  Examples:\n  1. Grant System Administrator access to a field\n  2. Give read-only access to a field for specific profiles\n  3. Check which profiles have access to a field"
+    },
+    {
+      "name": "salesforce_search_all",
+      "description": "Search across multiple Salesforce objects using SOSL (Salesforce Object Search Language).\n  \nExamples:\n1. Basic search across all objects:\n   {\n     \"searchTerm\": \"John\",\n     \"objects\": [\n       { \"name\": \"Account\", \"fields\": [\"Name\"], \"limit\": 10 },\n       { \"name\": \"Contact\", \"fields\": [\"FirstName\", \"LastName\", \"Email\"] }\n     ]\n   }\n\n2. Advanced search with filters:\n   {\n     \"searchTerm\": \"Cloud*\",\n     \"searchIn\": \"NAME FIELDS\",\n     \"objects\": [\n       { \n         \"name\": \"Account\", \n    "
+    },
+    {
+      "name": "salesforce_read_apex",
+      "description": "Read Apex classes from Salesforce.\n  \nExamples:\n1. Read a specific Apex class by name:\n   {\n     \"className\": \"AccountController\"\n   }\n\n2. List all Apex classes with an optional name pattern:\n   {\n     \"namePattern\": \"Controller\"\n   }\n\n3. Get metadata about Apex classes:\n   {\n     \"includeMetadata\": true,\n     \"namePattern\": \"Trigger\"\n   }\n\n4. Use wildcards in name patterns:\n   {\n     \"namePattern\": \"Account*Cont*\"\n   }\n\nNotes:\n- When className is provided, the full body of that specific class i"
+    },
+    {
+      "name": "salesforce_write_apex",
+      "description": "Create or update Apex classes in Salesforce.\n  \nExamples:\n1. Create a new Apex class:\n   {\n     \"operation\": \"create\",\n     \"className\": \"AccountService\",\n     \"apiVersion\": \"58.0\",\n     \"body\": \"public class AccountService { public static void updateAccounts() { /* implementation */ } }\"\n   }\n\n2. Update an existing Apex class:\n   {\n     \"operation\": \"update\",\n     \"className\": \"AccountService\",\n     \"body\": \"public class AccountService { public static void updateAccounts() { /* updated implemen"
+    },
+    {
+      "name": "salesforce_read_apex_trigger",
+      "description": "Read Apex triggers from Salesforce.\n  \nExamples:\n1. Read a specific Apex trigger by name:\n   {\n     \"triggerName\": \"AccountTrigger\"\n   }\n\n2. List all Apex triggers with an optional name pattern:\n   {\n     \"namePattern\": \"Account\"\n   }\n\n3. Get metadata about Apex triggers:\n   {\n     \"includeMetadata\": true,\n     \"namePattern\": \"Contact\"\n   }\n\n4. Use wildcards in name patterns:\n   {\n     \"namePattern\": \"Account*\"\n   }\n\nNotes:\n- When triggerName is provided, the full body of that specific trigger i"
+    },
+    {
+      "name": "salesforce_write_apex_trigger",
+      "description": "Create or update Apex triggers in Salesforce.\n  \nExamples:\n1. Create a new Apex trigger:\n   {\n     \"operation\": \"create\",\n     \"triggerName\": \"AccountTrigger\",\n     \"objectName\": \"Account\",\n     \"apiVersion\": \"58.0\",\n     \"body\": \"trigger AccountTrigger on Account (before insert, before update) { /* implementation */ }\"\n   }\n\n2. Update an existing Apex trigger:\n   {\n     \"operation\": \"update\",\n     \"triggerName\": \"AccountTrigger\",\n     \"body\": \"trigger AccountTrigger on Account (before insert, b"
+    },
+    {
+      "name": "salesforce_execute_anonymous",
+      "description": "Execute anonymous Apex code in Salesforce.\n  \nExamples:\n1. Execute simple Apex code:\n   {\n     \"apexCode\": \"System.debug('Hello World');\"\n   }\n\n2. Execute Apex code with variables:\n   {\n     \"apexCode\": \"List<Account> accounts = [SELECT Id, Name FROM Account LIMIT 5]; for(Account a : accounts) { System.debug(a.Name); }\"\n   }\n\n3. Execute Apex with debug logs:\n   {\n     \"apexCode\": \"System.debug(LoggingLevel.INFO, 'Processing accounts...'); List<Account> accounts = [SELECT Id FROM Account LIMIT 10"
+    },
+    {
+      "name": "salesforce_manage_debug_logs",
+      "description": "Manage debug logs for Salesforce users - enable, disable, or retrieve logs.\n  \nExamples:\n1. Enable debug logs for a user:\n   {\n     \"operation\": \"enable\",\n     \"username\": \"user@example.com\",\n     \"logLevel\": \"DEBUG\",\n     \"expirationTime\": 30\n   }\n\n2. Disable debug logs for a user:\n   {\n     \"operation\": \"disable\",\n     \"username\": \"user@example.com\"\n   }\n\n3. Retrieve debug logs for a user:\n   {\n     \"operation\": \"retrieve\",\n     \"username\": \"user@example.com\",\n     \"limit\": 5\n   }\n\n4. Retrieve"
+    }
+  ],
+  "findings": []
+}

@@ -1,0 +1,25 @@
+{
+  "scanner": "cisco-mcp-scanner",
+  "server": "@currents/mcp",
+  "findings": [
+    {
+      "type": "TOOL POISONING",
+      "severity": "HIGH",
+      "description": "Detected 1 threat: tool poisoning",
+      "tool_name": "currents-get-project",
+      "tool_description": "Get a single project by ID. Returns project details including name, creation date, failFast setting, inactivity timeout, and default branch name.",
+      "analyzer": "yara_analyzer"
+    },
+    {
+      "type": "INJECTION ATTACK",
+      "severity": "HIGH",
+      "description": "Detected 1 threat: script injection",
+      "tool_name": "currents-find-run",
+      "tool_description": "Find a run by query parameters. Returns the most recent completed run matching the criteria. Can search by ciBuildId (exact match) or by branch/tags. Supports pwLastRun flag for Playwright last run info. Requires projectId.",
+      "analyzer": "yara_analyzer"
+    }
+  ],
+  "tools_scanned": 31,
+  "tools_safe": 29,
+  "tools_unsafe": 2
+}

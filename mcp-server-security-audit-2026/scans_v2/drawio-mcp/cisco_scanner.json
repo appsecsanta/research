@@ -1,0 +1,8 @@
+{
+  "scanner": "cisco-mcp-scanner",
+  "server": "@drawio/mcp",
+  "findings": [],
+  "tools_scanned": 3,
+  "tools_safe": 3,
+  "tools_unsafe": 0
+}

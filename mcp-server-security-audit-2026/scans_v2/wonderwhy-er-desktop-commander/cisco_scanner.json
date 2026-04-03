@@ -1,0 +1,25 @@
+{
+  "scanner": "cisco-mcp-scanner",
+  "server": "@wonderwhy-er/desktop-commander",
+  "findings": [
+    {
+      "type": "CREDENTIAL HARVESTING",
+      "severity": "HIGH",
+      "description": "Detected 1 threat: credential harvesting",
+      "tool_name": "start_search",
+      "tool_description": "\n                        Start a streaming search that can return results progressively.\n                        \n                        SEARCH STRATEGY GUIDE:\n                        Choose the right search type based on what the user is looking for:\n                        \n                      ",
+      "analyzer": "yara_analyzer"
+    },
+    {
+      "type": "CODE EXECUTION",
+      "severity": "LOW",
+      "description": "Detected 1 threat: code execution",
+      "tool_name": "give_feedback_to_desktop_commander",
+      "tool_description": "\n                        Open feedback form in browser to provide feedback about Desktop Commander.\n                        \n                        IMPORTANT: This tool simply opens the feedback form - no pre-filling available.\n                        The user will fill out the form manually in the",
+      "analyzer": "yara_analyzer"
+    }
+  ],
+  "tools_scanned": 26,
+  "tools_safe": 24,
+  "tools_unsafe": 2
+}

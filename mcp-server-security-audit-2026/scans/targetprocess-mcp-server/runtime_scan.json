@@ -1,0 +1,72 @@
+{
+  "server": "targetprocess-mcp-server",
+  "category": "system",
+  "tools_count": 16,
+  "tools": [
+    {
+      "name": "get_user_story_content",
+      "description": "Get tp card (user story) content by specified id, e.g. 145789"
+    },
+    {
+      "name": "get_current_releases",
+      "description": "Get current releases"
+    },
+    {
+      "name": "get_release_user_stories",
+      "description": "Get release user stories"
+    },
+    {
+      "name": "get_release_bugs",
+      "description": "Get release bugs"
+    },
+    {
+      "name": "get_release_features",
+      "description": "Get release features"
+    },
+    {
+      "name": "get_release_user_stories_with_description",
+      "description": "Get release user stories with description in the response.\n      Note: this is slower than \"get_release_user_stories_names\" tool,\n      but if user wants to get descriptions, then this tool is the way to go.\n    "
+    },
+    {
+      "name": "get_release_open_bugs",
+      "description": "Get release active bugs (bugs that are not closed, done, passed, ready to deploy)"
+    },
+    {
+      "name": "get_release_open_user_stories",
+      "description": "Get release active user stories (user stories that are not closed, done, passed, ready to deploy)"
+    },
+    {
+      "name": "search_all_cards_by_keyword",
+      "description": "Searches tp cards (user stories, bugs, features) by keyword or partial name or partial keyphrase e.g. \"Text Element\""
+    },
+    {
+      "name": "get_bug_content",
+      "description": "Get tp card (bug) content by specified id, e.g. 145789"
+    },
+    {
+      "name": "add_comment",
+      "description": "Adds provided content as a comment to the specified tp card by id, e.g. 145789"
+    },
+    {
+      "name": "get_user_story_comments",
+      "description": "Get comments for a TP user story by its ID"
+    },
+    {
+      "name": "get_bug_comments",
+      "description": "Get comments for a TP bug by its ID"
+    },
+    {
+      "name": "create_bug",
+      "description": "Create a new bug card based on provided card id that summarizes the problem in concise,\n      descriptive manner answering questions What? Where? When?,\n      and content explaining what happened in detail.\n      CRITICAL WORKFLOW: Before calling this tool, you MUST follow these steps: \n        1) IF you already have user story or bug card content, proceed to step 3 skipping step 2;\n        2) ELSE call \"get_user_story_content\" tool or \"get_bug_content\" tool to get user story or bug card content"
+    },
+    {
+      "name": "create_test_plan",
+      "description": "Create a new test plan with provided title and user story id"
+    },
+    {
+      "name": "get_logged_in_user",
+      "description": "Get logged in user"
+    }
+  ],
+  "findings": []
+}

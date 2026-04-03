@@ -1,0 +1,20 @@
+{
+  "server": "@drawio/mcp",
+  "category": "ai-ml",
+  "tools_count": 3,
+  "tools": [
+    {
+      "name": "open_drawio_xml",
+      "description": "Opens the draw.io editor with a diagram from XML content. Use this to view, edit, or create diagrams in draw.io format. The XML should be valid draw.io/mxGraph XML format.\n\n# draw.io XML Reference\n\nDetailed reference for styles, edge routing, containers, layers, tags, metadata, and dark mode. Consult this when generating draw.io XML diagrams.\n\n## General principles\n\n- **Use proper draw.io shapes and connectors** \u2014 choose the semantically correct shape for each element (e.g., `shape=cylinder3` fo"
+    },
+    {
+      "name": "open_drawio_csv",
+      "description": "Opens the draw.io editor with a diagram generated from CSV data. The CSV format should follow draw.io's CSV import specification which allows creating org charts, flowcharts, and other diagrams from tabular data."
+    },
+    {
+      "name": "open_drawio_mermaid",
+      "description": "Opens the draw.io editor with a diagram generated from Mermaid.js syntax. Supports flowcharts, sequence diagrams, class diagrams, state diagrams, entity relationship diagrams, and more using Mermaid.js syntax."
+    }
+  ],
+  "findings": []
+}

@@ -1,0 +1,24 @@
+{
+  "server": "@gatling.io/gatling-mcp-server",
+  "category": "devtools",
+  "tools_count": 4,
+  "tools": [
+    {
+      "name": "list_gatling_enterprise_teams",
+      "description": "List all existing teams in Gatling Enterprise"
+    },
+    {
+      "name": "list_gatling_enterprise_packages",
+      "description": "List all packages deployed in Gatling Enterprise. Managed packages are stored on Gatling Enterprise, private packages are stored on the infrastructure of the user's organization."
+    },
+    {
+      "name": "list_gatling_enterprise_tests",
+      "description": "List all tests (aka simulations) deployed in Gatling Enterprise"
+    },
+    {
+      "name": "list_gatling_enterprise_locations",
+      "description": "List all managed and private locations where tests can be run on Gatling Enterprise. Group managed location IDs by region, private location IDs by type."
+    }
+  ],
+  "findings": []
+}

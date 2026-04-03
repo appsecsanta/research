@@ -1,0 +1,8 @@
+{
+  "scanner": "cisco-mcp-scanner",
+  "server": "@gatling.io/gatling-mcp-server",
+  "findings": [],
+  "tools_scanned": 4,
+  "tools_safe": 4,
+  "tools_unsafe": 0
+}

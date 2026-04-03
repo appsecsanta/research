@@ -1,0 +1,8 @@
+{
+  "scanner": "cisco-mcp-scanner",
+  "server": "@notionhq/notion-mcp-server",
+  "findings": [],
+  "tools_scanned": 22,
+  "tools_safe": 22,
+  "tools_unsafe": 0
+}

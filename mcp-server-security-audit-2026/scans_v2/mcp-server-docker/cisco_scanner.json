@@ -1,0 +1,8 @@
+{
+  "scanner": "cisco-mcp-scanner",
+  "server": "mcp-server-docker",
+  "findings": [],
+  "tools_scanned": 1,
+  "tools_safe": 1,
+  "tools_unsafe": 0
+}

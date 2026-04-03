@@ -19,7 +19,6 @@
 <p align="center">
   <a href="https://appsecsanta.com">Website</a> ·
   <a href="https://appsecsanta.com/research">All Research</a> ·
-  <a href="https://github.com/appsecsanta/security-tools">Security Tools</a> ·
   <a href="#license">License</a>
 </p>
 
@@ -34,6 +33,18 @@ This repository contains everything needed to **verify, reproduce, or build upon
 ---
 
 ## Studies
+
+<br />
+
+### MCP Server Security Audit 2026
+
+> **33 servers** · 433 tools · 2 scanners · 27 YARA detections · ~80% false positive rate
+
+```
+Cisco mcp-scanner v4.3.0 · mcp-scan v2.0.1
+```
+
+[Documentation](./mcp-server-security-audit-2026) · [Published Article](https://appsecsanta.com/research/mcp-server-security-audit-2026)
 
 <br />
 
@@ -115,12 +126,6 @@ Each study follows a three-stage pipeline — collect raw data from public sourc
 - Node.js 18+
 
 Study-specific dependencies are listed in each study's README.
-
----
-
-## Related
-
-Looking for the security scanning tools used in our research? Check out [**appsecsanta/security-tools**](https://github.com/appsecsanta/security-tools) — 4 open-source security scanners (HTTP headers, DNS, SSL/TLS, subdomains) you can self-host on Cloudflare Workers.
 
 ---
 

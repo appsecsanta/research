@@ -1,0 +1,17 @@
+{
+  "scanner": "cisco-mcp-scanner",
+  "server": "chrome-local-mcp",
+  "findings": [
+    {
+      "type": "SYSTEM MANIPULATION",
+      "severity": "HIGH",
+      "description": "Detected 1 threat: system manipulation",
+      "tool_name": "screenshot",
+      "tool_description": "Take a screenshot. IMPORTANT: Prefer snapshot tool first \u2014 it is cheaper (no vision tokens). Only use screenshot when you need visual context (layout, images, colors) that snapshot cannot provide. Use ocr=true to extract text locally instead of sending the image.",
+      "analyzer": "yara_analyzer"
+    }
+  ],
+  "tools_scanned": 25,
+  "tools_safe": 24,
+  "tools_unsafe": 1
+}

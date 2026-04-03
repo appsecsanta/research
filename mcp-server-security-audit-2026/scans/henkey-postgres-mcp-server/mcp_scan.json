@@ -1,0 +1,29 @@
+{
+  "scanner": "mcp-scan",
+  "server": "@henkey/postgres-mcp-server",
+  "findings": [
+    {
+      "type": "tool-exfiltration-risk",
+      "severity": "HIGH",
+      "description": "Potential exfiltration instructions detected in tool description.",
+      "tool_name": "mcp",
+      "details": "Review tool descriptions for phrases that instruct the model to move data outside the intended scope.",
+      "fixable": false
+    },
+    {
+      "type": "unverified-source",
+      "severity": "HIGH",
+      "description": "Server '@henkey/postgres-mcp-server' is from an unverified source outside @modelcontextprotocol.",
+      "tool_name": "mcp",
+      "details": "",
+      "fixable": false
+    }
+  ],
+  "raw_count": 2,
+  "summary": {
+    "critical": 0,
+    "high": 2,
+    "medium": 0,
+    "low": 0
+  }
+}

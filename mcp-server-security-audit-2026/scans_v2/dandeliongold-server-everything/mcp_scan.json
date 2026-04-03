@@ -1,0 +1,20 @@
+{
+  "scanner": "mcp-scan",
+  "server": "@dandeliongold/server-everything",
+  "findings": [
+    {
+      "type": "typosquat-detection",
+      "severity": "HIGH",
+      "description": "Package '@dandeliongold/server-everything' looks suspiciously like trusted server '@modelcontextprotocol/server-everything' (homoglyph substitution).",
+      "recommendation": "Verify you meant to install this package and not '@modelcontextprotocol/server-everything'."
+    },
+    {
+      "type": "server-mutation",
+      "severity": "LOW",
+      "description": "Server configuration has changed since the last scan.",
+      "recommendation": "Review the changes to ensure they are intentional and secure."
+    }
+  ],
+  "trust_score": null,
+  "metadata": {}
+}

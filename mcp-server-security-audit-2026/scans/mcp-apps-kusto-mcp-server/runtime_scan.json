@@ -1,0 +1,29 @@
+{
+  "server": "@mcp-apps/kusto-mcp-server",
+  "category": "database",
+  "tools_count": 3,
+  "tools": [
+    {
+      "name": "list_tables",
+      "description": "This tool lists all tables in the Kusto database.\n  The result is a list of table names in a string format separated by commas.\n  Inputs: clusterUrl, database."
+    },
+    {
+      "name": "get_table_schema",
+      "description": "This tool retrieves the schema for a specific table in the Kusto database.\n  The result is a detailed schema information.\n  Inputs: clusterUrl, database, tableName."
+    },
+    {
+      "name": "execute_query",
+      "description": "This tool executes a Kusto query against the database and returns the results.\n  The query must be a valid KQL query without administrative commands.\n  The result is a JSON object containing the query results.\n  Inputs: clusterUrl, database, query, maxRows (optional, default is 100).\n  Note: When querying external tables make sure to use apppropriate syntax (e.g. 'external_table(<table_name>)').\n  Note: The query *must* not contain any administrative commands or control commands.\n  Note: For lis"
+    }
+  ],
+  "findings": [
+    {
+      "type": "dangerous-input-parameter",
+      "severity": "HIGH",
+      "description": "Parameter 'query' accepts arbitrary string input for execution",
+      "parameter": "query",
+      "tool_name": "execute_query",
+      "context": "input-schema"
+    }
+  ]
+}

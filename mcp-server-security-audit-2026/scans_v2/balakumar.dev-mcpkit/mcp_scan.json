@@ -1,0 +1,20 @@
+{
+  "scanner": "mcp-scan",
+  "server": "@balakumar.dev/mcpkit",
+  "findings": [
+    {
+      "type": "exfiltration-vector",
+      "severity": "MEDIUM",
+      "description": "Tool argument contains a potential external network endpoint: '@balakumar.dev/mcpkit'.",
+      "recommendation": "Review if this tool should be making outbound network calls to this endpoint."
+    },
+    {
+      "type": "server-mutation",
+      "severity": "LOW",
+      "description": "Server configuration has changed since the last scan.",
+      "recommendation": "Review the changes to ensure they are intentional and secure."
+    }
+  ],
+  "trust_score": null,
+  "metadata": {}
+}

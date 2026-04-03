@@ -1,0 +1,2784 @@
+{
+  "scan_date": "2026-04-03",
+  "results": [
+    {
+      "server": "@modelcontextprotocol/server-filesystem",
+      "category": "filesystem",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@modelcontextprotocol/server-filesystem",
+        "findings": [
+          {
+            "type": "tool-name-shadow",
+            "severity": "MEDIUM",
+            "description": "Potential tool name shadowing detected: \"system\".",
+            "recommendation": "Ensure tool names are not mimicked or used in a misleading way in descriptions or arguments."
+          },
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@modelcontextprotocol/server-filesystem",
+        "findings": [],
+        "tools_scanned": 14,
+        "tools_safe": 14,
+        "tools_unsafe": 0
+      }
+    },
+    {
+      "server": "@modelcontextprotocol/server-everything",
+      "category": "code-execution",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@modelcontextprotocol/server-everything",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@modelcontextprotocol/server-everything",
+        "findings": [],
+        "tools_scanned": 13,
+        "tools_safe": 13,
+        "tools_unsafe": 0
+      }
+    },
+    {
+      "server": "@modelcontextprotocol/server-memory",
+      "category": "other",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@modelcontextprotocol/server-memory",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@modelcontextprotocol/server-memory",
+        "findings": [],
+        "tools_scanned": 9,
+        "tools_safe": 9,
+        "tools_unsafe": 0
+      }
+    },
+    {
+      "server": "@modelcontextprotocol/server-sequential-thinking",
+      "category": "other",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@modelcontextprotocol/server-sequential-thinking",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@modelcontextprotocol/server-sequential-thinking",
+        "findings": [],
+        "tools_scanned": 1,
+        "tools_safe": 1,
+        "tools_unsafe": 0
+      }
+    },
+    {
+      "server": "@upstash/context7-mcp",
+      "category": "other",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@upstash/context7-mcp",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@upstash/context7-mcp",
+        "findings": [
+          {
+            "type": "PROMPT INJECTION",
+            "severity": "HIGH",
+            "description": "Detected 1 threat: coercive injection",
+            "tool_name": "resolve-library-id",
+            "tool_description": "Resolves a package/product name to a Context7-compatible library ID and returns matching libraries.\n\nYou MUST call this function before 'Query Documentation' tool to obtain a valid Context7-compatible library ID UNLESS the user explicitly provides a library ID in the format '/org/project' or '/org/p",
+            "analyzer": "yara_analyzer"
+          },
+          {
+            "type": "PROMPT INJECTION",
+            "severity": "HIGH",
+            "description": "Detected 1 threat: coercive injection",
+            "tool_name": "query-docs",
+            "tool_description": "Retrieves and queries up-to-date documentation and code examples from Context7 for any programming library or framework.\n\nYou must call 'Resolve Context7 Library ID' tool first to obtain the exact Context7-compatible library ID required to use this tool, UNLESS the user explicitly provides a library",
+            "analyzer": "yara_analyzer"
+          }
+        ],
+        "tools_scanned": 2,
+        "tools_safe": 0,
+        "tools_unsafe": 2
+      }
+    },
+    {
+      "server": "@apify/actors-mcp-server",
+      "category": "other",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@apify/actors-mcp-server",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@apify/actors-mcp-server",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "@notionhq/notion-mcp-server",
+      "category": "api-integration",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@notionhq/notion-mcp-server",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@notionhq/notion-mcp-server",
+        "findings": [],
+        "tools_scanned": 22,
+        "tools_safe": 22,
+        "tools_unsafe": 0
+      }
+    },
+    {
+      "server": "@ui5/mcp-server",
+      "category": "other",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@ui5/mcp-server",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@ui5/mcp-server",
+        "findings": [
+          {
+            "type": "PROMPT INJECTION",
+            "severity": "HIGH",
+            "description": "Detected 1 threat: coercive injection",
+            "tool_name": "get_guidelines",
+            "tool_description": "This tool MUST be called once to retrieve UI5 guidelines before working on any UI5 (SAPUI5/OpenUI5) related task or project or creating a UI5 project. The guidelines provided by this tool MUST be followed to ensure best practices and avoid common pitfalls in UI5 development.",
+            "analyzer": "yara_analyzer"
+          },
+          {
+            "type": "PROMPT INJECTION",
+            "severity": "HIGH",
+            "description": "Detected 1 threat: coercive injection",
+            "tool_name": "create_ui5_app",
+            "tool_description": "Create a new basic SAPUI5 application implemented in TypeScript or JavaScript",
+            "analyzer": "yara_analyzer"
+          },
+          {
+            "type": "PROMPT INJECTION",
+            "severity": "HIGH",
+            "description": "Detected 1 threat: coercive injection",
+            "tool_name": "get_integration_cards_guidelines",
+            "tool_description": "This tool MUST be called once to retrieve Integration Cards guidelines before working on any Integration Card related task or creating an Integration Card. The guidelines provided by this tool MUST be followed to ensure best practices and avoid common pitfalls in Integration Cards development.Integr",
+            "analyzer": "yara_analyzer"
+          },
+          {
+            "type": "PROMPT INJECTION",
+            "severity": "HIGH",
+            "description": "Detected 1 threat: coercive injection",
+            "tool_name": "get_typescript_conversion_guidelines",
+            "tool_description": "This tool MUST be called once before converting a UI5 (SAPUI5/OpenUI5) project from JavaScript to TypeScript. The instructions provided by this tool MUST be followed to ensure that the project setup and code is correctly converted.",
+            "analyzer": "yara_analyzer"
+          }
+        ],
+        "tools_scanned": 10,
+        "tools_safe": 6,
+        "tools_unsafe": 4
+      }
+    },
+    {
+      "server": "@sentry/mcp-server",
+      "category": "other",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@sentry/mcp-server",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@sentry/mcp-server",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "@dynatrace-oss/dynatrace-mcp-server",
+      "category": "other",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@dynatrace-oss/dynatrace-mcp-server",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@dynatrace-oss/dynatrace-mcp-server",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "@mapbox/mcp-server",
+      "category": "other",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@mapbox/mcp-server",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@mapbox/mcp-server",
+        "findings": [],
+        "tools_scanned": 28,
+        "tools_safe": 28,
+        "tools_unsafe": 0
+      }
+    },
+    {
+      "server": "@sap-ux/fiori-mcp-server",
+      "category": "other",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@sap-ux/fiori-mcp-server",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@sap-ux/fiori-mcp-server",
+        "findings": [
+          {
+            "type": "PROMPT INJECTION",
+            "severity": "HIGH",
+            "description": "Detected 1 threat: coercive injection",
+            "tool_name": "search_docs",
+            "tool_description": "Searches code snippets of Fiori Elements, Annotations, SAPUI5, Fiori tools documentation for the given query. You MUST use this tool if you're unsure about Fiori APIs. Optionally returns only code blocks.",
+            "analyzer": "yara_analyzer"
+          },
+          {
+            "type": "PROMPT INJECTION",
+            "severity": "HIGH",
+            "description": "Detected 1 threat: coercive injection",
+            "tool_name": "list_functionality",
+            "tool_description": "**(Step 1 of 3)**\n                    Gets the complete and exclusive list of supported functionalities to create a new or modify an existing SAP Fiori application.\n                    This is the **first mandatory step** to begin the workflow and requires a valid absolute path to a SAP Fiori applic",
+            "analyzer": "yara_analyzer"
+          }
+        ],
+        "tools_scanned": 5,
+        "tools_safe": 3,
+        "tools_unsafe": 2
+      }
+    },
+    {
+      "server": "@hubspot/mcp-server",
+      "category": "api-integration",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@hubspot/mcp-server",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@hubspot/mcp-server",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "@fast-kit/spec-kit",
+      "category": "other",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@fast-kit/spec-kit",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@fast-kit/spec-kit",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "@supabase/mcp-server-supabase",
+      "category": "database",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@supabase/mcp-server-supabase",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@supabase/mcp-server-supabase",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "@browserstack/mcp-server",
+      "category": "web-browsing",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@browserstack/mcp-server",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@browserstack/mcp-server",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "@roychri/mcp-server-asana",
+      "category": "api-integration",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@roychri/mcp-server-asana",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@roychri/mcp-server-asana",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "serper-search-scrape-mcp-server",
+      "category": "web-browsing",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "serper-search-scrape-mcp-server",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "serper-search-scrape-mcp-server",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "@zereight/mcp-gitlab",
+      "category": "api-integration",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@zereight/mcp-gitlab",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@zereight/mcp-gitlab",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "@agent-infra/mcp-server-filesystem",
+      "category": "filesystem",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@agent-infra/mcp-server-filesystem",
+        "findings": [
+          {
+            "type": "tool-name-shadow",
+            "severity": "MEDIUM",
+            "description": "Potential tool name shadowing detected: \"system\".",
+            "recommendation": "Ensure tool names are not mimicked or used in a misleading way in descriptions or arguments."
+          },
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@agent-infra/mcp-server-filesystem",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "kubernetes-mcp-server",
+      "category": "devtools",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "kubernetes-mcp-server",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "kubernetes-mcp-server",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "polaris-mcp-server",
+      "category": "api-integration",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "polaris-mcp-server",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "polaris-mcp-server",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "@salesforce/mcp",
+      "category": "api-integration",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@salesforce/mcp",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@salesforce/mcp",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "@benborla29/mcp-server-mysql",
+      "category": "database",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@benborla29/mcp-server-mysql",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@benborla29/mcp-server-mysql",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "playwright-mcp-server",
+      "category": "web-browsing",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "playwright-mcp-server",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "playwright-mcp-server",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "@cloudflare/mcp-server-cloudflare",
+      "category": "devtools",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@cloudflare/mcp-server-cloudflare",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@cloudflare/mcp-server-cloudflare",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "chrome-local-mcp",
+      "category": "web-browsing",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "chrome-local-mcp",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "chrome-local-mcp",
+        "findings": [
+          {
+            "type": "SYSTEM MANIPULATION",
+            "severity": "HIGH",
+            "description": "Detected 1 threat: system manipulation",
+            "tool_name": "screenshot",
+            "tool_description": "Take a screenshot. IMPORTANT: Prefer snapshot tool first \u2014 it is cheaper (no vision tokens). Only use screenshot when you need visual context (layout, images, colors) that snapshot cannot provide. Use ocr=true to extract text locally instead of sending the image.",
+            "analyzer": "yara_analyzer"
+          }
+        ],
+        "tools_scanned": 25,
+        "tools_safe": 24,
+        "tools_unsafe": 1
+      }
+    },
+    {
+      "server": "browser-devtools-mcp",
+      "category": "web-browsing",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "browser-devtools-mcp",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "browser-devtools-mcp",
+        "findings": [
+          {
+            "type": "INJECTION ATTACK",
+            "severity": "HIGH",
+            "description": "Detected 1 threat: script injection",
+            "tool_name": "content_get-as-html",
+            "tool_description": "\nGets the HTML content of the current page. \nBy default, all <script> tags are removed from the output unless \"removeScripts\" is explicitly set to \"false\".\n        ",
+            "analyzer": "yara_analyzer"
+          },
+          {
+            "type": "SYSTEM MANIPULATION",
+            "severity": "HIGH",
+            "description": "Detected 1 threat: system manipulation",
+            "tool_name": "content_save-as-pdf",
+            "tool_description": "Saves the current page as a PDF file.",
+            "analyzer": "yara_analyzer"
+          },
+          {
+            "type": "SYSTEM MANIPULATION",
+            "severity": "HIGH",
+            "description": "Detected 1 threat: system manipulation",
+            "tool_name": "content_start-recording",
+            "tool_description": "Starts video recording of the browser page.\nRecording captures all page interactions until content_stop-recording is called.\nUses CDP screencast \u2014 works in all modes (headless, headed, persistent, CDP attach).\nOnly supported on Chromium-based browsers.",
+            "analyzer": "yara_analyzer"
+          },
+          {
+            "type": "SYSTEM MANIPULATION",
+            "severity": "HIGH",
+            "description": "Detected 1 threat: system manipulation",
+            "tool_name": "content_take-screenshot",
+            "tool_description": "Takes a screenshot of the current page or a specific element.\nDo NOT use for page structure\u2014use ARIA/AX snapshots instead.\nUse only for visual verification (design check, visual bug, contrast, layout).\nScreenshot is saved to disk; use includeBase64 only when the file cannot be read from the returned",
+            "analyzer": "yara_analyzer"
+          },
+          {
+            "type": "SYSTEM MANIPULATION",
+            "severity": "HIGH",
+            "description": "Detected 1 threat: system manipulation",
+            "tool_name": "navigation_go-back-or-forward",
+            "tool_description": "\nNavigates to the previous or next page in history.\n- `direction: \"back\"` \u2014 previous page in history.\n- `direction: \"forward\"` \u2014 next page in history.\n\nIn case of multiple redirects, the navigation will resolve with the response of the last redirect.\nIf cannot go back/forward, returns empty response",
+            "analyzer": "yara_analyzer"
+          },
+          {
+            "type": "SYSTEM MANIPULATION",
+            "severity": "HIGH",
+            "description": "Detected 1 threat: system manipulation",
+            "tool_name": "navigation_go-to",
+            "tool_description": "\nNavigates to the given URL.\n**NOTE**: The tool either throws an error or returns a main resource response. \nThe only exceptions are navigation to `about:blank` or navigation to the same URL with a different hash, \nwhich would succeed and return empty response.\n\n**By default** (`includeSnapshot: tru",
+            "analyzer": "yara_analyzer"
+          },
+          {
+            "type": "SYSTEM MANIPULATION",
+            "severity": "HIGH",
+            "description": "Detected 1 threat: system manipulation",
+            "tool_name": "navigation_reload",
+            "tool_description": "\nReloads the current page.\nIn case of multiple redirects, the navigation resolves with the response of the last redirect.\nIf the reload does not produce a response, returns empty response.\n\nBy default (includeSnapshot: true), an ARIA snapshot with refs is returned. Use `snapshotOptions` for `interac",
+            "analyzer": "yara_analyzer"
+          },
+          {
+            "type": "INJECTION ATTACK",
+            "severity": "HIGH",
+            "description": "Detected 3 threats: sql injection, script injection, code execution",
+            "tool_name": "execute",
+            "tool_description": "Batch-execute multiple tool calls in a single request via custom JavaScript. Reduces round-trips and token usage.\n\n**IMPORTANT** \n- The code is already run inside an async function. Pass only the body (statements). \n  Do NOT wrap in `async function() { ... }` or `async () => { ... }` \u2014 that causes a",
+            "analyzer": "yara_analyzer"
+          },
+          {
+            "type": "CODE EXECUTION",
+            "severity": "HIGH",
+            "description": "Detected 3 threats: sql injection, script injection, code execution",
+            "tool_name": "execute",
+            "tool_description": "Batch-execute multiple tool calls in a single request via custom JavaScript. Reduces round-trips and token usage.\n\n**IMPORTANT** \n- The code is already run inside an async function. Pass only the body (statements). \n  Do NOT wrap in `async function() { ... }` or `async () => { ... }` \u2014 that causes a",
+            "analyzer": "yara_analyzer"
+          }
+        ],
+        "tools_scanned": 51,
+        "tools_safe": 43,
+        "tools_unsafe": 8
+      }
+    },
+    {
+      "server": "@supabase/mcp-server-postgrest",
+      "category": "database",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@supabase/mcp-server-postgrest",
+        "findings": [
+          {
+            "type": "tool-exfiltration-risk",
+            "severity": "HIGH",
+            "description": "Potential exfiltration instructions detected in tool description.",
+            "recommendation": "Review tool descriptions for phrases that instruct the model to move data outside the intended scope."
+          },
+          {
+            "type": "typosquat-detection",
+            "severity": "HIGH",
+            "description": "Package '@supabase/mcp-server-postgrest' looks suspiciously like trusted server 'mcp-server-postgresql' (character substitution/omission).",
+            "recommendation": "Verify you meant to install this package and not 'mcp-server-postgresql'."
+          },
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@supabase/mcp-server-postgrest",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "@tsmztech/mcp-server-salesforce",
+      "category": "api-integration",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@tsmztech/mcp-server-salesforce",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@tsmztech/mcp-server-salesforce",
+        "findings": [],
+        "tools_scanned": 15,
+        "tools_safe": 15,
+        "tools_unsafe": 0
+      }
+    },
+    {
+      "server": "@negokaz/excel-mcp-server",
+      "category": "data-processing",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@negokaz/excel-mcp-server",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@negokaz/excel-mcp-server",
+        "findings": [],
+        "tools_scanned": 6,
+        "tools_safe": 6,
+        "tools_unsafe": 0
+      }
+    },
+    {
+      "server": "jira-mcp-server",
+      "category": "api-integration",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "jira-mcp-server",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "jira-mcp-server",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "@preply/ds-mcp",
+      "category": "code-execution",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@preply/ds-mcp",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@preply/ds-mcp",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "@automatalabs/mcp-server-playwright",
+      "category": "web-browsing",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@automatalabs/mcp-server-playwright",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@automatalabs/mcp-server-playwright",
+        "findings": [],
+        "tools_scanned": 10,
+        "tools_safe": 10,
+        "tools_unsafe": 0
+      }
+    },
+    {
+      "server": "@agent-infra/mcp-server-browser",
+      "category": "web-browsing",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@agent-infra/mcp-server-browser",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@agent-infra/mcp-server-browser",
+        "findings": [],
+        "tools_scanned": 21,
+        "tools_safe": 21,
+        "tools_unsafe": 0
+      }
+    },
+    {
+      "server": "@nexus2520/jira-mcp-server",
+      "category": "api-integration",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@nexus2520/jira-mcp-server",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@nexus2520/jira-mcp-server",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "@mcp-apps/kusto-mcp-server",
+      "category": "database",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@mcp-apps/kusto-mcp-server",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@mcp-apps/kusto-mcp-server",
+        "findings": [],
+        "tools_scanned": 3,
+        "tools_safe": 3,
+        "tools_unsafe": 0
+      }
+    },
+    {
+      "server": "@wonderwhy-er/desktop-commander",
+      "category": "system",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@wonderwhy-er/desktop-commander",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@wonderwhy-er/desktop-commander",
+        "findings": [
+          {
+            "type": "CREDENTIAL HARVESTING",
+            "severity": "HIGH",
+            "description": "Detected 1 threat: credential harvesting",
+            "tool_name": "start_search",
+            "tool_description": "\n                        Start a streaming search that can return results progressively.\n                        \n                        SEARCH STRATEGY GUIDE:\n                        Choose the right search type based on what the user is looking for:\n                        \n                      ",
+            "analyzer": "yara_analyzer"
+          },
+          {
+            "type": "CODE EXECUTION",
+            "severity": "LOW",
+            "description": "Detected 1 threat: code execution",
+            "tool_name": "give_feedback_to_desktop_commander",
+            "tool_description": "\n                        Open feedback form in browser to provide feedback about Desktop Commander.\n                        \n                        IMPORTANT: This tool simply opens the feedback form - no pre-filling available.\n                        The user will fill out the form manually in the",
+            "analyzer": "yara_analyzer"
+          }
+        ],
+        "tools_scanned": 26,
+        "tools_safe": 24,
+        "tools_unsafe": 2
+      }
+    },
+    {
+      "server": "fmea-api-mcp-server",
+      "category": "filesystem",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "fmea-api-mcp-server",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "fmea-api-mcp-server",
+        "findings": [],
+        "tools_scanned": 5,
+        "tools_safe": 5,
+        "tools_unsafe": 0
+      }
+    },
+    {
+      "server": "@metamask/client-mcp-core",
+      "category": "ai-ml",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@metamask/client-mcp-core",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@metamask/client-mcp-core",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "youtube-data-mcp-server",
+      "category": "data-processing",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "youtube-data-mcp-server",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "youtube-data-mcp-server",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "@arabold/docs-mcp-server",
+      "category": "web-browsing",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@arabold/docs-mcp-server",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@arabold/docs-mcp-server",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "secondbrainos-mcp-server",
+      "category": "system",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "secondbrainos-mcp-server",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "secondbrainos-mcp-server",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "mcp-server-docker",
+      "category": "devtools",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "mcp-server-docker",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "mcp-server-docker",
+        "findings": [],
+        "tools_scanned": 1,
+        "tools_safe": 1,
+        "tools_unsafe": 0
+      }
+    },
+    {
+      "server": "@browsermcp/mcp",
+      "category": "web-browsing",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@browsermcp/mcp",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@browsermcp/mcp",
+        "findings": [],
+        "tools_scanned": 12,
+        "tools_safe": 12,
+        "tools_unsafe": 0
+      }
+    },
+    {
+      "server": "@drawio/mcp",
+      "category": "ai-ml",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@drawio/mcp",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@drawio/mcp",
+        "findings": [],
+        "tools_scanned": 3,
+        "tools_safe": 3,
+        "tools_unsafe": 0
+      }
+    },
+    {
+      "server": "@gatling.io/gatling-mcp-server",
+      "category": "devtools",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@gatling.io/gatling-mcp-server",
+        "findings": [
+          {
+            "type": "exfiltration-vector",
+            "severity": "MEDIUM",
+            "description": "Tool argument contains a potential external network endpoint: '@gatling.io/gatling-mcp-server'.",
+            "recommendation": "Review if this tool should be making outbound network calls to this endpoint."
+          },
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@gatling.io/gatling-mcp-server",
+        "findings": [],
+        "tools_scanned": 4,
+        "tools_safe": 4,
+        "tools_unsafe": 0
+      }
+    },
+    {
+      "server": "@cyanheads/git-mcp-server",
+      "category": "devtools",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@cyanheads/git-mcp-server",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@cyanheads/git-mcp-server",
+        "findings": [
+          {
+            "type": "INJECTION ATTACK",
+            "severity": "HIGH",
+            "description": "Detected 1 threat: script injection",
+            "tool_name": "git_clean",
+            "tool_description": "Remove untracked files from the working directory. Requires force flag for safety. Use dry-run to preview files that would be removed.",
+            "analyzer": "yara_analyzer"
+          }
+        ],
+        "tools_scanned": 28,
+        "tools_safe": 27,
+        "tools_unsafe": 1
+      }
+    },
+    {
+      "server": "supabase-mcp",
+      "category": "database",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "supabase-mcp",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "supabase-mcp",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "@fangjunjie/ssh-mcp-server",
+      "category": "system",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@fangjunjie/ssh-mcp-server",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@fangjunjie/ssh-mcp-server",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "@henkey/postgres-mcp-server",
+      "category": "database",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@henkey/postgres-mcp-server",
+        "findings": [
+          {
+            "type": "tool-exfiltration-risk",
+            "severity": "HIGH",
+            "description": "Potential exfiltration instructions detected in tool description.",
+            "recommendation": "Review tool descriptions for phrases that instruct the model to move data outside the intended scope."
+          },
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@henkey/postgres-mcp-server",
+        "findings": [
+          {
+            "type": "INJECTION ATTACK",
+            "severity": "HIGH",
+            "description": "Detected 2 threats: script injection, code execution",
+            "tool_name": "pg_manage_functions",
+            "tool_description": "Manage PostgreSQL functions - get, create, or drop functions with a single tool. Examples: operation=\"get\" to list functions, operation=\"create\" with functionName=\"test_func\", parameters=\"\" (empty for no params), returnType=\"TEXT\", functionBody=\"SELECT 'Hello'\"",
+            "analyzer": "yara_analyzer"
+          },
+          {
+            "type": "CODE EXECUTION",
+            "severity": "HIGH",
+            "description": "Detected 2 threats: script injection, code execution",
+            "tool_name": "pg_manage_functions",
+            "tool_description": "Manage PostgreSQL functions - get, create, or drop functions with a single tool. Examples: operation=\"get\" to list functions, operation=\"create\" with functionName=\"test_func\", parameters=\"\" (empty for no params), returnType=\"TEXT\", functionBody=\"SELECT 'Hello'\"",
+            "analyzer": "yara_analyzer"
+          },
+          {
+            "type": "TOOL POISONING",
+            "severity": "HIGH",
+            "description": "Detected 1 threat: tool poisoning",
+            "tool_name": "pg_manage_query",
+            "tool_description": "Manage PostgreSQL query analysis and performance - operation=\"explain\" for EXPLAIN plans, operation=\"get_slow_queries\" for slow query analysis, operation=\"get_stats\" for query statistics, operation=\"reset_stats\" for clearing statistics",
+            "analyzer": "yara_analyzer"
+          }
+        ],
+        "tools_scanned": 19,
+        "tools_safe": 17,
+        "tools_unsafe": 2
+      }
+    },
+    {
+      "server": "vercel-mcp-server",
+      "category": "devtools",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "vercel-mcp-server",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "vercel-mcp-server",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "@ergut/mcp-bigquery-server",
+      "category": "database",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@ergut/mcp-bigquery-server",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@ergut/mcp-bigquery-server",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "mcp-server-filesystem",
+      "category": "filesystem",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "mcp-server-filesystem",
+        "findings": [
+          {
+            "type": "tool-name-shadow",
+            "severity": "MEDIUM",
+            "description": "Potential tool name shadowing detected: \"system\".",
+            "recommendation": "Ensure tool names are not mimicked or used in a misleading way in descriptions or arguments."
+          },
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "mcp-server-filesystem",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "mcp-server-sqlite-npx",
+      "category": "database",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "mcp-server-sqlite-npx",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "mcp-server-sqlite-npx",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "mysql-mcp-server",
+      "category": "database",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "mysql-mcp-server",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "mysql-mcp-server",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "targetprocess-mcp-server",
+      "category": "system",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "targetprocess-mcp-server",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "targetprocess-mcp-server",
+        "findings": [],
+        "tools_scanned": 16,
+        "tools_safe": 16,
+        "tools_unsafe": 0
+      }
+    },
+    {
+      "server": "user-postgresql-mcp",
+      "category": "database",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "user-postgresql-mcp",
+        "findings": [
+          {
+            "type": "tool-exfiltration-risk",
+            "severity": "HIGH",
+            "description": "Potential exfiltration instructions detected in tool description.",
+            "recommendation": "Review tool descriptions for phrases that instruct the model to move data outside the intended scope."
+          },
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "user-postgresql-mcp",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "@laskarks/mcp-rag-node",
+      "category": "ai-ml",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@laskarks/mcp-rag-node",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@laskarks/mcp-rag-node",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "@jsonresume/mcp",
+      "category": "data-processing",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@jsonresume/mcp",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@jsonresume/mcp",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "hyper-mcp-shell",
+      "category": "system",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "hyper-mcp-shell",
+        "findings": [
+          {
+            "type": "tool-name-shadow",
+            "severity": "MEDIUM",
+            "description": "Potential tool name shadowing detected: \"shell\".",
+            "recommendation": "Ensure tool names are not mimicked or used in a misleading way in descriptions or arguments."
+          },
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "hyper-mcp-shell",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "@jsonresume/jsonresume-mcp",
+      "category": "data-processing",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@jsonresume/jsonresume-mcp",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@jsonresume/jsonresume-mcp",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "@mcpflow.io/mcp",
+      "category": "data-processing",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@mcpflow.io/mcp",
+        "findings": [
+          {
+            "type": "exfiltration-vector",
+            "severity": "MEDIUM",
+            "description": "Tool argument contains a potential external network endpoint: '@mcpflow.io/mcp'.",
+            "recommendation": "Review if this tool should be making outbound network calls to this endpoint."
+          },
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@mcpflow.io/mcp",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "mcp-demo-example",
+      "category": "filesystem",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "mcp-demo-example",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "mcp-demo-example",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "valjs-mcp-beta",
+      "category": "data-processing",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "valjs-mcp-beta",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "valjs-mcp-beta",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "@adisuryanathanael/mcp-server-filesystem2",
+      "category": "filesystem",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@adisuryanathanael/mcp-server-filesystem2",
+        "findings": [
+          {
+            "type": "tool-name-shadow",
+            "severity": "MEDIUM",
+            "description": "Potential tool name shadowing detected: \"system\".",
+            "recommendation": "Ensure tool names are not mimicked or used in a misleading way in descriptions or arguments."
+          },
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@adisuryanathanael/mcp-server-filesystem2",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "@iflow-mcp/openai-gpt-image-mcp",
+      "category": "ai-ml",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@iflow-mcp/openai-gpt-image-mcp",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@iflow-mcp/openai-gpt-image-mcp",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "@modelcontextprotocol/server-system-monitor",
+      "category": "system",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@modelcontextprotocol/server-system-monitor",
+        "findings": [
+          {
+            "type": "tool-name-shadow",
+            "severity": "MEDIUM",
+            "description": "Potential tool name shadowing detected: \"system\".",
+            "recommendation": "Ensure tool names are not mimicked or used in a misleading way in descriptions or arguments."
+          },
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@modelcontextprotocol/server-system-monitor",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "@dockbrain/mcp-filesystem-demo",
+      "category": "filesystem",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@dockbrain/mcp-filesystem-demo",
+        "findings": [
+          {
+            "type": "tool-name-shadow",
+            "severity": "MEDIUM",
+            "description": "Potential tool name shadowing detected: \"system\".",
+            "recommendation": "Ensure tool names are not mimicked or used in a misleading way in descriptions or arguments."
+          },
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@dockbrain/mcp-filesystem-demo",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "@dandeliongold/server-everything",
+      "category": "code-execution",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@dandeliongold/server-everything",
+        "findings": [
+          {
+            "type": "typosquat-detection",
+            "severity": "HIGH",
+            "description": "Package '@dandeliongold/server-everything' looks suspiciously like trusted server '@modelcontextprotocol/server-everything' (homoglyph substitution).",
+            "recommendation": "Verify you meant to install this package and not '@modelcontextprotocol/server-everything'."
+          },
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@dandeliongold/server-everything",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "@dennisk2025/text-alternating-case",
+      "category": "data-processing",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@dennisk2025/text-alternating-case",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@dennisk2025/text-alternating-case",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "modelcontextprotocol-eval",
+      "category": "code-execution",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "modelcontextprotocol-eval",
+        "findings": [
+          {
+            "type": "tool-name-shadow",
+            "severity": "MEDIUM",
+            "description": "Potential tool name shadowing detected: \"eval\".",
+            "recommendation": "Ensure tool names are not mimicked or used in a misleading way in descriptions or arguments."
+          },
+          {
+            "type": "suspicious-execution",
+            "severity": "HIGH",
+            "description": "Command contains suspicious execution patterns (e.g., bash -c, eval, exec).",
+            "recommendation": ""
+          },
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "modelcontextprotocol-eval",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "@ouedyan/modelcontextprotocol-server-filesystem",
+      "category": "filesystem",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@ouedyan/modelcontextprotocol-server-filesystem",
+        "findings": [
+          {
+            "type": "tool-name-shadow",
+            "severity": "MEDIUM",
+            "description": "Potential tool name shadowing detected: \"system\".",
+            "recommendation": "Ensure tool names are not mimicked or used in a misleading way in descriptions or arguments."
+          },
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@ouedyan/modelcontextprotocol-server-filesystem",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "@balakumar.dev/mcpkit",
+      "category": "system",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@balakumar.dev/mcpkit",
+        "findings": [
+          {
+            "type": "exfiltration-vector",
+            "severity": "MEDIUM",
+            "description": "Tool argument contains a potential external network endpoint: '@balakumar.dev/mcpkit'.",
+            "recommendation": "Review if this tool should be making outbound network calls to this endpoint."
+          },
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@balakumar.dev/mcpkit",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "@cyanheads/mcp-ts-core",
+      "category": "ai-ml",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@cyanheads/mcp-ts-core",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@cyanheads/mcp-ts-core",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "containerization-assist-mcp",
+      "category": "devtools",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "containerization-assist-mcp",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "containerization-assist-mcp",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "mcp-ts-template",
+      "category": "devtools",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "mcp-ts-template",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "mcp-ts-template",
+        "findings": [],
+        "tools_scanned": 7,
+        "tools_safe": 7,
+        "tools_unsafe": 0
+      }
+    },
+    {
+      "server": "@robinmordasiewicz/f5xc-terraform-mcp",
+      "category": "devtools",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@robinmordasiewicz/f5xc-terraform-mcp",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@robinmordasiewicz/f5xc-terraform-mcp",
+        "findings": [],
+        "tools_scanned": 8,
+        "tools_safe": 8,
+        "tools_unsafe": 0
+      }
+    },
+    {
+      "server": "@vurb/cloudflare",
+      "category": "devtools",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@vurb/cloudflare",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@vurb/cloudflare",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "@commercetools/commerce-mcp",
+      "category": "system",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@commercetools/commerce-mcp",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@commercetools/commerce-mcp",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "@neonlightdev/mcp-server-filesystem-ignore",
+      "category": "filesystem",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@neonlightdev/mcp-server-filesystem-ignore",
+        "findings": [
+          {
+            "type": "tool-name-shadow",
+            "severity": "MEDIUM",
+            "description": "Potential tool name shadowing detected: \"system\".",
+            "recommendation": "Ensure tool names are not mimicked or used in a misleading way in descriptions or arguments."
+          },
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@neonlightdev/mcp-server-filesystem-ignore",
+        "findings": [],
+        "tools_scanned": 14,
+        "tools_safe": 14,
+        "tools_unsafe": 0
+      }
+    },
+    {
+      "server": "nerve-rpc-mcp",
+      "category": "data-processing",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "nerve-rpc-mcp",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "nerve-rpc-mcp",
+        "findings": [],
+        "tools_scanned": 14,
+        "tools_safe": 14,
+        "tools_unsafe": 0
+      }
+    },
+    {
+      "server": "llm-advisor-mcp",
+      "category": "ai-ml",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "llm-advisor-mcp",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "llm-advisor-mcp",
+        "findings": [],
+        "tools_scanned": 4,
+        "tools_safe": 4,
+        "tools_unsafe": 0
+      }
+    },
+    {
+      "server": "@json-render/mcp",
+      "category": "data-processing",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@json-render/mcp",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@json-render/mcp",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "@sysid/sandbox-runtime-improved",
+      "category": "code-execution",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@sysid/sandbox-runtime-improved",
+        "findings": [
+          {
+            "type": "tool-name-shadow",
+            "severity": "MEDIUM",
+            "description": "Potential tool name shadowing detected: \"run\".",
+            "recommendation": "Ensure tool names are not mimicked or used in a misleading way in descriptions or arguments."
+          },
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@sysid/sandbox-runtime-improved",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "@ctxprotocol/sdk",
+      "category": "code-execution",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@ctxprotocol/sdk",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@ctxprotocol/sdk",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "@winor30/mcp-server-datadog",
+      "category": "other",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@winor30/mcp-server-datadog",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@winor30/mcp-server-datadog",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "@shortcut/mcp",
+      "category": "other",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@shortcut/mcp",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@shortcut/mcp",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "@ivotoby/openapi-mcp-server",
+      "category": "other",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@ivotoby/openapi-mcp-server",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@ivotoby/openapi-mcp-server",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "@z_ai/mcp-server",
+      "category": "other",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@z_ai/mcp-server",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@z_ai/mcp-server",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "@gongrzhe/server-gmail-autoauth-mcp",
+      "category": "other",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@gongrzhe/server-gmail-autoauth-mcp",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@gongrzhe/server-gmail-autoauth-mcp",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "tavily-mcp",
+      "category": "other",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "tavily-mcp",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "tavily-mcp",
+        "findings": [],
+        "tools_scanned": 5,
+        "tools_safe": 5,
+        "tools_unsafe": 0
+      }
+    },
+    {
+      "server": "@theia/ai-mcp-server",
+      "category": "other",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@theia/ai-mcp-server",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@theia/ai-mcp-server",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "@transcend-io/mcp-server-core",
+      "category": "other",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@transcend-io/mcp-server-core",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@transcend-io/mcp-server-core",
+        "findings": [],
+        "tools_scanned": 0,
+        "error": "Extra data: line 1 column 5 (char 4)"
+      }
+    },
+    {
+      "server": "@currents/mcp",
+      "category": "other",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@currents/mcp",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@currents/mcp",
+        "findings": [
+          {
+            "type": "TOOL POISONING",
+            "severity": "HIGH",
+            "description": "Detected 1 threat: tool poisoning",
+            "tool_name": "currents-get-project",
+            "tool_description": "Get a single project by ID. Returns project details including name, creation date, failFast setting, inactivity timeout, and default branch name.",
+            "analyzer": "yara_analyzer"
+          },
+          {
+            "type": "INJECTION ATTACK",
+            "severity": "HIGH",
+            "description": "Detected 1 threat: script injection",
+            "tool_name": "currents-find-run",
+            "tool_description": "Find a run by query parameters. Returns the most recent completed run matching the criteria. Can search by ciBuildId (exact match) or by branch/tags. Supports pwLastRun flag for Playwright last run info. Requires projectId.",
+            "analyzer": "yara_analyzer"
+          }
+        ],
+        "tools_scanned": 31,
+        "tools_safe": 29,
+        "tools_unsafe": 2
+      }
+    },
+    {
+      "server": "@eslint/mcp",
+      "category": "other",
+      "mcp_scan": {
+        "scanner": "mcp-scan",
+        "server": "@eslint/mcp",
+        "findings": [
+          {
+            "type": "server-mutation",
+            "severity": "LOW",
+            "description": "Server configuration has changed since the last scan.",
+            "recommendation": "Review the changes to ensure they are intentional and secure."
+          }
+        ],
+        "trust_score": null,
+        "metadata": {}
+      },
+      "cisco_scanner": {
+        "scanner": "cisco-mcp-scanner",
+        "server": "@eslint/mcp",
+        "findings": [
+          {
+            "type": "CODE EXECUTION",
+            "severity": "LOW",
+            "description": "Detected 1 threat: code execution",
+            "tool_name": "lint-files",
+            "tool_description": "Lint files using ESLint. You must provide a list of absolute file paths to the files you want to lint. The absolute file paths should be in the correct format for your operating system (e.g., forward slashes on Unix-like systems, backslashes on Windows).",
+            "analyzer": "yara_analyzer"
+          }
+        ],
+        "tools_scanned": 1,
+        "tools_safe": 0,
+        "tools_unsafe": 1
+      }
+    }
+  ]
+}

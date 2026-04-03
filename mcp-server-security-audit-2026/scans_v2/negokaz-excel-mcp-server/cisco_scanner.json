@@ -1,0 +1,8 @@
+{
+  "scanner": "cisco-mcp-scanner",
+  "server": "@negokaz/excel-mcp-server",
+  "findings": [],
+  "tools_scanned": 6,
+  "tools_safe": 6,
+  "tools_unsafe": 0
+}

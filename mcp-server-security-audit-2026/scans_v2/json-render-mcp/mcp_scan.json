@@ -1,0 +1,14 @@
+{
+  "scanner": "mcp-scan",
+  "server": "@json-render/mcp",
+  "findings": [
+    {
+      "type": "server-mutation",
+      "severity": "LOW",
+      "description": "Server configuration has changed since the last scan.",
+      "recommendation": "Review the changes to ensure they are intentional and secure."
+    }
+  ],
+  "trust_score": null,
+  "metadata": {}
+}
