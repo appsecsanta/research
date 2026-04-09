@@ -50,7 +50,7 @@ Cisco mcp-scanner v4.3.0 · mcp-scan v2.0.1
 
 ### AI-Generated Code Security Study 2026
 
-> **6 LLMs** · 89 prompts · 534 code samples · 6 SAST tools · 1,173 findings triaged
+> **6 LLMs** · 89 prompts · 534 code samples · 5 SAST tools · 1,173 findings triaged
 
 ```
 GPT-5.2 · Claude Opus 4.6 · Gemini 2.5 Pro · DeepSeek V3 · Llama 4 Maverick · Grok 4

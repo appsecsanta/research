@@ -410,7 +410,7 @@
     },
     {
       "cwe": "CWE-215",
-      "name": "CWE-215",
+      "name": "Insertion of Sensitive Information Into Debugging Code",
       "count": 18
     },
     {
@@ -419,33 +419,33 @@
       "count": 14
     },
     {
+      "cwe": "CWE-22",
+      "name": "Improper Limitation of a Pathname to a Restricted Directory (Path Traversal)",
+      "count": 10
+    },
+    {
       "cwe": "CWE-943",
-      "name": "Improper Neutralization of Special Elements in Data Query Logic (NoSQL Injection)",
+      "name": "Improper Neutralization of Special Elements in Data Query Logic",
       "count": 10
     },
     {
       "cwe": "CWE-489",
-      "name": "CWE-489",
+      "name": "Active Debug Code",
       "count": 9
     },
     {
       "cwe": "CWE-614",
-      "name": "Sensitive Cookie Without Secure Flag",
+      "name": "Sensitive Cookie in HTTPS Session Without Secure Attribute",
       "count": 8
     },
     {
-      "cwe": "CWE-22",
-      "name": "Path Traversal",
-      "count": 6
+      "cwe": "CWE-78",
+      "name": "Improper Neutralization of Special Elements used in an OS Command (OS Command Injection)",
+      "count": 7
     },
     {
       "cwe": "CWE-1333",
-      "name": "Inefficient Regular Expression Complexity (ReDoS)",
-      "count": 6
-    },
-    {
-      "cwe": "CWE-78",
-      "name": "OS Command Injection",
+      "name": "Inefficient Regular Expression Complexity",
       "count": 6
     },
     {
@@ -455,17 +455,12 @@
     },
     {
       "cwe": "CWE-611",
-      "name": "Improper Restriction of XML External Entity Reference (XXE)",
+      "name": "Improper Restriction of XML External Entity Reference",
       "count": 5
     },
     {
-      "cwe": "CWE-022",
-      "name": "CWE-022",
-      "count": 4
-    },
-    {
       "cwe": "CWE-94",
-      "name": "Code Injection",
+      "name": "Improper Control of Generation of Code (Code Injection)",
       "count": 4
     },
     {
@@ -475,7 +470,7 @@
     },
     {
       "cwe": "CWE-209",
-      "name": "Information Exposure Through Error Message",
+      "name": "Generation of Error Message Containing Sensitive Information",
       "count": 3
     },
     {
@@ -485,7 +480,7 @@
     },
     {
       "cwe": "CWE-23",
-      "name": "CWE-23",
+      "name": "Relative Path Traversal",
       "count": 2
     },
     {
@@ -500,8 +495,18 @@
     },
     {
       "cwe": "CWE-640",
-      "name": "CWE-640",
+      "name": "Weak Password Recovery Mechanism for Forgotten Password",
       "count": 2
+    },
+    {
+      "cwe": "CWE-613",
+      "name": "Insufficient Session Expiration",
+      "count": 1
+    },
+    {
+      "cwe": "CWE-384",
+      "name": "Session Fixation",
+      "count": 1
     }
   ]
 }

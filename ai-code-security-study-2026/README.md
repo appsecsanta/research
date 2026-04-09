@@ -31,9 +31,9 @@ How secure is code written by the leading AI models? We prompted each model with
 
 ## Key Findings
 
-- **24.5% average vulnerability rate** — roughly 1 in 4 AI-generated code samples contained at least one confirmed vulnerability
-- **GPT-5.2 scored best** at 19.1% vulnerability rate; **DeepSeek V3 and Llama 4 Maverick tied worst** at 29.2%
-- **SSRF (CWE-918)** was the most common weakness, followed by injection flaws (CWE-502, CWE-943)
+- **25.1% overall vulnerability rate** — roughly 1 in 4 AI-generated code samples contained at least one confirmed vulnerability (134 out of 534)
+- **GPT-5.2 scored best** at 19.1% vulnerability rate; **Claude Opus 4.6, DeepSeek V3, and Llama 4 Maverick tied worst** at 29.2%
+- **SSRF (CWE-918)** was the most common weakness with 32 findings, followed by debug info exposure (CWE-215, 18) and insecure deserialization (CWE-502, 14)
 - **85% of raw SAST findings were false positives** — manual triage matters
 - **78% of confirmed vulnerabilities were flagged by only one tool** — no single scanner catches everything
 
